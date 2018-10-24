@@ -1,0 +1,90 @@
+/*
+ * Painter.h
+ *
+ *  Created on: 3 Oct 2016
+ *      Author: ensab
+ */
+
+#ifndef PAINTER_H_
+#define PAINTER_H_
+
+#include <cv.h>
+#include <highgui.h>
+
+using namespace cv;
+
+class Painter
+{
+public:
+	Painter(const Mat original);
+	void Run();
+
+
+private:
+	void ShowResult(const Mat img);
+	uchar GetPixelMono(const Mat img, int x, int y);
+	void PutPixelMono(Mat img, int x, int y, uchar p);
+	void GetPixel(const Mat img, int x, int y, uchar p[]);
+	void PutPixel(Mat img, int x, int y, uchar p[]);
+	uchar Percentile(uchar array[], double percentile, int length);
+	uchar Percentile(const Mat img, double percentile);
+	void GoWhite(Mat img);
+	void Threshold(Mat image, double percentile);
+	void Blob(Mat image, Point pixel, uchar colour[], double d);
+	void Stroke(Mat image, Point pixels[], int count, uchar colour[], double d);
+	uint PixelDifference2(uchar a[], uchar b[]);
+	uchar PixelDifference(uchar a[], uchar b[]);
+	void ImageDifference(Mat a, Mat b);
+
+
+	int frameCount;
+	uchar* pixelsAsList;
+	int pixelCount;
+	int imageWidth;
+	int imageHeight;
+	double blob;
+	double thresholdValue;
+	double brushReduction;
+	int strokes;
+	bool keepGoing;
+
+	Mat original;
+	Mat difference;
+	Mat painting;
+	Mat kernel;
+	Mat eroded;
+	Mat contours;
+
+};
+
+inline uchar Painter::GetPixelMono(Mat img, int x, int y)
+{
+	int pos = img->widthStep*y + x*3;
+	return img->imageData[pos];
+}
+
+inline void Painter::PutPixelMono(Mat img, int x, int y, uchar p)
+{
+	int pos = img->widthStep*y + x*3;
+	img->imageData[pos] = p;
+}
+
+inline void Painter::GetPixel(Mat img, int x, int y, uchar p[])
+{
+	int pos = img->widthStep*y + x*3;
+	p[0] = img->imageData[pos];
+	p[1] = img->imageData[pos + 1];
+	p[2] = img->imageData[pos + 2];
+}
+
+inline void Painter::PutPixel(Mat img, int x, int y, uchar p[])
+{
+	int pos = img->widthStep*y + x*3;
+	img->imageData[pos] = p[0];
+	img->imageData[pos + 1] = p[1];
+	img->imageData[pos + 2] = p[2];
+}
+
+
+
+#endif /* PAINTER_H_ */

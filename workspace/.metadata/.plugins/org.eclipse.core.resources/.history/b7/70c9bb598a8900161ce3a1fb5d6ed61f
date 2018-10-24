@@ -1,0 +1,79 @@
+/*
+ * Painter.h
+ *
+ *  Created on: 3 Oct 2016
+ *      Author: ensab
+ */
+
+#ifndef PAINTER_H_
+#define PAINTER_H_
+
+#include <cv.h>
+#include <highgui.h>
+
+class Painter
+{
+public:
+	Painter(const IplImage* original);
+	Run();
+
+
+private:
+	void ShowResult(IplImage* img);
+	uchar GetPixelMono(IplImage* img, int x, int y);
+	void PutPixelMono(IplImage* img, int x, int y, uchar p);
+	void GetPixel(IplImage* img, int x, int y, uchar p[]);
+	void PutPixel(IplImage* img, int x, int y, uchar p[]);
+	uchar Percentile(uchar array[], double percentile, int length);
+	uchar Percentile(IplImage* img, double percentile);
+	void GoWhite(IplImage* img);
+	void Threshold(IplImage* image, double percentile);
+	void Blob(IplImage* image, Point pixel, uchar colour[], double d);
+	void Stroke(IplImage* image, Point pixels[], int count, uchar colour[], double d);
+	uint PixelDifference2(uchar a[], uchar b[]);
+	uchar PixelDifference(uchar a[], uchar b[]);
+	void ImageDifference(IplImage* a, IplImage* b);
+
+
+	int frameCount;
+	uchar* pixelsAsList;
+	int pixelCount;
+	int imageWidth;
+	int imageHeight;
+	Mat original;
+	IplImage* difference;
+	IplImage* painting;
+
+};
+
+inline uchar Painter::GetPixelMono(IplImage* img, int x, int y)
+{
+	int pos = img->widthStep*y + x*3;
+	return img->imageData[pos];
+}
+
+inline void Painter::PutPixelMono(IplImage* img, int x, int y, uchar p)
+{
+	int pos = img->widthStep*y + x*3;
+	img->imageData[pos] = p;
+}
+
+inline void Painter::GetPixel(IplImage* img, int x, int y, uchar p[])
+{
+	int pos = img->widthStep*y + x*3;
+	p[0] = img->imageData[pos];
+	p[1] = img->imageData[pos + 1];
+	p[2] = img->imageData[pos + 2];
+}
+
+inline void Painter::PutPixel(IplImage* img, int x, int y, uchar p[])
+{
+	int pos = img->widthStep*y + x*3;
+	img->imageData[pos] = p[0];
+	img->imageData[pos + 1] = p[1];
+	img->imageData[pos + 2] = p[2];
+}
+
+
+
+#endif /* PAINTER_H_ */

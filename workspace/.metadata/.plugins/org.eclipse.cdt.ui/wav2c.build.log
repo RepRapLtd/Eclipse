@@ -1,0 +1,15 @@
+12:37:44 **** Incremental Build of configuration Debug for project wav2c ****
+make all 
+Building file: ../wavdata.c
+Invoking: Cross GCC Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"wavdata.d" -MT"wavdata.d" -o "wavdata.o" "../wavdata.c"
+Finished building: ../wavdata.c
+ 
+Building target: wav2c
+Invoking: Cross G++ Linker
+g++  -o "wav2c"  ./main.o ./wavdata.o   
+Finished building target: wav2c
+ 
+
+12:37:44 Build Finished (took 244ms)
+

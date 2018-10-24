@@ -1,0 +1,40 @@
+/**
+ * This program reads a list of triangles from an STL file, which have no imposed structure.
+ * 
+ * It attempts to stitch them together to form a mesh of triangles where each triangle has
+ * three corners in space and opposite them three sides.  Each side connects to another triangle 
+ * in the structure.  The result is then written to a new file with all that structure intact.
+ * 
+ */
+package triangulator;
+
+/**
+ * @author Adrian Bowyer
+ * 
+ * RepRap Ltd
+ * https://reprapltd.com
+ * 
+ * Licence: GPL
+ *
+ */
+public class Triangulator 
+{
+
+	/**
+	 * 
+	 */
+	public Triangulator() 
+	{
+		
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) 
+	{
+		
+
+	}
+
+}

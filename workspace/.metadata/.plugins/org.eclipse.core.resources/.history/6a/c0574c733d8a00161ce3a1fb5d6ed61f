@@ -1,0 +1,255 @@
+//============================================================================
+// Name        : Painter.cpp
+// Author      : Adrian Bowyer
+// Version     :
+// Copyright   : GPL
+// Description : Painting robot control program
+//============================================================================
+
+#include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <algorithm>
+using namespace std;
+
+#include "Painter.h"
+
+void Painter::ShowResult(Mat img, char* title)
+{
+	  cvNamedWindow(title, CV_WINDOW_AUTOSIZE);
+	  cvMoveWindow(title, 100, 100);
+
+	  IplImage copy = img;
+	  IplImage* new_image = &copy;
+	  // show the image
+	  cvShowImage(title, new_image );
+
+	  // wait for a key
+	  cvWaitKey(0);
+
+	  // release the image
+	  //cvReleaseImage(&img );
+	frameCount++;
+}
+
+
+
+uchar Painter::Percentile(Mat img, double percentile)
+{
+	int histogram[MAX_PIXEL];
+	for(int i = 0; i < MAX_PIXEL; i++)
+		histogram[i] = 0;
+	uchar p;
+
+	for(int x = 0; x < imageWidth; x++)
+		for(int y = 0; y < imageHeight; y++)
+		{
+			p = GetPixelMono(img, x, y);
+			histogram[p]++;
+		}
+
+	double frac = percentile*pixelCount;
+	double total = 0;
+	for(int i = 0; i < MAX_PIXEL; i++)
+	{
+		total += (double)histogram[i];
+		if(total >= frac)
+			return i;
+	}
+
+	cerr << "Can't find percentile in histogram!" << endl;
+
+	return MAX_PIXEL;
+}
+
+
+void Painter::GoWhite(Mat img)
+{
+	uchar data[3];
+	data[0] = 255;
+	data[1] = 255;
+	data[2] = 255;
+	for(int i = 0; i < imageWidth; i++)
+		for(int j = 0; j < imageHeight; j++)
+			PutPixel(img, j, i, data);
+}
+
+
+void Painter::Threshold(Mat image, double percentile)
+{
+	double t = (double)Percentile(image, percentile);
+	threshold(image, image, t, 255.0, THRESH_BINARY);
+}
+
+
+void Painter::Blob(Mat image, Point pixel, uchar colour[], double d)
+{
+	double r2 = d*d/4;
+	for(int y = 0; y < round(d/2); y++)
+	{
+		int xm = round(sqrt(r2 - y*y));
+		for(int x = 0; x < xm; x++)
+		{
+			PutPixel(image, pixel.y + y, pixel.x + x, colour);
+			PutPixel(image, pixel.y + y, pixel.x - x, colour);
+			PutPixel(image, pixel.y - y, pixel.x + x, colour);
+			PutPixel(image, pixel.y - y, pixel.x - x, colour);
+		}
+	}
+}
+
+
+void Painter::Stroke(Mat image, int count, uchar colour[], double d)
+{
+	for(int i = 0; i < count; i++)
+		Blob(image, pixels[i], colour, d);
+}
+
+
+uint Painter::PixelDifference2(uchar a[], uchar b[])
+{
+	uint result = 0;
+	for(int k = 0; k < 3; k++)
+	{
+		int diff = a[k] - b[k];
+		result += diff*diff;
+	}
+	return result;
+}
+
+
+uchar Painter::PixelDifference(uchar a[], uchar b[])
+{
+	uint d2 = PixelDifference2(a, b);
+	d2 = sqrt((double)d2)*255.0/441.67295593;
+	return (uchar)d2;
+}
+
+
+void Painter::ImageDifference(Mat a, Mat b)
+{
+	uchar dataA[3];
+	uchar dataB[3];
+	uchar pixel;
+	for(int x = 0; x < imageWidth; x++)
+		for(int y = 0; y < imageHeight; y++)
+		{
+			GetPixel(a, x, y, dataA);
+			GetPixel(b, x, y, dataB);
+			pixel = PixelDifference(dataA, dataB);
+			PutPixelMono(difference, x, y, pixel);
+		}
+}
+
+
+Painter::Painter(const Mat org)
+{
+	original = org.clone();
+	painting =  original.clone();
+	GoWhite(painting);
+	cvtColor(original, difference, CV_BGR2GRAY);
+	eroded = difference.clone();
+
+	imageWidth = original.cols;
+	imageHeight = original.rows;
+
+	blob = imageWidth/30;
+	thresholdValue = 0.7;
+	brushReduction = 0.7;
+
+	strokes = 0;
+	keepGoing = true;
+}
+
+void Painter::Run()
+{
+	blob = imageWidth/30;
+	thresholdValue = 0.7;
+	brushReduction = 0.7;
+
+	strokes = 0;
+	keepGoing = true;
+
+	Size* myBlob = new Size(blob, blob);
+	kernel = getStructuringElement(MORPH_ELLIPSE, *myBlob);
+
+	while(strokes < 6 && keepGoing)
+	{
+		ImageDifference(original, painting);
+		//ShowResult(difference);
+		Threshold(difference, thresholdValue);
+		//if(strokes%10 == 0)
+			//ShowResult(difference);
+		erode(difference, eroded, kernel);
+
+		//ShowResult(result);
+
+		findContours(eroded, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+
+		big = 0;
+		largestContourIndex = -1;
+
+		for(int i = 0; i < contours.size(); i++)
+		{
+			b = contourArea(contours[i], false);
+			if(b > big)
+			{
+				big = b;
+				largestContourIndex=i;
+			}
+		}
+
+		if(largestContourIndex < 0)
+			cout << "biggest null!" << endl;
+
+		//cout << "contour: " << biggest.size() << endl;
+		//cout << "pixels: " << pixels.length << endl;
+
+		pixels = contours[largestContourIndex];
+
+		track = pixels.size();
+		if(track > 20)
+		{
+			track = track/2;
+
+			average[0] = average[1] = average[2] = 0;
+			for(pix = 0; pix < track; pix++)
+			{
+				GetPixel(original, pixels[pix].x, pixels[pix].y, pixel);
+				for(int k = 0; k < 3; k++)
+					average[k] += (double)pixel[k];
+			}
+			for(int k = 0; k < 3; k++)
+				pixel[k] = (uchar)(average[k]/(double)track);
+			Stroke(painting, track, pixel, blob);
+		}else
+		{
+			cout << "Short contour: " << track << ", blob: " << blob << endl;
+			blob = blob*brushReduction;
+
+			if(blob < 3)
+				keepGoing = false;
+			else
+			{
+				delete myBlob;
+				myBlob = new Size(blob, blob);
+				kernel = getStructuringElement(MORPH_ELLIPSE, *myBlob);
+			}
+		}
+		strokes++;
+		//if(strokes%20 == 0)
+		//ShowResult(painting);
+	}
+	ShowResult(painting, "painting");
+}
+
+
+
+
+int main(int argc, char *argv[])
+{
+	Painter* p = new Painter(cvLoadImage("resources/test.png"));
+	p->Run();
+	return 0;
+}

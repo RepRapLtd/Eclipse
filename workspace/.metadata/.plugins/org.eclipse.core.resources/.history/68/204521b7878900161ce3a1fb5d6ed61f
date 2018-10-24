@@ -1,0 +1,31 @@
+/*
+ * Painter.h
+ *
+ *  Created on: 3 Oct 2016
+ *      Author: ensab
+ */
+
+#ifndef PAINTER_H_
+#define PAINTER_H_
+
+class Painter
+{
+public:
+	Painter(const IplImage* original);
+	Run();
+
+
+private:
+
+	int frameCount;
+	uchar* pixelsAsList;
+	int pixelCount;
+	int imageWidth;
+	int imageHeight;
+	IplImage* difference;
+
+};
+
+
+
+#endif /* PAINTER_H_ */

@@ -1,0 +1,296 @@
+//============================================================================
+// Name        : Painter.cpp
+// Author      : Adrian Bowyer
+// Version     :
+// Copyright   : GPL
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <algorithm>
+using namespace std;
+
+#include "Painter.h"
+
+void Painter::ShowResult(Mat img)
+{
+	  cvNamedWindow("mainWin", CV_WINDOW_AUTOSIZE);
+	  cvMoveWindow("mainWin", 100, 100);
+
+	  IplImage copy = img;
+	  IplImage* new_image = &copy;
+	  // show the image
+	  cvShowImage("mainWin", new_image );
+
+	  // wait for a key
+	  cvWaitKey(0);
+
+	  // release the image
+	  //cvReleaseImage(&img );
+	frameCount++;
+}
+
+uchar Painter::Percentile(uchar array[], double percentile, int length)
+{
+	std::sort(array, array+length);
+	return array[(int)round(length*percentile)];
+}
+
+uchar Painter::Percentile(Mat img, double percentile)
+{
+	int count = 0;
+	for(int i = 0; i < imageWidth; i++)
+		for(int j = 0; j < imageHeight; j++)
+		{
+			pixelsAsList[count] = GetPixelMono(img, i, j);
+			count++;
+		}
+	return Percentile(pixelsAsList, percentile, pixelCount);
+}
+
+void Painter::GoWhite(Mat img)
+{
+	uchar data[3];
+	data[0] = 255;
+	data[1] = 255;
+	data[2] = 255;
+	for(int i = 0; i < imageWidth; i++)
+		for(int j = 0; j < imageHeight; j++)
+			PutPixel(img, j, i, data);
+}
+
+
+void Painter::Threshold(Mat image, double percentile)
+{
+	double t = (double)Percentile(image, percentile);
+	threshold(image, image, t, 255.0, THRESH_BINARY);
+}
+
+
+void Painter::Blob(Mat image, Point pixel, uchar colour[], double d)
+{
+	double r2 = d*d/4;
+	for(int y = 0; y < round(d/2); y++)
+	{
+		int xm = round(sqrt(r2 - y*y));
+		for(int x = 0; x < xm; x++)
+		{
+			int px = round(pixel.x);
+			int py = round(pixel.y);
+			PutPixel(image, py + y, px + x, colour);
+			PutPixel(image, py + y, px - x, colour);
+			PutPixel(image, py - y, px + x, colour);
+			PutPixel(image, py - y, px - x, colour);
+		}
+	}
+}
+
+void Painter::Stroke(Mat image, Point pixels[], int count, uchar colour[], double d)
+{
+	for(int i = 0; i < count; i++)
+		Blob(image, pixels[i], colour, d);
+}
+
+uint Painter::PixelDifference2(uchar a[], uchar b[])
+{
+	uint result = 0;
+	for(int k = 0; k < 3; k++)
+	{
+		int diff = a[k] - b[k];
+		result += diff*diff;
+	}
+	return result;
+}
+
+uchar Painter::PixelDifference(uchar a[], uchar b[])
+{
+	double d2 = PixelDifference2(a, b);
+	d2 = sqrt(d2)*255.0/441.67295593;
+	return (uchar)d2;
+}
+
+void Painter::ImageDifference(Mat a, Mat b)
+{
+	uchar dataA[3];
+	uchar dataB[3];
+	uchar pixel;
+	for(int i = 0; i < imageWidth; i++)
+		for(int j = 0; j < imageHeight; j++)
+		{
+			GetPixel(a, j, i, dataA);
+			GetPixel(b, j, i, dataB);
+			pixel = PixelDifference(dataA, dataB);
+			PutPixelMono(difference, j, i, pixel);
+		}
+}
+
+Painter::Painter(const Mat org)
+{
+	imageWidth = org.cols;
+	imageHeight = org.rows;
+	original = org.clone();
+	painting =  org.clone();
+	GoWhite(painting);
+	cvtColor(org, difference, CV_BGR2GRAY);
+	eroded = difference.clone();
+
+	blob = imageWidth/30;
+	thresholdValue = 0.7;
+	brushReduction = 0.7;
+
+	strokes = 0;
+	keepGoing = true;
+
+	MatOfPoint biggest;
+
+	double[] average = new double[3];
+	List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+	Mat hierarchy = new Mat();
+
+	Mat d;
+	Mat kernel;
+	Point[] pixels;
+	double[] cols;
+	double big;
+	double b;
+	int track;
+	int pix;
+	int k;
+}
+
+void Painter::Run()
+{
+	Size* myBlob = new Size(blob, blob);
+	kernel = getStructuringElement(MORPH_ELLIPSE, *myBlob);
+	while(strokes < 6 && keepGoing)
+	{
+		ImageDifference(original, painting);
+		//showResult(d);
+		Threshold(difference, thresholdValue);
+		//if(strokes%10 == 0)
+			//showResult(d);
+		erode(difference, eroded, kernel);
+
+		//showResult(result);
+
+		findContours(eroded, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+
+		double big = 0;
+		double b;
+
+		vector<Point> *biggest;
+
+		for (vector<Point> contour : contours)
+		{
+			if((b = contourArea(contour)) > big)
+			{
+				big = b;
+				biggest = contour;
+			}
+		}
+
+		if(!biggest)
+			cout << "biggest null!" << endl;
+
+		//List<MatOfPoint> bigContour = new ArrayList<MatOfPoint>();
+		//bigContour.add(biggest);
+		//Imgproc.drawContours(painting, bigContour, 0, new Scalar(0, 255, 0), -1);
+		//showResult(result);
+		//showResult(original);
+
+		pixels = biggest.toArray();
+		if(pixels == null)
+			System.out.println("pixels null!");
+
+		//System.out.println("contour: " + biggest.size());
+		//System.out.println("pixels: " + pixels.length);
+
+		track = pixels.length;
+		if(track > 20)
+		{
+			track = track/2;
+
+			average[0] = average[1] = average[2] = 0;
+			for(pix = 0; pix < track; pix++)
+			{
+				cols = original.get((int)Math.round(pixels[pix].y), (int)Math.round(pixels[pix].x));
+				for(k = 0; k < 3; k++)
+					average[k] += cols[k];
+			}
+			for(k = 0; k < 3; k++)
+				average[k] = average[k]/(double)track;
+			Stroke(painting, pixels, track, average, blob);
+		}else
+		{
+			cout << "Short contour: " << track << ", blob: " << blob << endl;
+			blob = blob*brushReduction;
+
+			if(blob < 3)
+				keepGoing = false;
+			else
+			{
+				delete myBlob;
+				myBlob = new Size(blob, blob);
+				kernel = getStructuringElement(MORPH_ELLIPSE, *myBlob);
+			}
+		}
+		strokes++;
+		//if(strokes%20 == 0)
+		//showResult(painting);
+	}
+	showResult(painting);
+}
+
+
+
+
+int main(int argc, char *argv[])
+{
+  IplImage* img = 0;
+  int height,width,step,channels;
+  uchar *data;
+  int i,j,k;
+
+  if(argc<2){
+    printf("Usage: main <image-file-name>\n");
+    exit(0);
+  }
+
+  // load an image
+  img=cvLoadImage(argv[1]);
+
+  if(!img){
+    printf("Could not load image file: %s\n",argv[1]);
+    exit(0);
+  }
+
+  // get the image data
+  height    = img->height;
+  width     = img->width;
+  step      = img->widthStep;
+  channels  = img->nChannels;
+  data      = (uchar *)img->imageData;
+  printf("Processing a %dx%d image with %d channels\n",height,width,channels);
+
+  // create a window
+  cvNamedWindow("mainWin", CV_WINDOW_AUTOSIZE);
+  cvMoveWindow("mainWin", 100, 100);
+
+  // invert the image
+  for(i=0;i<height;i++) for(j=0;j<width;j++) for(k=0;k<channels;k++)
+    data[i*step+j*channels+k] = ~data[i*step+j*channels+k];
+
+  // show the image
+  cvShowImage("mainWin", img );
+
+  // wait for a key
+  cvWaitKey(0);
+
+  // release the image
+  cvReleaseImage(&img );
+  return 0;
+
+}

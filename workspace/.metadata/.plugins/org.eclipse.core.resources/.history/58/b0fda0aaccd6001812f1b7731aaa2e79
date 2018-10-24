@@ -1,0 +1,35 @@
+/**
+ * 
+ */
+package triangulator;
+
+/**
+ * @author Adrian Bowyer
+ * 
+ * RepRap Ltd
+ * https://reprapltd.com
+ * 
+ * Licence: GPL
+ *
+ */
+public class Triangulator 
+{
+
+	/**
+	 * 
+	 */
+	public Triangulator() 
+	{
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+}

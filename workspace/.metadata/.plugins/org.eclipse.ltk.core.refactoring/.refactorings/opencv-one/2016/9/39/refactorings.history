@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;it.polito.elite.teaching.cv.HelloCV&apos; to &apos;PaintRobot&apos;&#x0A;- Original project: &apos;opencv-one&apos;&#x0A;- Original element: &apos;it.polito.elite.teaching.cv.HelloCV&apos;&#x0A;- Renamed element: &apos;it.polito.elite.teaching.cv.PaintRobot&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;HelloCV&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;it.polito.elite.teaching.cv{HelloCV.java[HelloCV" matchStrategy="1" name="PaintRobot" qualified="false" references="true" similarDeclarations="false" stamp="1475162871045" textual="false" version="1.0"/>
+</session>

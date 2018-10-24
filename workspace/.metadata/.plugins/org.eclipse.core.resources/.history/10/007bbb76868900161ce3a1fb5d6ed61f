@@ -1,0 +1,220 @@
+//============================================================================
+// Name        : Painter.cpp
+// Author      : Adrian Bowyer
+// Version     :
+// Copyright   : GPL
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <iostream>
+using namespace std;
+
+////////////////////////////////////////////////////////////////////////
+//
+// hello-world.cpp
+//
+// This is a simple, introductory OpenCV program. The program reads an
+// image from a file, inverts it, and displays the result.
+//
+////////////////////////////////////////////////////////////////////////
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <algorithm>
+#include <cv.h>
+#include <highgui.h>
+
+int frameCount = 0;
+uchar* pixelsAsList;
+int pixelCount;
+int imageWidth;
+int imageHeight;
+IplImage* difference;
+
+void showResult(IplImage* img)
+{
+	  cvNamedWindow("mainWin", CV_WINDOW_AUTOSIZE);
+	  cvMoveWindow("mainWin", 100, 100);
+
+	  // show the image
+	  cvShowImage("mainWin", img );
+
+	  // wait for a key
+	  cvWaitKey(0);
+
+	  // release the image
+	  cvReleaseImage(&img );
+	frameCount++;
+}
+
+uchar GetPixelMono(IplImage* img, int x, int y)
+{
+	int pos = img->widthStep*y + x*3;
+	return img->imageData[pos];
+}
+
+void PutPixelMono(IplImage* img, int x, int y, uchar p)
+{
+	int pos = img->widthStep*y + x*3;
+	img->imageData[pos] = p;
+}
+
+void GetPixel(IplImage* img, int x, int y, uchar p[])
+{
+	int pos = img->widthStep*y + x*3;
+	p[0] = img->imageData[pos];
+	p[1] = img->imageData[pos + 1];
+	p[2] = img->imageData[pos + 2];
+}
+
+void PutPixel(IplImage* img, int x, int y, uchar p[])
+{
+	int pos = img->widthStep*y + x*3;
+	img->imageData[pos] = p[0];
+	img->imageData[pos + 1] = p[1];
+	img->imageData[pos + 2] = p[2];
+}
+
+
+uchar Percentile(uchar array[], double percentile, int length)
+{
+	std::sort(array, array+length);
+	return array[(int)round(length*percentile)];
+}
+
+uchar Percentile(IplImage* img, double percentile)
+{
+	int count = 0;
+	for(int i = 0; i < img->width; i++)
+		for(int j = 0; j < img->height; j++)
+		{
+			pixelsAsList[count] = GetPixelMono(img, i, j);
+			count++;
+		}
+	return Percentile(pixelsAsList, percentile, pixelCount);
+}
+
+void GoWhite(IplImage* img)
+{
+	uchar data[3];
+	data[0] = 255;
+	data[1] = 255;
+	data[2] = 255;
+	for(int i = 0; i < img->width; i++)
+		for(int j = 0; j < img->height; j++)
+			PutPixel(img, j, i, data);
+}
+
+
+void Threshold(IplImage* image, double percentile)
+{
+	Imgproc.threshold(image, image, Percentile(image, percentile), 255.0, 0);
+}
+
+
+void Blob(IplImage* image, Point pixel, uchar colour[], double d)
+{
+	double r2 = d*d/4;
+	for(int y = 0; y < round(d/2); y++)
+	{
+		int xm = round(sqrt(r2 - y*y));
+		for(int x = 0; x < xm; x++)
+		{
+			int px = round(pixel.x);
+			int py = round(pixel.y);
+			PutPixel(image, py + y, px + x, colour);
+			PutPixel(image, py + y, px - x, colour);
+			PutPixel(image, py - y, px + x, colour);
+			PutPixel(image, py - y, px - x, colour);
+		}
+	}
+}
+
+void Stroke(IplImage* image, Point pixels[], int count, uchar colour[], double d)
+{
+	for(int i = 0; i < count; i++)
+		Blob(image, pixels[i], colour, d);
+}
+
+uint PixelDifference2(uchar a[], uchar b[])
+{
+	uint result = 0;
+	for(int k = 0; k < 3; k++)
+	{
+		int diff = a[k] - b[k];
+		result += diff*diff;
+	}
+	return result;
+}
+
+uchar PixelDifference(uchar a[], uchar b[])
+{
+	double d2 = PixelDifference2(a, b);
+	d2 = sqrt(d2)*255.0/441.67295593;
+	return (uchar)d2;
+}
+
+IplImage* ImageDifference(IplImage* a, IplImage* b)
+{
+	uchar dataA[3];
+	uchar dataB[3];
+	for(int i = 0; i < result->width; i++)
+		for(int j = 0; j < result->height; j++)
+		{
+			GetPixel(a, j, i, dataA);
+			GetPixel(b, j, i, dataB);
+			pixel[0] = PixelDifference(dataA, dataB);
+			result->put(j, i, pixel);
+		}
+	return result;
+}
+
+
+
+int main(int argc, char *argv[])
+{
+  IplImage* img = 0;
+  int height,width,step,channels;
+  uchar *data;
+  int i,j,k;
+
+  if(argc<2){
+    printf("Usage: main <image-file-name>\n");
+    exit(0);
+  }
+
+  // load an image
+  img=cvLoadImage(argv[1]);
+
+  if(!img){
+    printf("Could not load image file: %s\n",argv[1]);
+    exit(0);
+  }
+
+  // get the image data
+  height    = img->height;
+  width     = img->width;
+  step      = img->widthStep;
+  channels  = img->nChannels;
+  data      = (uchar *)img->imageData;
+  printf("Processing a %dx%d image with %d channels\n",height,width,channels);
+
+  // create a window
+  cvNamedWindow("mainWin", CV_WINDOW_AUTOSIZE);
+  cvMoveWindow("mainWin", 100, 100);
+
+  // invert the image
+  for(i=0;i<height;i++) for(j=0;j<width;j++) for(k=0;k<channels;k++)
+    data[i*step+j*channels+k] = ~data[i*step+j*channels+k];
+
+  // show the image
+  cvShowImage("mainWin", img );
+
+  // wait for a key
+  cvWaitKey(0);
+
+  // release the image
+  cvReleaseImage(&img );
+  return 0;
+
+}

@@ -1,0 +1,36 @@
+23:16:09 **** Build of configuration Debug for project Painter ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, bool)’:
+../src/Painter.cpp:201:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:225:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:228:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:236:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:286:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In member function ‘void Painter::Show()’:
+../src/Painter.cpp:292:33: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(painting, "painting");
+                                 ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: Painter
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "Painter"  ./src/Painter.o   -lopencv_highgui -lopencv_imgproc -lopencv_ml -lopencv_video -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_contrib -lopencv_legacy -lopencv_flann -lopencv_core
+Finished building target: Painter
+ 
+23:16:17 **** Incremental Build of configuration Debug for project Painter ****
+make all 
+make: Nothing to be done for 'all'.
