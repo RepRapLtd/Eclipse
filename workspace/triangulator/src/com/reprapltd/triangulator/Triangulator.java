@@ -10,6 +10,8 @@
  */
 package com.reprapltd.triangulator;
 
+import java.util.ArrayList;
+
 import org.j3d.renderer.java3d.loaders.STLLoader;
 import javax.vecmath.Point3d;
 
@@ -22,16 +24,90 @@ import javax.vecmath.Point3d;
  * Licence: GPL
  *
  */
+
+
 public class Triangulator 
 {
+	private CornerList cornerList = new CornerList();
+	private double smallD2 = 0.001;
+	private ArrayList<Triangle> meshes = new ArrayList<Triangle>();
+	
+	public class Edge
+	{
+		int corner1, corner2;
+		Triangle triangle1, triangle2;
+	}
 	
 	public class CornerList
 	{
 		/**
 		 * This stores the list of vertices/corners of all the triangles as points in space.  Each
-		 * point will have a ring of triangles around it.  The points all have one arbitrary one 
-		 * of those triangles stored alongside them (from which the ring can be derived by a local search).
+		 * point will have a ring of triangles around it.  The points all have one arbitrary triangle
+		 * stored alongside them (from which the ring can be derived by a local search).
 		 */
+		private ArrayList<Point3d> corners = new ArrayList<Point3d>();
+		private ArrayList<Triangle> triangles = new ArrayList<Triangle>();
+		
+		/**
+		 * Add a triangle corner to the list, together with any
+		 * triangle that has that corner.  It returns the index of
+		 * the corner.
+		 * 
+		 * @param corner
+		 * @param triangle
+		 * @return
+		 */
+		public int AddCorner(Point3d corner, Triangle triangle)
+		{
+			corners.add(corner);
+			triangles.add(triangle);
+			return corners.size() - 1;
+		}
+		
+		public Point3d GetCorner(int i)
+		{
+			return corners.get(i);
+		}
+		
+		public Triangle GetTriangle(int i)
+		{
+			return triangles.get(i);
+		}
+		
+		/**
+		 * This finds the point in the list corresponding to target and
+		 * returns its index.  Any point with squared distance to target
+		 * less than or equal to smallD2 is considered a match.  If no such 
+		 * point is found -1 is returned.
+		 * 
+		 * TODO: Obviously this should not do an exhaustive search; it
+		 * should use a spatial structure (BSP tree?).
+		 * 
+		 * @param target
+		 * @return
+		 */
+		public int Find(Point3d target)
+		{
+			for(int i = 0; i < corners.size(); i++)
+			{
+				if(corners.get(i).distanceSquared(target) <= smallD2)
+					return i;
+			}
+			return -1;
+		}
+		
+		public boolean StitchUp()
+		{
+			boolean result = true;
+			
+			for(int i = 0; i < corners.size(); i++)
+			{
+				Triangle t = triangles.get(i);
+				
+			}
+			
+			return result;
+		}
 	}
 	
 	public class Triangle 
@@ -52,7 +128,44 @@ public class Triangulator
 		 * visited is a flag to facilitate recursively walking over the mesh
 		 */
 		
-		private boolean visited;  
+		private boolean visited;
+		
+		private Triangle()
+		{
+			visited = false;
+			cornerIndices = new int[3];
+			edges = new Triangle[3];
+			for(int i = 0; i < 3; i++)
+			{
+				cornerIndices[i] = -1;
+				edges[i] = null;
+			}
+		}
+		
+		public Triangle(Point3d aC, Point3d bC, Point3d cC) 
+		{
+			this();
+			
+			int c = cornerList.Find(aC);
+			if(c < 0)
+				c = cornerList.AddCorner(aC,  this);
+			cornerIndices[0] = c;
+			
+			c = cornerList.Find(bC);
+			if(c < 0)
+				c = cornerList.AddCorner(bC,  this);
+			cornerIndices[1] = c;
+			
+			c = cornerList.Find(cC);
+			if(c < 0)
+				c = cornerList.AddCorner(cC,  this);
+			cornerIndices[2] = c;
+		}
+		
+		public void Error(String s)
+		{
+			
+		}
 		
 		public void ResetVisited()
 		{
@@ -70,7 +183,7 @@ public class Triangulator
 		}
 		
 		/**
-		 * Reset all the triangles in one mesh to unvisited, starting with this one.
+		 * Reset all the triangles in one shell to unvisited, starting with this one.
 		 * Note this works with partial triangulations with null edges as long as they
 		 * are not disjoint.
 		 */
@@ -107,28 +220,22 @@ public class Triangulator
 			edges[i] = e;
 		}
 		
-		public Triangle()
+		public boolean HasCorner(int corner)
 		{
-			cornerIndices = new int[3];
-			edges = new Triangle[3];
 			for(int i = 0; i < 3; i++)
 			{
-				cornerIndices[i] = -1;
-				edges[i] = null;
-			}
-		}
+				if(cornerIndices[i] == corner)
+					return true;
+			}		
+			return false;
+		}		
 		
-		public Triangle(int aC, int bC, int cC) 
+		public boolean HasCorners(int corner1, int corner2)
 		{
-			this();
-			cornerIndices[0] = aC;
-			cornerIndices[1] = bC;
-			cornerIndices[2] = cC;
+			return HasCorner(corner1) && HasCorner(corner2);
 		}
-
-	}
 	
-	private Triangle meshes[];
+	}
 
 
 	/**

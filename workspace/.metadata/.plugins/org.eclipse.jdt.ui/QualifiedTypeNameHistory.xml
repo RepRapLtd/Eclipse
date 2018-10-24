@@ -10,7 +10,7 @@
 <fullyQualifiedTypeName name="org.opencv.core.Size"/>
 <fullyQualifiedTypeName name="java.io.ByteArrayInputStream"/>
 <fullyQualifiedTypeName name="org.opencv.videoio.VideoCapture"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.j3d.renderer.java3d.loaders.STLLoader"/>
 <fullyQualifiedTypeName name="javax.vecmath.Point3d"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>
