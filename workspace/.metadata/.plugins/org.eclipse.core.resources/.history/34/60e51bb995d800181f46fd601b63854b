@@ -52,7 +52,6 @@ public class Triangulator
 	private double smallD2 = 0.001;
 	private ArrayList<Triangle> shells = new ArrayList<Triangle>();
 	private int cornerCount = 0;  // Number of points read in >> cornerList.corners.size()
-	private int triangleCount = 0;
 	private boolean debug = true;
 	private BoundingBox boundingBox = new BoundingBox();
 	private Point3d cloudCentroid = new Point3d(0, 0, 0);
@@ -520,7 +519,6 @@ public class Triangulator
 			UpdateEdgeStatistics(corner1, corner2);
 			UpdateEdgeStatistics(corner2, corner0);
 			
-			triangleCount++;
 			cornerCount += 3;
 		}
 	}
@@ -562,7 +560,6 @@ public class Triangulator
 		System.out.println(" Points coincide if closer than: " + String.valueOf(Math.sqrt(smallD2)) );
 		System.out.println(" Number of corner points: " + String.valueOf(cornerList.CornerCount()) );
 		System.out.println(" Number of corner points in the STL file (including duplicates): " + String.valueOf(cornerCount) );
-		System.out.println(" Number of triangles read: " + String.valueOf(triangleCount) );
 	}
 	
     private double tetVolume(Point3d a, Point3d b, Point3d c, Point3d d)

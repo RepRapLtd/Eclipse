@@ -562,7 +562,6 @@ public class Triangulator
 		System.out.println(" Points coincide if closer than: " + String.valueOf(Math.sqrt(smallD2)) );
 		System.out.println(" Number of corner points: " + String.valueOf(cornerList.CornerCount()) );
 		System.out.println(" Number of corner points in the STL file (including duplicates): " + String.valueOf(cornerCount) );
-		System.out.println(" Number of triangles read: " + String.valueOf(triangleCount) );
 	}
 	
     private double tetVolume(Point3d a, Point3d b, Point3d c, Point3d d)

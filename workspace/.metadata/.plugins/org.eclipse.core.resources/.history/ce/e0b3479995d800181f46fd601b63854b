@@ -51,12 +51,12 @@ public class Triangulator
 	private CornerList cornerList = new CornerList();
 	private double smallD2 = 0.001;
 	private ArrayList<Triangle> shells = new ArrayList<Triangle>();
-	private int cornerCount = 0;  // Number of points read in >> cornerList.corners.size()
 	private int triangleCount = 0;
+	private int cornerCount = 0;  // Number of points read in >> cornerList.corners.size()
 	private boolean debug = true;
 	private BoundingBox boundingBox = new BoundingBox();
 	private Point3d cloudCentroid = new Point3d(0, 0, 0);
-	//private Vector3d principalComponents = new Vector3d(0, 0, 0);
+	private Vector3d principalComponents = new Vector3d(0, 0, 0);
 	private double shortestEdge2 = Double.MAX_VALUE;
 	private double longestEdge2 = 0;
 	private String STLLocation = "";
@@ -95,6 +95,7 @@ public class Triangulator
 		 */
 		public int AddCorner(Point3d corner, Triangle triangle)
 		{
+			System.out.println("Adding point " + corner.toString() + "\n");
 			corners.add(corner);
 			triangles.add(triangle);
 			return corners.size() - 1;
@@ -144,10 +145,15 @@ public class Triangulator
 		 */
 		public int Find(Point3d target)
 		{
+			System.out.print("Serching for point " + target.toString() + " in list ");
 			for(int i = 0; i < corners.size(); i++)
 			{
+				System.out.print(corners.get(i).toString() + " ");
 				if(corners.get(i).distanceSquared(target) <= smallD2)
+				{
+					System.out.println("\nDistance to " + corners.get(i) + " is less than " + String.valueOf(Math.sqrt(smallD2)));
 					return i;
+				}
 			}
 			return -1;
 		}
@@ -562,7 +568,6 @@ public class Triangulator
 		System.out.println(" Points coincide if closer than: " + String.valueOf(Math.sqrt(smallD2)) );
 		System.out.println(" Number of corner points: " + String.valueOf(cornerList.CornerCount()) );
 		System.out.println(" Number of corner points in the STL file (including duplicates): " + String.valueOf(cornerCount) );
-		System.out.println(" Number of triangles read: " + String.valueOf(triangleCount) );
 	}
 	
     private double tetVolume(Point3d a, Point3d b, Point3d c, Point3d d)

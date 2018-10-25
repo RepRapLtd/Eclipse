@@ -51,12 +51,12 @@ public class Triangulator
 	private CornerList cornerList = new CornerList();
 	private double smallD2 = 0.001;
 	private ArrayList<Triangle> shells = new ArrayList<Triangle>();
-	private int cornerCount = 0;  // Number of points read in >> cornerList.corners.size()
 	private int triangleCount = 0;
+	private int cornerCount = 0;  // Number of points read in >> cornerList.corners.size()
 	private boolean debug = true;
 	private BoundingBox boundingBox = new BoundingBox();
 	private Point3d cloudCentroid = new Point3d(0, 0, 0);
-	//private Vector3d principalComponents = new Vector3d(0, 0, 0);
+	private Vector3d principalComponents = new Vector3d(0, 0, 0);
 	private double shortestEdge2 = Double.MAX_VALUE;
 	private double longestEdge2 = 0;
 	private String STLLocation = "";
@@ -75,14 +75,8 @@ public class Triangulator
 		 * stored alongside them (from which the ring can be derived by a local search).
 		 */
 		
-		private ArrayList<Point3d> corners = null;
-		private ArrayList<Triangle> triangles = null;
-		
-		CornerList()
-		{
-			corners = new ArrayList<Point3d>();
-			triangles = new ArrayList<Triangle>();
-		}
+		private ArrayList<Point3d> corners = new ArrayList<Point3d>();
+		private ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 		
 		/**
 		 * Add a triangle corner to the list, together with any
@@ -317,6 +311,7 @@ public class Triangulator
 				visited = true;
 			}
 			corners[2] = c;
+			System.out.println("Triangle created. Added to list - " + String.valueOf(visited));
 		}
 		
 		public void ResetVisited()
@@ -539,12 +534,12 @@ public class Triangulator
 		if(g == null)
 			return;
 
+		Point3d corner0 = new Point3d();
+		Point3d corner1 = new Point3d();
+		Point3d corner2 = new Point3d();
+
 		for(int i = 0; i < g.getVertexCount(); i += 3) 
 		{
-			Point3d corner0 = new Point3d();
-			Point3d corner1 = new Point3d();
-			Point3d corner2 = new Point3d();
-			
 			g.getCoordinate(i, corner0);
 			g.getCoordinate(i+1, corner1);
 			g.getCoordinate(i+2, corner2);
@@ -562,7 +557,6 @@ public class Triangulator
 		System.out.println(" Points coincide if closer than: " + String.valueOf(Math.sqrt(smallD2)) );
 		System.out.println(" Number of corner points: " + String.valueOf(cornerList.CornerCount()) );
 		System.out.println(" Number of corner points in the STL file (including duplicates): " + String.valueOf(cornerCount) );
-		System.out.println(" Number of triangles read: " + String.valueOf(triangleCount) );
 	}
 	
     private double tetVolume(Point3d a, Point3d b, Point3d c, Point3d d)
