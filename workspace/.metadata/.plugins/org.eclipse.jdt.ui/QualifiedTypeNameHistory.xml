@@ -13,4 +13,6 @@
 <fullyQualifiedTypeName name="org.j3d.renderer.java3d.loaders.STLLoader"/>
 <fullyQualifiedTypeName name="javax.vecmath.Point3d"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.sun.j3d.loaders.Scene"/>
+<fullyQualifiedTypeName name="javax.media.j3d.BranchGroup"/>
 </qualifiedTypeNameHistroy>

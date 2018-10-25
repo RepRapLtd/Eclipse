@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="12" version="2.0">
+<workbench progressCount="20" version="2.0">
 <workbenchAdvisor/>
-<window height="766" maximized="true" width="1008" x="2399" y="76">
+<window height="766" maximized="true" width="1004" x="2073" y="134">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -40,7 +40,7 @@
 </editorArea>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Triangulator.java" partName="Triangulator.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/src/com/reprapltd/triangulator/Triangulator.java" title="Triangulator.java" tooltip="triangulator/src/com/reprapltd/triangulator/Triangulator.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/triangulator/src/com/reprapltd/triangulator/Triangulator.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="966" selectionTopPixel="75"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1719" selectionTopPixel="600"/>
 </editor>
 </editors>
 <views>
@@ -78,6 +78,7 @@
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
+<category IMemento.internal.id="Errors"/>
 <category IMemento.internal.id="Warnings"/>
 <category IMemento.internal.id="Warnings (4 items)"/>
 </expanded>
@@ -257,7 +258,7 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info part="org.eclipse.ui.editorss" ratio="0.25" ratioLeft="478" ratioRight="1434" relationship="2" relative="left"/>
+<info part="org.eclipse.ui.editorss" ratio="0.12048193" ratioLeft="230" ratioRight="1679" relationship="2" relative="left"/>
 <info folder="true" part="bottom" ratio="0.74917126" ratioLeft="678" ratioRight="227" relationship="4" relative="org.eclipse.ui.editorss">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
@@ -386,154 +387,154 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/triangulator/src/com/reprapltd/triangulator/Triangulator.java"/>
 </editors>
 <item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="1840" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="2701" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="2499" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="2442" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="2478" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="2494" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="4192" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
 <position/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="4072" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="4612" y="0"/>
+<position info="not_deleted" x="3103" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="3143" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="1397" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="4337" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="4350" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="4485" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="5128" y="0"/>
+<position info="not_deleted" x="4692" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="5225" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="5185" y="0"/>
+<position info="not_deleted" x="5369" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="5410" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="5717" y="0"/>
+<position info="not_deleted" x="6046" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="6230" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="11790" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="13130" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="12882" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="13180" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="13215" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="13250" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="13149" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="12947" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="13042" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="13040" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="12132" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="1802" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="5440" y="0"/>
+<position info="not_deleted" x="1857" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="1920" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="11910" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="11873" y="1"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="11910" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="5530" y="0"/>
+<position info="not_deleted" x="11902" y="1"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="11910" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="5949" y="0"/>
+<position info="not_deleted" x="12129" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="11523" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="11524" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="11613" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="4930" y="0"/>
+<position info="not_deleted" x="11638" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="11788" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="10941" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="767" y="0"/>
+<position info="not_deleted" x="14864" y="0"/>
 </item>
 <item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="2663" y="0"/>
+<position info="not_deleted" x="14863" y="0"/>
+</item>
+<item historyLabel="Triangulator.java" index="0">
+<position info="not_deleted" x="13521" y="0"/>
+</item>
+<item historyLabel="Triangulator.java" index="0">
+<position info="not_deleted" x="14079" y="0"/>
+</item>
+<item historyLabel="Triangulator.java" index="0">
+<position info="not_deleted" x="13588" y="0"/>
+</item>
+<item historyLabel="Triangulator.java" index="0">
+<position info="not_deleted" x="13740" y="0"/>
+</item>
+<item historyLabel="Triangulator.java" index="0">
+<position info="not_deleted" x="14590" y="0"/>
+</item>
+<item historyLabel="Triangulator.java" index="0">
+<position info="not_deleted" x="9717" y="42"/>
+</item>
+<item historyLabel="Triangulator.java" index="0">
+<position info="not_deleted" x="3358" y="0"/>
 </item>
 <item active="true" historyLabel="Triangulator.java" index="0">
-<position/>
+<position info="not_deleted" x="3333" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
