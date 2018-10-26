@@ -145,8 +145,7 @@ public class Triangulator
 				Point3d p = corners.get(i);
 				out.print(String.valueOf(p.x) + " ");
 				out.print(String.valueOf(p.y) + " ");
-				out.print(String.valueOf(p.z) + " ");
-				out.println(String.valueOf(triangles.get(i).Index()));
+				out.println(String.valueOf(p.z));
 			}
 		}
 		
@@ -458,34 +457,9 @@ public class Triangulator
 		}
 		
 		
-		private void SaveTrianglesR(PrintStream out)
-		{
-			out.print(String.valueOf(index) + " ");
-			for(int i = 0; i < 3; i++)
-				out.print(String.valueOf(corners[i]) + " ");
-			for(int i = 0; i < 2; i++)
-				out.print(String.valueOf(neighbours[i].Index()) + " ");
-			out.println(String.valueOf(neighbours[2].Index()));
-			
-			SetVisited();
-			for(int i = 0; i < 3; i++)
-			{
-				if(neighbours[i] != null)
-				{
-					if(!neighbours[i].Visited())
-						neighbours[i].SaveTrianglesR(out);
-				} else
-					Error("SaveTrianglesR(): triangle with null neighbour found.", true);
-			}			
-		}
-		
-		
 		private void SaveTriangles(PrintStream out)
 		{
-			int count = Count();
-			out.println(String.valueOf(count) + " ");
-			SaveTrianglesR(out);
-			Reset();
+			
 		}
 		
 		/**
@@ -772,15 +746,13 @@ public class Triangulator
 	 */
 	public static void main(String[] args) 
 	{
-		Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/test-cube.stl");
+		//Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/test-cube.stl");
 		//Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/two-disjoint-cubes.stl");
 		//Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/two-overlapping-cubes.stl");
-		//Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/hole-enclosed-in-cylinder.stl");
+		Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/hole-enclosed-in-cylinder.stl");
 		//Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/two-nonmanifold-cubes.stl");
 		//Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/two-nasty-nonmanifold-cubes.stl");
 		t.PrintStatistics();
-		
-		t.Save("triangulation.tri");
 	}
 
 }

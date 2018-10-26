@@ -772,10 +772,10 @@ public class Triangulator
 	 */
 	public static void main(String[] args) 
 	{
-		Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/test-cube.stl");
+		//Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/test-cube.stl");
 		//Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/two-disjoint-cubes.stl");
 		//Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/two-overlapping-cubes.stl");
-		//Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/hole-enclosed-in-cylinder.stl");
+		Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/hole-enclosed-in-cylinder.stl");
 		//Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/two-nonmanifold-cubes.stl");
 		//Triangulator t = new Triangulator("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/two-nasty-nonmanifold-cubes.stl");
 		t.PrintStatistics();

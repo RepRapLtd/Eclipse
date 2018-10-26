@@ -1,0 +1,61 @@
+Statistics for STL file file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/two-disjoint-cubes.stl:
+ Bounding box: Bounding box: Lower=-1.0 -1.0 -1.0 Upper=35.0 20.0 25.0
+ Point cloud Centroid: (16.25, 7.5, 8.75)
+ Shortest edge: 10.0
+ Longest edge: 32.01562118716424
+ Points coincide if closer than: 2.5
+ Number of unique corner/vertex points: 16
+ Number of corner points in the STL file (including duplicates): 72
+ Number of triangles read: 24
+ Number of shells: 2
+
+
+Statistics for STL file file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/two-overlapping-cubes.stl:
+ Bounding box: Bounding box: Lower=-1.0 -1.0 -1.0 Upper=20.0 20.0 25.0
+ Point cloud Centroid: (8.020833333333332, 7.083333333333333, 8.125)
+ Shortest edge: 5.0
+ Longest edge: 32.01562118716424
+ Points coincide if closer than: 1.25
+ Number of unique corner/vertex points: 18
+ Number of corner points in the STL file (including duplicates): 96
+ Number of triangles read: 32
+ Number of shells: 1
+
+
+Statistics for STL file file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/hole-enclosed-in-cylinder.stl:
+ Bounding box: Bounding box: Lower=-49.9510612487793 -49.987762451171875 -3.0 Upper=50.0 49.987762451171875 37.0
+ Point cloud Centroid: (0.8020362619660859, 0.8185681033338238, 16.08974358974359)
+ Shortest edge: 4.423331912005622
+ Longest edge: 99.97552490234375
+ Points coincide if closer than: 1.1058329780014056
+ Number of unique corner/vertex points: 160
+ Number of corner points in the STL file (including duplicates): 936
+ Number of triangles read: 312
+ Number of shells: 2
+
+Statistics for STL file file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/two-nonmanifold-cubes.stl:
+ Bounding box: Bounding box: Lower=-1.0 -1.0 -1.0 Upper=20.0 20.0 20.0
+ Point cloud Centroid: (10.0, 10.0, 10.0)
+ Shortest edge: 10.0
+ Longest edge: 14.142135623730951
+ Points coincide if closer than: 2.5
+ Number of unique corner/vertex points: 15
+ Number of corner points in the STL file (including duplicates): 72
+ Number of triangles read: 24
+ Number of shells: 2
+
+
+Shared edge; this isn't guaranteed to work, but seems OK here...:
+
+Statistics for STL file file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulator/two-nasty-nonmanifold-cubes.stl:
+ Bounding box: Bounding box: Lower=-1.0 -1.0 -1.0 Upper=20.0 20.0 10.0
+ Point cloud Centroid: (10.0, 10.0, 5.0)
+ Shortest edge: 10.0
+ Longest edge: 14.142135623730951
+ Points coincide if closer than: 2.5
+ Number of unique corner/vertex points: 14
+ Number of corner points in the STL file (including duplicates): 72
+ Number of triangles read: 24
+ Number of shells: 2
+
+

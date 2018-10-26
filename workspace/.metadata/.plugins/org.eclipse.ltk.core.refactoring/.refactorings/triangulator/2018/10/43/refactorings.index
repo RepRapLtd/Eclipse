@@ -17,3 +17,5 @@
 1540476666835	Rename local variable 'a'
 1540476677428	Rename local variable 'b'
 1540476687968	Rename local variable 'c'
+1540545596232	Rename method 'MarkVisited'
+1540546818832	Rename field 'debug'

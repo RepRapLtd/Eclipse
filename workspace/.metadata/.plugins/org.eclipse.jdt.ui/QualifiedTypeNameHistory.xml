@@ -15,4 +15,7 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="com.sun.j3d.loaders.Scene"/>
 <fullyQualifiedTypeName name="javax.media.j3d.BranchGroup"/>
+<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
+<fullyQualifiedTypeName name="java.io.FileWriter"/>
+<fullyQualifiedTypeName name="java.io.PrintStream"/>
 </qualifiedTypeNameHistroy>
