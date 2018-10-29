@@ -30,7 +30,10 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 import org.j3d.renderer.java3d.loaders.STLLoader;
 import com.sun.j3d.loaders.Scene;
 import javax.vecmath.Point3d;
@@ -145,19 +148,17 @@ public class Triangulation
 		}
 		
 		/**
-		 * Write all the points and each's triangle index to a .tri file.
+		 * Write all the points and each's triangle index to a .ply file.
 		 * @param out
 		 */
 		private void SavePoints(PrintStream out)
 		{
-			out.println(String.valueOf(corners.size()));
 			for(int i = 0; i < corners.size(); i++)
 			{
 				Point3d p = corners.get(i);
 				out.print(String.valueOf(p.x) + " ");
 				out.print(String.valueOf(p.y) + " ");
-				out.print(String.valueOf(p.z) + " ");
-				out.println(String.valueOf(triangles.get(i).Index()));
+				out.println(String.valueOf(p.z) + " ");
 			}
 		}
 		
@@ -477,7 +478,7 @@ public class Triangulation
 		
 		/**
 		 * Recursive function to walk over all the triangles in one shell and output
-		 * them to a .tri file.
+		 * them to a .ply file.
 		 * 
 		 * @param out
 		 */
@@ -485,12 +486,10 @@ public class Triangulation
 		{
 			// Write this out.
 			
-			out.print(String.valueOf(index) + " ");
-			for(int i = 0; i < 3; i++)
-				out.print(String.valueOf(corners[i]) + " ");
+			out.print("3 ");
 			for(int i = 0; i < 2; i++)
-				out.print(String.valueOf(neighbours[i].Index()) + " ");
-			out.println(String.valueOf(neighbours[2].Index()));
+				out.print(String.valueOf(corners[i]) + " ");
+			out.println(String.valueOf(corners[2]));
 			
 			// Now recursively write my neighbours.
 			
@@ -514,8 +513,6 @@ public class Triangulation
 		 */
 		private void SaveTriangles(PrintStream out)
 		{
-			int count = Count();
-			out.println(String.valueOf(count) + " ");
 			SaveTrianglesR(out);
 			Reset();
 		}
@@ -834,22 +831,38 @@ public class Triangulation
 	}
 	
 	/**
-	 * TODO: Maybe this should use XML (like LandXML, which is overkill).  But there
-	 * doesn't seem to be a simple defined XML triangle mesh format, and there's not much point in
-	 * making one up as only this would use it.
+	 * This writes out the entire triangulation in the Stanford .ply format.
 	 * 
-	 * TODO: Check for file exists and warn?  Warn for non .tri extension?
+	 * See: https://en.wikipedia.org/wiki/PLY_(file_format)
+	 * 
+	 * TODO: Check for file exists and warn?  Warn for non .ply extension?
 	 * 
 	 * @param location
 	 */
 	private void Save(String location)
 	{
 		PrintStream out = null;
+		String pattern = "yyyy-MM-dd"; 
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern); 
+		String date = simpleDateFormat.format(new Date());
 		try 
 		{
 			out = new PrintStream(location);
+			out.println("ply");
+			out.println("format ascii 1.0");
+			out.println("comment Created by the Java program Triangulation on " + date);
+			out.println("comment by RepRap Ltd. https://reprapltd.com");
+			out.println("comment Software licence: GPL");
+			if(fileLocation != null)
+				out.println("comment Derived from file: " + fileLocation);
+			out.println("element vertex " + String.valueOf(cornerList.CornerCount()));
+			out.println("property float x");
+			out.println("property float y");
+			out.println("property float z");
+			out.println("element face " + String.valueOf(triangleCount));
+			out.println("property list uchar int vertex_index");
+			out.println("end_header");
 			cornerList.SavePoints(out);
-			out.println(String.valueOf(shells.size()));
 			for(int i = 0; i < shells.size(); i++)
 				shells.get(i).SaveTriangles(out);
 			out.close();
@@ -919,15 +932,15 @@ public class Triangulation
 	 */
     public static void main(String[] args) 
     {
-    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulation/test-cube.stl");
+    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulation/test-cube.stl");
     	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulation/two-disjoint-cubes.stl");
     	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulation/two-overlapping-cubes.stl");
-    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulation/hole-enclosed-in-cylinder.stl");
+    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulation/hole-enclosed-in-cylinder.stl");
     	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulation/two-nonmanifold-cubes.stl");
     	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulation/two-nasty-nonmanifold-cubes.stl");
     	t.PrintStatistics();
     	
-    	t.Save("triangulation.tri");
+    	t.Save("triangulation.ply");
     }
 }
 
