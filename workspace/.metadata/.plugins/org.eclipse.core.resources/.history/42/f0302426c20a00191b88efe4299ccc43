@@ -1,0 +1,9 @@
+package com.reprapltd.polyhedra;
+
+public class CSGOp {
+
+	public CSGOp() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

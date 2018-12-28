@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="21" version="2.0">
+<workbench progressCount="18" version="2.0">
 <workbenchAdvisor/>
 <window height="766" maximized="true" width="1004" x="2073" y="134">
 <fastViewData fastViewLocation="1024"/>
@@ -34,13 +34,58 @@
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
+<part id="1"/>
+<part id="2"/>
+<part id="3"/>
+<part id="4"/>
+<part id="5"/>
+<part id="6"/>
+<part id="7"/>
+<part id="8"/>
+<part id="9"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Triangulation.java" partName="Triangulation.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/triangulation/src/com/reprapltd/triangulation/Triangulation.java" title="Triangulation.java" tooltip="triangulation/src/com/reprapltd/triangulation/Triangulation.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/triangulation/src/com/reprapltd/triangulation/Triangulation.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="26674" selectionTopPixel="11747"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Triangulation.java" partName="Triangulation.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Triangulation.java" title="Triangulation.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Triangulation.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Triangulation.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="26446" selectionTopPixel="13095"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Interval.java" partName="Interval.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Interval.java" title="Interval.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Interval.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Interval.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4294" selectionTopPixel="2999"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Debug.java" partName="Debug.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Debug.java" title="Debug.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Debug.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Debug.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="318" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Box.java" partName="Box.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Box.java" title="Box.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Box.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Box.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="114" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Point3D.java" partName="Point3D.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Point3D.java" title="Point3D.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Point3D.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Point3D.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="483" selectionTopPixel="2653"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="HalfSpace.java" partName="HalfSpace.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/HalfSpace.java" title="HalfSpace.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/HalfSpace.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/HalfSpace.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3836" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSG3D.java" partName="CSG3D.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/CSG3D.java" title="CSG3D.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/CSG3D.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/CSG3D.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="13027" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSGOp.java" partName="CSGOp.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/CSGOp.java" title="CSGOp.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/CSGOp.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/CSGOp.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="652" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Primitives.java" partName="Primitives.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Primitives.java" title="Primitives.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Primitives.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Primitives.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5090" selectionTopPixel="1620"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSGReader.java" partName="CSGReader.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/CSGReader.java" title="CSGReader.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/CSGReader.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/CSGReader.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="14828" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
@@ -78,7 +123,8 @@
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
-<category IMemento.internal.id="Warnings (9 items)"/>
+<category IMemento.internal.id="Errors"/>
+<category IMemento.internal.id="Warnings (10 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="105" org.eclipse.ui.ide.markerType="725" org.eclipse.ui.ide.pathField="140" org.eclipse.ui.ide.resourceField="105" org.eclipse.ui.ide.severityAndDescriptionField="350"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -255,7 +301,7 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info part="org.eclipse.ui.editorss" ratio="0.12048193" ratioLeft="230" ratioRight="1679" relationship="2" relative="left"/>
+<info part="org.eclipse.ui.editorss" ratio="0.18962808" ratioLeft="362" ratioRight="1547" relationship="2" relative="left"/>
 <info folder="true" part="bottom" ratio="0.7329127" ratioLeft="697" ratioRight="254" relationship="4" relative="org.eclipse.ui.editorss">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
@@ -379,160 +425,166 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/triangulator/src/com/reprapltd/triangulator/Triangulator.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/triangulator/src/com/reprapltd/triangulator/Triangulation.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/triangulation/src/com/reprapltd/triangulator/Triangulation.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/triangulation/src/com/reprapltd/triangulation/Triangulation.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/Triangulation.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/Interval.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/Debug.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/Box.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/Point3D.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/HalfSpace.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/CSG3D.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/CSGOp.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/Primitives.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/CSGReader.java"/>
 </editors>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="18408" y="0"/>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="4110" y="6"/>
 </item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="18176" y="0"/>
+<item historyLabel="Interval.java" index="1">
+<position info="not_deleted" x="4294" y="0"/>
 </item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="18305" y="0"/>
+<item historyLabel="Box.java" index="3">
+<position info="not_deleted" x="6761" y="0"/>
 </item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="18221" y="0"/>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="1102" y="29"/>
 </item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="16447" y="0"/>
+<item historyLabel="Box.java" index="3">
+<position info="not_deleted" x="115" y="0"/>
 </item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="18284" y="0"/>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="1102" y="29"/>
 </item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="18303" y="0"/>
+<item historyLabel="Box.java" index="3">
+<position info="not_deleted" x="115" y="0"/>
 </item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="4059" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="4055" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="3781" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="3863" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="3898" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="3904" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="10861" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="11157" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="11182" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="11211" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="11341" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="11334" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="11343" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="18637" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="19484" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="19492" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="19509" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="3988" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="4038" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="4046" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="12036" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="12119" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="12074" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="12080" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="12117" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="11693" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="11538" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="11628" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
-<position info="not_deleted" x="21196" y="0"/>
-</item>
-<item historyLabel="Triangulator.java" index="0">
+<item historyLabel="Box.java" index="3">
 <position/>
 </item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="1246" y="12"/>
+<item historyLabel="Point3D.java" index="4">
+<position info="not_deleted" x="3814" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="2">
-<position info="not_deleted" x="1246" y="13"/>
+<item historyLabel="Box.java" index="3">
+<position info="not_deleted" x="6760" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="3">
-<position info="not_deleted" x="776" y="0"/>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="1102" y="29"/>
 </item>
-<item historyLabel="Triangulation.java" index="3">
-<position info="not_deleted" x="748" y="27"/>
+<item historyLabel="Point3D.java" index="4">
+<position info="not_deleted" x="483" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="3">
-<position info="not_deleted" x="19457" y="0"/>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="739" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="3">
-<position info="not_deleted" x="19933" y="0"/>
+<item historyLabel="Box.java" index="3">
+<position info="not_deleted" x="114" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="3">
-<position info="not_deleted" x="19681" y="0"/>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="739" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="3">
-<position info="not_deleted" x="19135" y="0"/>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="4614" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="3">
-<position info="not_deleted" x="19915" y="0"/>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="4658" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="3">
-<position info="not_deleted" x="19931" y="0"/>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="5270" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="3">
-<position info="not_deleted" x="2690" y="0"/>
+<item historyLabel="Point3D.java" index="4">
+<position info="not_deleted" x="483" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="3">
-<position info="not_deleted" x="18825" y="0"/>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="5270" y="0"/>
 </item>
-<item active="true" historyLabel="Triangulation.java" index="3">
-<position info="not_deleted" x="23002" y="0"/>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="19724" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="20604" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24871" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24879" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24886" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24894" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24901" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24909" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24916" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24924" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24931" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24939" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24946" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24954" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24961" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24969" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24976" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24984" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="24991" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="0">
+<position info="not_deleted" x="26446" y="0"/>
+</item>
+<item historyLabel="HalfSpace.java" index="5">
+<position info="not_deleted" x="3836" y="0"/>
+</item>
+<item historyLabel="CSG3D.java" index="6">
+<position info="not_deleted" x="210" y="0"/>
+</item>
+<item historyLabel="CSGOp.java" index="7">
+<position info="not_deleted" x="652" y="0"/>
+</item>
+<item historyLabel="CSG3D.java" index="6">
+<position info="not_deleted" x="13056" y="0"/>
+</item>
+<item historyLabel="Debug.java" index="2">
+<position info="not_deleted" x="121" y="0"/>
+</item>
+<item historyLabel="CSG3D.java" index="6">
+<position info="not_deleted" x="13027" y="0"/>
+</item>
+<item historyLabel="Primitives.java" index="8">
+<position info="not_deleted" x="5090" y="0"/>
+</item>
+<item historyLabel="CSGReader.java" index="9">
+<position info="not_deleted" x="1902" y="0"/>
+</item>
+<item historyLabel="Debug.java" index="2">
+<position info="not_deleted" x="318" y="0"/>
+</item>
+<item active="true" historyLabel="CSGReader.java" index="9">
+<position info="not_deleted" x="1902" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -551,6 +603,27 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSGReader.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/CSGReader.java">
+<persistable path="/polyhedra/src/com/reprapltd/polyhedra/CSGReader.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Primitives.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Primitives.java">
+<persistable path="/polyhedra/src/com/reprapltd/polyhedra/Primitives.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSGOp.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/CSGOp.java">
+<persistable path="/polyhedra/src/com/reprapltd/polyhedra/CSGOp.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSG3D.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/CSG3D.java">
+<persistable path="/polyhedra/src/com/reprapltd/polyhedra/CSG3D.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="HalfSpace.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/HalfSpace.java">
+<persistable path="/polyhedra/src/com/reprapltd/polyhedra/HalfSpace.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Point3D.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Point3D.java">
+<persistable path="/polyhedra/src/com/reprapltd/polyhedra/Point3D.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Box.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Box.java">
+<persistable path="/polyhedra/src/com/reprapltd/polyhedra/Box.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Triangulator.java" tooltip="triangulator/src/com/reprapltd/triangulator/Triangulator.java">
 <persistable path="/triangulator/src/com/reprapltd/triangulator/Triangulator.java"/>
 </file>
@@ -574,9 +647,6 @@
 </file>
 <file factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name=".project" tooltip="/home/ensab/rrl-cloud/RepRapLtd/Engineering/External-Projects/Childrens-letters/Software/audio-generator/.project">
 <persistable uri="file:/home/ensab/rrl-cloud/RepRapLtd/Engineering/External-Projects/Childrens-letters/Software/audio-generator/.project"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="G-Code-Generator.cpp" tooltip="G-Code-Generator/src/G-Code-Generator.cpp">
-<persistable path="/G-Code-Generator/src/G-Code-Generator.cpp"/>
 </file>
 </mruList>
 </workbench>

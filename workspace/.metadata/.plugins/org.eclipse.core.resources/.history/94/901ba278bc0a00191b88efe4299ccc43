@@ -1,0 +1,9 @@
+package com.reprapltd.polyhedra;
+
+public class Box {
+
+	public Box() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

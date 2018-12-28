@@ -1,0 +1,9 @@
+package com.reprapltd.triangulation;
+
+public class Debug {
+
+	public Debug() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

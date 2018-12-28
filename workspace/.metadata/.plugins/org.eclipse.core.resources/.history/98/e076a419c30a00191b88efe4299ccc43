@@ -1,0 +1,9 @@
+package com.reprapltd.polyhedra;
+
+public class Primitives {
+
+	public Primitives() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

@@ -1,0 +1,15 @@
+package com.reprapltd.polyhedra;
+
+public class Debug 
+{
+
+	public Debug() 
+	{
+	}
+	
+	public static void Error(String s)
+	{
+		System.out.println(s);
+	}
+
+}
