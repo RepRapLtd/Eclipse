@@ -1,0 +1,111 @@
+package com.reprapltd.polyhedra;
+
+import javax.swing.*;
+
+import com.reprapltd.polyhedra.Triangulation.Triangle;
+
+import java.awt.*;
+import java.awt.geom.Path2D;
+import java.io.PrintStream;
+import java.util.ArrayList;
+
+public class Graphics {
+
+	public Graphics() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	/**
+	 * Recursive function to walk over all the triangles in one shell and output
+	 * them to a .ply file.
+	 * 
+	 * @param out
+	 */
+	private void VisitTrianglesR(Triangulation triangulation, Triangle tri)
+	{
+		// Write this out.
+		
+		out.print("3 ");
+		for(int i = 0; i < 2; i++)
+			out.print(String.valueOf(corners[i]) + " ");
+		out.println(String.valueOf(corners[2]));
+		
+		// Now recursively write my neighbours.
+		
+		SetVisited();
+		for(int i = 0; i < 3; i++)
+		{
+			if(neighbours[i] != null)
+			{
+				if(!neighbours[i].Visited())
+					neighbours[i].SaveTrianglesR(out);
+			} else
+				Debug.Error("Triangulation.Triangle.SaveTrianglesR(): triangle with null neighbour found.", true);
+		}			
+	}
+	
+	/**
+	 * Brief non-recursive function to write out a single shell by calling the recursive
+	 * function above.
+	 * 
+	 * @param out
+	 */
+	private void VisitTriangles(Triangulation triangulation)
+	{
+		for(int i = 0; i < triangulation.Shells().size(); i++)
+		{
+			triangulation.Shells().get(i).Reset();
+			VisitTrianglesR(out);
+			Reset();
+		}
+	}
+	
+    public static void main(String[] args) 
+    {
+    	final Triangulation triangulation = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
+        JFrame frame = new JFrame();
+        Container pane = frame.getContentPane();
+        pane.setLayout(new BorderLayout());
+
+        // slider to control horizontal rotation
+        JSlider headingSlider = new JSlider(0, 360, 180);
+        pane.add(headingSlider, BorderLayout.SOUTH);
+
+        // slider to control vertical rotation
+        JSlider pitchSlider = new JSlider(SwingConstants.VERTICAL, -90, 90, 0);
+        pane.add(pitchSlider, BorderLayout.EAST);
+
+        // panel to display render results
+        JPanel renderPanel = new JPanel() 
+        {
+                public void paintComponent(Graphics2D g2) 
+                {
+                    //Graphics2D g2 = (Graphics2D) g;
+                    g2.setColor(Color.BLACK);
+                    g2.fillRect(0, 0, getWidth(), getHeight());
+
+                    g2.translate(getWidth() / 2, getHeight() / 2);
+                    g2.setColor(Color.WHITE);
+        			for(int i = 0; i < triangulation.Shells().size(); i++)
+        			{
+        				ArrayList<Triangle> tList = triangulation.Shells().get(i);
+        				shells.get(i).SaveTriangles(out); 
+                        Path2D path = new Path2D.Double();
+                        path.moveTo(t.v1.x, t.v1.y);
+                        path.lineTo(t.v2.x, t.v2.y);
+                        path.lineTo(t.v3.x, t.v3.y);
+                        path.closePath();
+                        g2.draw(path);
+                    }
+                }
+            };
+        pane.add(renderPanel, BorderLayout.CENTER);
+
+        frame.setSize(400, 400);
+        frame.setVisible(true);
+    }
+
+}
+
+
+

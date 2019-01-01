@@ -28,6 +28,7 @@ package com.reprapltd.polyhedra;
 
 import com.reprapltd.polyhedra.Point3D;
 
+import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -69,10 +70,26 @@ public class Triangulation
 	private String fileLocation = null;         // Where the triangulation was read in from.
 	//private Vector3d principalComponents = new Vector3d(0, 0, 0);
 	
+	/**
+	 * Allow other classes to get at the triangles.
+	 * @return
+	 */
+	public ArrayList<Triangle> Shells()
+	{
+		return shells;
+	}
+	
+	/**
+	 * Allow other classes to get at the corners.
+	 * @return
+	 */
+	public CornerList Corners()
+	{
+		return cornerList;
+	}
 	
 	
-	
-	private class CornerList
+	public class CornerList
 	{
 		/**
 		 * This class stores the list of vertices/corners of all the triangles as points in space.  Each
@@ -105,7 +122,7 @@ public class Triangulation
 			return corners.size() - 1;
 		}
 		
-		private Point3D GetCorner(int i)
+		public Point3D GetCorner(int i)
 		{
 			return corners.get(i);
 		}
@@ -285,7 +302,7 @@ public class Triangulation
 		}
 	}
 	
-	private class Triangle 
+	public class Triangle 
 	{
 
 		/**
@@ -310,6 +327,11 @@ public class Triangulation
 		 */
 		private boolean visited;
 		
+		/**
+		 * May want to display it.
+		 */
+		private Color colour;
+		
 		private Triangle()
 		{
 			visited = false;
@@ -321,6 +343,7 @@ public class Triangulation
 				corners[i] = -1;
 				neighbours[i] = null;
 			}
+			colour = Color.gray;
 		}
 		
 		/**
@@ -370,27 +393,27 @@ public class Triangulation
 			corners[2] = c;
 		}
 		
-		private void ResetVisited()
+		public void ResetVisited()
 		{
 			visited = false;
 		}
 		
-		private void SetVisited()
+		public void SetVisited()
 		{
 			visited = true;
 		}
 		
-		private boolean Visited()
+		public boolean Visited()
 		{
 			return visited;
 		}
 		
-		private int GetCorner(int i)
+		public int GetCorner(int i)
 		{
 			return corners[i];
 		}
 		
-		private Triangle GetNeighbour(int i)
+		public Triangle GetNeighbour(int i)
 		{
 			return neighbours[i];
 		}
@@ -407,7 +430,7 @@ public class Triangulation
 		 * It counts the triangles as a side-effect and returns the total. This is a 
 		 * negligible additional load.
 		 */
-		private int Set()
+		public int Set()
 		{
 			int count = 1;
 			SetVisited();
@@ -430,7 +453,7 @@ public class Triangulation
 		 * It counts the triangles as a side-effect and returns the total.  This is a 
 		 * negligible additional load.
 		 */
-		private int Reset()
+		public int Reset()
 		{
 			int count = 1;
 			ResetVisited();
@@ -697,12 +720,12 @@ public class Triangulation
 	 * 
 	 * @param location
 	 */
-	private Triangulation(String location) 
+	public Triangulation(String location) 
 	{
 		fileLocation = location;
 		int length = fileLocation.length();
 		String extension = fileLocation.substring(length - 4, length).toLowerCase();
-
+ 
 		if(extension.equals(".stl"))
 		{
 			BuildFromSTL();
@@ -901,7 +924,7 @@ public class Triangulation
     }
 	
     /**
-     * Calculate the volume of a prisim under a triangle down to the XY plane.
+     * Calculate the volume of a prism under a triangle down to the XY plane.
      * 
      * @param a
      * @param b
@@ -923,18 +946,18 @@ public class Triangulation
 	 * 
 	 * @param args
 	 */
-    public static void main(String[] args) 
-    {
-    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
-    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-disjoint-cubes.stl");
-    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-overlapping-cubes.stl");
-    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/hole-enclosed-in-cylinder.stl");
-    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nonmanifold-cubes.stl");
-    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nasty-nonmanifold-cubes.stl");
-    	t.PrintStatistics();
-    	
-    	t.Save("triangulation.ply");
-    }
+//    public static void main(String[] args) 
+//    {
+//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
+//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-disjoint-cubes.stl");
+//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-overlapping-cubes.stl");
+//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/hole-enclosed-in-cylinder.stl");
+//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nonmanifold-cubes.stl");
+//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nasty-nonmanifold-cubes.stl");
+//    	t.PrintStatistics();
+//    	
+//    	t.Save("triangulation.ply");
+//    }
 }
 
 

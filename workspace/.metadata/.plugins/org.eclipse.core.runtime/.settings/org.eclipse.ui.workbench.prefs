@@ -1,2 +1,7 @@
+ColorsAndFontsPreferencePage.expandedCategories=Torg.eclipse.jdt.ui.presentation\tTorg.eclipse.compare.contentmergeviewer.TextMergeViewer\tTorg.eclipse.ui.presentation.default
+ColorsAndFontsPreferencePage.selectedElement=COUTGOING_COLOR
+OUTGOING_COLOR=126,83,83
 UIActivities.org.eclipse.cdt.debug.dsfgdbActivity=true
 eclipse.preferences.version=1
+org.eclipse.jdt.ui.DeclarationView.backgroundColor=169,107,107
+org.eclipse.jdt.ui.JavadocView.backgroundColor=142,97,97

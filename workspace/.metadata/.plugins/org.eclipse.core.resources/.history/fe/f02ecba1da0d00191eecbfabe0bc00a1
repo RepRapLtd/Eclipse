@@ -1,0 +1,162 @@
+package com.reprapltd.polyhedra;
+
+import javax.media.j3d.Appearance;
+import javax.media.j3d.BoundingSphere;
+import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Canvas3D;
+import javax.media.j3d.ColoringAttributes;
+import javax.media.j3d.GeometryArray;
+import javax.media.j3d.PointArray;
+import javax.media.j3d.Shape3D;
+import javax.media.j3d.TransformGroup;
+import javax.swing.*;
+import javax.vecmath.Color3f;
+import javax.vecmath.Point3f;
+
+import com.reprapltd.polyhedra.Triangulation.Triangle;
+import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
+import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
+import com.sun.j3d.utils.behaviors.mouse.MouseZoom;
+import com.sun.j3d.utils.universe.SimpleUniverse;
+
+import java.awt.*;
+import java.awt.geom.*;
+    
+    
+public final class Graphics extends JPanel
+{
+
+
+	int s = 0, count = 0;
+	
+	/**
+	 * Recursive function to walk over all the triangles in one shell and output
+	 * them to a .ply file.
+	 * 
+	 * @param out
+	 */
+	private static void VisitTrianglesR(Triangle tri, Triangulation triangulation, Graphics2D g2)
+	{
+		Path2D path = new Path2D.Double();
+
+		int i0 = tri.GetCorner(0);
+		int i1 = tri.GetCorner(1);
+		int i2 = tri.GetCorner(2);
+		Point3D p0 = triangulation.Corners().GetCorner(i0);
+		Point3D p1 = triangulation.Corners().GetCorner(i1);
+		Point3D p2 = triangulation.Corners().GetCorner(i2);
+
+		path.moveTo(p0.x(), p0.y());
+		path.lineTo(p1.x(), p1.y());
+		path.lineTo(p2.x(), p2.y());
+		path.closePath();
+		g2.draw(path);
+
+		// Now recursively visit my neighbours.
+
+		tri.SetVisited();
+		for(int i = 0; i < 3; i++)
+		{
+			if(tri.GetNeighbour(i) != null)
+			{
+				if(!tri.GetNeighbour(i).Visited())
+					VisitTrianglesR(tri.GetNeighbour(i), triangulation, g2);
+			} else
+				Debug.Error("Graphics.VisitTrianglesR(): triangle with null neighbour found.", true);
+		}			
+	}
+	
+	/**
+	 * Brief non-recursive function to plot all the shells by calling the recursive
+	 * function above.
+	 * 
+	 * @param out
+	 */
+	private static void VisitTriangles(Triangulation triangulation, Graphics2D g2)
+	{
+		for(int i = 0; i < triangulation.Shells().size(); i++)
+		{
+			triangulation.Shells().get(i).Reset(); // Shouldn't be needed
+			VisitTrianglesR(triangulation.Shells().get(i), triangulation, g2);
+			triangulation.Shells().get(i).Reset();
+		}
+	}
+
+	public Graphics() 
+	{
+		setLayout(new BorderLayout());
+		GraphicsConfiguration gc=SimpleUniverse.getPreferredConfiguration();
+		Canvas3D canvas3D = new Canvas3D(gc);//See the added gc? this is a preferred config
+		add("Center", canvas3D);
+
+		BranchGroup scene = createSceneGraph();
+		scene.compile();
+
+		// SimpleUniverse is a Convenience Utility class
+		SimpleUniverse simpleU = new SimpleUniverse(canvas3D);
+
+
+		// This moves the ViewPlatform back a bit so the
+		// objects in the scene can be viewed.
+		simpleU.getViewingPlatform().setNominalViewingTransform();
+
+		simpleU.addBranchGraph(scene);
+	}
+	
+	public BranchGroup createSceneGraph() 
+	{
+		BranchGroup lineGroup = new BranchGroup();
+		Appearance app = new Appearance();
+		ColoringAttributes ca = new ColoringAttributes(new Color3f(204.0f, 204.0f, 204.0f), ColoringAttributes.SHADE_FLAT);
+		app.setColoringAttributes(ca);
+
+		Point3f[] plaPts = new Point3f[4];
+
+		for (int i = 0; i < 2; i++) 
+		{
+			for (int j = 0; j <2; j++) 
+			{
+				plaPts[count] = new Point3f(i/10.0f,j/10.0f,0);
+				//Look up line, i and j are divided by 10.0f to be able to
+				//see the points inside the view screen
+				count++;
+			}
+		}
+		PointArray pla = new PointArray(4, GeometryArray.COORDINATES);
+		pla.setCoordinates(0, plaPts);
+		Shape3D plShape = new Shape3D(pla, app);
+		TransformGroup objRotate = new TransformGroup();
+		
+        MouseRotate mr=new MouseRotate();
+        mr.setTransformGroup(objRotate);
+        mr.setSchedulingBounds(new BoundingSphere());
+        lineGroup.addChild(mr);
+        MouseZoom mz=new MouseZoom();
+        mz.setTransformGroup(objRotate);
+        mz.setSchedulingBounds(new BoundingSphere());
+        lineGroup.addChild(mz);
+        MouseTranslate msl=new MouseTranslate();
+        msl.setTransformGroup(objRotate);
+        msl.setSchedulingBounds(new BoundingSphere());
+        lineGroup.addChild(msl);
+		
+		objRotate.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		objRotate.addChild(plShape);
+		lineGroup.addChild(objRotate);
+		return lineGroup;
+	}
+
+	public static void main(String[] args) 
+	{
+		JFrame frame = new JFrame();
+		frame.add(new JScrollPane(new Graphics()));
+		frame.setSize(300, 300);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+}
+    
+
+
+
