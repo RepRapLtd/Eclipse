@@ -26,8 +26,6 @@
 
 package com.reprapltd.polyhedra;
 
-import com.reprapltd.polyhedra.Point3D;
-
 import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -64,7 +62,7 @@ public class Triangulation
 	private int cornerCount;                    // Number of points read in >> cornerList.corners.size()
 	private int triangleCount;                  // The number of triangles read in.
 	private BoundingBox boundingBox = null;     // The tringulation is all inside this.
-	private Point3D cloudCentroid = null;       // The centroid of all the points READ IN (in general not the same as the centroid of cornerList).
+	private Point3d cloudCentroid = null;       // The centroid of all the points READ IN (in general not the same as the centroid of cornerList).
 	private double shortestEdge2;               // The shortest of all the triangles' edges.
 	private double longestEdge2;                // The longest of all the triangles' edges.
 	private String fileLocation = null;         // Where the triangulation was read in from.
@@ -97,12 +95,12 @@ public class Triangulation
 		 * stored alongside them (from which the ring can be derived by a local search).
 		 */
 		
-		private ArrayList<Point3D> corners = null;
+		private ArrayList<Point3d> corners = null;
 		private ArrayList<Triangle> triangles = null;
 		
 		private CornerList()
 		{
-			corners = new ArrayList<Point3D>();
+			corners = new ArrayList<Point3d>();
 			triangles = new ArrayList<Triangle>();
 		}
 		
@@ -115,14 +113,14 @@ public class Triangulation
 		 * @param triangle
 		 * @return
 		 */
-		private int AddCorner(Point3D corner, Triangle triangle)
+		private int AddCorner(Point3d corner, Triangle triangle)
 		{
 			corners.add(corner);
 			triangles.add(triangle);
 			return corners.size() - 1;
 		}
 		
-		public Point3D GetCorner(int i)
+		public Point3d GetCorner(int i)
 		{
 			return corners.get(i);
 		}
@@ -161,10 +159,10 @@ public class Triangulation
 		{
 			for(int i = 0; i < corners.size(); i++)
 			{
-				Point3D p = corners.get(i);
-				out.print(String.valueOf(p.x()) + " ");
-				out.print(String.valueOf(p.y()) + " ");
-				out.println(String.valueOf(p.z()) + " ");
+				Point3d p = corners.get(i);
+				out.print(String.valueOf(p.x) + " ");
+				out.print(String.valueOf(p.y) + " ");
+				out.println(String.valueOf(p.z) + " ");
 			}
 		}
 		
@@ -180,11 +178,11 @@ public class Triangulation
 		 * @param target
 		 * @return
 		 */
-		private int Find(Point3D target)
+		private int Find(Point3d target)
 		{
 			for(int i = 0; i < corners.size(); i++)
 			{
-				if(Point3D.dSquared(corners.get(i), target) <= smallD2)
+				if(target.distanceSquared(corners.get(i)) <= smallD2)
 					return i;
 			}
 			return -1;
@@ -362,7 +360,7 @@ public class Triangulation
 		 * @param ix
 		 */
 		
-		private Triangle(Point3D aC, Point3D bC, Point3D cC, int ix) 
+		private Triangle(Point3d aC, Point3d bC, Point3d cC, int ix) 
 		{
 			this();
 			
@@ -578,9 +576,22 @@ public class Triangulation
 		 * @param corner2
 		 * @return
 		 */
-		private boolean HasCorners(int corner1, int corner2)
+		public boolean HasCorners(int corner1, int corner2)
 		{
 			return HasCorner(corner1) && HasCorner(corner2);
+		}
+		
+		/**
+		 * Find the INDEX, i, of the corner opposite an edge. To get the actual corner,
+		 * you need Triangulation.GetCorner(i).
+		 * 
+		 * @param corner1
+		 * @param corner2
+		 * @return
+		 */
+		public int OppositeCorner(int corner1, int corner2)
+		{
+			return 3 - corner1 - corner2;
 		}
 	
 	}
@@ -600,7 +611,7 @@ public class Triangulation
 		cornerCount = 0;  // Number of points read in >> cornerList.corners.size()
 		triangleCount = 0;
 		boundingBox = new BoundingBox();
-		cloudCentroid = new Point3D(0, 0, 0);
+		cloudCentroid = new Point3d(0, 0, 0);
 		shortestEdge2 = Double.MAX_VALUE;
 		longestEdge2 = 0;
 		//principalComponents = new Vector3d(0, 0, 0);
@@ -660,7 +671,7 @@ public class Triangulation
         // After the stats are gathered the centroid is the sum of all the points read in.
         // Divide it by a count of all of them to get the correct position.
         
-        cloudCentroid = Point3D.mul(cloudCentroid, 1.0/(double)cornerCount);
+        cloudCentroid.scale(1.0/(double)cornerCount);
         
         
         // Now go through all the triangles again adding all the triangles to the structure.
@@ -747,10 +758,10 @@ public class Triangulation
 	 * 
 	 * @param corner
 	 */
-	private void UpdatePointStatistics(Point3D corner)
+	private void UpdatePointStatistics(Point3d corner)
 	{
-		boundingBox.combine(new Point3d(corner.x(), corner.y(), corner.z()));
-		cloudCentroid = Point3D.add(cloudCentroid, corner);
+		boundingBox.combine(corner);
+		cloudCentroid.add(corner);
 	}
 	
 	/**
@@ -759,9 +770,9 @@ public class Triangulation
 	 * @param corner0
 	 * @param corner1
 	 */
-	private void UpdateEdgeStatistics(Point3D corner0, Point3D corner1)
+	private void UpdateEdgeStatistics(Point3d corner0, Point3d corner1)
 	{
-		double d2 = Point3D.dSquared(corner0, corner1);
+		double d2 = corner0.distanceSquared(corner1);
 		if(d2 > longestEdge2)
 			longestEdge2 = d2;
 		if(d2 < shortestEdge2)
@@ -788,17 +799,13 @@ public class Triangulation
 			g.getCoordinate(i+1, corner1);
 			g.getCoordinate(i+2, corner2);
 			
-			Point3D c0 = new Point3D(corner0);
-			Point3D c1 = new Point3D(corner1);
-			Point3D c2 = new Point3D(corner2);
+			UpdatePointStatistics(corner0);
+			UpdatePointStatistics(corner1);
+			UpdatePointStatistics(corner2);
 			
-			UpdatePointStatistics(c0);
-			UpdatePointStatistics(c1);
-			UpdatePointStatistics(c2);
-			
-			UpdateEdgeStatistics(c0, c1);
-			UpdateEdgeStatistics(c1, c2);
-			UpdateEdgeStatistics(c2, c0);
+			UpdateEdgeStatistics(corner0, corner1);
+			UpdateEdgeStatistics(corner1, corner2);
+			UpdateEdgeStatistics(corner2, corner0);
 			
 			cornerCount += 3;
 		}
@@ -812,7 +819,7 @@ public class Triangulation
 	 * @param corner2
 	 * @param extraTriangles
 	 */
-	private void AddATriangle(Point3D corner0, Point3D corner1, Point3D corner2, ArrayList<Triangle> extraTriangles)
+	private void AddATriangle(Point3d corner0, Point3d corner1, Point3d corner2, ArrayList<Triangle> extraTriangles)
 	{
 		Triangle triangle = new Triangle(corner0, corner1, corner2, triangleCount);
 		if(triangle.Visited())
@@ -842,7 +849,7 @@ public class Triangulation
 			g.getCoordinate(i, corner0);
 			g.getCoordinate(i+1, corner1);
 			g.getCoordinate(i+2, corner2);
-			AddATriangle(new Point3D(corner0), new Point3D(corner1), new Point3D(corner2), extraTriangles);
+			AddATriangle(corner0, corner1, corner2, extraTriangles);
 		}
 	}
 	
@@ -917,9 +924,9 @@ public class Triangulation
 	 * @param d
 	 * @return
 	 */
-    private double tetVolume(Point3D a, Point3D b, Point3D c, Point3D d)
+    private double tetVolume(Point3d a, Point3d b, Point3d c, Point3d d)
     {
-    	Matrix3d m = new Matrix3d(b.x() - a.x(), c.x() - a.x(), d.x() - a.x(), b.y() - a.y(), c.y() - a.y(), d.y() - a.y(), b.z() - a.z(), c.z() - a.z(), d.z() - a.z());
+    	Matrix3d m = new Matrix3d(b.x - a.x, c.x - a.x, d.x - a.x, b.y - a.y, c.y - a.y, d.y - a.y, b.z - a.z, c.z - a.z, d.z - a.z);
     	return m.determinant()/6.0;
     }
 	
@@ -931,11 +938,11 @@ public class Triangulation
      * @param c
      * @return
      */
-    private double prismVolume(Point3D a, Point3D b, Point3D c)
+    private double prismVolume(Point3d a, Point3d b, Point3d c)
     {
-    	Point3D d = new Point3D(a); 
-    	Point3D e = new Point3D(b);  
-    	Point3D f = new Point3D(c);
+    	Point3d d = new Point3d(a); 
+    	Point3d e = new Point3d(b);  
+    	Point3d f = new Point3d(c);
     	return tetVolume(a, b, c, e) +
     		tetVolume(a, e, c, d) +
     		tetVolume(e, f, c, d);
@@ -948,10 +955,10 @@ public class Triangulation
 	 */
 //    public static void main(String[] args) 
 //    {
-//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
+//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
 //    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-disjoint-cubes.stl");
 //    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-overlapping-cubes.stl");
-//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/hole-enclosed-in-cylinder.stl");
+//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/hole-enclosed-in-cylinder.stl");
 //    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nonmanifold-cubes.stl");
 //    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nasty-nonmanifold-cubes.stl");
 //    	t.PrintStatistics();

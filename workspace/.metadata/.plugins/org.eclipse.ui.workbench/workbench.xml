@@ -34,6 +34,7 @@
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
+<part id="10"/>
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
@@ -43,14 +44,13 @@
 <part id="7"/>
 <part id="8"/>
 <part id="9"/>
-<part id="10"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Triangulation.java" partName="Triangulation.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Triangulation.java" title="Triangulation.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Triangulation.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Triangulation.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4064" selectionTopPixel="1290"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="15161" selectionTopPixel="5310"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Interval.java" partName="Interval.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Interval.java" title="Interval.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Interval.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Interval.java"/>
@@ -90,7 +90,7 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Graphics.java" partName="Graphics.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Graphics.java" title="Graphics.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Graphics.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Graphics.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="6272" selectionTopPixel="1400"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5496" selectionTopPixel="2435"/>
 </editor>
 </editors>
 <views>
@@ -128,7 +128,7 @@
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
-<category IMemento.internal.id="Errors"/>
+<category IMemento.internal.id="Warnings (19 items)"/>
 <category IMemento.internal.id="Warnings"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="105" org.eclipse.ui.ide.markerType="725" org.eclipse.ui.ide.pathField="140" org.eclipse.ui.ide.resourceField="105" org.eclipse.ui.ide.severityAndDescriptionField="350"/>
@@ -430,158 +430,160 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/Triangulation.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/Graphics.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/Interval.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/Triangulation.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/Box.java"/>
 </editors>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="9125" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
+<item historyLabel="Graphics.java" index="0">
 <position/>
 </item>
-<item historyLabel="Graphics.java" index="1">
+<item historyLabel="Graphics.java" index="0">
 <position/>
 </item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="2841" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
+<item historyLabel="Graphics.java" index="0">
 <position/>
 </item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="23679" y="13"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="13848" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="13848" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="13848" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="2897" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="11556" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="10887" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="11081" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="10944" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="10921" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="10921" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="10981" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="10981" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="3077" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="3054" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="3077" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="3098" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="3105" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="0">
-<position info="not_deleted" x="4064" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item historyLabel="Graphics.java" index="1">
-<position/>
-</item>
-<item active="true" historyLabel="Graphics.java" index="1">
+<item historyLabel="Graphics.java" index="0">
 <position info="not_deleted" x="1035" y="0"/>
+</item>
+<item historyLabel="Interval.java" index="1">
+<position info="not_deleted" x="4294" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="2">
+<position info="not_deleted" x="4" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="2">
+<position info="not_deleted" x="4161" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="5081" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="2">
+<position info="not_deleted" x="1105" y="7"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="5081" y="0"/>
+</item>
+<item historyLabel="Box.java" index="3">
+<position info="not_deleted" x="114" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="8120" y="232"/>
+</item>
+<item historyLabel="Triangulation.java" index="2">
+<position info="not_deleted" x="26667" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="141" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="2">
+<position info="not_deleted" x="26667" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="1265" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="2">
+<position info="not_deleted" x="1991" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="1265" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position/>
+</item>
+<item historyLabel="Triangulation.java" index="2">
+<position info="not_deleted" x="1991" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="2">
+<position info="not_deleted" x="15317" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="2147" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="2">
+<position info="not_deleted" x="15161" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="2147" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="1540" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="1596" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="1597" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="2147" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="2">
+<position info="not_deleted" x="15161" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="2147" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="1973" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="1937" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="3698" y="0"/>
+</item>
+<item historyLabel="Triangulation.java" index="2">
+<position info="not_deleted" x="15161" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="3698" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="2000" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="822" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="858" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="4076" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="4132" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="4131" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="4429" y="0"/>
+</item>
+<item historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="4230" y="0"/>
+</item>
+<item active="true" historyLabel="Graphics.java" index="0">
+<position info="not_deleted" x="4261" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
