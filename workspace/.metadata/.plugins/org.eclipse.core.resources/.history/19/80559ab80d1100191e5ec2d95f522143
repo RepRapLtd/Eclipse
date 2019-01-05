@@ -96,11 +96,6 @@ public final class Graphics extends JPanel
 			firstCorner = (free + 1)%3;
 			secondCorner = (free + 2)%3;
 		}
-		
-		private void SetEnd(Triangle e)
-		{
-			end = e;
-		}
 	}
 	
 	/**
@@ -146,10 +141,7 @@ public final class Graphics extends JPanel
 		// Anything more to do?
 		
 		if(next == null)
-		{
-			strip.SetEnd(strip.start);
 			return strip;
-		}
 		
 		// We need the actual corners in the corner list so we can find them
 		// in Triangle next's list of 3 corners.
@@ -196,10 +188,6 @@ public final class Graphics extends JPanel
 			
 			c1 = next.GetCorner(c1);
 			c2 = next.GetCorner(c2);
-			
-			// Continuously update the end of the strip
-			
-			strip.SetEnd(next);
 			next = n;
 		}
 		
@@ -233,7 +221,6 @@ public final class Graphics extends JPanel
 		{
 			Triangle neighbour = strip.start.GetNeighbour(tri);
 			newStrip = WalkStrip(neighbour, corners, stripCornersList, triangleCountsList);
-			RecurseOnStrip(newStrip, corners, stripCornersList, triangleCountsList);
 		}
 		
 		Triangle next = strip.next;
@@ -241,7 +228,7 @@ public final class Graphics extends JPanel
 		// Anything more to do?
 		
 		if(next == null)
-			return;
+			return strip;
 		
 		// We need the actual corners in the corner list so we can find them
 		// in Triangle next's list of 3 corners.
@@ -249,40 +236,31 @@ public final class Graphics extends JPanel
 		int c1 = strip.start.GetCorner(strip.firstCorner);
 		int c2 = strip.start.GetCorner(strip.secondCorner);
 		
-		while(true) // Hmmm....
+		while(!next.Visited())
 		{
 			// Find the edge c1-c2 in next's edges
 			
 			c1 = next.FindCorner(c1);
 			if(c1 < 0)
 			{
-				Debug.Error("Graphics.RecurseOnStrip(): previous triangle in a strip did not share a corner 1 with next triangle.", true);
-				return;
+				Debug.Error("Graphics.WalkStrip(): previous triangle in a strip did not share a corner 1 with next triangle.", true);
+				return strip;
 			}
 			c2 = next.FindCorner(c2);
 			if(c2 < 0)
 			{
-				Debug.Error("Graphics.RecurseOnStrip(): previous triangle in a strip did not share a corner 2 with next triangle.", true);
-				return;
+				Debug.Error("Graphics.WalkStrip(): previous triangle in a strip did not share a corner 2 with next triangle.", true);
+				return strip;
 			}
 			
-			// We need the point opposite that edge to find the next triangle
+			// We need to add the point opposite that edge
 			
 			int nextPointIndex = next.Opposite(c1, c2);
-			
-			// Visit any of next's neighbours that haven't been visited
-			
-			for(int tri = 0; tri < 3; tri++)
-			{
-				Triangle neighbour = next.GetNeighbour(tri);
-				newStrip = WalkStrip(neighbour, corners, stripCornersList, triangleCountsList);
-				RecurseOnStrip(newStrip, corners, stripCornersList, triangleCountsList);
-			}
-			
-			// If we are at the end, there is no more to do.
-			
-			if(next == strip.end)
-				return;
+			Point3d newPoint = corners.GetCorner(next.GetCorner(nextPointIndex));
+			stripCornersList.add(newPoint);
+			Integer newCount = triangleCountsList.get(triangleCountsList.size() - 1) + 1;
+			triangleCountsList.set(triangleCountsList.size() - 1, newCount);
+			next.SetVisited();
 			
 			// Update the edge to be the one between c2 and the newly added point from triangle next.
 			
@@ -299,6 +277,8 @@ public final class Graphics extends JPanel
 			c2 = next.GetCorner(c2);
 			next = n;
 		}
+		
+		return strip;
 	}
 	
 	private void VisitTrianglesR(Triangle start, Triangulation.CornerList corners, ArrayList<Point3d> stripCornersList,

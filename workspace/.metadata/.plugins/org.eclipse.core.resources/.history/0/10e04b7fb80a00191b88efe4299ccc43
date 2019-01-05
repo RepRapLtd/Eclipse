@@ -1,9 +1,0 @@
-package com.reprapltd.triangulation;
-
-public class Interval {
-
-	public Interval() {
-		// TODO Auto-generated constructor stub
-	}
-
-}

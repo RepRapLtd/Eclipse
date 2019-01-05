@@ -35,12 +35,13 @@ public final class Graphics extends JPanel
 	private final Integer three = 3;
 	
 	/**
-	 * Small class to define a triangle strip.
+	 * Small class to find and hold the next triangle along a strip.
 	 * 
-	 * A strip is completely defined by its start triangle,
-	 * the triangle visited next after that, its end triangle,
-	 * and the first and second corners at the edge of the start triangle
-	 * from which the next triangle was visited.
+	 * If the triangle is null, none of it's neighbours can be visited and either
+	 * the process of strip building is complete, or a new strip needs to be started elsewhere.
+	 * 
+	 * If the exitEdge is negative, this triangle is the start of a new strip.
+	 * If not, the corners should be added to the strip in the order in visitCorners.
 	 *  
 	 * @author ensab
 	 *
@@ -91,28 +92,13 @@ public final class Graphics extends JPanel
 			
 			next = start.GetNeighbour(free);
 			
-			// Draw a little diagram to show how this works...
+			// Draw a little diagram to show how this works.
 			
 			firstCorner = (free + 1)%3;
 			secondCorner = (free + 2)%3;
 		}
-		
-		private void SetEnd(Triangle e)
-		{
-			end = e;
-		}
 	}
 	
-	/**
-	 * This starts at Triangle start and walks across the triangulation adding a strip of triangles to the list for
-	 * display.
-	 * 
-	 * @param start
-	 * @param corners
-	 * @param stripCornersList
-	 * @param triangleCountsList
-	 * @return
-	 */
 	private StripDefine WalkStrip(Triangle start, Triangulation.CornerList corners, ArrayList<Point3d> stripCornersList, ArrayList<Integer> triangleCountsList)
 	{
 		StripDefine strip = new StripDefine(start);
@@ -123,20 +109,11 @@ public final class Graphics extends JPanel
 			return strip;
 		
 		// Yes - add the first triangle's corners to the strip
-		// Note we have to do this so the last corner added is 
-		// strip.secondCorner if there is a next triangle to visit.
 		
-		int corner = 0;
-		if(strip.next != null)
-			corner = (strip.secondCorner + 1)%3;
-		
-		for(int count = 0; count < 3; count++)
+		for(int corner = 0; corner < 3; corner++)
 		{
 			Point3d newPoint = corners.GetCorner(strip.start.GetCorner(corner));
 			stripCornersList.add(newPoint);
-			corner++;
-			if(corner >= 3)
-				corner = 0;
 		}
 		triangleCountsList.add(three);
 		strip.start.SetVisited();
@@ -146,165 +123,150 @@ public final class Graphics extends JPanel
 		// Anything more to do?
 		
 		if(next == null)
-		{
-			strip.SetEnd(strip.start);
 			return strip;
-		}
 		
-		// We need the actual corners in the corner list so we can find them
-		// in Triangle next's list of 3 corners.
-		
-		int c1 = strip.start.GetCorner(strip.firstCorner);
-		int c2 = strip.start.GetCorner(strip.secondCorner);
+		int c1 = strip.firstCorner;
+		int c2 = strip.secondCorner;
 		
 		while(!next.Visited())
 		{
-			// Find the edge c1-c2 in next's edges
-			
-			c1 = next.FindCorner(c1);
-			if(c1 < 0)
-			{
-				Debug.Error("Graphics.WalkStrip(): previous triangle in a strip did not share a corner 1 with next triangle.", true);
-				return strip;
-			}
-			c2 = next.FindCorner(c2);
-			if(c2 < 0)
-			{
-				Debug.Error("Graphics.WalkStrip(): previous triangle in a strip did not share a corner 2 with next triangle.", true);
-				return strip;
-			}
-			
-			// We need to add the point opposite that edge
-			
 			int nextPointIndex = next.Opposite(c1, c2);
 			Point3d newPoint = corners.GetCorner(next.GetCorner(nextPointIndex));
 			stripCornersList.add(newPoint);
 			Integer newCount = triangleCountsList.get(triangleCountsList.size() - 1) + 1;
 			triangleCountsList.set(triangleCountsList.size() - 1, newCount);
 			next.SetVisited();
-			
-			// Update the edge to be the one between c2 and the newly added point from triangle next.
-			
 			c1 = c2;
 			c2 = nextPointIndex;
-			
-			// The next triangle to visit is the neighbour of next that is opposite that edge.
-			
-			Triangle n = next.GetNeighbour(next.Opposite(c1, c2));
-			
-			// Find the actual corners in the corner list for the edge finder at the start of this loop.
-			
-			c1 = next.GetCorner(c1);
-			c2 = next.GetCorner(c2);
-			
-			// Continuously update the end of the strip
-			
-			strip.SetEnd(next);
-			next = n;
+			next = next.GetNeighbour(nextPointIndex);
 		}
 		
 		return strip;
 	}
 	
-	
-	/**
-	 * This walks along a strip that has been added finding unvisited neighbours of the triangles in it, and
-	 * walks along each of them in turn.
-	 * 
-	 * The walking logic here is (and MUST be) identical to that in WalkStrip().
-	 * 
-	 * @param strip
-	 * @param corners
-	 * @param stripCornersList
-	 * @param triangleCountsList
-	 */
-	private void RecurseOnStrip(StripDefine strip, Triangulation.CornerList corners, ArrayList<Point3d> stripCornersList, ArrayList<Integer> triangleCountsList)
+	private void VisitTrianglesR(NextTriangle tri, Triangulation.CornerList corners, ArrayList<Point3d> stripCornersList,
+			ArrayList<Integer> triangleCountsList)
 	{
 		// Anything to do?
 		
-		if(strip.start == null)
-			return;
-		
-		// Yes - run WalkStrip on any unvisited neighbours of the start triangle.
-		
-		StripDefine newStrip;
-		
-		for(int tri = 0; tri < 3; tri++)
+		if(tri.next == null)
 		{
-			Triangle neighbour = strip.start.GetNeighbour(tri);
-			newStrip = WalkStrip(neighbour, corners, stripCornersList, triangleCountsList);
-			RecurseOnStrip(newStrip, corners, stripCornersList, triangleCountsList);
+			return;
 		}
 		
-		Triangle next = strip.next;
+		// Been here already?
 		
-		// Anything more to do?
-		
-		if(next == null)
-			return;
-		
-		// We need the actual corners in the corner list so we can find them
-		// in Triangle next's list of 3 corners.
-		
-		int c1 = strip.start.GetCorner(strip.firstCorner);
-		int c2 = strip.start.GetCorner(strip.secondCorner);
-		
-		while(true) // Hmmm....
+		if(tri.next.Visited())
 		{
-			// Find the edge c1-c2 in next's edges
-			
-			c1 = next.FindCorner(c1);
-			if(c1 < 0)
-			{
-				Debug.Error("Graphics.RecurseOnStrip(): previous triangle in a strip did not share a corner 1 with next triangle.", true);
-				return;
-			}
-			c2 = next.FindCorner(c2);
-			if(c2 < 0)
-			{
-				Debug.Error("Graphics.RecurseOnStrip(): previous triangle in a strip did not share a corner 2 with next triangle.", true);
-				return;
-			}
-			
-			// We need the point opposite that edge to find the next triangle
-			
-			int nextPointIndex = next.Opposite(c1, c2);
-			
-			// Visit any of next's neighbours that haven't been visited
-			
-			for(int tri = 0; tri < 3; tri++)
-			{
-				Triangle neighbour = next.GetNeighbour(tri);
-				newStrip = WalkStrip(neighbour, corners, stripCornersList, triangleCountsList);
-				RecurseOnStrip(newStrip, corners, stripCornersList, triangleCountsList);
-			}
-			
-			// If we are at the end, there is no more to do.
-			
-			if(next == strip.end)
-				return;
-			
-			// Update the edge to be the one between c2 and the newly added point from triangle next.
-			
-			c1 = c2;
-			c2 = nextPointIndex;
-			
-			// The next triangle to visit is the neighbour of next that is opposite that edge.
-			
-			Triangle n = next.GetNeighbour(next.Opposite(c1, c2));
-			
-			// Find the actual corners in the corner list for the edge finder at the start of this loop.
-			
-			c1 = next.GetCorner(c1);
-			c2 = next.GetCorner(c2);
-			next = n;
+			return;
 		}
-	}
-	
-	private void VisitTrianglesR(Triangle start, Triangulation.CornerList corners, ArrayList<Point3d> stripCornersList,
-			ArrayList<Integer> triangleCountsList)
-	{
+		
+		if(tri.exitEdge < 0)
+		{
+			Triangle me = tri.next;
+			for(int corner = 0; corner < 3; corner++)
+			{
+				int cornerListIndex = tri.visitCorners[corner];
+				Point3d newPoint = corners.GetCorner(cornerListIndex);
+				stripCornersList.add(newPoint);
+			}
+			triangleCountsList.add(three);
+			me.SetVisited();
+			tri.SetNextTriangle();
+			VisitTrianglesR(tri, corners, stripCornersList, triangleCountsList);
+			for(int t = 0; t < 3; t++)
+			{
+				Triangle neighbour = me.GetNeighbour(t);
+				if(!neighbour.Visited())
+				{
+						NextTriangle nTri = new NextTriangle(neighbour);
+						VisitTrianglesR(nTri, corners, stripCornersList, triangleCountsList);
+				}
+			}
+			return;
+		} else
+		{
+			Triangle me = tri.next;
+			int cornerIndex = me.OppositeCorner(tri.visitCorners[1], tri.visitCorners[2]);
+			Point3d newPoint = corners.GetCorner(me.GetCorner(cornerIndex));
+			stripCornersList.add(newPoint);
+			Integer newCount = triangleCountsList.get(triangleCountsList.size() - 1) + 1;
+			triangleCountsList.set(triangleCountsList.size() - 1, newCount);
+			me.SetVisited();
+			
+		}
 
+
+		
+		
+//		if(sameStrip)
+//		{
+//			if(lastTriangle == null)
+//			{
+//				Debug.Error("Graphics.VisitTrianglesR(): previous triangle in a strip was null.", true);
+//				return;
+//			}
+//			boolean notGotOne = true;
+//			for(int corner = 0; corner < 3; corner++)
+//			{
+//				int nextCorner = (corner + 1)%3;
+//				if(lastTriangle.HasCorners(tri.GetCorner(corner), tri.GetCorner(nextCorner)))
+//				{
+//					int newCorner = tri.OppositeCorner(corner, nextCorner);
+//					Point3d newPoint = corners.GetCorner(newCorner);
+//					stripCornersList.add(newPoint);
+//					Integer newCount = triangleCountsList.get(triangleCountsList.size() - 1) + 1;
+//					triangleCountsList.set(triangleCountsList.size() - 1, newCount);
+//					notGotOne = false;
+//					break;
+//				}
+//			}
+//			if(notGotOne)
+//			{
+//				Debug.Error("Graphics.VisitTrianglesR(): previous triangle in a strip did not have current triangles edge.", true);
+//				return;				
+//			}
+//		} else
+//		{
+//			for(int corner = 0; corner < 3; corner++)
+//			{
+//				int cornerListIndex = tri.GetCorner(corner);
+//				Point3d newPoint = corners.GetCorner(cornerListIndex);
+//				stripCornersList.add(newPoint);
+//			}
+//			triangleCountsList.add(three);
+//		}
+
+		// Now set me as having been dealt with then recursively visit my neighbours.
+
+
+
+		if(tri.GetNeighbour(0) != null)
+		{
+			if(!tri.GetNeighbour(0).Visited())
+				VisitTrianglesR(tri, tri.GetNeighbour(0), corners, stripCornersList, triangleCountsList, true);
+		} else
+		{
+			Debug.Error("Graphics.VisitTrianglesR() - 0: triangle with null neighbour found.", true);
+		}
+		
+		if(tri.GetNeighbour(1) != null)
+		{
+			if(!tri.GetNeighbour(1).Visited())
+				VisitTrianglesR(tri, tri.GetNeighbour(1), corners, stripCornersList, triangleCountsList, false);
+		} else
+		{
+			Debug.Error("Graphics.VisitTrianglesR() - 1: triangle with null neighbour found.", true);
+		}
+		
+		if(tri.GetNeighbour(2) != null)
+		{
+			if(!tri.GetNeighbour(2).Visited())
+				VisitTrianglesR(tri, tri.GetNeighbour(2), corners, stripCornersList, triangleCountsList, false);
+		} else
+		{
+			Debug.Error("Graphics.VisitTrianglesR() - 2: triangle with null neighbour found.", true);
+		}
 			
 	}
 	

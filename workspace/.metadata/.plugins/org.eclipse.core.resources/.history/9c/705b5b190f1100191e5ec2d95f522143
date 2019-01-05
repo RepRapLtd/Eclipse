@@ -266,7 +266,7 @@ public final class Graphics extends JPanel
 				return;
 			}
 			
-			// We need the point opposite that edge to find the next triangle
+			// We need to add the point opposite that edge
 			
 			int nextPointIndex = next.Opposite(c1, c2);
 			
@@ -278,8 +278,6 @@ public final class Graphics extends JPanel
 				newStrip = WalkStrip(neighbour, corners, stripCornersList, triangleCountsList);
 				RecurseOnStrip(newStrip, corners, stripCornersList, triangleCountsList);
 			}
-			
-			// If we are at the end, there is no more to do.
 			
 			if(next == strip.end)
 				return;

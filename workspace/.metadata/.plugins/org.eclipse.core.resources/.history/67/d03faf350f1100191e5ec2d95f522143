@@ -279,8 +279,6 @@ public final class Graphics extends JPanel
 				RecurseOnStrip(newStrip, corners, stripCornersList, triangleCountsList);
 			}
 			
-			// If we are at the end, there is no more to do.
-			
 			if(next == strip.end)
 				return;
 			

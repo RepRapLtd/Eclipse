@@ -582,40 +582,16 @@ public class Triangulation
 		}
 		
 		/**
-		 * Find the index of the thing opposite index1 and index2.
-		 * 
-		 * If they are corners, this is the other corner.
-		 * If they are neighbouring triangles, this is the other triangle.
-		 * 
-		 * To get the actual corner point or triangle you need Triangulation.GetCorner(result)
-		 * or this.triangle(result).
+		 * Find the INDEX, i, of the corner opposite an edge. To get the actual corner,
+		 * you need Triangulation.GetCorner(i).
 		 * 
 		 * @param corner1
 		 * @param corner2
 		 * @return
 		 */
-		public int Opposite(int index1, int index2)
+		public int OppositeCorner(int corner1, int corner2)
 		{
-			return 3 - index1 - index2;
-		}
-		
-		/**
-		 * If we have a corner in the triangle list that we think is one of this triangle's corners,
-		 * return the index in this triangle's list of that corner.
-		 * 
-		 * If it isn't there, return -1;
-		 * 
-		 * @param corner
-		 * @return
-		 */
-		public int FindCorner(int corner)
-		{
-			for(int c = 0; c < 3; c++)
-			{
-				if(corners[c] == corner)
-					return c;
-			}
-			return -1;
+			return 3 - corner1 - corner2;
 		}
 	
 	}

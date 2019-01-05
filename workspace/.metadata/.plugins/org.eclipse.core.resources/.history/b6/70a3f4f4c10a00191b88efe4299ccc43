@@ -1,9 +1,0 @@
-package com.reprapltd.polyhedra;
-
-public class CSG3D {
-
-	public CSG3D() {
-		// TODO Auto-generated constructor stub
-	}
-
-}

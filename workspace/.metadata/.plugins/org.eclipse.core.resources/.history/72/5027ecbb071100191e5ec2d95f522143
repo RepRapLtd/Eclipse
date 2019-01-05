@@ -599,15 +599,6 @@ public class Triangulation
 			return 3 - index1 - index2;
 		}
 		
-		/**
-		 * If we have a corner in the triangle list that we think is one of this triangle's corners,
-		 * return the index in this triangle's list of that corner.
-		 * 
-		 * If it isn't there, return -1;
-		 * 
-		 * @param corner
-		 * @return
-		 */
 		public int FindCorner(int corner)
 		{
 			for(int c = 0; c < 3; c++)
@@ -615,6 +606,7 @@ public class Triangulation
 				if(corners[c] == corner)
 					return c;
 			}
+			Debug.Error("Triangulation.Triangle.FindCorner(): corner not found.", false);
 			return -1;
 		}
 	
