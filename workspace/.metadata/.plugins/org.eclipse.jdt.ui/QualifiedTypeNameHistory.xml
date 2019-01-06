@@ -42,4 +42,5 @@
 <fullyQualifiedTypeName name="javax.media.j3d.RenderingAttributes"/>
 <fullyQualifiedTypeName name="javax.media.j3d.AmbientLight"/>
 <fullyQualifiedTypeName name="javax.vecmath.Point3d"/>
+<fullyQualifiedTypeName name="javax.vecmath.Vector3d"/>
 </qualifiedTypeNameHistroy>

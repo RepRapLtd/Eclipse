@@ -2,3 +2,4 @@
 1546356100556	Rename type 'energon'
 1546449839709	Rename field 'stripCorners'
 1546449850582	Rename field 'triangleCounts'
+1546785126838	Rename method 'createSceneGraph'

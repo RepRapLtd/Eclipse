@@ -69,6 +69,32 @@ public class Triangulation
 	//private Vector3d principalComponents = new Vector3d(0, 0, 0);
 	
 	/**
+	 * How big is the object and where is it?
+	 * 
+	 * @return
+	 */
+	public BoundingBox GetBoundingBox()
+	{
+		return boundingBox;
+	}
+	
+	/**
+	 * Where's the middle?
+	 * @return
+	 */
+	public Point3d GetCentre()
+	{
+		Point3d result = new Point3d();
+		Point3d temp = new Point3d();
+		boundingBox.getLower(result);
+		boundingBox.getUpper(temp);
+		result.add(temp);
+		result.scale(0.5);
+		return result;
+	}	
+	
+	
+	/**
 	 * Allow other classes to get at the triangles.
 	 * @return
 	 */

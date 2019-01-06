@@ -4,6 +4,7 @@ import javax.media.j3d.*;
 import javax.swing.*;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
 
 import com.reprapltd.polyhedra.Triangulation.Triangle;
 import com.sun.j3d.utils.behaviors.mouse.*;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  *     Thanks to: https://stackoverflow.com/questions/12313917/how-to-draw-simple-3d-pointsx-y-z-in-java-using-java3d-api
  *     which saved a lot of document reading...
  *     
- * @author ensab
+ * @author Adrian Bowyer
  *
  */
 public final class Graphics extends JPanel
@@ -30,8 +31,29 @@ public final class Graphics extends JPanel
 	 * 
 	 * @param out
 	 */
+	
+	/*
+	 * The triangulation to plot
+	 */
+	Triangulation triangulation;
+	Triangulation.CornerList corners;
+	
+	/*
+	 * We need auto-extending arrays during construction, but...
+	 */
+	ArrayList<Point3d> stripCornersList;
+	ArrayList<Integer> triangleCountsList;
+	
+	/*
+	 * ...these are copied into regular arrays which are what the graphics software needs.
+	 */
 	private Point3d[] stripCorners = null;
 	private int[] triangleCounts = null;
+	private int totalPoints;
+	
+	/*
+	 * Useful to have as it's needed repeatedly.
+	 */
 	private final Integer three = 3;
 	
 	/**
@@ -53,6 +75,9 @@ public final class Graphics extends JPanel
 		
 		private StripDefine(Triangle s)
 		{
+			/*
+			 * If something is null, it means there's nothing there to deal with.
+			 */
 			start = null;
 			next = null;
 			end = null;
@@ -70,6 +95,11 @@ public final class Graphics extends JPanel
 			
 			start = s;
 			
+			// Maybe this is a singleton. The end of the strip is continually updated whenever
+			// information about it is available.
+			
+			end = s;
+			
 			// Find an unvisited neighbour
 			
 			int nIndex = 0;
@@ -78,7 +108,9 @@ public final class Graphics extends JPanel
 			{
 				Triangle neighbour = start.GetNeighbour(nIndex);
 				if(!neighbour.Visited())
+				{
 					free = nIndex;
+				}
 				nIndex++;
 			}
 			
@@ -91,12 +123,20 @@ public final class Graphics extends JPanel
 			
 			next = start.GetNeighbour(free);
 			
-			// Draw a little diagram to show how this works...
+			// Maybe next is the last in this strip
+			
+			end = next;
+			
+			// Draw a little diagram to see how this next bit works...
 			
 			firstCorner = (free + 1)%3;
 			secondCorner = (free + 2)%3;
 		}
 		
+		/**
+		 * Update the end triangle as a strip is being walked
+		 * @param e
+		 */
 		private void SetEnd(Triangle e)
 		{
 			end = e;
@@ -105,7 +145,7 @@ public final class Graphics extends JPanel
 	
 	/**
 	 * This starts at Triangle start and walks across the triangulation adding a strip of triangles to the list for
-	 * display.
+	 * display.  This function is not recursive.
 	 * 
 	 * @param start
 	 * @param corners
@@ -113,7 +153,7 @@ public final class Graphics extends JPanel
 	 * @param triangleCountsList
 	 * @return
 	 */
-	private StripDefine WalkStrip(Triangle start, Triangulation.CornerList corners, ArrayList<Point3d> stripCornersList, ArrayList<Integer> triangleCountsList)
+	private StripDefine WalkStrip(Triangle start)
 	{
 		StripDefine strip = new StripDefine(start);
 		
@@ -136,7 +176,9 @@ public final class Graphics extends JPanel
 			stripCornersList.add(newPoint);
 			corner++;
 			if(corner >= 3)
+			{
 				corner = 0;
+			}
 		}
 		triangleCountsList.add(three);
 		strip.start.SetVisited();
@@ -147,7 +189,7 @@ public final class Graphics extends JPanel
 		
 		if(next == null)
 		{
-			strip.SetEnd(strip.start);
+			strip.SetEnd(strip.start); // Defensive (should already have been done).
 			return strip;
 		}
 		
@@ -179,9 +221,16 @@ public final class Graphics extends JPanel
 			int nextPointIndex = next.Opposite(c1, c2);
 			Point3d newPoint = corners.GetCorner(next.GetCorner(nextPointIndex));
 			stripCornersList.add(newPoint);
+			
+			// Certain amount of faffing about needed just to increment an Integer...
+			
 			Integer newCount = triangleCountsList.get(triangleCountsList.size() - 1) + 1;
 			triangleCountsList.set(triangleCountsList.size() - 1, newCount);
 			next.SetVisited();
+			
+			// Continuously update the end of the strip
+			
+			strip.SetEnd(next);
 			
 			// Update the edge to be the one between c2 and the newly added point from triangle next.
 			
@@ -192,14 +241,11 @@ public final class Graphics extends JPanel
 			
 			Triangle n = next.GetNeighbour(next.Opposite(c1, c2));
 			
-			// Find the actual corners in the corner list for the edge finder at the start of this loop.
+			// Find the actual corners in next's corner list for the edge finder at the start of this loop.
 			
 			c1 = next.GetCorner(c1);
 			c2 = next.GetCorner(c2);
 			
-			// Continuously update the end of the strip
-			
-			strip.SetEnd(next);
 			next = n;
 		}
 		
@@ -208,8 +254,9 @@ public final class Graphics extends JPanel
 	
 	
 	/**
-	 * This walks along a strip that has been added finding unvisited neighbours of the triangles in it, and
-	 * walks along each of them in turn.
+	 * This walks along a strip that has already been added to the triangle list 
+	 * finding unvisited neighbours of the triangles in it, and
+	 * does a new walk starting at each of them in turn.
 	 * 
 	 * The walking logic here is (and MUST be) identical to that in WalkStrip().
 	 * 
@@ -218,7 +265,7 @@ public final class Graphics extends JPanel
 	 * @param stripCornersList
 	 * @param triangleCountsList
 	 */
-	private void RecurseOnStrip(StripDefine strip, Triangulation.CornerList corners, ArrayList<Point3d> stripCornersList, ArrayList<Integer> triangleCountsList)
+	private void RecurseOnStrip(StripDefine strip)
 	{
 		// Anything to do?
 		
@@ -232,8 +279,8 @@ public final class Graphics extends JPanel
 		for(int tri = 0; tri < 3; tri++)
 		{
 			Triangle neighbour = strip.start.GetNeighbour(tri);
-			newStrip = WalkStrip(neighbour, corners, stripCornersList, triangleCountsList);
-			RecurseOnStrip(newStrip, corners, stripCornersList, triangleCountsList);
+			newStrip = WalkStrip(neighbour);
+			RecurseOnStrip(newStrip);
 		}
 		
 		Triangle next = strip.next;
@@ -275,8 +322,8 @@ public final class Graphics extends JPanel
 			for(int tri = 0; tri < 3; tri++)
 			{
 				Triangle neighbour = next.GetNeighbour(tri);
-				newStrip = WalkStrip(neighbour, corners, stripCornersList, triangleCountsList);
-				RecurseOnStrip(newStrip, corners, stripCornersList, triangleCountsList);
+				newStrip = WalkStrip(neighbour);
+				RecurseOnStrip(newStrip);
 			}
 			
 			// If we are at the end, there is no more to do.
@@ -301,35 +348,40 @@ public final class Graphics extends JPanel
 		}
 	}
 	
-	private void VisitTrianglesR(Triangle start, Triangulation.CornerList corners, ArrayList<Point3d> stripCornersList,
-			ArrayList<Integer> triangleCountsList)
-	{
-
-			
-	}
 	
 	/**
 	 * Non-recursive function to plot all the shells by calling the recursive
-	 * function above.
+	 * functions above.
 	 * 
 	 * @param out
 	 */
-	private void VisitTriangles(Triangulation triangulation)
-	{
-		ArrayList<Point3d> stripCornersList = new ArrayList<Point3d>();
-		ArrayList<Integer> triangleCountsList = new ArrayList<Integer>();
+	private void VisitTriangles()
+	{		
+		StripDefine strip;
+		
+		stripCornersList = new ArrayList<Point3d>();
+		triangleCountsList = new ArrayList<Integer>();
+		
+		/*
+		 * Add all the triangle strips for each shell in turn.
+		 */
 		
 		for(int shell = 0; shell < triangulation.Shells().size(); shell++)
 		{
 			triangulation.Shells().get(shell).Reset(); // Shouldn't be needed
-			VisitTrianglesR(null, triangulation.Shells().get(shell), triangulation.Corners(), stripCornersList, triangleCountsList, false);
+			strip = WalkStrip(triangulation.Shells().get(shell));
+			RecurseOnStrip(strip);
 			triangulation.Shells().get(shell).Reset();
 		}
 		
-		stripCorners = new Point3d[stripCornersList.size()];
-		triangleCounts = new int[triangleCountsList.size()];
+		/*
+		 * Copy the triangle strips into simple arrays.
+		 */
 		
-		for(int corner = 0; corner < stripCornersList.size(); corner++)
+		totalPoints = stripCornersList.size();
+		stripCorners = new Point3d[totalPoints];
+		triangleCounts = new int[triangleCountsList.size()];		
+		for(int corner = 0; corner < totalPoints; corner++)
 		{
 			stripCorners[corner] = stripCornersList.get(corner);
 		}
@@ -339,56 +391,28 @@ public final class Graphics extends JPanel
 			triangleCounts[countIndex] = triangleCountsList.get(countIndex);
 		}
 		
+		/*
+		 * Save some space next time the garbage is collected.
+		 */
+		
+		stripCornersList = null;
+		triangleCountsList = null;
+		
 	}
 
-	public Graphics() 
-	{
-		setLayout(new BorderLayout());
-		GraphicsConfiguration gc=SimpleUniverse.getPreferredConfiguration();
-		Canvas3D canvas3D = new Canvas3D(gc);//See the added gc? this is a preferred config
-		add("Center", canvas3D);
-
-		BranchGroup scene = createSceneGraph();
-		scene.compile();
-
-		// SimpleUniverse is a Convenience Utility class
-		SimpleUniverse simpleU = new SimpleUniverse(canvas3D);
-
-
-		// This moves the ViewPlatform back a bit so the
-		// objects in the scene can be viewed.
-		simpleU.getViewingPlatform().setNominalViewingTransform();
-
-		simpleU.addBranchGraph(scene);
-	}
 	
-	public BranchGroup createSceneGraph() 
+	public BranchGroup CreateSceneGraph() 
 	{
-	       BranchGroup lineGroup = new BranchGroup();
+	        BranchGroup lineGroup = new BranchGroup();
 	        Appearance app = new Appearance();
 	        ColoringAttributes ca = new ColoringAttributes(new Color3f(204.0f, 204.0f,204.0f), ColoringAttributes.SHADE_FLAT);
 	        app.setColoringAttributes(ca);
 	        
-	        Point3d[] plaPts = new Point3d[8];
-	        plaPts[0] = new Point3d(0.2,0,0);
-	        plaPts[1] = new Point3d(0,0,0);
-	        plaPts[2] = new Point3d(0.2,0.1,0);
-	        plaPts[3] = new Point3d(0,0.2,0);
-	        plaPts[4] = new Point3d(0.3,0.3,0);
-	        plaPts[5] = new Point3d(0.3,0,0);
-	        plaPts[6] = new Point3d(0.4,0,0);
-	        plaPts[7] = new Point3d(0.4,0.1,0);	        
-	        int[]intArr=new int[2];
-	        intArr[0]=5;
-	        intArr[1]=3;
+	        VisitTriangles();
 
-	        TriangleStripArray pla = new TriangleStripArray(8, GeometryArray.COLOR_3|GeometryArray.NORMALS|GeometryArray.COORDINATES, intArr);
-	        pla.setCoordinates(0, plaPts);
+	        TriangleStripArray pla = new TriangleStripArray(totalPoints, GeometryArray.COLOR_3|GeometryArray.NORMALS|GeometryArray.COORDINATES, triangleCounts);
+	        pla.setCoordinates(0, stripCorners);
 	        
-	        PointAttributes a_point_just_bigger=new PointAttributes();
-	        a_point_just_bigger.setPointSize(10.0f);//10 pixel-wide point
-	        a_point_just_bigger.setPointAntialiasingEnable(true);//now points are sphere-like(not a cube)
-	        app.setPointAttributes(a_point_just_bigger);
 	        PolygonAttributes la=new PolygonAttributes();
 	        la.setPolygonMode(PolygonAttributes.POLYGON_FILL);
 	        la.setCullFace(PolygonAttributes.CULL_NONE);
@@ -437,11 +461,55 @@ public final class Graphics extends JPanel
 	        lineGroup.addChild(al);
 	        return lineGroup;
 	}
+	
+	private Transform3D lookTowardsCentreFrom(Point3d point)
+    {
+        Transform3D move = new Transform3D();
+        Vector3d up = new Vector3d(point.x, point.y + 1, point.z);
+        move.lookAt(point, triangulation.GetCentre(), up);
+
+        return move;
+    }
+
+	
+	public Graphics(Triangulation t) 
+	{
+		triangulation = t;
+		corners = triangulation.Corners();
+		setLayout(new BorderLayout());
+		GraphicsConfiguration gc=SimpleUniverse.getPreferredConfiguration();
+		Canvas3D canvas3D = new Canvas3D(gc);//See the added gc? this is a preferred config
+		add("Center", canvas3D);
+
+		BranchGroup scene = CreateSceneGraph();
+		scene.compile();
+
+		// SimpleUniverse is a Convenience Utility class
+		SimpleUniverse simpleU = new SimpleUniverse(canvas3D);
+
+
+		// This moves the ViewPlatform back a bit so the
+		// objects in the scene can be viewed.
+		simpleU.getViewingPlatform().setNominalViewingTransform();
+		Point3d viewPoint = new Point3d(0, 0, -30); //triangulation.GetCentre();
+		//viewPoint.add(new Point3d(0, 0, -30));
+		
+		Transform3D move = lookTowardsCentreFrom(viewPoint);
+		simpleU.getViewingPlatform().getViewPlatformTransform().setTransform(move);
+
+		simpleU.addBranchGraph(scene);
+	}
 
 	public static void main(String[] args) 
 	{
 		JFrame frame = new JFrame();
-		frame.add(new JScrollPane(new Graphics()));
+    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
+//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-disjoint-cubes.stl");
+//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-overlapping-cubes.stl");
+//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/hole-enclosed-in-cylinder.stl");
+//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nonmanifold-cubes.stl");
+//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nasty-nonmanifold-cubes.stl");
+		frame.add(new JScrollPane(new Graphics(t)));
 		frame.setSize(800, 800);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
