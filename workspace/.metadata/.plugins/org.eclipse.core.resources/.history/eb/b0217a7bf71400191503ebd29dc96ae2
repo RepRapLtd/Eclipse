@@ -82,7 +82,7 @@ public class Triangulation
 	 * Where's the middle?
 	 * @return
 	 */
-	public Point3d Centre()
+	public Point3d GetCentre()
 	{
 		Point3d result = new Point3d();
 		Point3d temp = new Point3d();

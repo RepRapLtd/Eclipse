@@ -446,20 +446,24 @@ public final class Graphics extends JPanel
 		MouseRotate mr=new MouseRotate();
 		mr.setTransformGroup(mouseMove);
 		mr.setSchedulingBounds(bounds);
-		transformedTriangulation.addChild(mr);
+		centreAtOrigin.addChild(mr);
 		MouseZoom mz=new MouseZoom();
 		mz.setTransformGroup(mouseMove);
 		mz.setSchedulingBounds(bounds);
-		transformedTriangulation.addChild(mz);
+		centreAtOrigin.addChild(mz);
 		MouseTranslate msl=new MouseTranslate();
 		msl.setTransformGroup(mouseMove);
 		msl.setSchedulingBounds(bounds);
-		transformedTriangulation.addChild(msl);
+		centreAtOrigin.addChild(msl);
 		
+
+
 		Shape3D triangulationAsShape = new Shape3D(tStrip, app);
-		centreAtOrigin.addChild(triangulationAsShape);
-		mouseMove.addChild(centreAtOrigin);
-		transformedTriangulation.addChild(mouseMove);
+		mouseMove.addChild(triangulationAsShape);
+		//transformedTriangulation.addChild(centreAtOrigin);
+		centreAtOrigin.addChild(mouseMove);
+		transformedTriangulation.addChild(centreAtOrigin);
+		//transformedTriangulation.addChild(centreAtOrigin);
 		
 		AmbientLight al=new AmbientLight();
 		al.setBounds(bounds);

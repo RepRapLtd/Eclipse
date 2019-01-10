@@ -403,80 +403,79 @@ public final class Graphics extends JPanel
 	
 	public BranchGroup CreateSceneGraph() 
 	{
-		VisitTriangles();
-		TriangleStripArray tStrip = new TriangleStripArray(totalPoints, GeometryArray.COLOR_3|GeometryArray.NORMALS|GeometryArray.COORDINATES, triangleCounts);
-		tStrip.setCoordinates(0, stripCorners);
+	        BranchGroup transformedTriangulation = new BranchGroup();
+	        Appearance app = new Appearance();
+	        ColoringAttributes ca = new ColoringAttributes(new Color3f(204.0f, 204.0f,204.0f), ColoringAttributes.SHADE_FLAT);
+	        app.setColoringAttributes(ca);
+	        
+	        VisitTriangles();
 
-		Appearance app = new Appearance();
-		ColoringAttributes ca = new ColoringAttributes(new Color3f(204.0f, 204.0f,204.0f), ColoringAttributes.SHADE_FLAT);
-		app.setColoringAttributes(ca);
+	        TriangleStripArray pla = new TriangleStripArray(totalPoints, GeometryArray.COLOR_3|GeometryArray.NORMALS|GeometryArray.COORDINATES, triangleCounts);
+	        pla.setCoordinates(0, stripCorners);
+	        
+	        PolygonAttributes la=new PolygonAttributes();
+	        la.setPolygonMode(PolygonAttributes.POLYGON_FILL);
+	        la.setCullFace(PolygonAttributes.CULL_NONE);
+	        app.setPolygonAttributes(la);
+	        
+	        Material matt=new Material();
+	        matt.setAmbientColor(new Color3f(1,1,1));
+	        matt.setDiffuseColor(new Color3f(0.5f,0.5f,0.7f));
+	        matt.setEmissiveColor(new Color3f(0.2f,0.2f,0.3f));
+	        matt.setShininess(0.5f);
+	        matt.setSpecularColor(new Color3f(0.4f,0.6f,0.9f));
+	        matt.setLightingEnable(true);
+	        app.setMaterial(matt);
+	        
+	        RenderingAttributes ra=new RenderingAttributes();
+	        ra.setIgnoreVertexColors(true);
+	        app.setRenderingAttributes(ra);
+	        
+	        Shape3D triangulationAsShape = new Shape3D(pla, app);
+	        
+	        TransformGroup objMove = new TransformGroup();
+	        
+	        BoundingSphere bounds = new BoundingSphere(triangulation.GetCentre(), 2*triangulation.Diagonal());
 
-		PolygonAttributes la=new PolygonAttributes();
-		la.setPolygonMode(PolygonAttributes.POLYGON_FILL);
-		la.setCullFace(PolygonAttributes.CULL_NONE);
-		app.setPolygonAttributes(la);
+	        MouseRotate mr=new MouseRotate();
+	        mr.setTransformGroup(objMove);
+	        mr.setSchedulingBounds(bounds);
+	        transformedTriangulation.addChild(mr);
+	        MouseZoom mz=new MouseZoom();
+	        mz.setTransformGroup(objMove);
+	        mz.setSchedulingBounds(new BoundingSphere());
+	        transformedTriangulation.addChild(mz);
+	        MouseTranslate msl=new MouseTranslate();
+	        msl.setTransformGroup(objMove);
+	        msl.setSchedulingBounds(new BoundingSphere());
+	        transformedTriangulation.addChild(msl);
 
-		Material matt=new Material();
-		matt.setAmbientColor(new Color3f(1,1,1));
-		matt.setDiffuseColor(new Color3f(0.5f,0.5f,0.7f));
-		matt.setEmissiveColor(new Color3f(0.2f,0.2f,0.3f));
-		matt.setShininess(0.5f);
-		matt.setSpecularColor(new Color3f(0.4f,0.6f,0.9f));
-		matt.setLightingEnable(true);
-		app.setMaterial(matt);
 
-		RenderingAttributes ra=new RenderingAttributes();
-		ra.setIgnoreVertexColors(true);
-		app.setRenderingAttributes(ra);
+	        objMove.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+	        
+	        
 
-		
-		BranchGroup transformedTriangulation = new BranchGroup();
+	        objMove.addChild(triangulationAsShape);
 
-		BoundingSphere bounds = new BoundingSphere(triangulation.Centre(), 2*triangulation.Diagonal());
+	        AmbientLight al=new AmbientLight();
+	      //  al.addScope(objRotate);
+	        al.setBounds(new BoundingSphere());
+	        al.setEnable(true);
+	        al.setColor(new Color3f(1,1,1));
 
-		TransformGroup mouseMove = new TransformGroup();
-		mouseMove.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		
-		Point3d centre = triangulation.Centre();
-		centre.negate();
-		Transform3D shiftCentre = new Transform3D();
-		shiftCentre.setTranslation(new Vector3d(centre));
-		TransformGroup centreAtOrigin = new TransformGroup(shiftCentre);
-
-		MouseRotate mr=new MouseRotate();
-		mr.setTransformGroup(mouseMove);
-		mr.setSchedulingBounds(bounds);
-		transformedTriangulation.addChild(mr);
-		MouseZoom mz=new MouseZoom();
-		mz.setTransformGroup(mouseMove);
-		mz.setSchedulingBounds(bounds);
-		transformedTriangulation.addChild(mz);
-		MouseTranslate msl=new MouseTranslate();
-		msl.setTransformGroup(mouseMove);
-		msl.setSchedulingBounds(bounds);
-		transformedTriangulation.addChild(msl);
-		
-		Shape3D triangulationAsShape = new Shape3D(tStrip, app);
-		centreAtOrigin.addChild(triangulationAsShape);
-		mouseMove.addChild(centreAtOrigin);
-		transformedTriangulation.addChild(mouseMove);
-		
-		AmbientLight al=new AmbientLight();
-		al.setBounds(bounds);
-		al.setEnable(true);
-		al.setColor(new Color3f(0.5f,0.5f,0.5f));
-		transformedTriangulation.addChild(al);
-
-		return transformedTriangulation;
+	        transformedTriangulation.addChild(objMove);
+	        transformedTriangulation.addChild(al);
+	        
+	        return transformedTriangulation;
 	}
-
+	
 	private Transform3D lookTowardsCentreFrom(Point3d point)
-	{
-		Transform3D move = new Transform3D();
-		Vector3d up = new Vector3d(point.x, point.y + 1, point.z);
-		move.lookAt(point, triangulation.Centre(), up);
+    {
+        Transform3D move = new Transform3D();
+        Vector3d up = new Vector3d(point.x, point.y + 1, point.z);
+        move.lookAt(point, triangulation.GetCentre(), up);
 
-		return move;
+        return move;
     }
 
 	

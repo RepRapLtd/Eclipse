@@ -82,7 +82,7 @@ public class Triangulation
 	 * Where's the middle?
 	 * @return
 	 */
-	public Point3d Centre()
+	public Point3d GetCentre()
 	{
 		Point3d result = new Point3d();
 		Point3d temp = new Point3d();
@@ -91,22 +91,7 @@ public class Triangulation
 		result.add(temp);
 		result.scale(0.5);
 		return result;
-	}
-	
-	/**
-	 * How big is it?
-	 * 
-	 * @return
-	 */
-	public double Diagonal()
-	{
-		Point3d p0 = new Point3d();
-		Point3d p1 = new Point3d();
-		boundingBox.getLower(p0);
-		boundingBox.getUpper(p1);
-		return p1.distance(p0);
-	}
-	
+	}	
 	
 	
 	/**
