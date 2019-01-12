@@ -44,6 +44,7 @@ import javax.media.j3d.GeometryArray;
 import javax.media.j3d.Shape3D;
 import javax.vecmath.Matrix3d;
 import javax.vecmath.Vector3d;
+import javax.vecmath.Vector3f;
 
 
 public class Triangulation 
@@ -353,7 +354,9 @@ public class Triangulation
 		 */
 		
 		private int corners[];
+		private Vector3f normal;
 		private Triangle neighbours[];
+		private double dihedralAngle[];
 		
 		/**
 		 * The index is just used for input and output; every triangle's index
@@ -377,6 +380,8 @@ public class Triangulation
 			index = -1;
 			corners = new int[3];
 			neighbours = new Triangle[3];
+			dihedralAngle = new double[3];
+			normal = null;
 			for(int i = 0; i < 3; i++)
 			{
 				corners[i] = -1;
@@ -455,6 +460,11 @@ public class Triangulation
 		public Triangle GetNeighbour(int i)
 		{
 			return neighbours[i];
+		}
+		
+		public double GetDihedralAngle(int i)
+		{
+			return dihedralAngle[i];
 		}
 		
 		private int Index()
@@ -593,6 +603,9 @@ public class Triangulation
 		private void SetEdge(Triangle neighbour, int i)
 		{
 			neighbours[i] = neighbour;
+			Vector3f myNormal = this.Normal();
+			Vector3f otherNormal = neighbour.Normal();
+			dihedralAngle[i] = Math.acos(myNormal.dot(otherNormal));
 		}
 		
 		/**
@@ -657,6 +670,27 @@ public class Triangulation
 					return c;
 			}
 			return -1;
+		}
+		
+		/**
+		 * Return the triangle's normal.  This uses lazy evaluation.
+		 * @return
+		 */
+		public Vector3f Normal()
+		{
+			if(normal == null)
+			{
+				Vector3f e0 = new Vector3f(cornerList.GetCorner(corners[0]));
+				Vector3f e1 = new Vector3f(cornerList.GetCorner(corners[1]));
+				e1.sub(e0);
+				Vector3f e2 = new Vector3f(cornerList.GetCorner(corners[2]));
+				e2.sub(e0);
+				normal = new Vector3f();
+				normal.cross(e1,  e2);
+				normal.normalize();
+			}
+			
+			return normal;
 		}
 	
 	}
