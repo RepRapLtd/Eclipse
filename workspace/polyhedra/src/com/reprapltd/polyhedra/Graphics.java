@@ -44,12 +44,14 @@ public final class Graphics extends JPanel
 	ArrayList<Point3d> stripCornersList;
 	ArrayList<Vector3f> stripNormalsList;	
 	ArrayList<Integer> triangleCountsList;
+	ArrayList<Point3d> edgePoint;
 	
 	/*
 	 * ...these are copied into regular arrays which are what the graphics software needs.
 	 */
 	private Point3d[] stripCorners = null;
 	private Vector3f[] stripNormals = null;
+	LineArray edges = null;
 	private int[] triangleCounts = null;
 	private int totalPoints;
 	
@@ -354,6 +356,43 @@ public final class Graphics extends JPanel
 		}
 	}
 	
+
+	/**
+	 * Walk across a shell recursively from triangle to triangle recording the edges
+	 * crossed from one to the next if the edge's dihedralAngle is greater than dA.
+	 * @param triangle
+	 * @param dihedralAngle
+	 */
+	void WalkEdges(Triangle triangle, double dA)
+	{
+		triangle.SetVisited();
+		for(int i = 0; i < 3; i++)
+		{
+			Triangle neighbour = triangle.GetNeighbour(i);
+			if(neighbour == null)
+			{
+				Debug.Error("WalkEdges(): triangle with null neighbour found.", true);
+				return;
+			}
+			
+			if(!triangle.EdgeVisited(i))
+			{
+				if(triangle.GetDihedralAngle(i) > dA)
+				{
+					Point3d corner = corners.GetCorner(triangle.GetCorner((i+1)%3));
+					edgePoint.add(corner);
+					corner = corners.GetCorner(triangle.GetCorner((i+2)%3));
+					edgePoint.add(corner);
+				}
+				triangle.SetEdge(i);
+				if(!neighbour.Visited())
+				{
+					WalkEdges(neighbour, dA);
+				}
+			}
+		}
+	}
+	
 	
 	/**
 	 * Non-recursive function to plot all the shells by calling the recursive
@@ -361,7 +400,7 @@ public final class Graphics extends JPanel
 	 * 
 	 * @param out
 	 */
-	private void VisitTriangles()
+	private void VisitTriangles(double dA)
 	{		
 		StripDefine strip;
 		
@@ -375,10 +414,11 @@ public final class Graphics extends JPanel
 		
 		for(int shell = 0; shell < triangulation.Shells().size(); shell++)
 		{
-			triangulation.Shells().get(shell).Reset(); // Shouldn't be needed
-			strip = WalkStrip(triangulation.Shells().get(shell));
+			Triangle triangle = triangulation.Shells().get(shell);
+			triangle.Reset(); // Shouldn't be needed
+			strip = WalkStrip(triangle);
 			RecurseOnStrip(strip);
-			triangulation.Shells().get(shell).Reset();
+			triangle.Reset();
 		}
 		
 		/*
@@ -400,6 +440,29 @@ public final class Graphics extends JPanel
 			triangleCounts[countIndex] = triangleCountsList.get(countIndex);
 		}
 		
+		// Now maybe add the triangle edges
+		
+		if(dA >= 0.0)
+		{
+			edgePoint = new ArrayList<Point3d>();
+			for(int shell = 0; shell < triangulation.Shells().size(); shell++)
+			{
+				Triangle triangle = triangulation.Shells().get(shell);
+				WalkEdges(triangle, dA);
+				triangle.Reset();
+			}	
+
+			int edgeCount = edgePoint.size();
+			edges = new LineArray(edgeCount, LineArray.COORDINATES);
+			for(int edge = 0; edge < edgeCount; edge++)
+			{
+				edges.setCoordinate(edge, edgePoint.get(edge));
+			}
+		} else
+		{
+			edges = null;
+		}
+			
 		/*
 		 * Save some space next time the garbage is collected.
 		 */
@@ -407,13 +470,14 @@ public final class Graphics extends JPanel
 		stripCornersList = null;
 		stripNormalsList = null;
 		triangleCountsList = null;
-		
+		edgePoint = null;
+
 	}
 
 	
 	public BranchGroup CreateSceneGraph() 
 	{
-		VisitTriangles();
+		VisitTriangles(0.5);
 		TriangleStripArray tStrip = new TriangleStripArray(totalPoints, GeometryArray.NORMALS|GeometryArray.COORDINATES, triangleCounts);
 		tStrip.setCoordinates(0, stripCorners);
 		tStrip.setNormals(0, stripNormals);
@@ -473,8 +537,27 @@ public final class Graphics extends JPanel
 		transformedTriangulation.addChild(msl);
 		
 		Shape3D triangulationAsShape = new Shape3D(tStrip, appearance);
-		//Shape3D triangulationAsShape = new Shape3D(geometryInfo.getIndexedGeometryArray());
 		centreAtOrigin.addChild(triangulationAsShape);
+		
+		/*
+		 * Add the edges if we want them
+		 */
+		
+		if(edges != null)
+		{
+			Appearance appearanceBlack = new Appearance();
+			ColoringAttributes coloringAttributesBlack = new ColoringAttributes();
+			coloringAttributesBlack.setColor(new Color3f(Color.black));
+			appearanceBlack.setColoringAttributes(coloringAttributesBlack);
+			LineAttributes thick = new LineAttributes();
+		    thick.setLineWidth(2.0f);
+		    //thick.setLineAntialiasingEnable(true);
+		    thick.setLinePattern(LineAttributes.PATTERN_SOLID);
+		    appearanceBlack.setLineAttributes(thick);
+			Shape3D shapeLines = new Shape3D(edges, appearanceBlack);
+			centreAtOrigin.addChild(shapeLines);
+		}
+
 		mouseMove.addChild(centreAtOrigin);
 		transformedTriangulation.addChild(mouseMove);
 		

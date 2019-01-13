@@ -248,7 +248,7 @@ public class Triangulation
 			{
 				Triangle triangle = triangles.get(i);
 				if(triangle != notThisOne)
-					if(triangle.HasCorners(corner0, corner1))
+					if(triangle.HasCorners(corner0, corner1) >= 0)
 						return triangle;
 			}
 			
@@ -256,7 +256,7 @@ public class Triangulation
 			{
 				Triangle triangle = extraTriangles.get(i);
 				if(triangle != notThisOne)
-					if(triangle.HasCorners(corner0, corner1))
+					if(triangle.HasCorners(corner0, corner1) >= 0)
 						return triangle;
 			}
 			
@@ -357,6 +357,7 @@ public class Triangulation
 		private Vector3f normal;
 		private Triangle neighbours[];
 		private double dihedralAngle[];
+		private boolean edgeVisited[];
 		
 		/**
 		 * The index is just used for input and output; every triangle's index
@@ -381,11 +382,13 @@ public class Triangulation
 			corners = new int[3];
 			neighbours = new Triangle[3];
 			dihedralAngle = new double[3];
+			edgeVisited = new boolean[3];
 			normal = null;
 			for(int i = 0; i < 3; i++)
 			{
 				corners[i] = -1;
 				neighbours[i] = null;
+				edgeVisited[i] = false;
 			}
 			colour = Color.gray;
 		}
@@ -470,7 +473,68 @@ public class Triangulation
 		private int Index()
 		{
 			return index;
-		}		
+		}
+		
+		/*
+		 * Set and reset the edges.  This also (re)sets them in the neighbour with
+		 * which they share the edge.
+		 * 
+		 */
+		
+		public void SetEdge(int i)
+		{
+			edgeVisited[i] = true;
+			int cornerA = corners[(i+1)%3];
+			int cornerB = corners[(i+2)%3];
+			
+			int neighbourCornerA = -1;
+			int neighbourCornerB = -1;
+			Triangle neighbour = neighbours[i];
+			for(int corner = 0; corner < 3; corner++)
+			{
+				if(neighbour.corners[corner] == cornerA)
+					neighbourCornerA = corner;
+				if(neighbour.corners[corner] == cornerB)
+					neighbourCornerB = corner;				
+			}
+			
+			if(neighbourCornerA < 0 && neighbourCornerB < 0)
+			{
+				Debug.Error("Triangulation.SetEdge(): neighbour doesn't share theis edge with this triangle.", true);
+			}
+
+			neighbours[i].edgeVisited[Opposite(neighbourCornerA, neighbourCornerB)] = true;
+		}
+		
+		public void ResetEdge(int i)
+		{
+			edgeVisited[i] = false;
+			int cornerA = corners[(i+1)%3];
+			int cornerB = corners[(i+2)%3];
+			
+			int neighbourCornerA = -1;
+			int neighbourCornerB = -1;
+			Triangle neighbour = neighbours[i];
+			for(int corner = 0; corner < 3; corner++)
+			{
+				if(neighbour.corners[corner] == cornerA)
+					neighbourCornerA = corner;
+				if(neighbour.corners[corner] == cornerB)
+					neighbourCornerB = corner;				
+			}
+			
+			if(neighbourCornerA < 0 && neighbourCornerB < 0)
+			{
+				Debug.Error("Triangulation.ResetEdge(): neighbour doesn't share theis edge with this triangle.", true);
+			}
+
+			neighbours[i].edgeVisited[Opposite(neighbourCornerA, neighbourCornerB)] = false;
+		}
+		
+		public boolean EdgeVisited(int i)
+		{
+			return edgeVisited[i];
+		}
 	
 		/**
 		 * Set all the triangles in one shell to visited, starting with this one.
@@ -478,6 +542,9 @@ public class Triangulation
 		 * are not disjoint, though this will produce a debug warning.
 		 * It counts the triangles as a side-effect and returns the total. This is a 
 		 * negligible additional load.
+		 * 
+		 * This also sets all the edges visited.
+		 * 
 		 */
 		public int Set()
 		{
@@ -485,6 +552,7 @@ public class Triangulation
 			SetVisited();
 			for(int i = 0; i < 3; i++)
 			{
+				edgeVisited[i] = true;
 				if(neighbours[i] != null)
 				{
 					if(!neighbours[i].Visited())
@@ -501,6 +569,9 @@ public class Triangulation
 		 * are not disjoint, though this will produce a debug warning..
 		 * It counts the triangles as a side-effect and returns the total.  This is a 
 		 * negligible additional load.
+		 * 
+		 * This also resets all the edges as unvisited.
+		 * 
 		 */
 		public int Reset()
 		{
@@ -508,6 +579,7 @@ public class Triangulation
 			ResetVisited();
 			for(int i = 0; i < 3; i++)
 			{
+				edgeVisited[i] = false;
 				if(neighbours[i] != null)
 				{
 					if(neighbours[i].Visited())
@@ -626,13 +698,30 @@ public class Triangulation
 		
 		/**
 		 * Does this triangle have edge corner0-corner1?
+		 * 
+		 * If so return the index of that edge (same as the index of the triangle that that edge leads to).
+		 * If not return -1.
+		 * 
 		 * @param corner1
 		 * @param corner2
 		 * @return
 		 */
-		public boolean HasCorners(int corner1, int corner2)
+		public int HasCorners(int corner1, int corner2)
 		{
-			return HasCorner(corner1) && HasCorner(corner2);
+			int cornerA = -1;
+			int cornerB = -1;
+			for(int corner = 0; corner < 3; corner++)
+			{
+				if(corners[corner] == corner1)
+					cornerA = corner;
+				if(corners[corner] == corner2)
+					cornerB = corner;				
+			}
+			if(cornerA >= 0 && cornerB >= 0)
+			{
+				return this.Opposite(cornerA, cornerB);
+			}
+			return -1;			
 		}
 		
 		/**
