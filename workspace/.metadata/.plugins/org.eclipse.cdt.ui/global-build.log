@@ -1,36 +1,488 @@
-23:16:09 **** Build of configuration Debug for project Painter ****
+15:55:43 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
 make all 
 Building file: ../src/Painter.cpp
 Invoking: Cross G++ Compiler
-g++ -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
 ../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, bool)’:
-../src/Painter.cpp:201:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+../src/Painter.cpp:209:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
   ShowResult(org, "original");
                             ^
 ../src/Painter.cpp: In member function ‘void Painter::Paint()’:
-../src/Painter.cpp:225:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+../src/Painter.cpp:233:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
     ShowResult(difference, "difference");
                                        ^
-../src/Painter.cpp:228:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+../src/Painter.cpp:236:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
     ShowResult(difference, "threshold");
                                       ^
-../src/Painter.cpp:236:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+../src/Painter.cpp:244:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
    for(int i = 0; i < contours.size(); i++)
                     ^
-../src/Painter.cpp:286:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+../src/Painter.cpp:294:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
     ShowResult(painting, "Partial painting");
                                            ^
 ../src/Painter.cpp: In member function ‘void Painter::Show()’:
-../src/Painter.cpp:292:33: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+../src/Painter.cpp:300:33: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
   ShowResult(painting, "painting");
                                  ^
 Finished building: ../src/Painter.cpp
  
-Building target: Painter
+Building target: CPPPaintRobot
 Invoking: Cross G++ Linker
-g++ -L/usr/lib/x86_64-linux-gnu/ -o "Painter"  ./src/Painter.o   -lopencv_highgui -lopencv_imgproc -lopencv_ml -lopencv_video -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_contrib -lopencv_legacy -lopencv_flann -lopencv_core
-Finished building target: Painter
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
  
-23:16:17 **** Incremental Build of configuration Debug for project Painter ****
+15:55:49 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
 make all 
 make: Nothing to be done for 'all'.
+11:31:05 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar)’:
+../src/Painter.cpp:209:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:235:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:238:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:246:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:296:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In member function ‘void Painter::Show()’:
+../src/Painter.cpp:302:33: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(painting, "painting");
+                                 ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+11:31:17 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+make: Nothing to be done for 'all'.
+11:41:07 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar, double, double)’:
+../src/Painter.cpp:209:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:233:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:236:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:244:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:294:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In member function ‘void Painter::Show()’:
+../src/Painter.cpp:300:33: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(painting, "painting");
+                                 ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+11:41:14 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+make: Nothing to be done for 'all'.
+11:45:12 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar, double, double)’:
+../src/Painter.cpp:209:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:233:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:236:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:244:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:294:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:306:26: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  p->Show("Final painting");
+                          ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+11:45:19 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+make: Nothing to be done for 'all'.
+11:48:03 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar, double, double, double)’:
+../src/Painter.cpp:210:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:234:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:237:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:245:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:295:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:307:26: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  p->Show("Final painting");
+                          ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+11:48:17 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+make: Nothing to be done for 'all'.
+14:28:05 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar, double, double, double, uchar*)’:
+../src/Painter.cpp:218:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:242:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:245:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:253:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:303:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:315:26: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  p->Show("Final painting");
+                          ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+14:28:09 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+make: Nothing to be done for 'all'.
+14:33:19 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar, double, double, double, uchar*)’:
+../src/Painter.cpp:218:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:242:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:245:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:253:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:303:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:315:26: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  p->Show("Final painting");
+                          ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+14:33:23 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+make: Nothing to be done for 'all'.
+14:34:41 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar, double, double, double, uchar*)’:
+../src/Painter.cpp:218:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:242:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:245:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:253:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:303:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:315:26: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  p->Show("Final painting");
+                          ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+14:34:48 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+make: Nothing to be done for 'all'.
+16:51:15 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar, double, double, double, uchar*)’:
+../src/Painter.cpp:224:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:248:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:251:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:259:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:309:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:321:26: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  p->Show("Final painting");
+                          ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+16:52:26 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar, double, double, double, uchar*)’:
+../src/Painter.cpp:224:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:248:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:251:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:259:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:309:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:321:26: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  p->Show("Final painting");
+                          ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+17:32:33 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar, double, double, double, uchar*)’:
+../src/Painter.cpp:223:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Report()’:
+../src/Painter.cpp:245:2: error: expected ‘;’ before ‘if’
+  if(debug == WEAK_DEBUG)
+  ^
+../src/Painter.cpp:247:2: error: ‘else’ without a previous ‘if’
+  else if(debug == STRONG_DEBUG)
+  ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:274:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:277:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:288:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:350:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:364:26: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  p->Show("Final painting");
+                          ^
+src/subdir.mk:18: recipe for target 'src/Painter.o' failed
+make: *** [src/Painter.o] Error 1
+17:33:26 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar, double, double, double, uchar*)’:
+../src/Painter.cpp:223:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:274:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:277:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:288:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:350:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:364:26: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  p->Show("Final painting");
+                          ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+17:34:42 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar, double, double, double, uchar*)’:
+../src/Painter.cpp:223:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:274:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:277:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:288:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:350:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:364:26: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  p->Show("Final painting");
+                          ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+17:35:58 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar, double, double, double, uchar*)’:
+../src/Painter.cpp:223:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  ShowResult(org, "original");
+                            ^
+../src/Painter.cpp: In member function ‘void Painter::Paint()’:
+../src/Painter.cpp:274:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "difference");
+                                       ^
+../src/Painter.cpp:277:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(difference, "threshold");
+                                      ^
+../src/Painter.cpp:288:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+../src/Painter.cpp:350:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    ShowResult(painting, "Partial painting");
+                                           ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:364:26: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  p->Show("Final painting");
+                          ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 

@@ -8,4 +8,5 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.reprapltd.polyhedra.Graphics"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="polyhedra"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xss2m"/>
 </launchConfiguration>

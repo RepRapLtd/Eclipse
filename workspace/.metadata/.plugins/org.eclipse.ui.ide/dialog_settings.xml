@@ -15,8 +15,9 @@
 		<item value="/home/ensab/rrl-cloud/RepRapLtd/Engineering/Internal-Projects/Robots/Painting Robot/Software" key="OUTSIDE_LOCATION"/>
 	</section>
 	<section name="NewWizardAction">
-		<item value="org.eclipse.jdt.ui.wizards.JavaProjectWizard" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
+		<item value="org.eclipse.cdt.ui.wizards.NewCWizard1" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
 		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.eclipse.cdt.ui.newCWizards"/>
 		</list>
 	</section>
 </section>

@@ -551,7 +551,7 @@ public final class Graphics extends JPanel
 			appearanceBlack.setColoringAttributes(coloringAttributesBlack);
 			LineAttributes thick = new LineAttributes();
 		    thick.setLineWidth(2.0f);
-		    //thick.setLineAntialiasingEnable(true);
+		    thick.setLineAntialiasingEnable(true);  // Blows stack!
 		    thick.setLinePattern(LineAttributes.PATTERN_SOLID);
 		    appearanceBlack.setLineAttributes(thick);
 			Shape3D shapeLines = new Shape3D(edges, appearanceBlack);
@@ -595,6 +595,10 @@ public final class Graphics extends JPanel
 		GraphicsConfiguration gc=SimpleUniverse.getPreferredConfiguration();
 		Canvas3D canvas3D = new Canvas3D(gc);//See the added gc? this is a preferred config
 		add("Center", canvas3D);
+		
+//		Background background = new Background(new Color3f(1f,0,0));
+//		BoundingSphere sphere = new BoundingSphere(new Point3d(0,0,0), 100000);
+//		background.setApplicationBounds(sphere);
 
 		BranchGroup scene = CreateSceneGraph();
 		scene.compile();
@@ -602,10 +606,10 @@ public final class Graphics extends JPanel
 		// SimpleUniverse is a Convenience Utility class
 		SimpleUniverse simpleU = new SimpleUniverse(canvas3D);
 
-
 		// This moves the ViewPlatform back a bit so the
 		// objects in the scene can be viewed.
 		simpleU.getViewingPlatform().setNominalViewingTransform();
+//		simpleU.getViewingPlatform().addChild(background);
 		Point3d viewPoint = new Point3d(0, 0, -2*triangulation.Diagonal()); //triangulation.GetCentre();
 
 		

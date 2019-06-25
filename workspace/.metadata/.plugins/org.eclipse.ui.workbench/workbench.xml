@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="21" version="2.0">
+<workbench progressCount="18" version="2.0">
 <workbenchAdvisor/>
 <window height="766" maximized="true" width="1004" x="2073" y="134">
 <fastViewData fastViewLocation="1024"/>
@@ -8,7 +8,7 @@
 </perspectiveBar>
 <coolbarLayout>
 <coolItem id="group.file" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="144" y="30"/>
+<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="280" y="30"/>
 <coolItem id="additions" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.cdt.ui.CElementCreationActionSet" itemType="typeToolBarContribution" x="204" y="30"/>
 <coolItem id="org.eclipse.debug.ui.launch.toolbar" itemType="typeToolBarContribution" x="-1" y="-1"/>
@@ -16,81 +16,36 @@
 <coolItem id="org.eclipse.debug.ui.main.toolbar" itemType="typeToolBarContribution" x="40" y="30"/>
 <coolItem id="org.eclipse.jdt.ui.JavaElementCreationActionSet" itemType="typeToolBarContribution" x="88" y="30"/>
 <coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="88" y="30"/>
-<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="124" y="30"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="96" y="30"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="232" y="30"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.jdt.ui.ClassFileEditorNoSource" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
-<coolItem id="org.eclipse.cdt.ui.editor.CEditor" itemType="typePlaceholder" x="-1" y="-1"/>
-<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.cdt.ui.editor.CEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
 </coolbarLayout>
-<page aggregateWorkingSetId="Aggregate for window 1474906166598" focus="true" label="Workspace - Java">
+<page aggregateWorkingSetId="Aggregate for window 1474906166598" focus="true" label="Workspace - C/C++">
 <editors>
 <editorArea activeWorkbook="DefaultEditorWorkbook">
 <info part="DefaultEditorWorkbook">
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
-<part id="10"/>
 <part id="1"/>
-<part id="2"/>
-<part id="3"/>
-<part id="4"/>
-<part id="5"/>
-<part id="6"/>
-<part id="7"/>
-<part id="8"/>
-<part id="9"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Triangulation.java" partName="Triangulation.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Triangulation.java" title="Triangulation.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Triangulation.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Triangulation.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="13421" selectionTopPixel="6247"/>
+<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.cpp" partName="Painter.cpp" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/Painter.cpp" title="Painter.cpp" tooltip="CPPPaintRobot/src/Painter.cpp" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/Painter.cpp"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4597" selectionTopPixel="3151"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Interval.java" partName="Interval.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Interval.java" title="Interval.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Interval.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Interval.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4294" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Debug.java" partName="Debug.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Debug.java" title="Debug.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Debug.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Debug.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="318" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Box.java" partName="Box.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Box.java" title="Box.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Box.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Box.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="114" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Point3D.java" partName="Point3D.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Point3D.java" title="Point3D.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Point3D.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Point3D.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="483" selectionTopPixel="2653"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="HalfSpace.java" partName="HalfSpace.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/HalfSpace.java" title="HalfSpace.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/HalfSpace.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/HalfSpace.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3836" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSG3D.java" partName="CSG3D.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/CSG3D.java" title="CSG3D.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/CSG3D.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/CSG3D.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="13027" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSGOp.java" partName="CSGOp.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/CSGOp.java" title="CSGOp.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/CSGOp.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/CSGOp.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="652" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Primitives.java" partName="Primitives.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Primitives.java" title="Primitives.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Primitives.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Primitives.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5090" selectionTopPixel="1620"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSGReader.java" partName="CSGReader.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/CSGReader.java" title="CSGReader.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/CSGReader.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/CSGReader.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="14828" selectionTopPixel="0"/>
-</editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Graphics.java" partName="Graphics.java" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/src/com/reprapltd/polyhedra/Graphics.java" title="Graphics.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Graphics.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/polyhedra/src/com/reprapltd/polyhedra/Graphics.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="14568" selectionTopPixel="7578"/>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.h" partName="Painter.h" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/Painter.h" title="Painter.h" tooltip="CPPPaintRobot/src/Painter.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/Painter.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1460" selectionTopPixel="564"/>
 </editor>
 </editors>
 <views>
@@ -128,9 +83,11 @@
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
-<category IMemento.internal.id="Warnings (19 items)"/>
+<category IMemento.internal.id="Errors"/>
+<category IMemento.internal.id="Warnings"/>
+<category IMemento.internal.id="Warnings (8 items)"/>
 </expanded>
-<columnWidths org.eclipse.ui.ide.locationField="105" org.eclipse.ui.ide.markerType="725" org.eclipse.ui.ide.pathField="140" org.eclipse.ui.ide.resourceField="105" org.eclipse.ui.ide.severityAndDescriptionField="350"/>
+<columnWidths org.eclipse.ui.ide.locationField="105" org.eclipse.ui.ide.markerType="897" org.eclipse.ui.ide.pathField="140" org.eclipse.ui.ide.resourceField="105" org.eclipse.ui.ide.severityAndDescriptionField="350"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.pathField"/>
@@ -162,7 +119,7 @@
 <viewState CommonNavigator.LINKING_ENABLED="0" org.eclipse.cdt.ui.cview.groupincludes="false" org.eclipse.cdt.ui.cview.groupmacros="false" org.eclipse.cdt.ui.editor.CUChildren="true" org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets="0"/>
 </view>
 </views>
-<perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
+<perspectives activePart="org.eclipse.ui.console.ConsoleView" activePerspective="org.eclipse.cdt.ui.CPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.ui.internal.ide.application.ResourcePerspective" id="org.eclipse.ui.resourcePerspective" label="Resource"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
@@ -390,34 +347,47 @@
 <view id="org.eclipse.ui.views.ContentOutline"/>
 <view id="org.eclipse.cdt.make.ui.views.MakeView"/>
 <fastViewBars/>
-<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="topLeft">&#x0A;<folder activePageID="org.eclipse.ui.navigator.ProjectExplorer" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.navigator.ProjectExplorer" label="Project Explorer"/>
+<layout>
+<mainWindow>
+<info folder="true" part="topLeft">
+<folder activePageID="org.eclipse.ui.navigator.ProjectExplorer" appearance="2" expanded="2">
+<page content="org.eclipse.ui.navigator.ProjectExplorer" label="Project Explorer"/>
 <page content="org.eclipse.cdt.ui.CView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="1434" ratioRight="478" relationship="2" relative="topLeft">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="1434" ratioRight="478" relationship="2" relative="topLeft">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.16029334" ratioLeft="306" ratioRight="1603" relationship="2" relative="topLeft"/>
-<info folder="true" part="bottom" ratio="0.72314507" ratioLeft="653" ratioRight="250" relationship="4" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
+<info folder="true" part="bottom" ratio="0.51419556" ratioLeft="489" ratioRight="462" relationship="4" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
+<page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.ui.views.PropertySheet" label="Properties"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="topRight" ratio="0.7496513" ratioLeft="1075" ratioRight="359" relationship="2" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<info folder="true" part="topRight" ratio="0.7496513" ratioLeft="1075" ratioRight="359" relationship="2" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
+<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
 <page content="org.eclipse.cdt.make.ui.views.MakeView" label="Make Target"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
 <part id="1"/>
 </presentation>
 </folder>
@@ -429,158 +399,158 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/Graphics.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/polyhedra/src/com/reprapltd/polyhedra/Triangulation.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/Painter.cpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/Painter.h"/>
 </editors>
-<item historyLabel="Graphics.java" index="0">
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="7654" y="0"/>
+</item>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="436" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="7654" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
 <position/>
 </item>
-<item historyLabel="Graphics.java" index="0">
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="1352" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="5945" y="0"/>
+</item>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="3224" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="7413" y="0"/>
+</item>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="436" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="7654" y="0"/>
+</item>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="436" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="7654" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="3400" y="17"/>
+</item>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="436" y="0"/>
+</item>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="424" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="3400" y="17"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="3418" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="7176" y="0"/>
+</item>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="424" y="0"/>
+</item>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="3222" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="7176" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="956" y="0"/>
+</item>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="3222" y="0"/>
+</item>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="1249" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="956" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="5973" y="0"/>
+</item>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="1553" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="5893" y="0"/>
+</item>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="1553" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="5926" y="0"/>
+</item>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="1460" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="5926" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="6282" y="0"/>
+</item>
+<item historyLabel="Painter.cpp" index="0">
 <position/>
 </item>
-<item historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="10993" y="0"/>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="6418" y="0"/>
 </item>
-<item historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="10998" y="0"/>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="6418" y="0"/>
 </item>
-<item historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="13834" y="0"/>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="1460" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="15184" y="0"/>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="1249" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="9898" y="0"/>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="6418" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="10416" y="0"/>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="5252" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="10536" y="0"/>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="1249" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="1">
+<item historyLabel="Painter.cpp" index="0">
 <position/>
 </item>
-<item historyLabel="Triangulation.java" index="1">
-<position/>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="1364" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="1">
-<position/>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="4557" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="1">
-<position/>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="1353" y="258"/>
 </item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="12760" y="0"/>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="6466" y="3"/>
 </item>
-<item historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="13834" y="0"/>
+<item historyLabel="Painter.h" index="1">
+<position info="not_deleted" x="1460" y="0"/>
 </item>
-<item historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="9590" y="0"/>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="6466" y="3"/>
 </item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="14184" y="0"/>
+<item historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="4438" y="0"/>
 </item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="18058" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="17589" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="18305" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="18291" y="7"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="18282" y="7"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="18291" y="7"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="18300" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="9590" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="18300" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="12258" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="12870" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="12293" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="12296" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="12870" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="13584" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="9590" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position/>
-</item>
-<item historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="9364" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position/>
-</item>
-<item historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="9364" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="9371" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="17799" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="9328" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="12870" y="0"/>
-</item>
-<item historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="9328" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="12870" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="12803" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="12870" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="12356" y="0"/>
-</item>
-<item historyLabel="Triangulation.java" index="1">
-<position info="not_deleted" x="13421" y="0"/>
-</item>
-<item active="true" historyLabel="Graphics.java" index="0">
-<position info="not_deleted" x="9328" y="0"/>
+<item active="true" historyLabel="Painter.cpp" index="0">
+<position info="not_deleted" x="7402" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -599,6 +569,33 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.h" tooltip="CPPPaintRobot/src/Painter.h">
+<persistable path="/CPPPaintRobot/src/Painter.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.cpp" tooltip="CPPPaintRobot/src/Painter.cpp">
+<persistable path="/CPPPaintRobot/src/Painter.cpp"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PaintRobot.java" tooltip="JavaPaintRobot/src/com/reprapltd/paintrobot/PaintRobot.java">
+<persistable path="/JavaPaintRobot/src/com/reprapltd/paintrobot/PaintRobot.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.h" tooltip="CppPaintRobot/src/Painter.h">
+<persistable path="/CppPaintRobot/src/Painter.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.cpp" tooltip="CppPaintRobot/src/Painter.cpp">
+<persistable path="/CppPaintRobot/src/Painter.cpp"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="CPPPaintRobot.cpp" tooltip="CPPPaintRobot/src/CPPPaintRobot.cpp">
+<persistable path="/CPPPaintRobot/src/CPPPaintRobot.cpp"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="paint.cpp" tooltip="CPPPaintRobot/paint.cpp">
+<persistable path="/CPPPaintRobot/paint.cpp"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.h" tooltip="Software/src/Painter.h">
+<persistable path="/Software/src/Painter.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.cpp" tooltip="Software/src/Painter.cpp">
+<persistable path="/Software/src/Painter.cpp"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Graphics.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Graphics.java">
 <persistable path="/polyhedra/src/com/reprapltd/polyhedra/Graphics.java"/>
 </file>
@@ -616,33 +613,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="HalfSpace.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/HalfSpace.java">
 <persistable path="/polyhedra/src/com/reprapltd/polyhedra/HalfSpace.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Point3D.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Point3D.java">
-<persistable path="/polyhedra/src/com/reprapltd/polyhedra/Point3D.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Box.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Box.java">
-<persistable path="/polyhedra/src/com/reprapltd/polyhedra/Box.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Triangulator.java" tooltip="triangulator/src/com/reprapltd/triangulator/Triangulator.java">
-<persistable path="/triangulator/src/com/reprapltd/triangulator/Triangulator.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.h" tooltip="Painter/src/Painter.h">
-<persistable path="/Painter/src/Painter.h"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="wavdata.h" tooltip="wav2c/wavdata.h">
-<persistable path="/wav2c/wavdata.h"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" tooltip="wav2c/main.c">
-<persistable path="/wav2c/main.c"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="wavdata.c" tooltip="wav2c/wavdata.c">
-<persistable path="/wav2c/wavdata.c"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="audio-generator.cpp" tooltip="audio-generator/src/audio-generator.cpp">
-<persistable path="/audio-generator/src/audio-generator.cpp"/>
-</file>
-<file factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="sndfile-to-text.c" tooltip="/usr/local/libsndfile/examples/sndfile-to-text.c">
-<persistable uri="file:/usr/local/libsndfile/examples/sndfile-to-text.c"/>
 </file>
 </mruList>
 </workbench>

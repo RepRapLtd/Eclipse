@@ -39,7 +39,7 @@
 <entry path="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/endorsed"/>
 </endorsedDirs>
 </libraryInfo>
-<libraryInfo home="/usr/lib/jvm/java-8-openjdk-amd64" version="1.8.0_151">
+<libraryInfo home="/usr/lib/jvm/java-8-openjdk-amd64" version="1.8.0_212">
 <bootpath>
 <entry path="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/resources.jar"/>
 <entry path="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar"/>
