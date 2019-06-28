@@ -23,38 +23,31 @@ using namespace std;
 
 #include "Painter.h"
 
-#define STROKES 500
-#define REPORT 50
-
 uchar warmGrey[3] = {79, 64, 64};
+Scalar red = Scalar(0, 0, 255);
+Vec3b black = Vec3b(0, 0, 0);
+Vec3b white = Vec3b(255, 255, 255);
 
-void Painter::Pause()
-{
-	waitKey(0);
-}
-
-
-void Painter::ShowResult(Mat img, char* title)
-{
-	char text[100];
-	sprintf(text,"%s %d %s %d", title, frameCount, ", strokes: ", strokes);
-
-	namedWindow(text, CV_WINDOW_AUTOSIZE);
-	moveWindow(text, 100+frameXOff, 100+frameYOff);
-
-	frameXOff += 50;
-	frameYOff += 50;
-
-	Mat copy = img;
-
-	imshow(text, copy);
-
-	Pause();
-
-	// release the image
-	//cvReleaseImage(&img );
-	frameCount++;
-}
+//void Painter::ShowResult(Mat img, char* title)
+//{
+//	//char text[100];
+//	//sprintf(text,"%s %d %s %d", title, frameCount, ", strokes: ", strokeCount);
+//
+//	namedWindow(title, CV_WINDOW_AUTOSIZE);
+//	//moveWindow(title, 100+frameXOff, 100+frameYOff);
+//
+//	//frameXOff += 50;
+//	//frameYOff += 50;
+//
+//	Mat copy = img;
+//
+//	imshow(title, copy);
+//	waitKey(10);
+//
+//	// release the image
+//	//cvReleaseImage(&img );
+//	frameCount++;
+//}
 
 
 
@@ -107,7 +100,7 @@ void Painter::Threshold(Mat image, double percentile)
 	double t = (double)Percentile(image, percentile);
 	if(debug == STRONG_DEBUG)
 		cout << "Threshold: " << t << endl;
-	threshold(image, image, t, 255.0, THRESH_BINARY);
+	threshold(image, thresholded, t, 255.0, THRESH_BINARY);
 }
 
 
@@ -172,6 +165,39 @@ void Painter::ImageDifference(Mat a, Mat b)
 		}
 }
 
+void Painter::CopyBWToColour(Mat source, Mat dest)
+{
+	for(int x = 0; x < source.cols; x++)
+		for(int y = 0; y < source.rows; y++)
+		{
+			Vec3b colour = source.at<Vec3b>(Point(x,y));
+			if(colour[0] > 0)
+				dest.at<Vec3b>(Point(x,y)) = white;
+			else
+				dest.at<Vec3b>(Point(x,y)) = black;
+		}
+}
+
+
+void Painter::RefreshWindows()
+{
+	CopyBWToColour(eroded, lastTrack);
+	drawContours(lastTrack, contours, largestContourIndex, red);
+
+	imshow(originalWindow, original);
+	waitKey(10); //???
+	imshow(paintingWindow, painting);
+	waitKey(10); //???
+	imshow(lastTrackWindow, lastTrack);
+	waitKey(10); //???
+	imshow(differenceWindow, difference);
+	waitKey(10); //???
+	imshow(thresholdedWindow, thresholded);
+	waitKey(10); //???
+	imshow(erodedWindow, eroded);
+	waitKey(10); //???
+}
+
 
 Painter::Painter(const Mat org, uchar db, double tv, double br, double bl, uchar underCoat[])
 {
@@ -181,10 +207,44 @@ Painter::Painter(const Mat org, uchar db, double tv, double br, double bl, uchar
 	frameYOff = 0;
 
 	org.copyTo(original);
+	originalWindow = "Original";
+	namedWindow(originalWindow, CV_WINDOW_AUTOSIZE);
+	imshow(originalWindow, original);
+	waitKey(10); //???
+
 	imageWidth = original.cols;
 	imageHeight = original.rows;
 	pixelCount = imageWidth*imageHeight;
+
 	original.copyTo(painting);
+	paintingWindow = "Painting";
+	namedWindow(paintingWindow, CV_WINDOW_AUTOSIZE);
+	imshow(paintingWindow, painting);
+	waitKey(10); //???
+
+	cvtColor(original, difference, CV_BGR2GRAY);
+	differenceWindow = "Difference";
+	namedWindow(differenceWindow, CV_WINDOW_AUTOSIZE);
+	imshow(differenceWindow, difference);
+	waitKey(10); //???
+
+	difference.copyTo(thresholded);
+	thresholdedWindow = "thresholded";
+	namedWindow(thresholdedWindow, CV_WINDOW_AUTOSIZE);
+	imshow(thresholdedWindow, thresholded);
+	waitKey(10); //???
+
+	difference.copyTo(eroded);
+	erodedWindow = "eroded";
+	namedWindow(erodedWindow, CV_WINDOW_AUTOSIZE);
+	imshow(erodedWindow, eroded);
+	waitKey(10); //???
+
+	original.copyTo(lastTrack);
+	lastTrackWindow = "Last Track";
+	namedWindow(lastTrackWindow, CV_WINDOW_AUTOSIZE);
+	imshow(lastTrackWindow, lastTrack);
+	waitKey(10); //???
 
 	for(int k = 0; k < 3; k++)
 		average[k] = 0;
@@ -208,35 +268,25 @@ Painter::Painter(const Mat org, uchar db, double tv, double br, double bl, uchar
 		GoColour(painting, pixel);
 	}
 
-	cvtColor(original, difference, CV_BGR2GRAY);
-	difference.copyTo(eroded);
-
 	frameCount = 0;
-	blob = imageWidth/30;
+	brushDiameter = imageWidth/30;
 	thresholdValue = tv;
 	brushReduction = br;
 	bleed = bl;
 
-	strokes = 0;
+	strokeCount = 0;
+	totalStrokes = 0;
 	keepGoing = true;
-
-	ShowResult(org, "original");
-	if(debug >= WEAK_DEBUG)
-		cout << "Original loaded." << endl;
 }
 
-void Painter::Draw()
-{
-
-}
 
 void Painter::Report()
 {
-	cout << endl << "Painting report." << endl;
+	cout << endl << "Painting report - current state." << endl;
 	cout << " Image size: " << imageWidth << " x " << imageHeight << endl;
-	cout << " stroke count: " << strokes << endl;
+	cout << " stroke count: " << totalStrokes << endl;
 	cout << " frame count: " << frameCount << endl;
-	cout << " blob size: " << blob << endl;
+	cout << " brush diameter: " << brushDiameter << endl;
 	cout << " threshold value: " << thresholdValue << endl;
 	cout << " brush reduction: " << brushReduction << endl;
 	cout << " bleed: " << bleed << endl;
@@ -257,25 +307,19 @@ void Painter::Report()
 
 }
 
-void Painter::Paint()
+void Painter::PaintABit(int strokes)
 {
-	blob = imageWidth/30;
-
-	strokes = 0;
+	strokeCount = 0;
 	keepGoing = true;
 
-	Size *myBlob = new Size(blob, blob);
-	kernel = getStructuringElement(MORPH_ELLIPSE, *myBlob);
+	Size *brushSize = new Size(brushDiameter, brushDiameter);
+	brush = getStructuringElement(MORPH_ELLIPSE, *brushSize);
 
-	while(strokes < STROKES && keepGoing)
+	while(strokeCount < strokes && keepGoing)
 	{
 		ImageDifference(original, painting);
-		if(debug == STRONG_DEBUG && strokes%REPORT == 0)
-			ShowResult(difference, "difference");
 		Threshold(difference, thresholdValue);
-		if(debug == STRONG_DEBUG && strokes%REPORT == 0)
-			ShowResult(difference, "threshold");
-		erode(difference, eroded, kernel);
+		erode(thresholded, eroded, brush);
 
 		findContours(eroded, contours, hierarchy, RETR_LIST, CHAIN_APPROX_NONE);
 
@@ -327,41 +371,76 @@ void Painter::Paint()
 			}
 			for(int k = 0; k < 3; k++)
 				pixel[k] = (uchar)(average[k]/(double)track);
-			Stroke(painting, track, pixel, blob*bleed);
+			Stroke(painting, track, pixel, brushDiameter*bleed);
 		}else
 		{
 			if(debug >= WEAK_DEBUG)
-				cout << "Short contour: " << track << ", blob: " << blob << endl;
+				cout << "Short contour: " << track << ", brush diameter: " << brushDiameter << endl;
 
-			blob = blob*brushReduction;
+			brushDiameter = brushDiameter*brushReduction;
 
-			if(blob < 2)
-				keepGoing = false;
-			else
+			if(brushDiameter < MIN_BRUSH)
 			{
-				delete myBlob;
-				myBlob = new Size(blob, blob);
-				kernel = getStructuringElement(MORPH_ELLIPSE, *myBlob);
+				keepGoing = false;
+				cout << "Stopping, because brush diameter < " << MIN_BRUSH << endl;
+			} else
+			{
+				delete brushSize;
+				brushSize = new Size(brushDiameter, brushDiameter);
+				brush = getStructuringElement(MORPH_ELLIPSE, *brushSize);
 			}
 		}
-		strokes++;
-		if(debug >= WEAK_DEBUG && strokes%REPORT == 0)
+		strokeCount++;
+	}
+	totalStrokes += strokeCount;
+}
+
+void Painter::Prompt()
+{
+	cout << "Commands: " << endl;
+}
+
+void Painter::Control()
+{
+	cout << "Type h for help." << endl;
+	while(1)
+	{
+		RefreshWindows();
+		cout << "Command: ";
+		char c;
+		cin >> c;
+
+		switch(c)
 		{
-			ShowResult(painting, "Partial painting");
+		case 'p':
+			cout << "Number of strokes to paint: ";
+			int num;
+			cin >> num;
+			PaintABit(num);
+			break;
+
+		case 'r':
 			Report();
+			break;
+
+		case 'q':
+			return;
+
+		default:
+			cout << endl << "Unrecognised command - " << c << endl;
+		case 'h':
+			Prompt();
 		}
 	}
 }
-
-
 
 int main(int argc, char *argv[])
 {
 	Mat org = cvLoadImage("/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/JavaPaintRobot/resources/sunset.jpg");
 	Painter* p = new Painter(org, WEAK_DEBUG, 0.7, 0.7, 1.1, warmGrey);
-	p->Paint();
-	//p->Draw();
-	p->Show("Final painting");
+	p->Control();
+	p->Show();
+
 	return 0;
 }
 

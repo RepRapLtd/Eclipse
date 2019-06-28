@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="18" version="2.0">
+<workbench progressCount="26" version="2.0">
 <workbenchAdvisor/>
 <window height="766" maximized="true" width="1004" x="2073" y="134">
 <fastViewData fastViewLocation="1024"/>
@@ -8,7 +8,7 @@
 </perspectiveBar>
 <coolbarLayout>
 <coolItem id="group.file" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="280" y="30"/>
+<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="252" y="30"/>
 <coolItem id="additions" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.cdt.ui.CElementCreationActionSet" itemType="typeToolBarContribution" x="204" y="30"/>
 <coolItem id="org.eclipse.debug.ui.launch.toolbar" itemType="typeToolBarContribution" x="-1" y="-1"/>
@@ -16,13 +16,13 @@
 <coolItem id="org.eclipse.debug.ui.main.toolbar" itemType="typeToolBarContribution" x="40" y="30"/>
 <coolItem id="org.eclipse.jdt.ui.JavaElementCreationActionSet" itemType="typeToolBarContribution" x="88" y="30"/>
 <coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="88" y="30"/>
-<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="96" y="30"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="68" y="30"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="232" y="30"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.jdt.ui.ClassFileEditorNoSource" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
-<coolItem id="org.eclipse.cdt.ui.editor.CEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.cdt.ui.editor.CEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
@@ -32,30 +32,17 @@
 <editorArea activeWorkbook="DefaultEditorWorkbook">
 <info part="DefaultEditorWorkbook">
 <folder appearance="1" expanded="2">
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-<part id="1"/>
-</presentation>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.cpp" partName="Painter.cpp" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/Painter.cpp" title="Painter.cpp" tooltip="CPPPaintRobot/src/Painter.cpp" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/Painter.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4597" selectionTopPixel="3151"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.h" partName="Painter.h" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/Painter.h" title="Painter.h" tooltip="CPPPaintRobot/src/Painter.h" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/Painter.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1460" selectionTopPixel="564"/>
-</editor>
 </editors>
 <views>
 <view id="org.eclipse.ui.views.PropertySheet" partName="Properties"/>
 <view id="org.eclipse.jdt.ui.JavadocView" partName="Javadoc"/>
 <view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
 <viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">
-<xmlDefinedFilters>
-<child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.NonJavaProjectsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer_patternFilterId_.*" isEnabled="true"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.NonSharedProjectsFilter" isEnabled="false"/>
@@ -85,7 +72,7 @@
 <expanded>
 <category IMemento.internal.id="Errors"/>
 <category IMemento.internal.id="Warnings"/>
-<category IMemento.internal.id="Warnings (8 items)"/>
+<category IMemento.internal.id="Warnings (6 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="105" org.eclipse.ui.ide.markerType="897" org.eclipse.ui.ide.pathField="140" org.eclipse.ui.ide.resourceField="105" org.eclipse.ui.ide.severityAndDescriptionField="350"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -119,7 +106,7 @@
 <viewState CommonNavigator.LINKING_ENABLED="0" org.eclipse.cdt.ui.cview.groupincludes="false" org.eclipse.cdt.ui.cview.groupmacros="false" org.eclipse.cdt.ui.editor.CUChildren="true" org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets="0"/>
 </view>
 </views>
-<perspectives activePart="org.eclipse.ui.console.ConsoleView" activePerspective="org.eclipse.cdt.ui.CPerspective">
+<perspectives activePart="org.eclipse.ui.navigator.ProjectExplorer" activePerspective="org.eclipse.cdt.ui.CPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.ui.internal.ide.application.ResourcePerspective" id="org.eclipse.ui.resourcePerspective" label="Resource"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
@@ -240,49 +227,37 @@
 <view id="org.eclipse.jdt.ui.SourceView"/>
 <view id="org.eclipse.ui.console.ConsoleView"/>
 <fastViewBars/>
-<layout>
-<mainWindow>
-<info folder="true" part="left">
-<folder activePageID="org.eclipse.jdt.ui.PackageExplorer" appearance="2" expanded="2">
-<page content="org.eclipse.jdt.ui.PackageExplorer" label="Package Explorer"/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="left">&#x0A;<folder activePageID="org.eclipse.jdt.ui.PackageExplorer" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.jdt.ui.PackageExplorer" label="Package Explorer"/>
 <page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.ui.navigator.ProjectExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.junit.ResultView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="1434" ratioRight="478" relationship="2" relative="left">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="1434" ratioRight="478" relationship="2" relative="left">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.18962808" ratioLeft="362" ratioRight="1547" relationship="2" relative="left"/>
-<info folder="true" part="bottom" ratio="0.7329127" ratioLeft="697" ratioRight="254" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
+<info folder="true" part="bottom" ratio="0.7329127" ratioLeft="697" ratioRight="254" relationship="4" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.jdt.ui.JavadocView" label="Javadoc"/>
 <page content="org.eclipse.jdt.ui.SourceView" label="Declaration"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.search.ui.views.SearchView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ProgressView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="right" ratio="0.7496513" ratioLeft="1075" ratioRight="359" relationship="2" relative="org.eclipse.ui.editorss">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
+<info folder="true" part="right" ratio="0.7496513" ratioLeft="1075" ratioRight="359" relationship="2" relative="org.eclipse.ui.editorss">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
 <page content="org.eclipse.ui.texteditor.TemplatesView" label="LabelNotFound"/>
 <page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
@@ -368,7 +343,7 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.16029334" ratioLeft="306" ratioRight="1603" relationship="2" relative="topLeft"/>
-<info folder="true" part="bottom" ratio="0.51419556" ratioLeft="489" ratioRight="462" relationship="4" relative="org.eclipse.ui.editorss">
+<info folder="true" part="bottom" ratio="0.7718191" ratioLeft="734" ratioRight="217" relationship="4" relative="org.eclipse.ui.editorss">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
@@ -397,162 +372,7 @@
 </perspective>
 </perspectives>
 <workingSets/>
-<navigationHistory>
-<editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/Painter.cpp"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/Painter.h"/>
-</editors>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="7654" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="436" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="7654" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="1352" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="5945" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="3224" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="7413" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="436" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="7654" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="436" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="7654" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="3400" y="17"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="436" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="424" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="3400" y="17"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="3418" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="7176" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="424" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="3222" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="7176" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="956" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="3222" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="1249" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="956" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="5973" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="1553" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="5893" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="1553" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="5926" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="1460" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="5926" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="6282" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="6418" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="6418" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="1460" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="1249" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="6418" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="5252" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="1249" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="1364" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="4557" y="0"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="1353" y="258"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="6466" y="3"/>
-</item>
-<item historyLabel="Painter.h" index="1">
-<position info="not_deleted" x="1460" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="6466" y="3"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="4438" y="0"/>
-</item>
-<item active="true" historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="7402" y="0"/>
-</item>
-</navigationHistory>
+<navigationHistory/>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
 </page>
 <workbenchWindowAdvisor/>
@@ -569,14 +389,17 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Triangulation.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/Triangulation.java">
+<persistable path="/polyhedra/src/com/reprapltd/polyhedra/Triangulation.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PaintRobot.java" tooltip="JavaPaintRobot/src/com/reprapltd/paintrobot/PaintRobot.java">
+<persistable path="/JavaPaintRobot/src/com/reprapltd/paintrobot/PaintRobot.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.h" tooltip="CPPPaintRobot/src/Painter.h">
 <persistable path="/CPPPaintRobot/src/Painter.h"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.cpp" tooltip="CPPPaintRobot/src/Painter.cpp">
 <persistable path="/CPPPaintRobot/src/Painter.cpp"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PaintRobot.java" tooltip="JavaPaintRobot/src/com/reprapltd/paintrobot/PaintRobot.java">
-<persistable path="/JavaPaintRobot/src/com/reprapltd/paintrobot/PaintRobot.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.h" tooltip="CppPaintRobot/src/Painter.h">
 <persistable path="/CppPaintRobot/src/Painter.h"/>
@@ -610,9 +433,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSG3D.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/CSG3D.java">
 <persistable path="/polyhedra/src/com/reprapltd/polyhedra/CSG3D.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="HalfSpace.java" tooltip="polyhedra/src/com/reprapltd/polyhedra/HalfSpace.java">
-<persistable path="/polyhedra/src/com/reprapltd/polyhedra/HalfSpace.java"/>
 </file>
 </mruList>
 </workbench>

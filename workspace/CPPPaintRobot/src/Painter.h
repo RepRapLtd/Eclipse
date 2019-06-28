@@ -22,20 +22,19 @@ using namespace cv;
 #define MAX_PIXEL 255
 #define STRONG_DEBUG 2
 #define WEAK_DEBUG 1
+#define MIN_BRUSH 2
 
 class Painter
 {
 public:
 	Painter(const Mat original, uchar db, double tv, double br, double bl, uchar underCoat[]);
-	void Paint();
-	void Draw();
-	void ShowResult(const Mat img, char* title);
-	void Show(char* title);
-	void ChangeDebug(uchar db);
+	void Control();
+	void Show();
 
 private:
 
 	uchar GetPixelMono(const Mat img, int x, int y);
+	void CopyBWToColour(Mat src, Mat dest);
 	void PutPixelMono(Mat img, int x, int y, uchar p);
 	void GetPixel(const Mat img, int x, int y, uchar p[]);
 	void PutPixel(Mat img, int x, int y, uchar p[]);
@@ -48,9 +47,12 @@ private:
 	uchar PixelDifference(uchar a[], uchar b[]);
 	void ImageDifference(Mat a, Mat b);
 	void ConvexQuadrilateral(Point corner[]);
-	void Pause();
 	void Report();
-
+	void PaintABit(int strokes);
+	//void ShowResult(const Mat img, char* title);
+	void ChangeDebug(uchar db);
+	void Prompt();
+	void RefreshWindows();
 
 	int frameCount;
 	int frameXOff;
@@ -58,11 +60,12 @@ private:
 	int pixelCount;
 	int imageWidth;
 	int imageHeight;
-	double blob;
+	double brushDiameter;
 	double thresholdValue;
 	double brushReduction;
 	double bleed;
-	int strokes;
+	int strokeCount;
+	int totalStrokes;
 	bool keepGoing;
 	int largestContourIndex;
 	int track;
@@ -74,10 +77,18 @@ private:
 	double sdContour;
 
 	Mat original;
+	string originalWindow;
 	Mat difference;
+	string differenceWindow;
+	Mat thresholded;
+	string thresholdedWindow;
 	Mat painting;
-	Mat kernel;
+	string paintingWindow;
 	Mat eroded;
+	string erodedWindow;
+	Mat lastTrack;
+	string lastTrackWindow;
+	Mat brush;
 	vector<vector<Point> > contours;
 	vector<Vec4i> hierarchy;
 	double average[3];
@@ -138,9 +149,10 @@ inline void Painter::PutPixel(Mat img, int x, int y, uchar p[])
 	img.data[pos + 2] = p[2];
 }
 
-inline void Painter::Show(char* title)
+inline void Painter::Show()
 {
-	ShowResult(painting, title);
+	imshow(paintingWindow, painting);
+	waitKey(10); //???
 }
 
 inline void Painter::ChangeDebug(uchar db)

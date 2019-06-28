@@ -1,15 +1,22 @@
 This repository is the complete Eclipse (https://www.eclipse.org/) development
 environment for several RepRap Ltd software projects:
 
-opencv-one:
+CPPPaintRobot:
 
-(Wierd name for) a project to develop a painting robot.  Not housepainting, 
+A C++ project to develop a painting robot.  Not housepainting, 
 Peter Paul Rubens painting.
 
 
-triangulator:
+JavaPaintRobot:
 
-A suite of software for working with STL 3D printing triangulation files.  One
+Initial Java experiments for the above project. Frozen and abandoned.
+
+
+Polyhedra:
+
+A suite of Java software for working with STL 3D printing triangulation files.  One
 aim is an interactive program that allows you to paint stresses onto the 
-surface that then finite-element-optimises the shape.
+surface that then finite-element-optimises the shape.  Another is to use Woo's Alternating
+Sum of Volumes algorithm to make a robust CSG representation of an STL file object as an
+intersection and union of infinite planar half-spaces.
 

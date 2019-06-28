@@ -1,29 +1,12 @@
-17:35:58 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+12:35:57 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
 make all 
 Building file: ../src/Painter.cpp
 Invoking: Cross G++ Compiler
 g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
-../src/Painter.cpp: In constructor ‘Painter::Painter(cv::Mat, uchar, double, double, double, uchar*)’:
-../src/Painter.cpp:223:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-  ShowResult(org, "original");
-                            ^
-../src/Painter.cpp: In member function ‘void Painter::Paint()’:
-../src/Painter.cpp:274:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-    ShowResult(difference, "difference");
-                                       ^
-../src/Painter.cpp:277:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-    ShowResult(difference, "threshold");
-                                      ^
-../src/Painter.cpp:288:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+../src/Painter.cpp: In member function ‘void Painter::PaintABit(int)’:
+../src/Painter.cpp:332:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
    for(int i = 0; i < contours.size(); i++)
                     ^
-../src/Painter.cpp:350:43: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-    ShowResult(painting, "Partial painting");
-                                           ^
-../src/Painter.cpp: In function ‘int main(int, char**)’:
-../src/Painter.cpp:364:26: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-  p->Show("Final painting");
-                          ^
 Finished building: ../src/Painter.cpp
  
 Building target: CPPPaintRobot
@@ -32,5 +15,5 @@ g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_
 Finished building target: CPPPaintRobot
  
 
-17:36:00 Build Finished (took 1s.731ms)
+12:35:59 Build Finished (took 1s.726ms)
 
