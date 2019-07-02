@@ -1446,3 +1446,229 @@ Invoking: Cross G++ Linker
 g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
 Finished building target: CPPPaintRobot
  
+14:24:19 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In member function ‘void Painter::PaintABit(int)’:
+../src/Painter.cpp:347:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+14:28:17 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In member function ‘void Painter::PaintABit(int)’:
+../src/Painter.cpp:347:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+14:30:16 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In member function ‘void Painter::PaintABit(int)’:
+../src/Painter.cpp:347:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+14:46:39 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In member function ‘void Painter::RefreshWindows()’:
+../src/Painter.cpp:201:69: error: invalid initialization of reference of type ‘const Scalar& {aka const cv::Scalar_<double>&}’ from expression of type ‘cv::Vec3b {aka cv::Vec<unsigned char, 3>}’
+  drawContours(lastTrack, contours, largestContourIndex, Vec3b(white));
+                                                                     ^
+In file included from /usr/include/opencv/cv.h:66:0,
+                 from /usr/include/opencv/cv.hpp:50,
+                 from ../src/Painter.h:18,
+                 from ../src/Painter.cpp:39:
+/usr/include/opencv2/imgproc/imgproc.hpp:1158:19: note: in passing argument 4 of ‘void cv::drawContours(cv::InputOutputArray, cv::InputArrayOfArrays, int, const Scalar&, int, int, cv::InputArray, int, cv::Point)’
+ CV_EXPORTS_W void drawContours( InputOutputArray image, InputArrayOfArrays contours,
+                   ^
+../src/Painter.cpp: In member function ‘void Painter::PaintABit(int)’:
+../src/Painter.cpp:348:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+src/subdir.mk:18: recipe for target 'src/Painter.o' failed
+make: *** [src/Painter.o] Error 1
+14:47:42 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In member function ‘void Painter::PaintABit(int)’:
+../src/Painter.cpp:348:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+14:50:29 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In member function ‘void Painter::PaintABit(int)’:
+../src/Painter.cpp:348:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+14:51:30 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In member function ‘void Painter::PaintABit(int)’:
+../src/Painter.cpp:348:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for(int i = 0; i < contours.size(); i++)
+                    ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+14:54:59 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+make: Nothing to be done for 'all'.
+15:53:44 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+In file included from /usr/include/c++/5/random:35:0,
+                 from ../src/Painter.cpp:36:
+/usr/include/c++/5/bits/c++0x_warning.h:32:2: error: #error This file requires compiler and library support for the ISO C++ 2011 standard. This support must be enabled with the -std=c++11 or -std=gnu++11 compiler options.
+ #error This file requires compiler and library support \
+  ^
+../src/Painter.cpp:46:1: error: ‘random_device’ does not name a type
+ random_device rd{};
+ ^
+../src/Painter.cpp: In member function ‘void Painter::FindBiggestContour()’:
+../src/Painter.cpp:329:19: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for(int i = 0; i < contours.size(); i++)
+                   ^
+../src/Painter.cpp: In member function ‘bool Painter::TrackLength()’:
+../src/Painter.cpp:355:7: warning: unused variable ‘length’ [-Wunused-variable]
+   int length = 1 + round(aspect*brushDiameter);
+       ^
+src/subdir.mk:18: recipe for target 'src/Painter.o' failed
+make: *** [src/Painter.o] Error 1
+16:02:05 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+In file included from /usr/include/c++/5/random:35:0,
+                 from ../src/Painter.cpp:36:
+/usr/include/c++/5/bits/c++0x_warning.h:32:2: error: #error This file requires compiler and library support for the ISO C++ 2011 standard. This support must be enabled with the -std=c++11 or -std=gnu++11 compiler options.
+ #error This file requires compiler and library support \
+  ^
+../src/Painter.cpp:52:6: error: ‘random_device’ in namespace ‘std’ does not name a type
+ std::random_device r;
+      ^
+../src/Painter.cpp: In member function ‘void Painter::FindBiggestContour()’:
+../src/Painter.cpp:335:19: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for(int i = 0; i < contours.size(); i++)
+                   ^
+../src/Painter.cpp: In member function ‘bool Painter::TrackLength()’:
+../src/Painter.cpp:361:7: warning: unused variable ‘length’ [-Wunused-variable]
+   int length = 1 + round(aspect*brushDiameter);
+       ^
+make: *** [src/Painter.o] Error 1
+src/subdir.mk:18: recipe for target 'src/Painter.o' failed
+16:02:55 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+In file included from /usr/include/c++/5/random:35:0,
+                 from ../src/Painter.cpp:36:
+/usr/include/c++/5/bits/c++0x_warning.h:32:2: error: #error This file requires compiler and library support for the ISO C++ 2011 standard. This support must be enabled with the -std=c++11 or -std=gnu++11 compiler options.
+ #error This file requires compiler and library support \
+  ^
+../src/Painter.cpp: In member function ‘void Painter::FindBiggestContour()’:
+../src/Painter.cpp:333:19: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for(int i = 0; i < contours.size(); i++)
+                   ^
+../src/Painter.cpp: In member function ‘bool Painter::TrackLength()’:
+../src/Painter.cpp:359:7: warning: unused variable ‘length’ [-Wunused-variable]
+   int length = 1 + round(aspect*brushDiameter);
+       ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:455:2: error: ‘random_device’ is not a member of ‘std’
+  std::random_device r;
+  ^
+src/subdir.mk:18: recipe for target 'src/Painter.o' failed
+make: *** [src/Painter.o] Error 1
+16:06:39 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+In file included from /usr/include/c++/5/random:35:0,
+                 from ../src/Painter.cpp:36:
+/usr/include/c++/5/bits/c++0x_warning.h:32:2: error: #error This file requires compiler and library support for the ISO C++ 2011 standard. This support must be enabled with the -std=c++11 or -std=gnu++11 compiler options.
+ #error This file requires compiler and library support \
+  ^
+../src/Painter.cpp: In member function ‘void Painter::FindBiggestContour()’:
+../src/Painter.cpp:328:19: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for(int i = 0; i < contours.size(); i++)
+                   ^
+src/subdir.mk:18: recipe for target 'src/Painter.o' failed
+make: *** [src/Painter.o] Error 1
+16:09:41 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In member function ‘void Painter::FindBiggestContour()’:
+../src/Painter.cpp:328:19: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for(int i = 0; i < contours.size(); i++)
+                   ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+16:10:07 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+make: Nothing to be done for 'all'.

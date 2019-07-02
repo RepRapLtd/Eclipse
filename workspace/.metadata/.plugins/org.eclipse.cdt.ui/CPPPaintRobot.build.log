@@ -1,19 +1,6 @@
-12:35:57 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+16:10:07 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
 make all 
-Building file: ../src/Painter.cpp
-Invoking: Cross G++ Compiler
-g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
-../src/Painter.cpp: In member function ‘void Painter::PaintABit(int)’:
-../src/Painter.cpp:332:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-   for(int i = 0; i < contours.size(); i++)
-                    ^
-Finished building: ../src/Painter.cpp
- 
-Building target: CPPPaintRobot
-Invoking: Cross G++ Linker
-g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
-Finished building target: CPPPaintRobot
- 
+make: Nothing to be done for 'all'.
 
-12:35:59 Build Finished (took 1s.726ms)
+16:10:07 Build Finished (took 228ms)
 

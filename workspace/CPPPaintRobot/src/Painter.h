@@ -1,14 +1,15 @@
 /*
  * Painter.h
  *
- *  Created on: 24 Jun 2019
- *      Author: ensab
- */
-/*
- * Painter.h
- *
  *  Created on: 3 Oct 2016
- *      Author: ensab
+ *  This version: about 24 Jun 2019
+ *
+ *
+ *      Author: Adrian Bowyer
+ *      		RepRap Ltd
+ *      		http://reprapltd.com
+ *
+ *      Licence: GPL
  */
 
 #ifndef PAINTER_H_
@@ -24,10 +25,17 @@ using namespace cv;
 #define WEAK_DEBUG 1
 #define MIN_BRUSH 2
 
+enum SnakeState
+{
+	sdTooBig = 1,
+	mayNotContinue = 2,
+	mayContinue = 3
+};
+
 class Painter
 {
 public:
-	Painter(const Mat original, uchar db, double tv, double br, double bl, uchar underCoat[]);
+	Painter(const Mat original, uchar db, double tv, double br, double bl, int lt, double as, uchar underCoat[]);
 	void Control();
 	void Show();
 
@@ -53,10 +61,13 @@ private:
 	void ChangeDebug(uchar db);
 	void Prompt();
 	void RefreshWindows();
+	void FindPixelColourAlongTrack();
+	void FindBiggestContour();
+	bool TrackLength();
+	void SmoothSnake();
+	SnakeState GrowHeadOnePixel();
+	SnakeState EatTailOnePixel();
 
-	int frameCount;
-	int frameXOff;
-	int frameYOff;
 	int pixelCount;
 	int imageWidth;
 	int imageHeight;
@@ -64,12 +75,16 @@ private:
 	double thresholdValue;
 	double brushReduction;
 	double bleed;
+	double aspect;
 	int strokeCount;
 	int totalStrokes;
 	bool keepGoing;
 	int largestContourIndex;
 	int track;
+	int startTrack;
+	int endTrack;
 	int pix;
+	int trackTooShort;
 	uchar debug;
 	double smallestContour;
 	double biggestContour;
@@ -92,6 +107,7 @@ private:
 	vector<vector<Point> > contours;
 	vector<Vec4i> hierarchy;
 	double average[3];
+	double sd[3];
 	uchar pixel[3];
 	vector<Point> pixels;
 };
