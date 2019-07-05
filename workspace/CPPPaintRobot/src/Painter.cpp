@@ -36,6 +36,13 @@
 #include <random>
 #include <algorithm>
 
+#include <iostream>
+#include <vector>
+
+#include "Utils.h"
+#include "Slink.h"
+#include "SingleLinkage.h"
+
 using namespace std;
 
 #include "Painter.h"
@@ -120,6 +127,7 @@ Painter::Painter(const Mat org, uchar db, double tv, double br, double bl, int s
 	bleed = bl;
 	trackTooShort = st;
 	aspect = as;
+	coarsenMask = 0xff;
 
 	strokeCount = 0;
 	totalStrokes = 0;
@@ -556,6 +564,28 @@ void Painter::PaintABit(int strokes)
 	totalStrokes += strokeCount;
 }
 
+void Painter::Coarsen()
+{
+	coarsenMask = coarsenMask << 1;
+	if(!coarsenMask)
+	{
+		cout << endl << "Coarsen - image is 1 bit already!" << endl;
+		return;
+	}
+	uchar data[3];
+	uchar pixel;
+	for(int x = 0; x < imageWidth; x++)
+		for(int y = 0; y < imageHeight; y++)
+		{
+			GetPixel(original, x, y, data);
+			for(int k = 0; k < 3; k++)
+			{
+				data[k] &= coarsenMask;
+			}
+			PutPixel(original, x, y, data);
+		}
+}
+
 void Painter::Prompt()
 {
 	cout << "Commands: " << endl;
@@ -584,6 +614,10 @@ void Painter::Control()
 			Report();
 			break;
 
+		case 'c':
+			Coarsen();
+			break;
+
 		case 'q':
 			return;
 
@@ -595,16 +629,56 @@ void Painter::Control()
 	}
 }
 
-int main(int argc, char *argv[])
-{
+//int main(int argc, char *argv[])
+//{
+//
+//	Mat org = cvLoadImage("/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/JavaPaintRobot/resources/sunset.jpg");
+//	Painter* p = new Painter(org, WEAK_DEBUG, 0.7, 0.7, 1.1, 20, 6.0, warmGrey);
+//	p->Control();
+//	p->Show();
+//
+////	//org.copyTo(original);
+////
+////	//Mat image;
+////	//cvtColor(org, image, COLOR_BGR2Lab);
+////	int r = image.rows;
+////	int c = image.cols;
+////	//image = image.reshape(0, 1);
+////	Mat labels;
+////	Mat centres;
+////
+////	kmeans(image, 20, labels,
+////	            TermCriteria( TermCriteria::EPS+TermCriteria::COUNT, 10, 1.0),
+////	               3, KMEANS_PP_CENTERS, centres);
+////
+////	//image = image.reshape(0, r);
+////	string originalWindow = "Original";
+////	namedWindow(originalWindow, CV_WINDOW_AUTOSIZE);
+////	imshow(originalWindow, image);
+////	waitKey(0);
+//
+//	return 0;
+//}
 
-	Mat org = cvLoadImage("/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/JavaPaintRobot/resources/sunset.jpg");
-	Painter* p = new Painter(org, WEAK_DEBUG, 0.7, 0.7, 1.1, 20, 6.0, warmGrey);
-	p->Control();
-	p->Show();
+// Slink main prog.
 
-	return 0;
+int main(int argc, char* argv[]) {
+	vector< vector<float> > data;
+	readCsv(data, argv[1], ',');
+
+	vector< vector<float> > linkageMatrix; // 2n * 4 matrix
+	int n = data.size();
+
+	SLINK slink;
+	slink.clusterize(data, linkageMatrix, manhattanDistance);
+
+	float amenability = getAmenability(data, manhattanDistance, linkageMatrix);
+
+	printf("Amenability: %f\n", amenability);
+
+	toCsv(linkageMatrix, argv[2]);
 }
+
 
 
 

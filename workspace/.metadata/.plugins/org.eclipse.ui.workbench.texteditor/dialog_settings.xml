@@ -2,36 +2,36 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="pix" key="selection"/>
+		<item value="longTrack" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="pix"/>
-			<item value="track"/>
-			<item value="big"/>
-			<item value="Threshold"/>
-			<item value="GoColour"/>
-			<item value="0.7"/>
-			<item value="blob"/>
-			<item value="keepGoing"/>
+			<item value="longTrack"/>
+			<item value="waitKey(1);"/>
+			<item value="waitKey"/>
+			<item value="//waitkey(10); //???"/>
+			<item value="//waitKey(10); //???"/>
+			<item value="//waitKey"/>
+			<item value="//waitKey(10)"/>
+			<item value="//waitkey(10)"/>
 		</list>
 		<list key="replacehistory">
+			<item value="waitKey(10);"/>
+			<item value="waitKey(1);"/>
+			<item value="//waitkey"/>
 			<item value=""/>
 			<item value="Point3d"/>
 			<item value="Debug.Error("/>
 			<item value="CSG3D"/>
 			<item value="Point3D"/>
-			<item value=".z"/>
-			<item value=".y"/>
-			<item value=".x"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="316" key="DIALOG_WIDTH"/>
+		<item value="318" key="DIALOG_WIDTH"/>
 		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
-		<item value="438" key="DIALOG_HEIGHT"/>
+		<item value="439" key="DIALOG_HEIGHT"/>
 		<item value="1164" key="DIALOG_X_ORIGIN"/>
 		<item value="317" key="DIALOG_Y_ORIGIN"/>
 	</section>

@@ -16,7 +16,10 @@
 #define PAINTER_H_
 
 #include <cv.hpp>
+#include <core/core.hpp>
 #include <highgui/highgui.hpp>
+#include <imgproc/imgproc.hpp>
+
 
 using namespace cv;
 
@@ -67,7 +70,9 @@ private:
 	void SmoothSnake();
 	SnakeState GrowHeadOnePixel();
 	SnakeState EatTailOnePixel();
+	void Coarsen();
 
+	uchar coarsenMask;
 	int pixelCount;
 	int imageWidth;
 	int imageHeight;

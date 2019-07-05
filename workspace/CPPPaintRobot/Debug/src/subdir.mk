@@ -4,13 +4,28 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/Painter.cpp 
+../src/Painter.cpp \
+../src/SingleLinkage.cpp \
+../src/SingleLinkageOptimized.cpp \
+../src/Slink.cpp \
+../src/SlinkMain.cpp \
+../src/Utils.cpp 
 
 OBJS += \
-./src/Painter.o 
+./src/Painter.o \
+./src/SingleLinkage.o \
+./src/SingleLinkageOptimized.o \
+./src/Slink.o \
+./src/SlinkMain.o \
+./src/Utils.o 
 
 CPP_DEPS += \
-./src/Painter.d 
+./src/Painter.d \
+./src/SingleLinkage.d \
+./src/SingleLinkageOptimized.d \
+./src/Slink.d \
+./src/SlinkMain.d \
+./src/Utils.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
