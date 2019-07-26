@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="CleanDialogSettings">
-		<item value="565" key="DIALOG_WIDTH"/>
+		<item value="567" key="DIALOG_WIDTH"/>
 		<item value="true" key="TOGGLE_SELECTED"/>
-		<item value="374" key="DIALOG_HEIGHT"/>
+		<item value="375" key="DIALOG_HEIGHT"/>
 		<item value="2599" key="DIALOG_X_ORIGIN"/>
 		<item value="291" key="DIALOG_Y_ORIGIN"/>
 	</section>

@@ -29,6 +29,9 @@ typedef float (*distance_func)(vector<float>, vector<float>);
 /* Definition of the manhattan distance dissimilarity function */
 float manhattanDistance(vector<float>, vector<float>);
 
+/* Definition of the manhattan distance dissimilarity function */
+float euclideanDistance(vector<float>, vector<float>);
+
 /* Disjoint-set (union-find) data structure definition */
 void makeSet(vector<int> &set, int size);
 int find(vector<int> &set, int a);

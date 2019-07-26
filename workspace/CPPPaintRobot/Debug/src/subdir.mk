@@ -8,7 +8,6 @@ CPP_SRCS += \
 ../src/SingleLinkage.cpp \
 ../src/SingleLinkageOptimized.cpp \
 ../src/Slink.cpp \
-../src/SlinkMain.cpp \
 ../src/Utils.cpp 
 
 OBJS += \
@@ -16,7 +15,6 @@ OBJS += \
 ./src/SingleLinkage.o \
 ./src/SingleLinkageOptimized.o \
 ./src/Slink.o \
-./src/SlinkMain.o \
 ./src/Utils.o 
 
 CPP_DEPS += \
@@ -24,7 +22,6 @@ CPP_DEPS += \
 ./src/SingleLinkage.d \
 ./src/SingleLinkageOptimized.d \
 ./src/Slink.d \
-./src/SlinkMain.d \
 ./src/Utils.d 
 
 

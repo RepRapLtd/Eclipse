@@ -132,3 +132,259 @@ Invoking: Cross G++ Linker
 g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o ./src/SingleLinkage.o ./src/SingleLinkageOptimized.o ./src/Slink.o ./src/SlinkMain.o ./src/Utils.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
 Finished building target: CPPPaintRobot
  
+16:23:40 **** Clean-only build of configuration Debug for project CPPPaintRobot ****
+make clean 
+rm -rf  ./src/Painter.o ./src/SingleLinkage.o ./src/SingleLinkageOptimized.o ./src/Slink.o ./src/SlinkMain.o ./src/Utils.o  ./src/Painter.d ./src/SingleLinkage.d ./src/SingleLinkageOptimized.d ./src/Slink.d ./src/SlinkMain.d ./src/Utils.d  CPPPaintRobot
+ 
+16:23:45 **** Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In member function ‘void Painter::FindBiggestContour()’:
+../src/Painter.cpp:483:19: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for(int i = 0; i < contours.size(); i++)
+                   ^
+../src/Painter.cpp: In member function ‘void Painter::Coarsen()’:
+../src/Painter.cpp:576:8: warning: unused variable ‘pixel’ [-Wunused-variable]
+  uchar pixel;
+        ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:670:6: warning: unused variable ‘n’ [-Wunused-variable]
+  int n = data.size();
+      ^
+Finished building: ../src/Painter.cpp
+ 
+Building file: ../src/SingleLinkage.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"src/SingleLinkage.d" -MT"src/SingleLinkage.d" -o "src/SingleLinkage.o" "../src/SingleLinkage.cpp"
+../src/SingleLinkage.cpp: In member function ‘virtual void SingleLinkage::clusterize(const std::vector<std::vector<float> >&, std::vector<std::vector<float> >&, distance_func)’:
+../src/SingleLinkage.cpp:14:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < data.size(); i++)
+                    ^
+../src/SingleLinkage.cpp:22:95: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘std::vector<std::vector<float> >::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("naive,%f,dissimilarity_matrix_build_time,%d,%d\n", time1, data.size(), data[0].size());
+                                                                                               ^
+../src/SingleLinkage.cpp:22:95: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+../src/SingleLinkage.cpp:26:22: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int it = 0; it < data.size() - 1; it++) {
+                      ^
+../src/SingleLinkage.cpp:33:21: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for (int i = 0; i < data.size(); i++) {
+                     ^
+../src/SingleLinkage.cpp:35:25: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (int j = i+1; j < data.size(); j++)
+                         ^
+../src/SingleLinkage.cpp:61:30: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for (int j = joiner + 1; j < data.size(); j++)
+                              ^
+../src/SingleLinkage.cpp:74:89: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘std::vector<std::vector<float> >::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("naive,%f,linkage_matrix_build_time,%d,%d\n", time2, data.size(), data[0].size());
+                                                                                         ^
+../src/SingleLinkage.cpp:74:89: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+../src/SingleLinkage.cpp:75:82: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘std::vector<std::vector<float> >::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("naive,%f,total_time,%d,%d\n", time1 + time2, data.size(), data[0].size());
+                                                                                  ^
+../src/SingleLinkage.cpp:75:82: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+../src/SingleLinkage.cpp: In member function ‘void SingleLinkage::computeDissimilarityMatrix(std::vector<std::vector<float> >&, const std::vector<std::vector<float> >&, distance_func)’:
+../src/SingleLinkage.cpp:81:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < data.size(); i++) {
+                    ^
+../src/SingleLinkage.cpp:83:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for (int j = i+1; j < data.size(); j++) {
+                       ^
+Finished building: ../src/SingleLinkage.cpp
+ 
+Building file: ../src/SingleLinkageOptimized.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"src/SingleLinkageOptimized.d" -MT"src/SingleLinkageOptimized.d" -o "src/SingleLinkageOptimized.o" "../src/SingleLinkageOptimized.cpp"
+../src/SingleLinkageOptimized.cpp: In member function ‘virtual void SingleLinkageOptimized::clusterize(const std::vector<std::vector<float> >&, std::vector<std::vector<float> >&, distance_func)’:
+../src/SingleLinkageOptimized.cpp:23:105: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘std::vector<std::vector<float> >::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("naive_optimized,%f,dissimilarity_matrix_build_time,%d,%d\n", time1, data.size(), data[0].size());
+                                                                                                         ^
+../src/SingleLinkageOptimized.cpp:23:105: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+../src/SingleLinkageOptimized.cpp:35:9: warning: unused variable ‘mindist’ [-Wunused-variable]
+   float mindist = rmq.getMin(index);
+         ^
+../src/SingleLinkageOptimized.cpp:81:99: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘std::vector<std::vector<float> >::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("naive_optimized,%f,linkage_matrix_build_time,%d,%d\n", time2, data.size(), data[0].size());
+                                                                                                   ^
+../src/SingleLinkageOptimized.cpp:81:99: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+../src/SingleLinkageOptimized.cpp:82:92: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘std::vector<std::vector<float> >::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("naive_optimized,%f,total_time,%d,%d\n", time1 + time2, data.size(), data[0].size());
+                                                                                            ^
+../src/SingleLinkageOptimized.cpp:82:92: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+Finished building: ../src/SingleLinkageOptimized.cpp
+ 
+Building file: ../src/Slink.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"src/Slink.d" -MT"src/Slink.d" -o "src/Slink.o" "../src/Slink.cpp"
+../src/Slink.cpp: In member function ‘virtual void SLINK::clusterize(const std::vector<std::vector<float> >&, std::vector<std::vector<float> >&, distance_func)’:
+../src/Slink.cpp:56:87: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("slink,%f,pointer_representation_build_time,%d,%d\n", time1, n, data[0].size());
+                                                                                       ^
+../src/Slink.cpp:64:79: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("slink,%f,linkage_matrix_build_time,%d,%d\n", time2, n, data[0].size());
+                                                                               ^
+../src/Slink.cpp:65:72: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("slink,%f,total_time,%d,%d\n", time1 + time2, n, data[0].size());
+                                                                        ^
+Finished building: ../src/Slink.cpp
+ 
+Building file: ../src/Utils.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"src/Utils.d" -MT"src/Utils.d" -o "src/Utils.o" "../src/Utils.cpp"
+../src/Utils.cpp: In function ‘float manhattanDistance(std::vector<float>, std::vector<float>)’:
+../src/Utils.cpp:51:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < v1.size(); i++) {
+                    ^
+Finished building: ../src/Utils.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o ./src/SingleLinkage.o ./src/SingleLinkageOptimized.o ./src/Slink.o ./src/Utils.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+12:39:31 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In member function ‘void Painter::FindBiggestContour()’:
+../src/Painter.cpp:483:19: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for(int i = 0; i < contours.size(); i++)
+                   ^
+../src/Painter.cpp: In member function ‘void Painter::Coarsen()’:
+../src/Painter.cpp:576:8: warning: unused variable ‘pixel’ [-Wunused-variable]
+  uchar pixel;
+        ^
+../src/Painter.cpp: In function ‘int main(int, char**)’:
+../src/Painter.cpp:671:6: warning: unused variable ‘n’ [-Wunused-variable]
+  int n = data.size();
+      ^
+Finished building: ../src/Painter.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o ./src/SingleLinkage.o ./src/SingleLinkageOptimized.o ./src/Slink.o ./src/Utils.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+16:36:28 **** Clean-only build of configuration Debug for project CPPPaintRobot ****
+make clean 
+rm -rf  ./src/Painter.o ./src/SingleLinkage.o ./src/SingleLinkageOptimized.o ./src/Slink.o ./src/Utils.o  ./src/Painter.d ./src/SingleLinkage.d ./src/SingleLinkageOptimized.d ./src/Slink.d ./src/Utils.d  CPPPaintRobot
+ 
+16:37:05 **** Build of configuration Debug for project CPPPaintRobot ****
+make all 
+Building file: ../src/Painter.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"src/Painter.d" -MT"src/Painter.d" -o "src/Painter.o" "../src/Painter.cpp"
+../src/Painter.cpp: In member function ‘void Painter::FindBiggestContour()’:
+../src/Painter.cpp:483:19: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for(int i = 0; i < contours.size(); i++)
+                   ^
+../src/Painter.cpp: In member function ‘void Painter::Coarsen()’:
+../src/Painter.cpp:576:8: warning: unused variable ‘pixel’ [-Wunused-variable]
+  uchar pixel;
+        ^
+Finished building: ../src/Painter.cpp
+ 
+Building file: ../src/SingleLinkage.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"src/SingleLinkage.d" -MT"src/SingleLinkage.d" -o "src/SingleLinkage.o" "../src/SingleLinkage.cpp"
+../src/SingleLinkage.cpp: In member function ‘virtual void SingleLinkage::clusterize(const std::vector<std::vector<float> >&, std::vector<std::vector<float> >&, distance_func)’:
+../src/SingleLinkage.cpp:14:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < data.size(); i++)
+                    ^
+../src/SingleLinkage.cpp:22:95: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘std::vector<std::vector<float> >::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("naive,%f,dissimilarity_matrix_build_time,%d,%d\n", time1, data.size(), data[0].size());
+                                                                                               ^
+../src/SingleLinkage.cpp:22:95: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+../src/SingleLinkage.cpp:26:22: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int it = 0; it < data.size() - 1; it++) {
+                      ^
+../src/SingleLinkage.cpp:33:21: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for (int i = 0; i < data.size(); i++) {
+                     ^
+../src/SingleLinkage.cpp:35:25: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (int j = i+1; j < data.size(); j++)
+                         ^
+../src/SingleLinkage.cpp:61:30: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for (int j = joiner + 1; j < data.size(); j++)
+                              ^
+../src/SingleLinkage.cpp:74:89: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘std::vector<std::vector<float> >::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("naive,%f,linkage_matrix_build_time,%d,%d\n", time2, data.size(), data[0].size());
+                                                                                         ^
+../src/SingleLinkage.cpp:74:89: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+../src/SingleLinkage.cpp:75:82: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘std::vector<std::vector<float> >::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("naive,%f,total_time,%d,%d\n", time1 + time2, data.size(), data[0].size());
+                                                                                  ^
+../src/SingleLinkage.cpp:75:82: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+../src/SingleLinkage.cpp: In member function ‘void SingleLinkage::computeDissimilarityMatrix(std::vector<std::vector<float> >&, const std::vector<std::vector<float> >&, distance_func)’:
+../src/SingleLinkage.cpp:81:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < data.size(); i++) {
+                    ^
+../src/SingleLinkage.cpp:83:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for (int j = i+1; j < data.size(); j++) {
+                       ^
+Finished building: ../src/SingleLinkage.cpp
+ 
+Building file: ../src/SingleLinkageOptimized.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"src/SingleLinkageOptimized.d" -MT"src/SingleLinkageOptimized.d" -o "src/SingleLinkageOptimized.o" "../src/SingleLinkageOptimized.cpp"
+../src/SingleLinkageOptimized.cpp: In member function ‘virtual void SingleLinkageOptimized::clusterize(const std::vector<std::vector<float> >&, std::vector<std::vector<float> >&, distance_func)’:
+../src/SingleLinkageOptimized.cpp:23:105: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘std::vector<std::vector<float> >::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("naive_optimized,%f,dissimilarity_matrix_build_time,%d,%d\n", time1, data.size(), data[0].size());
+                                                                                                         ^
+../src/SingleLinkageOptimized.cpp:23:105: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+../src/SingleLinkageOptimized.cpp:35:9: warning: unused variable ‘mindist’ [-Wunused-variable]
+   float mindist = rmq.getMin(index);
+         ^
+../src/SingleLinkageOptimized.cpp:81:99: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘std::vector<std::vector<float> >::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("naive_optimized,%f,linkage_matrix_build_time,%d,%d\n", time2, data.size(), data[0].size());
+                                                                                                   ^
+../src/SingleLinkageOptimized.cpp:81:99: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+../src/SingleLinkageOptimized.cpp:82:92: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘std::vector<std::vector<float> >::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("naive_optimized,%f,total_time,%d,%d\n", time1 + time2, data.size(), data[0].size());
+                                                                                            ^
+../src/SingleLinkageOptimized.cpp:82:92: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+Finished building: ../src/SingleLinkageOptimized.cpp
+ 
+Building file: ../src/Slink.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"src/Slink.d" -MT"src/Slink.d" -o "src/Slink.o" "../src/Slink.cpp"
+../src/Slink.cpp: In member function ‘virtual void SLINK::clusterize(const std::vector<std::vector<float> >&, std::vector<std::vector<float> >&, distance_func)’:
+../src/Slink.cpp:56:87: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("slink,%f,pointer_representation_build_time,%d,%d\n", time1, n, data[0].size());
+                                                                                       ^
+../src/Slink.cpp:64:79: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("slink,%f,linkage_matrix_build_time,%d,%d\n", time2, n, data[0].size());
+                                                                               ^
+../src/Slink.cpp:65:72: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘std::vector<float>::size_type {aka long unsigned int}’ [-Wformat=]
+  printf("slink,%f,total_time,%d,%d\n", time1 + time2, n, data[0].size());
+                                                                        ^
+Finished building: ../src/Slink.cpp
+ 
+Building file: ../src/Utils.cpp
+Invoking: Cross G++ Compiler
+g++ -I/usr/include/opencv2 -I/usr/include/opencv -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"src/Utils.d" -MT"src/Utils.d" -o "src/Utils.o" "../src/Utils.cpp"
+../src/Utils.cpp: In function ‘float manhattanDistance(std::vector<float>, std::vector<float>)’:
+../src/Utils.cpp:51:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < v1.size(); i++) {
+                    ^
+../src/Utils.cpp: In function ‘float euclideanDistance(std::vector<float>, std::vector<float>)’:
+../src/Utils.cpp:59:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < v1.size(); i++)
+                    ^
+Finished building: ../src/Utils.cpp
+ 
+Building target: CPPPaintRobot
+Invoking: Cross G++ Linker
+g++ -L/usr/lib/x86_64-linux-gnu/ -o "CPPPaintRobot"  ./src/Painter.o ./src/SingleLinkage.o ./src/SingleLinkageOptimized.o ./src/Slink.o ./src/Utils.o   -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_gpu -lopencv_highgui -lopencv_imgproc -lopencv_imgproc -lopencv_legacy -lopencv_legacy -lopencv_ml -lopencv_objdetect -lopencv_ocl  -lopencv_photo -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab -lopencv_contrib -lopencv_core
+Finished building target: CPPPaintRobot
+ 
+16:40:39 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+make: Nothing to be done for 'all'.
+16:51:52 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
+make all 
+make: Nothing to be done for 'all'.

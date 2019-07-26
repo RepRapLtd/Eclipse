@@ -54,6 +54,16 @@ float manhattanDistance(vector<float> v1, vector<float> v2) {
 	return result;
 }
 
+float euclideanDistance(vector<float> v1, vector<float> v2) {
+	float result = 0;
+	for (int i = 0; i < v1.size(); i++)
+	{
+		float v = v1[i] - v2[i];
+		result += v*v;
+	}
+	return sqrt(result);
+}
+
 void makeSet(vector<int> &set, int size) {
 	set.resize(size);
 	for (int i = 0; i < size; i++)

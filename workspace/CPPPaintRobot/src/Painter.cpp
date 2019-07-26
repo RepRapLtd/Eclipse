@@ -586,6 +586,25 @@ void Painter::Coarsen()
 		}
 }
 
+void Painter::ImageToSlink(vector< vector<float> > &result, Mat image)
+{
+	uchar data[3];
+
+	result.clear();
+
+	for(int x = 0; x < image.cols; x++)
+		for(int y = 0; y < image.rows; y++)
+		{
+			vector<float> linevalue(0);
+			GetPixel(image, x, y, data);
+			for(int k = 0; k < 3; k++)
+			{
+				linevalue.push_back((float)data[k]);
+			}
+			result.push_back(linevalue);
+		}
+}
+
 void Painter::Prompt()
 {
 	cout << "Commands: " << endl;
@@ -662,21 +681,25 @@ void Painter::Control()
 
 // Slink main prog.
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
 	vector< vector<float> > data;
-	readCsv(data, argv[1], ',');
+	Mat org = cvLoadImage("/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/JavaPaintRobot/resources/sunset-small.jpg");
+
+	Painter* p = new Painter(org, WEAK_DEBUG, 0.7, 0.7, 1.1, 20, 6.0, warmGrey);
+	p->ImageToSlink(data, org);
 
 	vector< vector<float> > linkageMatrix; // 2n * 4 matrix
-	int n = data.size();
+	//int n = data.size();
 
 	SLINK slink;
-	slink.clusterize(data, linkageMatrix, manhattanDistance);
+	slink.clusterize(data, linkageMatrix, euclideanDistance);
 
-	float amenability = getAmenability(data, manhattanDistance, linkageMatrix);
+	float amenability = getAmenability(data, euclideanDistance, linkageMatrix);
 
 	printf("Amenability: %f\n", amenability);
 
-	toCsv(linkageMatrix, argv[2]);
+	toCsv(linkageMatrix, "/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/JavaPaintRobot/resources/image-cluster.csv");
 }
 
 

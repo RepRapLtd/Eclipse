@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="25" version="2.0">
+<workbench progressCount="26" version="2.0">
 <workbenchAdvisor/>
 <window height="766" maximized="true" width="1004" x="2073" y="134">
 <fastViewData fastViewLocation="1024"/>
@@ -8,7 +8,7 @@
 </perspectiveBar>
 <coolbarLayout>
 <coolItem id="group.file" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="280" y="30"/>
+<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="252" y="30"/>
 <coolItem id="additions" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.cdt.ui.CElementCreationActionSet" itemType="typeToolBarContribution" x="204" y="30"/>
 <coolItem id="org.eclipse.debug.ui.launch.toolbar" itemType="typeToolBarContribution" x="-1" y="-1"/>
@@ -16,13 +16,13 @@
 <coolItem id="org.eclipse.debug.ui.main.toolbar" itemType="typeToolBarContribution" x="40" y="30"/>
 <coolItem id="org.eclipse.jdt.ui.JavaElementCreationActionSet" itemType="typeToolBarContribution" x="88" y="30"/>
 <coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="88" y="30"/>
-<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="96" y="30"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="68" y="30"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="232" y="30"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.jdt.ui.ClassFileEditorNoSource" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
-<coolItem id="org.eclipse.cdt.ui.editor.CEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.cdt.ui.editor.CEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
@@ -32,71 +32,10 @@
 <editorArea activeWorkbook="DefaultEditorWorkbook">
 <info part="DefaultEditorWorkbook">
 <folder appearance="1" expanded="2">
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-<part id="1"/>
-<part id="2"/>
-<part id="3"/>
-<part id="4"/>
-<part id="5"/>
-<part id="6"/>
-<part id="7"/>
-<part id="8"/>
-<part id="9"/>
-<part id="10"/>
-<part id="11"/>
-</presentation>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.cpp" partName="Painter.cpp" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/Painter.cpp" title="Painter.cpp" tooltip="CPPPaintRobot/src/Painter.cpp" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/Painter.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="75" selectionOffset="13715" selectionTopPixel="9600"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Painter.h" partName="Painter.h" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/Painter.h" title="Painter.h" tooltip="CPPPaintRobot/src/Painter.h" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/Painter.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1754" selectionTopPixel="711"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Slink.h" partName="Slink.h" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/Slink.h" title="Slink.h" tooltip="CPPPaintRobot/src/Slink.h" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/Slink.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="225" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Clusterize.h" partName="Clusterize.h" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/Clusterize.h" title="Clusterize.h" tooltip="CPPPaintRobot/src/Clusterize.h" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/Clusterize.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="344" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="SingleLinkage.h" partName="SingleLinkage.h" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/SingleLinkage.h" title="SingleLinkage.h" tooltip="CPPPaintRobot/src/SingleLinkage.h" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/SingleLinkage.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="129" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="SingleLinkageOptimized.h" partName="SingleLinkageOptimized.h" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/SingleLinkageOptimized.h" title="SingleLinkageOptimized.h" tooltip="CPPPaintRobot/src/SingleLinkageOptimized.h" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/SingleLinkageOptimized.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="174" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Utils.h" partName="Utils.h" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/Utils.h" title="Utils.h" tooltip="CPPPaintRobot/src/Utils.h" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/Utils.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1268" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Slink.cpp" partName="Slink.cpp" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/Slink.cpp" title="Slink.cpp" tooltip="CPPPaintRobot/src/Slink.cpp" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/Slink.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="41" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="SingleLinkage.cpp" partName="SingleLinkage.cpp" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/SingleLinkage.cpp" title="SingleLinkage.cpp" tooltip="CPPPaintRobot/src/SingleLinkage.cpp" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/SingleLinkage.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2724" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="SingleLinkageOptimized.cpp" partName="SingleLinkageOptimized.cpp" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/SingleLinkageOptimized.cpp" title="SingleLinkageOptimized.cpp" tooltip="CPPPaintRobot/src/SingleLinkageOptimized.cpp" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/SingleLinkageOptimized.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1257" selectionTopPixel="496"/>
-</editor>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="Utils.cpp" partName="Utils.cpp" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/Utils.cpp" title="Utils.cpp" tooltip="CPPPaintRobot/src/Utils.cpp" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/Utils.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1666" selectionTopPixel="1140"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="SlinkMain.cpp" partName="SlinkMain.cpp" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/CPPPaintRobot/src/SlinkMain.cpp" title="SlinkMain.cpp" tooltip="CPPPaintRobot/src/SlinkMain.cpp" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CPPPaintRobot/src/SlinkMain.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="128" selectionTopPixel="0"/>
-</editor>
 </editors>
 <views>
 <view id="org.eclipse.ui.views.PropertySheet" partName="Properties"/>
@@ -133,6 +72,7 @@
 <expanded>
 <category IMemento.internal.id="Errors"/>
 <category IMemento.internal.id="Warnings (32 items)"/>
+<category IMemento.internal.id="Warnings"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="105" org.eclipse.ui.ide.markerType="897" org.eclipse.ui.ide.pathField="140" org.eclipse.ui.ide.resourceField="105" org.eclipse.ui.ide.severityAndDescriptionField="692"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -166,7 +106,7 @@
 <viewState CommonNavigator.LINKING_ENABLED="0" org.eclipse.cdt.ui.cview.groupincludes="false" org.eclipse.cdt.ui.cview.groupmacros="false" org.eclipse.cdt.ui.editor.CUChildren="true" org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets="0"/>
 </view>
 </views>
-<perspectives activePart="org.eclipse.cdt.ui.editor.CEditor" activePerspective="org.eclipse.cdt.ui.CPerspective">
+<perspectives activePart="org.eclipse.ui.navigator.ProjectExplorer" activePerspective="org.eclipse.cdt.ui.CPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.ui.internal.ide.application.ResourcePerspective" id="org.eclipse.ui.resourcePerspective" label="Resource"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
@@ -403,8 +343,8 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.16029334" ratioLeft="306" ratioRight="1603" relationship="2" relative="topLeft"/>
-<info folder="true" part="bottom" ratio="0.553102" ratioLeft="526" ratioRight="425" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ProblemView" appearance="2" expanded="2">
+<info folder="true" part="bottom" ratio="0.72134596" ratioLeft="686" ratioRight="265" relationship="4" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
@@ -432,171 +372,7 @@
 </perspective>
 </perspectives>
 <workingSets/>
-<navigationHistory>
-<editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/Painter.cpp"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/Slink.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/Clusterize.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/SingleLinkage.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/SingleLinkageOptimized.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/Utils.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/Slink.cpp"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/SingleLinkage.cpp"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/SingleLinkageOptimized.cpp"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/Utils.cpp"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CPPPaintRobot/src/SlinkMain.cpp"/>
-</editors>
-<item historyLabel="Slink.h" index="1">
-<position info="not_deleted" x="47" y="0"/>
-</item>
-<item historyLabel="Clusterize.h" index="2">
-<position info="not_deleted" x="344" y="0"/>
-</item>
-<item historyLabel="Slink.h" index="1">
-<position info="not_deleted" x="203" y="0"/>
-</item>
-<item historyLabel="SingleLinkage.h" index="3">
-<position info="not_deleted" x="446" y="0"/>
-</item>
-<item historyLabel="SingleLinkageOptimized.h" index="4">
-<position info="not_deleted" x="174" y="0"/>
-</item>
-<item historyLabel="SingleLinkage.h" index="3">
-<position info="not_deleted" x="129" y="0"/>
-</item>
-<item historyLabel="Utils.h" index="5">
-<position info="not_deleted" x="1916" y="0"/>
-</item>
-<item historyLabel="Slink.h" index="1">
-<position info="not_deleted" x="203" y="0"/>
-</item>
-<item historyLabel="Clusterize.h" index="2">
-<position info="not_deleted" x="344" y="0"/>
-</item>
-<item historyLabel="SingleLinkage.h" index="3">
-<position info="not_deleted" x="129" y="0"/>
-</item>
-<item historyLabel="SingleLinkageOptimized.h" index="4">
-<position info="not_deleted" x="174" y="0"/>
-</item>
-<item historyLabel="SingleLinkage.h" index="3">
-<position info="not_deleted" x="129" y="0"/>
-</item>
-<item historyLabel="SingleLinkageOptimized.h" index="4">
-<position info="not_deleted" x="174" y="0"/>
-</item>
-<item historyLabel="Utils.h" index="5">
-<position info="not_deleted" x="1916" y="0"/>
-</item>
-<item historyLabel="Slink.cpp" index="6">
-<position info="not_deleted" x="41" y="0"/>
-</item>
-<item historyLabel="SingleLinkage.cpp" index="7">
-<position info="not_deleted" x="2724" y="0"/>
-</item>
-<item historyLabel="SingleLinkageOptimized.cpp" index="8">
-<position info="not_deleted" x="3297" y="0"/>
-</item>
-<item historyLabel="Utils.cpp" index="9">
-<position info="not_deleted" x="4616" y="0"/>
-</item>
-<item historyLabel="SlinkMain.cpp" index="10">
-<position info="not_deleted" x="126" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="11973" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="13023" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="13530" y="28"/>
-</item>
-<item historyLabel="SlinkMain.cpp" index="10">
-<position info="not_deleted" x="55" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="13530" y="28"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="969" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="13715" y="75"/>
-</item>
-<item historyLabel="SlinkMain.cpp" index="10">
-<position info="not_deleted" x="126" y="0"/>
-</item>
-<item historyLabel="Slink.h" index="1">
-<position info="not_deleted" x="225" y="0"/>
-</item>
-<item historyLabel="Painter.cpp" index="0">
-<position info="not_deleted" x="13715" y="75"/>
-</item>
-<item historyLabel="SlinkMain.cpp" index="10">
-<position info="not_deleted" x="128" y="0"/>
-</item>
-<item historyLabel="Utils.cpp" index="9">
-<position info="not_deleted" x="4616" y="0"/>
-</item>
-<item historyLabel="Utils.cpp" index="9">
-<position info="not_deleted" x="1697" y="0"/>
-</item>
-<item historyLabel="Utils.cpp" index="9">
-<position info="not_deleted" x="3673" y="59"/>
-</item>
-<item historyLabel="SlinkMain.cpp" index="10">
-<position info="not_deleted" x="128" y="0"/>
-</item>
-<item historyLabel="Utils.cpp" index="9">
-<position info="not_deleted" x="3732" y="0"/>
-</item>
-<item historyLabel="Utils.h" index="5">
-<position info="not_deleted" x="1916" y="0"/>
-</item>
-<item historyLabel="Slink.h" index="1">
-<position info="not_deleted" x="225" y="0"/>
-</item>
-<item historyLabel="Utils.cpp" index="9">
-<position info="not_deleted" x="3732" y="0"/>
-</item>
-<item historyLabel="Slink.h" index="1">
-<position info="not_deleted" x="225" y="0"/>
-</item>
-<item historyLabel="Utils.h" index="5">
-<position info="not_deleted" x="1268" y="0"/>
-</item>
-<item historyLabel="Utils.cpp" index="9">
-<position info="not_deleted" x="1697" y="0"/>
-</item>
-<item historyLabel="SingleLinkageOptimized.cpp" index="8">
-<position info="not_deleted" x="1257" y="0"/>
-</item>
-<item historyLabel="Utils.cpp" index="9">
-<position info="not_deleted" x="1697" y="0"/>
-</item>
-<item historyLabel="Utils.cpp" index="9">
-<position info="not_deleted" x="1864" y="0"/>
-</item>
-<item historyLabel="SingleLinkageOptimized.cpp" index="8">
-<position info="not_deleted" x="1257" y="0"/>
-</item>
-<item historyLabel="Utils.cpp" index="9">
-<position info="not_deleted" x="1864" y="0"/>
-</item>
-<item historyLabel="Utils.h" index="5">
-<position info="not_deleted" x="1268" y="0"/>
-</item>
-<item historyLabel="Utils.cpp" index="9">
-<position info="not_deleted" x="1864" y="0"/>
-</item>
-<item historyLabel="Utils.cpp" index="9">
-<position info="not_deleted" x="1665" y="0"/>
-</item>
-<item active="true" historyLabel="Utils.cpp" index="9">
-<position info="not_deleted" x="1641" y="4"/>
-</item>
-</navigationHistory>
+<navigationHistory/>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
 </page>
 <workbenchWindowAdvisor/>

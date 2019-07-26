@@ -1,3 +1,11 @@
+/*
+ * This is Andrea Battistello's implementation of the Sibson SLINK clustering algorithm from
+ *
+ * https://github.com/battuzz/slink
+ *
+ * So, thanks to him.
+*/
+
 #include "Slink.h"
 
 using namespace std;

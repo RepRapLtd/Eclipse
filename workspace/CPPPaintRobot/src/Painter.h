@@ -41,6 +41,7 @@ public:
 	Painter(const Mat original, uchar db, double tv, double br, double bl, int lt, double as, uchar underCoat[]);
 	void Control();
 	void Show();
+	void ImageToSlink(vector< vector<float> > &result, Mat image);
 
 private:
 
