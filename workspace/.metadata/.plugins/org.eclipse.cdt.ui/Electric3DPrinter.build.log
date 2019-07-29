@@ -1,4 +1,4 @@
-22:24:49 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+22:39:20 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
 make all 
 Building file: ../pde.cpp
 Invoking: Cross G++ Compiler
@@ -11,5 +11,5 @@ g++  -o "Electric3DPrinter"  ./pde.o
 Finished building target: Electric3DPrinter
  
 
-22:24:49 Build Finished (took 426ms)
+22:39:20 Build Finished (took 365ms)
 
