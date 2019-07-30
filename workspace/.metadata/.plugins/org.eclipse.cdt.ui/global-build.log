@@ -1083,3 +1083,54 @@ Invoking: Cross G++ Linker
 g++  -o "Electric3DPrinter"  ./pde.o   
 Finished building target: Electric3DPrinter
  
+18:26:33 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:68:9: warning: unused variable ‘r’ [-Wunused-variable]
+  double r = 0.0;
+         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+18:41:27 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void Output()’:
+../pde.cpp:122:22: error: ‘a’ was not declared in this scope
+    fprintf(fp,"%f\n",a[i][j]);
+                      ^
+make: *** [pde.o] Error 1
+subdir.mk:18: recipe for target 'pde.o' failed
+18:42:24 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+18:48:27 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 

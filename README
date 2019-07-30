@@ -20,3 +20,9 @@ surface that then finite-element-optimises the shape.  Another is to use Woo's A
 Sum of Volumes algorithm to make a robust CSG representation of an STL file object as an
 intersection and union of infinite planar half-spaces.
 
+Electric3DPrinter:
+
+Simulation of the new 3D printer proposed here:
+
+   https://reprapltd.com/electric-3d-printing/
+

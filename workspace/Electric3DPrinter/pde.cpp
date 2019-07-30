@@ -1,93 +1,144 @@
 /*
  * pde.cpp
  *
- * Solves Laplace's equation
+ * Solves Laplace's equation for a potential field given source and sink voltages at points on the periphery.
  *
  *  Created on: 26 Jul 2019
+ *
  *      Author: Adrian Bowyer
+ *              RepRap Ltd
+ *              https://reprapltd.com
+ *
  *     Licence: GPL
  *
  */
+
 #include <stdio.h>
 #include <math.h>
-#define n 50
-#define m 50
-#define CONVERGENCE 0.000001
 
-int main()
+// Set true for progress reports etc.
+
+bool debug = true;
+
+// Gauss-Seidel convergence criterion
+
+const float convergence = 0.000001;
+
+// Size of the grid
+
+const int n = 50;
+const int m = 50;
+
+// Stop after this many iterations if there's no convergence
+
+const int maxIterations = 2000;
+
+// v[][] is the potential field, V. lastV is a copy of it from the last iteration.
+// lastV is also used to store the magnitude of the field vectors, computed at the end.
+
+float v[n+2][m+2], lastV[n+2][m+2];
+
+//**********************************************************************************************
+
+// Do a single pass of the Gauss-Seidel iteration.
+
+float GaussSeidelOnePass()
 {
-	int i, j, k;
-	float a[n+2][m+2], b[n+2][m+2];
+	float rms = 0.0;
+	for(int i = 1; i < n; i++)
+	{
+		for(int j = 1; j < m; j++)
+		{
+			v[i][j] = (v[i-1][j] + v[i+1][j] + v[i][j-1] + v[i][j+1])/4;
+			float r = (v[i][j] - lastV[i][j]);
+			rms = rms + r*r;
+			lastV[i][j] = v[i][j];
+		}
+	}
+	rms = sqrt(rms/( (float)m*(float)n) );
+	return rms;
+}
 
+
+// Iterate the Gauss-Seidel until convergence.  Convergence is when the root-mean-square
+// of the differences between the last pass and the current one is less than the value
+// of the variable convergence.
+
+void GausSeidelIteration()
+{
+	float rms = 100.0*convergence;
+	int k = 0;
+	while(k < maxIterations && rms > convergence)
+	{
+		rms = GaussSeidelOnePass();
+		if(debug)
+			printf("Iteration: %i, rms: %f\n", k, rms);
+		k++;
+	}
+	if(k >= maxIterations)
+		printf("No convergence!, rms: %f\n", rms);
+}
+
+
+// Compute the magnitudes of the gradient vectors in b.  This is
+// the electric field, E.
+
+void GradientMagnitudes()
+{
+	float xd, yd;
+	for(int i = 1; i < n; i++)
+	{
+		for(int j = 1; j < m; j++)
+		{
+			xd = 0.5*(v[i+1][j] - v[i-1][j]);
+			yd = 0.5*(v[i][j+1] - v[i][j-1]);
+			lastV[i][j] = sqrt(xd*xd + yd*yd);
+		}
+	}
+}
+
+
+// Set the boundary conditions and initialise
+
+void BoundaryConditions()
+{
 	// Boundary conditions
 
-	for(i = 0;i <= n; i++)
+	for(int i = 0;i <= n; i++)
 	{
-		a[i][1] = a[i][m] = 0.0;
+		v[i][1] = v[i][m] = 0.0;
 	}
-	for(j = 0; j <= m; j++)
+	for(int j = 0; j <= m; j++)
 	{
-		a[1][j] = a[n][j] = 0.0;
+		v[1][j] = v[n][j] = 0.0;
 	}
 
 	// One source and one sink at the edges
 
-	a[0][m/2] = 10.0;
-	a[n][m/2] = -10.0;
+	v[0][m/2] = 10.0;
+	v[n][m/2] = -10.0;
 
 	// Initialise the rest to 0
 
-	for(i=1;i<n;i++)
-		for(j=1;j<m;j++)
+	for(int i=1;i<n;i++)
+		for(int j=1;j<m;j++)
 		{
-			a[i][j] = 0.0;
-			b[i][j] = 0.0;
+			v[i][j] = 0.0;
+			lastV[i][j] = 0.0;
 		}
+}
 
-	// Gauss-Seidel iteration
 
-	double r = 0.0;
-	double rms = 100.0*CONVERGENCE;
-	k = 0;
-	while(k < 2000 && rms > CONVERGENCE)
-	{
-		rms = 0.0;
-		for(i = 1; i < n; i++)
-		{
-			for(j = 1; j < m; j++)
-			{
-				a[i][j] = (a[i-1][j] + a[i+1][j] + a[i][j-1] + a[i][j+1])/4;
-				r = (a[i][j] - b[i][j]);
-				rms = rms + r*r;
-				b[i][j] = a[i][j];
-			}
-		}
-		rms = sqrt(rms/( (float)m*(float)n) );
-		printf("Iteration: %i, rms: %f\n", k, rms);
-		k++;
-	}
+// Outputs for GNUplot
 
-	// Compute gradient magnitudes in b
-
-	double xd, yd;
-	for(i = 1; i < n; i++)
-	{
-		for(j = 1; j < m; j++)
-		{
-			xd = 0.5*(a[i+1][j] - a[i-1][j]);
-			yd = 0.5*(a[i][j+1] - a[i][j-1]);
-			b[i][j] = sqrt(xd*xd + yd*yd);
-		}
-	}
-
-	// Outputs for GNUplot
-
+void Output()
+{
 	FILE *fp;
 	fp=fopen("potential.dat","w");
-	for(i = 0;i <= n; i++)
+	for(int i = 0;i <= n; i++)
 	{
-		for(j = 0; j <= m ; j++)
-			fprintf(fp,"%f\n",a[i][j]);
+		for(int j = 0; j <= m ; j++)
+			fprintf(fp,"%f\n",v[i][j]);
 		fprintf(fp,"\n");
 	}
 	fclose(fp);
@@ -95,14 +146,25 @@ int main()
 	// NB the field grid doesn't include the boundaries and so is 2 smaller in each direction.
 
 	fp=fopen("field.dat","w");
-	for(i = 1; i < n; i++)
+	for(int i = 1; i < n; i++)
 	{
-		for(j = 1; j < m; j++)
-			fprintf(fp,"%f\n",b[i][j]);
+		for(int j = 1; j < m; j++)
+			fprintf(fp,"%f\n",lastV[i][j]);
 		fprintf(fp,"\n");
 	}
 	fclose(fp);
 
+}
+
+
+// Self-explanatory, I hope.
+
+int main()
+{
+	BoundaryConditions();
+	GausSeidelIteration();
+	GradientMagnitudes();
+	Output();
 }
 
 
