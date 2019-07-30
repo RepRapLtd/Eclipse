@@ -3,6 +3,11 @@
  *
  * Solves Laplace's equation for a potential field given source and sink voltages at points on the periphery.
  *
+ * The region of solution is a disk, and the sources and sinks are specified as a list of potentials.
+ *
+ * The sources and sinks can be moved between several solutions and the cumulated charge moved through each pixel
+ * calculated.
+ *
  *  Created on: 26 Jul 2019
  *
  *      Author: Adrian Bowyer
@@ -18,55 +23,115 @@
 
 // Set true for progress reports etc.
 
-bool debug = true;
+bool debug = false;
 
 // Gauss-Seidel convergence criterion
 
-const float convergence = 0.000001;
+const double convergence = 0.000001;
 
 // Size of the grid
 
 const int n = 50;
 const int m = 50;
 
+// The centre and radius of the disc
+
+const int xc = 25;
+const int yc = 25;
+const int radius = 22;
+
+// The source and sink
+
+const int sources = 2;
+
+int fixed[sources][2];
+
 // Stop after this many iterations if there's no convergence
 
-const int maxIterations = 2000;
+const int maxIterations = 3000;
 
 // v[][] is the potential field, V. lastV is a copy of it from the last iteration.
-// lastV is also used to store the magnitude of the field vectors, computed at the end.
+// e[][] is used to store the magnitude of the field vectors, computed at the end of one solution.
+// c[][] is the accumulated charge that has flowed through each node for all solutions.
 
-float v[n+2][m+2], lastV[n+2][m+2];
+double v[n+2][m+2], lastV[n+2][m+2], e[n+2][m+2], c[n+2][m+2];
+
+const int angles = 20;
+
+// True in the active region. This could be computed on the fly; but it's faster
+// to store it.  What's memory for?
+
+bool inside[n+2][m+2];
 
 //**********************************************************************************************
 
+// Solve the PDE at a single node [i][j]
+
+double PDE(int i, int j)
+{
+	// Do nothing outside the disc
+
+	if(!inside[i][j])
+		return v[i][j];
+
+	// Don't mess with the sources and sinks
+
+	for(int k = 0; k < sources; k++)
+	{
+		if( (i == fixed[k][0]) && (j == fixed[k][1]) )
+			return v[i][j];
+	}
+
+	// Make a reflective boundary (i.e. one that does not conduct, so has 0 gradient)
+
+	double vxm = v[i-1][j];
+	if(!inside[i-1][j])
+		vxm = v[i+1][j];
+
+	double vxp = v[i+1][j];
+	if(!inside[i+1][j])
+		vxp = v[i-1][j];
+
+	double vym = v[i][j-1];
+	if(!inside[i][j-1])
+		vym = v[i][j+1];
+
+	double vyp = v[i][j+1];
+	if(!inside[i][j+1])
+		vyp = v[i][j-1];
+
+	// The actual PDE
+
+	return (vxm + vxp + vym + vyp)/4;
+}
+
 // Do a single pass of the Gauss-Seidel iteration.
 
-float GaussSeidelOnePass()
+double GaussSeidelOnePass()
 {
-	float rms = 0.0;
+	double rms = 0.0;
 	for(int i = 1; i < n; i++)
 	{
 		for(int j = 1; j < m; j++)
 		{
-			v[i][j] = (v[i-1][j] + v[i+1][j] + v[i][j-1] + v[i][j+1])/4;
-			float r = (v[i][j] - lastV[i][j]);
+			v[i][j] = PDE(i, j);
+			double r = (v[i][j] - lastV[i][j]);
 			rms = rms + r*r;
 			lastV[i][j] = v[i][j];
 		}
 	}
-	rms = sqrt(rms/( (float)m*(float)n) );
+	rms = sqrt(rms/( (double)m*(double)n) );
 	return rms;
 }
 
 
 // Iterate the Gauss-Seidel until convergence.  Convergence is when the root-mean-square
 // of the differences between the last pass and the current one is less than the value
-// of the variable convergence.
+// of the constant convergence.
 
 void GausSeidelIteration()
 {
-	float rms = 100.0*convergence;
+	double rms = 100.0*convergence;
 	int k = 0;
 	while(k < maxIterations && rms > convergence)
 	{
@@ -85,75 +150,105 @@ void GausSeidelIteration()
 
 void GradientMagnitudes()
 {
-	float xd, yd;
+	double xd, yd;
 	for(int i = 1; i < n; i++)
 	{
 		for(int j = 1; j < m; j++)
 		{
-			xd = 0.5*(v[i+1][j] - v[i-1][j]);
-			yd = 0.5*(v[i][j+1] - v[i][j-1]);
-			lastV[i][j] = sqrt(xd*xd + yd*yd);
+
+			// At the edges use linear gradients; parabolas elsewhere
+
+			if(!inside[i+1][j])
+				xd = v[i][j] - v[i-1][j];
+			else if(!inside[i-1][j])
+				xd = v[i+1][j] - v[i][j];
+			else
+				xd = 0.5*(v[i+1][j] - v[i-1][j]);
+
+			if(!inside[i][j+1])
+				yd = v[i][j] - v[i][j-1];
+			else if(!inside[i][j-1])
+				yd = v[i][j+1] - v[i][j];
+			else
+				yd = 0.5*(v[i][j+1] - v[i][j-1]);
+
+			e[i][j] = sqrt(xd*xd + yd*yd);
+			c[i][j] += e[i][j];
 		}
 	}
 }
 
 
-// Set the boundary conditions and initialise
+// Initialise the charges at the nodes
 
-void BoundaryConditions()
+void ChargeSetUp()
 {
-	// Boundary conditions
-
-	for(int i = 0;i <= n; i++)
-	{
-		v[i][1] = v[i][m] = 0.0;
-	}
-	for(int j = 0; j <= m; j++)
-	{
-		v[1][j] = v[n][j] = 0.0;
-	}
-
-	// One source and one sink at the edges
-
-	v[0][m/2] = 10.0;
-	v[n][m/2] = -10.0;
-
-	// Initialise the rest to 0
-
 	for(int i=1;i<n;i++)
+	{
 		for(int j=1;j<m;j++)
 		{
+			c[i][j] = 0.0;
+		}
+	}
+}
+
+
+// Set the boundary conditions and initialise one solution
+
+void BoundaryConditions(double angle)
+{
+	// Set up the active area and initialise the solution to 0.
+
+	for(int i=1;i<n;i++)
+	{
+		int xd = i - xc;
+		for(int j=1;j<m;j++)
+		{
+			int yd = j - yc;
+			inside[i][j] = xd*xd + yd*yd < radius*radius;
 			v[i][j] = 0.0;
 			lastV[i][j] = 0.0;
 		}
+	}
+
+	// Source and sink
+
+	fixed[0][0] = xc + round((double)(radius - 1)*cos(angle));
+	fixed[0][1] = yc + round((double)(radius - 1)*sin(angle));
+	fixed[1][0] = xc + round((double)(radius - 1)*cos(angle + M_PI));
+	fixed[1][1] = yc + round((double)(radius - 1)*sin(angle + M_PI));
+
+	v[fixed[0][0]][fixed[0][1]] = 0.1;
+	v[fixed[1][0]][fixed[1][1]] = -0.1;
 }
 
 
-// Outputs for GNUplot
+// Output for GNUplot
 
-void Output()
+void Output(char* name, double a[n+2][m+2])
 {
+	double negValue = a[0][0];
+	for(int i = 0; i <= n; i++)
+		for(int j = 0; j <= m ; j++)
+		{
+			if(a[i][j] < negValue)
+				negValue = a[i][j];
+		}
+
 	FILE *fp;
-	fp=fopen("potential.dat","w");
-	for(int i = 0;i <= n; i++)
+	fp=fopen(name,"w");
+	for(int i = 0; i <= n; i++)
 	{
 		for(int j = 0; j <= m ; j++)
-			fprintf(fp,"%f\n",v[i][j]);
+		{
+			double val = negValue;
+			if(inside[i][j])
+				val = a[i][j];
+			fprintf(fp,"%f\n", val);
+		}
 		fprintf(fp,"\n");
 	}
 	fclose(fp);
-
-	// NB the field grid doesn't include the boundaries and so is 2 smaller in each direction.
-
-	fp=fopen("field.dat","w");
-	for(int i = 1; i < n; i++)
-	{
-		for(int j = 1; j < m; j++)
-			fprintf(fp,"%f\n",lastV[i][j]);
-		fprintf(fp,"\n");
-	}
-	fclose(fp);
-
 }
 
 
@@ -161,10 +256,22 @@ void Output()
 
 int main()
 {
-	BoundaryConditions();
-	GausSeidelIteration();
-	GradientMagnitudes();
-	Output();
+	ChargeSetUp();
+
+	double angle = 0.0;
+	double aInc = 2.0*M_PI/((double)angles);
+	for(int a = 0; a < angles; a++)
+	{
+		printf("Angle: %f\n", angle);
+		BoundaryConditions(angle);
+		GausSeidelIteration();
+		GradientMagnitudes();
+		angle += aInc;
+	}
+
+	Output("potential.dat", v);
+	Output("field.dat", e);
+	Output("charge.dat", c);
 }
 
 
