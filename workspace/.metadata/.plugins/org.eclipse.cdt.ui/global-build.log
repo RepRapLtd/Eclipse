@@ -1451,3 +1451,179 @@ Invoking: Cross G++ Linker
 g++  -o "Electric3DPrinter"  ./pde.o   
 Finished building target: Electric3DPrinter
  
+10:18:50 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:295:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", v, -1);
+                               ^
+../pde.cpp:296:27: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", e, -1);
+                           ^
+../pde.cpp:297:36: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", c, radius - 3);
+                                    ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+10:19:24 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:295:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", v, -1);
+                               ^
+../pde.cpp:296:27: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", e, -1);
+                           ^
+../pde.cpp:297:36: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", c, radius - 6);
+                                    ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+10:20:39 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:295:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", v, -1);
+                               ^
+../pde.cpp:296:27: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", e, -1);
+                           ^
+../pde.cpp:297:37: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", c, radius - 10);
+                                     ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+10:21:19 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:295:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", v, -1);
+                               ^
+../pde.cpp:296:27: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", e, -1);
+                           ^
+../pde.cpp:297:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", c, -1);
+                            ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+12:31:32 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:295:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", v, -1);
+                               ^
+../pde.cpp:296:27: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", e, -1);
+                           ^
+../pde.cpp:297:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", c, -1);
+                            ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+13:57:34 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:295:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", v, -1);
+                               ^
+../pde.cpp:296:27: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", e, -1);
+                           ^
+../pde.cpp:297:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", c, -1);
+                            ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:31:48 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:295:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", v, -1);
+                               ^
+../pde.cpp:296:27: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", e, -1);
+                           ^
+../pde.cpp:297:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", c, -1);
+                            ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:33:41 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:295:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", v, -1);
+                               ^
+../pde.cpp:296:27: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", e, -1);
+                           ^
+../pde.cpp:297:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", c, -1);
+                            ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 

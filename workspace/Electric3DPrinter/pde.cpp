@@ -56,6 +56,8 @@ const int maxIterations = 3000;
 
 double v[n+2][m+2], lastV[n+2][m+2], e[n+2][m+2], c[n+2][m+2];
 
+// Run the simulation this many times, incrementing the angle of the electrodes each time.
+
 const int angles = 20;
 
 // True in the active region. This could be computed on the fly; but it's faster
@@ -218,21 +220,33 @@ void BoundaryConditions(double angle)
 	fixed[1][0] = xc + round((double)(radius - 1)*cos(angle + M_PI));
 	fixed[1][1] = yc + round((double)(radius - 1)*sin(angle + M_PI));
 
-	v[fixed[0][0]][fixed[0][1]] = 0.1;
-	v[fixed[1][0]][fixed[1][1]] = -0.1;
+	v[fixed[0][0]][fixed[0][1]] = 1.0;
+	v[fixed[1][0]][fixed[1][1]] = -1.0;
 }
 
 
 // Output for GNUplot
 
-void Output(char* name, double a[n+2][m+2])
+void Output(char* name, double a[n+2][m+2], int activeR)
 {
-	double negValue = a[0][0];
+	double negValue = a[xc][yc];
 	for(int i = 0; i <= n; i++)
 		for(int j = 0; j <= m ; j++)
 		{
-			if(a[i][j] < negValue)
-				negValue = a[i][j];
+			if(activeR <= 0)
+			{
+				if(a[i][j] < negValue)
+					negValue = a[i][j];
+			} else
+			{
+				int xd = i - xc;
+				int yd = j - yc;
+				if(xd*xd + yd*yd < activeR*activeR)
+				{
+					if(a[i][j] < negValue)
+						negValue = a[i][j];
+				}
+			}
 		}
 
 	FILE *fp;
@@ -242,8 +256,19 @@ void Output(char* name, double a[n+2][m+2])
 		for(int j = 0; j <= m ; j++)
 		{
 			double val = negValue;
-			if(inside[i][j])
-				val = a[i][j];
+			if(activeR <= 0)
+			{
+				if(inside[i][j])
+					val = a[i][j];
+			} else
+			{
+				int xd = i - xc;
+				int yd = j - yc;
+				if(xd*xd + yd*yd < activeR*activeR)
+				{
+					val = a[i][j];
+				}
+			}
 			fprintf(fp,"%f\n", val);
 		}
 		fprintf(fp,"\n");
@@ -269,9 +294,9 @@ int main()
 		angle += aInc;
 	}
 
-	Output("potential.dat", v);
-	Output("field.dat", e);
-	Output("charge.dat", c);
+	Output("potential.dat", v, -1);
+	Output("field.dat", e, -1);
+	Output("charge.dat", c, -1);
 }
 
 
