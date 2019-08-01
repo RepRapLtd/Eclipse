@@ -16,6 +16,19 @@
  *
  *     Licence: GPL
  *
+ *
+ * To plot the results:
+ *
+ *  $ gnuplot
+ *  gnuplot> set hidden3d
+ *  gnuplot> splot 'potential.dat' with lines
+ *
+ * The output files are:
+ *
+ *   potential.dat - the electric potentials
+ *   field.dat - the magnitude of the electric field
+ *   charge.dat - the cumulated charge at each node
+ *
  */
 
 #include <stdio.h>
@@ -104,7 +117,7 @@ double PDE(int i, int j)
 
 	// The actual PDE
 
-	return (vxm + vxp + vym + vyp)/4;
+	return 0.25*(vxm + vxp + vym + vyp);
 }
 
 // Do a single pass of the Gauss-Seidel iteration.
@@ -147,7 +160,7 @@ void GausSeidelIteration()
 }
 
 
-// Compute the magnitudes of the gradient vectors in b.  This is
+// Compute the magnitudes of the gradient vectors in e[][].  This is
 // the electric field, E.
 
 void GradientMagnitudes()
@@ -225,10 +238,14 @@ void BoundaryConditions(double angle)
 }
 
 
-// Output for GNUplot
+// Output for GNUplot.  If activeR is positive, just output that
+// radius of the disc for close-ups of the middle.
 
 void Output(char* name, double a[n+2][m+2], int activeR)
 {
+	// Find the most negative value in the mesh and use that
+	// as the values outside the disc.
+
 	double negValue = a[xc][yc];
 	for(int i = 0; i <= n; i++)
 		for(int j = 0; j <= m ; j++)
@@ -248,6 +265,9 @@ void Output(char* name, double a[n+2][m+2], int activeR)
 				}
 			}
 		}
+
+	// Stick the data in a file so that GNUPlot can
+	// plot it.
 
 	FILE *fp;
 	fp=fopen(name,"w");
