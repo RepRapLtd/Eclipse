@@ -1627,3 +1627,1073 @@ Invoking: Cross G++ Linker
 g++  -o "Electric3DPrinter"  ./pde.o   
 Finished building target: Electric3DPrinter
  
+11:23:25 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:325:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", v, -1);
+                               ^
+../pde.cpp:326:27: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", e, -1);
+                           ^
+../pde.cpp:327:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", c, -1);
+                            ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:24:29 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:325:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", v, -1);
+                               ^
+../pde.cpp:326:27: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", e, -1);
+                           ^
+../pde.cpp:327:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", c, -1);
+                            ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:37:57 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:332:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", v, -1);
+                               ^
+../pde.cpp:333:27: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", e, -1);
+                           ^
+../pde.cpp:334:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", c, -1);
+                            ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:38:27 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:332:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", v, -1);
+                               ^
+../pde.cpp:333:27: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", e, -1);
+                           ^
+../pde.cpp:334:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", c, -1);
+                            ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:22:29 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:316:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:317:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:318:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:23:39 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:319:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:320:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:321:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:24:06 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:319:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:320:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:321:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:43:56 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", -1);
+                            ^
+../pde.cpp:359:28: error: invalid conversion from ‘int’ to ‘double (*)[52]’ [-fpermissive]
+../pde.cpp:359:28: error: too few arguments to function ‘void Output(char*, double (*)[52], int)’
+../pde.cpp:285:6: note: declared here
+ void Output(char* name, double a[n+2][m+2], int activeR)
+      ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+subdir.mk:18: recipe for target 'pde.o' failed
+make: *** [pde.o] Error 1
+11:44:37 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:45:21 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:45:58 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:48:04 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:48:20 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:48:42 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:49:01 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:49:17 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:49:35 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:49:55 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:50:20 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:50:34 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+11:50:51 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+12:34:33 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+12:35:04 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+12:36:02 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+12:36:49 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+12:39:18 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+12:40:14 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:359:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:360:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:361:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:362:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:15:59 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘double PDE(int, int)’:
+../pde.cpp:102:13: error: reference to ‘fixed’ is ambiguous
+   if( (i == fixed[k][0]) && (j == fixed[k][1]) )
+             ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:102:35: error: reference to ‘fixed’ is ambiguous
+   if( (i == fixed[k][0]) && (j == fixed[k][1]) )
+                                   ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp: In function ‘void BoundaryConditions(double)’:
+../pde.cpp:276:3: error: reference to ‘fixed’ is ambiguous
+   fixed[0][0] = xc + round((double)(radius - 1)*cos(angle));
+   ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:277:3: error: reference to ‘fixed’ is ambiguous
+   fixed[0][1] = yc + round((double)(radius - 1)*sin(angle));
+   ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+subdir.mk:18: recipe for target 'pde.o' failed
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:278:3: error: reference to ‘fixed’ is ambiguous
+   fixed[1][0] = xc + round((double)(radius - 1)*cos(angle + M_PI));
+   ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:279:3: error: reference to ‘fixed’ is ambiguous
+   fixed[1][1] = yc + round((double)(radius - 1)*sin(angle + M_PI));
+   ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:281:13: error: reference to ‘fixed’ is ambiguous
+   potential[fixed[0][0]][fixed[0][1]] = 1.0;
+             ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:281:26: error: reference to ‘fixed’ is ambiguous
+   potential[fixed[0][0]][fixed[0][1]] = 1.0;
+                          ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:282:13: error: reference to ‘fixed’ is ambiguous
+   potential[fixed[1][0]][fixed[1][1]] = -1.0;
+             ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:282:26: error: reference to ‘fixed’ is ambiguous
+   potential[fixed[1][0]][fixed[1][1]] = -1.0;
+                          ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:363:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:364:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:365:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:366:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+make: *** [pde.o] Error 1
+14:17:20 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void GausSeidelIteration()’:
+../pde.cpp:161:4: error: ‘cout’ was not declared in this scope
+    cout << "Iteration: " << k << ", rms:" << rms << endl;
+    ^
+../pde.cpp:161:4: note: suggested alternative:
+In file included from ../pde.cpp:35:0:
+/usr/include/c++/5/iostream:61:18: note:   ‘std::cout’
+   extern ostream cout;  /// Linked to standard output
+                  ^
+../pde.cpp:161:53: error: ‘endl’ was not declared in this scope
+    cout << "Iteration: " << k << ", rms:" << rms << endl;
+                                                     ^
+../pde.cpp:161:53: note: suggested alternative:
+In file included from /usr/include/c++/5/iostream:39:0,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/ostream:590:5: note:   ‘std::endl’
+     endl(basic_ostream<_CharT, _Traits>& __os)
+     ^
+../pde.cpp:165:3: error: ‘cout’ was not declared in this scope
+   cout << "No convergence!, rms: " << rms << endl;
+   ^
+../pde.cpp:165:3: note: suggested alternative:
+In file included from ../pde.cpp:35:0:
+/usr/include/c++/5/iostream:61:18: note:   ‘std::cout’
+   extern ostream cout;  /// Linked to standard output
+                  ^
+../pde.cpp:165:46: error: ‘endl’ was not declared in this scope
+   cout << "No convergence!, rms: " << rms << endl;
+                                              ^
+../pde.cpp:165:46: note: suggested alternative:
+In file included from /usr/include/c++/5/iostream:39:0,
+                 from ../pde.cpp:35:
+subdir.mk:18: recipe for target 'pde.o' failed
+/usr/include/c++/5/ostream:590:5: note:   ‘std::endl’
+     endl(basic_ostream<_CharT, _Traits>& __os)
+     ^
+../pde.cpp: In function ‘void Output(char*, double (*)[102], int)’:
+../pde.cpp:317:2: error: ‘ofstream’ was not declared in this scope
+  ofstream outputFile;
+  ^
+../pde.cpp:317:2: note: suggested alternative:
+In file included from /usr/include/c++/5/ios:38:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/iosfwd:165:34: note:   ‘std::ofstream’
+   typedef basic_ofstream<char>   ofstream;
+                                  ^
+../pde.cpp:318:2: error: ‘outputFile’ was not declared in this scope
+  outputFile.open(name);
+  ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:355:3: error: ‘cout’ was not declared in this scope
+   cout << "Angle: " << angle << endl;
+   ^
+../pde.cpp:355:3: note: suggested alternative:
+In file included from ../pde.cpp:35:0:
+/usr/include/c++/5/iostream:61:18: note:   ‘std::cout’
+   extern ostream cout;  /// Linked to standard output
+                  ^
+../pde.cpp:355:33: error: ‘endl’ was not declared in this scope
+   cout << "Angle: " << angle << endl;
+                                 ^
+../pde.cpp:355:33: note: suggested alternative:
+In file included from /usr/include/c++/5/iostream:39:0,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/ostream:590:5: note:   ‘std::endl’
+     endl(basic_ostream<_CharT, _Traits>& __os)
+     ^
+../pde.cpp:363:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:364:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:365:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:366:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+make: *** [pde.o] Error 1
+14:18:54 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘double PDE(int, int)’:
+../pde.cpp:102:13: error: reference to ‘fixed’ is ambiguous
+   if( (i == fixed[k][0]) && (j == fixed[k][1]) )
+             ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:102:35: error: reference to ‘fixed’ is ambiguous
+   if( (i == fixed[k][0]) && (j == fixed[k][1]) )
+                                   ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp: In function ‘void BoundaryConditions(double)’:
+../pde.cpp:276:3: error: reference to ‘fixed’ is ambiguous
+   fixed[0][0] = xc + round((double)(radius - 1)*cos(angle));
+subdir.mk:18: recipe for target 'pde.o' failed
+   ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:277:3: error: reference to ‘fixed’ is ambiguous
+   fixed[0][1] = yc + round((double)(radius - 1)*sin(angle));
+   ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:278:3: error: reference to ‘fixed’ is ambiguous
+   fixed[1][0] = xc + round((double)(radius - 1)*cos(angle + M_PI));
+   ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:279:3: error: reference to ‘fixed’ is ambiguous
+   fixed[1][1] = yc + round((double)(radius - 1)*sin(angle + M_PI));
+   ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:281:13: error: reference to ‘fixed’ is ambiguous
+   potential[fixed[0][0]][fixed[0][1]] = 1.0;
+             ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:281:26: error: reference to ‘fixed’ is ambiguous
+   potential[fixed[0][0]][fixed[0][1]] = 1.0;
+                          ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:282:13: error: reference to ‘fixed’ is ambiguous
+   potential[fixed[1][0]][fixed[1][1]] = -1.0;
+             ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp:282:26: error: reference to ‘fixed’ is ambiguous
+   potential[fixed[1][0]][fixed[1][1]] = -1.0;
+                          ^
+../pde.cpp:65:5: note: candidates are: int fixed [2][2]
+ int fixed[sources][2];
+     ^
+In file included from /usr/include/c++/5/ios:42:0,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ../pde.cpp:35:
+/usr/include/c++/5/bits/ios_base.h:1041:3: note:                 std::ios_base& std::fixed(std::ios_base&)
+   fixed(ios_base& __base)
+   ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:363:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:364:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:365:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:366:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+make: *** [pde.o] Error 1
+14:19:31 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:363:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:364:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:365:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:366:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 

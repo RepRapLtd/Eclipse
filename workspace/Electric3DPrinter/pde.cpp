@@ -31,8 +31,12 @@
  *
  */
 
-#include <stdio.h>
+//#include <stdio.h>
+#include <iostream>
+#include <fstream>
 #include <math.h>
+
+using namespace std;
 
 // Set true for progress reports etc.
 
@@ -40,38 +44,40 @@ bool debug = false;
 
 // Gauss-Seidel convergence criterion
 
-const double convergence = 0.000001;
+const double convergence = 0.00001;
 
 // Size of the grid
 
-const int n = 50;
-const int m = 50;
+const int n = 100;
+const int m = 100;
 
 // The centre and radius of the disc
 
-const int xc = 25;
-const int yc = 25;
-const int radius = 22;
+const int xc = 50;
+const int yc = 50;
+const int radius = 44;
 
 // The source and sink
+// NB sources must be 2*N where N is odd.
 
 const int sources = 2;
 
-int fixed[sources][2];
+int source[sources][2];
 
 // Stop after this many iterations if there's no convergence
 
 const int maxIterations = 3000;
 
-// v[][] is the potential field, V. lastV is a copy of it from the last iteration.
-// e[][] is used to store the magnitude of the field vectors, computed at the end of one solution.
-// c[][] is the accumulated charge that has flowed through each node for all solutions.
+// potential[][] is the potential field, V. lastPotential[][] is a copy of it from the last iteration.
+// field[][] is used to store the magnitude of the field vectors, computed at the end of one solution.
+// chargeIntegral[][] is the accumulated charge that has flowed through each node for all solutions.
+// thresholdedChargeIntegral[][] is a thresholded version of c[][] subject to, for example, a sigmoid function.
 
-double v[n+2][m+2], lastV[n+2][m+2], e[n+2][m+2], c[n+2][m+2];
+double potential[n+2][m+2], lastPotential[n+2][m+2], field[n+2][m+2], chargeIntegral[n+2][m+2], thresholdedChargeIntegral[n+2][m+2];
 
 // Run the simulation this many times, incrementing the angle of the electrodes each time.
 
-const int angles = 20;
+const int angles = 40;
 
 // True in the active region. This could be computed on the fly; but it's faster
 // to store it.  What's memory for?
@@ -87,33 +93,33 @@ double PDE(int i, int j)
 	// Do nothing outside the disc
 
 	if(!inside[i][j])
-		return v[i][j];
+		return potential[i][j];
 
 	// Don't mess with the sources and sinks
 
 	for(int k = 0; k < sources; k++)
 	{
-		if( (i == fixed[k][0]) && (j == fixed[k][1]) )
-			return v[i][j];
+		if( (i == source[k][0]) && (j == source[k][1]) )
+			return potential[i][j];
 	}
 
 	// Make a reflective boundary (i.e. one that does not conduct, so has 0 gradient)
 
-	double vxm = v[i-1][j];
+	double vxm = potential[i-1][j];
 	if(!inside[i-1][j])
-		vxm = v[i+1][j];
+		vxm = potential[i+1][j];
 
-	double vxp = v[i+1][j];
+	double vxp = potential[i+1][j];
 	if(!inside[i+1][j])
-		vxp = v[i-1][j];
+		vxp = potential[i-1][j];
 
-	double vym = v[i][j-1];
+	double vym = potential[i][j-1];
 	if(!inside[i][j-1])
-		vym = v[i][j+1];
+		vym = potential[i][j+1];
 
-	double vyp = v[i][j+1];
+	double vyp = potential[i][j+1];
 	if(!inside[i][j+1])
-		vyp = v[i][j-1];
+		vyp = potential[i][j-1];
 
 	// The actual PDE
 
@@ -129,10 +135,10 @@ double GaussSeidelOnePass()
 	{
 		for(int j = 1; j < m; j++)
 		{
-			v[i][j] = PDE(i, j);
-			double r = (v[i][j] - lastV[i][j]);
+			potential[i][j] = PDE(i, j);
+			double r = (potential[i][j] - lastPotential[i][j]);
 			rms = rms + r*r;
-			lastV[i][j] = v[i][j];
+			lastPotential[i][j] = potential[i][j];
 		}
 	}
 	rms = sqrt(rms/( (double)m*(double)n) );
@@ -152,11 +158,11 @@ void GausSeidelIteration()
 	{
 		rms = GaussSeidelOnePass();
 		if(debug)
-			printf("Iteration: %i, rms: %f\n", k, rms);
+			cout << "Iteration: " << k << ", rms:" << rms << endl;
 		k++;
 	}
 	if(k >= maxIterations)
-		printf("No convergence!, rms: %f\n", rms);
+		cout << "No convergence!, rms: " << rms << endl;
 }
 
 
@@ -174,23 +180,62 @@ void GradientMagnitudes()
 			// At the edges use linear gradients; parabolas elsewhere
 
 			if(!inside[i+1][j])
-				xd = v[i][j] - v[i-1][j];
+				xd = potential[i][j] - potential[i-1][j];
 			else if(!inside[i-1][j])
-				xd = v[i+1][j] - v[i][j];
+				xd = potential[i+1][j] - potential[i][j];
 			else
-				xd = 0.5*(v[i+1][j] - v[i-1][j]);
+				xd = 0.5*(potential[i+1][j] - potential[i-1][j]);
 
 			if(!inside[i][j+1])
-				yd = v[i][j] - v[i][j-1];
+				yd = potential[i][j] - potential[i][j-1];
 			else if(!inside[i][j-1])
-				yd = v[i][j+1] - v[i][j];
+				yd = potential[i][j+1] - potential[i][j];
 			else
-				yd = 0.5*(v[i][j+1] - v[i][j-1]);
+				yd = 0.5*(potential[i][j+1] - potential[i][j-1]);
 
-			e[i][j] = sqrt(xd*xd + yd*yd);
-			c[i][j] += e[i][j];
+			field[i][j] = sqrt(xd*xd + yd*yd);
+			chargeIntegral[i][j] += field[i][j];
 		}
 	}
+}
+
+
+// Threshold the charges.  Fraction is the threshold value in [0, 1] as a fraction of
+// the minimum to maximum charge.  Note - this INVERTS the charges high gives 0; low gives 1.
+
+void Threshold(double fraction)
+{
+	double low = chargeIntegral[xc][yc];
+	double high = low;
+	for(int i=1;i<n;i++)
+	{
+		for(int j=1;j<m;j++)
+		{
+			if(inside[i][j])
+			{
+				if(chargeIntegral[i][j] < low)
+					low = chargeIntegral[i][j];
+				if(chargeIntegral[i][j] > high)
+					high = chargeIntegral[i][j];
+			}
+		}
+	}
+
+	double threshold = low + (high - low)*fraction;
+
+	for(int i=1;i<n;i++)
+	{
+		for(int j=1;j<m;j++)
+		{
+			if(inside[i][j] && chargeIntegral[i][j] < threshold)
+				thresholdedChargeIntegral[i][j] = 1.0;
+			else
+				thresholdedChargeIntegral[i][j] = 0.0;
+
+		}
+	}
+
+
 }
 
 
@@ -202,7 +247,7 @@ void ChargeSetUp()
 	{
 		for(int j=1;j<m;j++)
 		{
-			c[i][j] = 0.0;
+			chargeIntegral[i][j] = 0.0;
 		}
 	}
 }
@@ -221,20 +266,20 @@ void BoundaryConditions(double angle)
 		{
 			int yd = j - yc;
 			inside[i][j] = xd*xd + yd*yd < radius*radius;
-			v[i][j] = 0.0;
-			lastV[i][j] = 0.0;
+			potential[i][j] = 0.0;
+			lastPotential[i][j] = 0.0;
 		}
 	}
 
-	// Source and sink
+	// Sources and sinks
 
-	fixed[0][0] = xc + round((double)(radius - 1)*cos(angle));
-	fixed[0][1] = yc + round((double)(radius - 1)*sin(angle));
-	fixed[1][0] = xc + round((double)(radius - 1)*cos(angle + M_PI));
-	fixed[1][1] = yc + round((double)(radius - 1)*sin(angle + M_PI));
+		source[0][0] = xc + round((double)(radius - 1)*cos(angle));
+		source[0][1] = yc + round((double)(radius - 1)*sin(angle));
+		source[1][0] = xc + round((double)(radius - 1)*cos(angle + M_PI));
+		source[1][1] = yc + round((double)(radius - 1)*sin(angle + M_PI));
 
-	v[fixed[0][0]][fixed[0][1]] = 1.0;
-	v[fixed[1][0]][fixed[1][1]] = -1.0;
+		potential[source[0][0]][source[0][1]] = 1.0;
+		potential[source[1][0]][source[1][1]] = -1.0;
 }
 
 
@@ -252,7 +297,7 @@ void Output(char* name, double a[n+2][m+2], int activeR)
 		{
 			if(activeR <= 0)
 			{
-				if(a[i][j] < negValue)
+				if(inside[i][j] && a[i][j] < negValue)
 					negValue = a[i][j];
 			} else
 			{
@@ -269,8 +314,8 @@ void Output(char* name, double a[n+2][m+2], int activeR)
 	// Stick the data in a file so that GNUPlot can
 	// plot it.
 
-	FILE *fp;
-	fp=fopen(name,"w");
+	ofstream outputFile;
+	outputFile.open(name);
 	for(int i = 0; i <= n; i++)
 	{
 		for(int j = 0; j <= m ; j++)
@@ -289,11 +334,11 @@ void Output(char* name, double a[n+2][m+2], int activeR)
 					val = a[i][j];
 				}
 			}
-			fprintf(fp,"%f\n", val);
+			outputFile << val << '\n';
 		}
-		fprintf(fp,"\n");
+		outputFile << '\n';
 	}
-	fclose(fp);
+	outputFile.close();
 }
 
 
@@ -307,16 +352,18 @@ int main()
 	double aInc = 2.0*M_PI/((double)angles);
 	for(int a = 0; a < angles; a++)
 	{
-		printf("Angle: %f\n", angle);
+		cout << "Angle: " << angle << endl;
 		BoundaryConditions(angle);
 		GausSeidelIteration();
 		GradientMagnitudes();
 		angle += aInc;
 	}
 
-	Output("potential.dat", v, -1);
-	Output("field.dat", e, -1);
-	Output("charge.dat", c, -1);
+	Threshold(0.1);
+	Output("threshold.dat", thresholdedChargeIntegral, -1);
+	Output("potential.dat", potential, -1);
+	Output("field.dat", field, -1);
+	Output("charge.dat", chargeIntegral, -1);
 }
 
 

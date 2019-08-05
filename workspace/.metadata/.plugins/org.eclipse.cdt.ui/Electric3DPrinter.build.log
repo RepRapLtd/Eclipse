@@ -1,18 +1,21 @@
-14:33:41 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+14:19:31 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
 make all 
 Building file: ../pde.cpp
 Invoking: Cross G++ Compiler
 g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
 ../pde.cpp: In function ‘int main()’:
-../pde.cpp:295:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-  Output("potential.dat", v, -1);
+../pde.cpp:363:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:364:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:365:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
                                ^
-../pde.cpp:296:27: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-  Output("field.dat", e, -1);
-                           ^
-../pde.cpp:297:28: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-  Output("charge.dat", c, -1);
-                            ^
+../pde.cpp:366:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
 Finished building: ../pde.cpp
  
 Building target: Electric3DPrinter
@@ -21,5 +24,5 @@ g++  -o "Electric3DPrinter"  ./pde.o
 Finished building target: Electric3DPrinter
  
 
-14:33:42 Build Finished (took 375ms)
+14:19:32 Build Finished (took 586ms)
 
