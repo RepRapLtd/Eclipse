@@ -44,18 +44,18 @@ bool debug = false;
 
 // Gauss-Seidel convergence criterion
 
-const double convergence = 0.00001;
+const double convergence = 0.001;
 
 // Size of the grid
 
-const int n = 100;
-const int m = 100;
+const int n = 50;
+const int m = 50;
 
 // The centre and radius of the disc
 
-const int xc = 50;
-const int yc = 50;
-const int radius = 44;
+const int xc = 25;
+const int yc = 25;
+const int radius = 22;
 
 // The source and sink
 // NB sources must be 2*N where N is odd.
@@ -63,6 +63,12 @@ const int radius = 44;
 const int sources = 2;
 
 int source[sources][2];
+
+// List of nodes on the boundary in cyclic order
+
+const int maxBoundary = 2*(n+m);
+int boundaryCount = 0;
+int boundaryNodes[maxBoundary][2];
 
 // Stop after this many iterations if there's no convergence
 
@@ -199,11 +205,17 @@ void GradientMagnitudes()
 	}
 }
 
+// The sigmoid function that decides if a given charge integral will be solid
 
-// Threshold the charges.  Fraction is the threshold value in [0, 1] as a fraction of
-// the minimum to maximum charge.  Note - this INVERTS the charges high gives 0; low gives 1.
+double Sigmoid(double a, double sigmoidOffset, double sMultiplier)
+{
+	return 1.0 - exp(sMultiplier*(a - sigmoidOffset))/(exp(sMultiplier*(a - sigmoidOffset)) + 1.0);
+}
 
-void Threshold(double fraction)
+
+// Threshold the charges.  Note - this INVERTS the charges high gives 0; low gives 1.
+
+void SigmoidCharge(double sigmoidOffset, double sMultiplier)
 {
 	double low = chargeIntegral[xc][yc];
 	double high = low;
@@ -221,21 +233,20 @@ void Threshold(double fraction)
 		}
 	}
 
-	double threshold = low + (high - low)*fraction;
+	double scale = 1.0/(high - low);
 
 	for(int i=1;i<n;i++)
 	{
 		for(int j=1;j<m;j++)
 		{
-			if(inside[i][j] && chargeIntegral[i][j] < threshold)
-				thresholdedChargeIntegral[i][j] = 1.0;
-			else
+			if(inside[i][j])
+			{
+				thresholdedChargeIntegral[i][j] = Sigmoid(scale*(chargeIntegral[i][j] - low), sigmoidOffset, sMultiplier);
+			} else
 				thresholdedChargeIntegral[i][j] = 0.0;
 
 		}
 	}
-
-
 }
 
 
@@ -252,17 +263,90 @@ void ChargeSetUp()
 	}
 }
 
+bool OnBoundary(int i, int j)
+{
+	if(!inside[i][j])
+		return false;
+
+	for(int ii = -1; ii < 2; ii++)
+	{
+		for(int jj = -1; jj < 2; jj++)
+		{
+			if(!inside[i+ii][j+jj])
+				return true;
+		}
+	}
+
+	return false;
+}
+
+void FindBoundary()
+{
+	// Find the first quadrant
+
+	boundaryCount = 0;
+	for(int i = 0; i <= xc; i++)
+	{
+		for(int j = yc; j >= 0; j--)
+		{
+			if(OnBoundary(i,j))
+			{
+				if(boundaryCount >= maxBoundary)
+				{
+					cout << "Maximum boundary node count (Q0) exceeded!" << endl;
+					return;
+				}
+
+				boundaryNodes[boundaryCount][0] = i;
+				boundaryNodes[boundaryCount][1] = j;
+				boundaryCount++;
+			}
+		}
+	}
+
+	// Copy that to the other three
+
+	int bc = boundaryCount;
+	for(int i = bc - 2; i >= 0; i--)
+	{
+		if(boundaryCount >= maxBoundary)
+		{
+			cout << "Maximum boundary node count (Q1) exceeded!" << endl;
+			return;
+		}
+		boundaryNodes[boundaryCount][0] = 2*xc - boundaryNodes[i][0];
+		boundaryNodes[boundaryCount][1] = boundaryNodes[i][1];
+		boundaryCount++;
+	}
+
+	bc = boundaryCount;
+	for(int i = bc - 2; i > 0; i--)
+	{
+		if(boundaryCount >= maxBoundary)
+		{
+			cout << "Maximum boundary node count (Q34) exceeded!" << endl;
+			return;
+		}
+		boundaryNodes[boundaryCount][0] = boundaryNodes[i][0];
+		boundaryNodes[boundaryCount][1] = 2*yc - boundaryNodes[i][1];
+		boundaryCount++;
+	}
+
+	if(boundaryCount%4)
+		cout << "Number of boundary nodes is not a multiple of 4! " << boundaryCount << endl;
+}
+
 
 // Set the boundary conditions and initialise one solution
 
-void BoundaryConditions(double angle)
+void BoundaryConditions(int b)
 {
 	// Set up the active area and initialise the solution to 0.
 
-	for(int i=1;i<n;i++)
+	for(int i = 0; i <= n; i++)
 	{
 		int xd = i - xc;
-		for(int j=1;j<m;j++)
+		for(int j = 0; j <= m; j++)
 		{
 			int yd = j - yc;
 			inside[i][j] = xd*xd + yd*yd < radius*radius;
@@ -271,15 +355,24 @@ void BoundaryConditions(double angle)
 		}
 	}
 
+	FindBoundary();
+
 	// Sources and sinks
 
-		source[0][0] = xc + round((double)(radius - 1)*cos(angle));
-		source[0][1] = yc + round((double)(radius - 1)*sin(angle));
-		source[1][0] = xc + round((double)(radius - 1)*cos(angle + M_PI));
-		source[1][1] = yc + round((double)(radius - 1)*sin(angle + M_PI));
+//	source[0][0] = xc + round((double)(radius - 1)*cos(angle));
+//	source[0][1] = yc + round((double)(radius - 1)*sin(angle));
+//	source[1][0] = xc + round((double)(radius - 1)*cos(angle + M_PI));
+//	source[1][1] = yc + round((double)(radius - 1)*sin(angle + M_PI));
 
-		potential[source[0][0]][source[0][1]] = 1.0;
-		potential[source[1][0]][source[1][1]] = -1.0;
+	source[0][0] = boundaryNodes[b][0];
+	source[0][1] = boundaryNodes[b][1];
+	double angle = atan2(yc - source[0][1], xc - source[0][0]);
+	int opposite = b + boundaryCount/2;
+	source[1][0] = boundaryNodes[opposite][0];
+	source[1][1] = boundaryNodes[opposite][1];
+
+	potential[source[0][0]][source[0][1]] = 2.0 + sin(4.0*angle);
+	potential[source[1][0]][source[1][1]] = 2.0 + sin(4.0*angle + M_PI);
 }
 
 
@@ -342,24 +435,44 @@ void Output(char* name, double a[n+2][m+2], int activeR)
 }
 
 
+// Function to plot the boundary to test that it's properly set-up.
+// Not normally called.
+
+void TestBoundary()
+{
+	BoundaryConditions(0.0);
+	for(int i = 0; i <= n; i++)
+	{
+		for(int j = 0; j <= m ; j++)
+			inside[i][j] = true;
+	}
+	potential[1][1] = 0.5;
+	for(int i = 0; i < boundaryCount; i++)
+	{
+		potential[boundaryNodes[i][0]][boundaryNodes[i][1]] += 1;
+		cout << i << ": (" << boundaryNodes[i][0] << ", " << boundaryNodes[i][1] << ")" << endl;
+	}
+	Output("boundary.dat", potential, -1);
+}
+
+
 // Self-explanatory, I hope.
 
 int main()
 {
-	ChargeSetUp();
+//	TestBoundary();
 
-	double angle = 0.0;
-	double aInc = 2.0*M_PI/((double)angles);
-	for(int a = 0; a < angles; a++)
+	ChargeSetUp();
+	BoundaryConditions(0);
+
+	for(int i = 0; i < boundaryCount/2; i++)
 	{
-		cout << "Angle: " << angle << endl;
-		BoundaryConditions(angle);
+		BoundaryConditions(i);
 		GausSeidelIteration();
 		GradientMagnitudes();
-		angle += aInc;
 	}
 
-	Threshold(0.1);
+	SigmoidCharge(0.1, 50);
 	Output("threshold.dat", thresholdedChargeIntegral, -1);
 	Output("potential.dat", potential, -1);
 	Output("field.dat", field, -1);

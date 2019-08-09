@@ -2697,3 +2697,1430 @@ Invoking: Cross G++ Linker
 g++  -o "Electric3DPrinter"  ./pde.o   
 Finished building target: Electric3DPrinter
  
+12:40:29 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+12:42:07 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+12:44:02 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+12:46:11 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+13:57:32 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+13:57:57 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+13:59:35 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:00:07 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:00:47 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:00:58 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:01:34 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:02:43 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:03:00 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:04:11 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:416:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:04:57 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:416:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:05:47 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:416:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:08:54 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:416:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:15:16 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:416:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:16:32 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:416:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:32:51 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:416:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:33:18 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:416:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:33:50 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:416:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:35:40 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void FindBoundary()’:
+../pde.cpp:295:11: error: expected ‘;’ before string constant
+      cout "!!" << i << " " << j << endl;
+           ^
+../pde.cpp:295:40: warning: statement has no effect [-Wunused-value]
+      cout "!!" << i << " " << j << endl;
+                                        ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+make: *** [pde.o] Error 1
+subdir.mk:18: recipe for target 'pde.o' failed
+14:35:53 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:37:04 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:418:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:39:57 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:421:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:41:09 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:420:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:42:00 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:419:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:42:37 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:419:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:43:35 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:419:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:43:48 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:419:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:44:02 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:419:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:44:16 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:419:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:46:50 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:419:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:48:21 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:429:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:49:03 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:429:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:49:31 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:429:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:49:47 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:429:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:50:43 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:429:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:13:50 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:430:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:15:47 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:430:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:17:57 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:431:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:18:33 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:432:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:18:57 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:432:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:21:59 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:24:01 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:25:45 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:26:24 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:26:54 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:27:23 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:27:58 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:28:18 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:29:13 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:29:37 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:30:05 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:30:40 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:32:02 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:32:33 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:436:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:53:52 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:449:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:469:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:470:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:471:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:472:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:56:04 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:449:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:469:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:470:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:471:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:472:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:57:16 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:449:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:469:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:470:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:471:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:472:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:58:19 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:449:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:470:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:471:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:472:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:473:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+17:05:46 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:456:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:477:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:478:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:479:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:480:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+17:09:30 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:456:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:477:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:478:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:479:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:480:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+17:10:02 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:456:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:477:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:478:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:479:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:480:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+17:14:26 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:454:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:475:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:476:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:477:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:478:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+17:25:03 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:454:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:475:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:476:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:477:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:478:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+17:25:26 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:454:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:475:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:476:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:477:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:478:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+17:25:52 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:454:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:475:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:476:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:477:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:478:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+17:27:31 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:454:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:475:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:476:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:477:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:478:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+17:28:27 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:454:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:475:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:476:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:477:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:478:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+17:39:19 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:456:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:477:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:478:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:479:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:480:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+17:39:55 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:456:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:477:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:478:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:479:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:480:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+17:42:46 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:370:9: warning: unused variable ‘v’ [-Wunused-variable]
+  double v = sin(angle);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:456:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:477:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:478:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:479:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:480:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+17:43:28 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:455:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:476:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:477:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:478:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:479:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
