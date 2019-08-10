@@ -367,12 +367,15 @@ void BoundaryConditions(int b)
 	source[0][0] = boundaryNodes[b][0];
 	source[0][1] = boundaryNodes[b][1];
 	double angle = atan2(yc - source[0][1], xc - source[0][0]);
-	int opposite = b + boundaryCount/2;
+	int opposite = (b + boundaryCount/2)%boundaryCount;
 	source[1][0] = boundaryNodes[opposite][0];
 	source[1][1] = boundaryNodes[opposite][1];
 
-	potential[source[0][0]][source[0][1]] = 2.0 + sin(4.0*angle);
-	potential[source[1][0]][source[1][1]] = 2.0 + sin(4.0*angle + M_PI);
+//	potential[source[0][0]][source[0][1]] = 2.0 + sin(4.0*angle);
+//	potential[source[1][0]][source[1][1]] = 2.0 + sin(4.0*angle + M_PI);
+
+	potential[source[0][0]][source[0][1]] = 1.0;
+	potential[source[1][0]][source[1][1]] = -1.0;
 }
 
 
@@ -465,7 +468,13 @@ int main()
 	ChargeSetUp();
 	BoundaryConditions(0);
 
-	for(int i = 0; i < boundaryCount/2; i++)
+	for(int i = 0; i < boundaryCount/4; i++)
+	{
+		BoundaryConditions(i);
+		GausSeidelIteration();
+		GradientMagnitudes();
+	}
+	for(int i = boundaryCount/2; i < (3*boundaryCount)/4; i++)
 	{
 		BoundaryConditions(i);
 		GausSeidelIteration();
