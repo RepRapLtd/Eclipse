@@ -44,17 +44,16 @@ bool debug = false;
 
 // Gauss-Seidel convergence criterion
 
-const double convergence = 0.001;
+const double convergence = 0.00001;
 
 // Size of the grid
 
-const int n = 50;
-const int m = 50;
+const int nodes = 50;
 
 // The centre and radius of the disc
 
-const int xc = 25;
-const int yc = 25;
+const int xCentre = 25;
+const int yCentre = 25;
 const int radius = 22;
 
 // The source and sink
@@ -62,11 +61,11 @@ const int radius = 22;
 
 const int sources = 2;
 
-int source[sources][2];
+int source[sources][3];
 
 // List of nodes on the boundary in cyclic order
 
-const int maxBoundary = 2*(n+m);
+const int maxBoundary = 4*nodes;
 int boundaryCount = 0;
 int boundaryNodes[maxBoundary][2];
 
@@ -79,57 +78,62 @@ const int maxIterations = 3000;
 // chargeIntegral[][] is the accumulated charge that has flowed through each node for all solutions.
 // thresholdedChargeIntegral[][] is a thresholded version of c[][] subject to, for example, a sigmoid function.
 
-double potential[n+2][m+2], lastPotential[n+2][m+2], field[n+2][m+2], chargeIntegral[n+2][m+2], thresholdedChargeIntegral[n+2][m+2];
-
-// Run the simulation this many times, incrementing the angle of the electrodes each time.
-
-const int angles = 40;
+double potential[nodes+2][nodes+2][nodes+2], lastPotential[nodes+2][nodes+2][nodes+2], field[nodes+2][nodes+2][nodes+2],
+       chargeIntegral[nodes+2][nodes+2][nodes+2], thresholdedChargeIntegral[nodes+2][nodes+2][nodes+2];
 
 // True in the active region. This could be computed on the fly; but it's faster
 // to store it.  What's memory for?
 
-bool inside[n+2][m+2];
+bool inside[nodes+2][nodes+2][nodes+2];
 
 //**********************************************************************************************
 
 // Solve the PDE at a single node [i][j]
 
-double PDE(int i, int j)
+double PDE(int i, int j, int k)
 {
 	// Do nothing outside the disc
 
-	if(!inside[i][j])
-		return potential[i][j];
+	if(!inside[i][j][k])
+		return potential[i][j][k];
 
 	// Don't mess with the sources and sinks
 
-	for(int k = 0; k < sources; k++)
+	for(int l = 0; l < sources; l++)
 	{
-		if( (i == source[k][0]) && (j == source[k][1]) )
-			return potential[i][j];
+		if( (i == source[l][0]) && (j == source[l][1]) && (k == source[l][2]))
+			return potential[i][j][k];
 	}
 
 	// Make a reflective boundary (i.e. one that does not conduct, so has 0 gradient)
 
-	double vxm = potential[i-1][j];
-	if(!inside[i-1][j])
-		vxm = potential[i+1][j];
+	double vxm = potential[i-1][j][k];
+	if(!inside[i-1][j][k])
+		vxm = potential[i+1][j][k];
 
-	double vxp = potential[i+1][j];
-	if(!inside[i+1][j])
-		vxp = potential[i-1][j];
+	double vxp = potential[i+1][j][k];
+	if(!inside[i+1][j][k])
+		vxp = potential[i-1][j][k];
 
-	double vym = potential[i][j-1];
-	if(!inside[i][j-1])
-		vym = potential[i][j+1];
+	double vym = potential[i][j-1][k];
+	if(!inside[i][j-1][k])
+		vym = potential[i][j+1][k];
 
-	double vyp = potential[i][j+1];
-	if(!inside[i][j+1])
-		vyp = potential[i][j-1];
+	double vyp = potential[i][j+1][k];
+	if(!inside[i][j+1][k])
+		vyp = potential[i][j-1][k];
+
+	double vzm = potential[i][j][k-1];
+	if(!inside[i][j][k-1])
+		vzm = potential[i][j][k+1];
+
+	double vzp = potential[i][j][k+1];
+	if(!inside[i][j][k+1])
+		vzp = potential[i][j][k-1];
 
 	// The actual PDE
 
-	return 0.25*(vxm + vxp + vym + vyp);
+	return (vxm + vxp + vym + vyp + vzm + vzp)/6.0;
 }
 
 // Do a single pass of the Gauss-Seidel iteration.
@@ -137,17 +141,20 @@ double PDE(int i, int j)
 double GaussSeidelOnePass()
 {
 	double rms = 0.0;
-	for(int i = 1; i < n; i++)
+	for(int i = 1; i < nodes; i++)
 	{
-		for(int j = 1; j < m; j++)
+		for(int j = 1; j < nodes; j++)
 		{
-			potential[i][j] = PDE(i, j);
-			double r = (potential[i][j] - lastPotential[i][j]);
-			rms = rms + r*r;
-			lastPotential[i][j] = potential[i][j];
+			for(int k = 1; k < nodes; k++)
+			{
+				potential[i][j][k] = PDE(i, j, k);
+				double r = (potential[i][j][k] - lastPotential[i][j][k]);
+				rms = rms + r*r;
+				lastPotential[i][j][k] = potential[i][j][k];
+			}
 		}
 	}
-	rms = sqrt(rms/( (double)m*(double)n) );
+	rms = sqrt( rms/(double)(nodes*nodes) );
 	return rms;
 }
 
@@ -159,15 +166,15 @@ double GaussSeidelOnePass()
 void GausSeidelIteration()
 {
 	double rms = 100.0*convergence;
-	int k = 0;
-	while(k < maxIterations && rms > convergence)
+	int l = 0;
+	while(l < maxIterations && rms > convergence)
 	{
 		rms = GaussSeidelOnePass();
 		if(debug)
-			cout << "Iteration: " << k << ", rms:" << rms << endl;
-		k++;
+			cout << "Iteration: " << l << ", rms:" << rms << endl;
+		l++;
 	}
-	if(k >= maxIterations)
+	if(l >= maxIterations)
 		cout << "No convergence!, rms: " << rms << endl;
 }
 
@@ -177,32 +184,66 @@ void GausSeidelIteration()
 
 void GradientMagnitudes()
 {
-	double xd, yd;
-	for(int i = 1; i < n; i++)
+	double xd, yd, zd;
+	for(int i = 1; i < nodes; i++)
 	{
-		for(int j = 1; j < m; j++)
+		for(int j = 1; j < nodes; j++)
 		{
+			for(int k = 1; k < nodes; k++)
+			{
 
-			// At the edges use linear gradients; parabolas elsewhere
+				// At the edges use linear gradients; parabolas elsewhere
 
-			if(!inside[i+1][j])
-				xd = potential[i][j] - potential[i-1][j];
-			else if(!inside[i-1][j])
-				xd = potential[i+1][j] - potential[i][j];
-			else
-				xd = 0.5*(potential[i+1][j] - potential[i-1][j]);
+				if(!inside[i+1][j][k])
+					xd = potential[i][j][k] - potential[i-1][j][k];
+				else if(!inside[i-1][j][k])
+					xd = potential[i+1][j][k] - potential[i][j][k];
+				else
+					xd = 0.5*(potential[i+1][j][k] - potential[i-1][j][k]);
 
-			if(!inside[i][j+1])
-				yd = potential[i][j] - potential[i][j-1];
-			else if(!inside[i][j-1])
-				yd = potential[i][j+1] - potential[i][j];
-			else
-				yd = 0.5*(potential[i][j+1] - potential[i][j-1]);
+				if(!inside[i][j+1][k])
+					yd = potential[i][j][k] - potential[i][j-1][k];
+				else if(!inside[i][j-1][k])
+					yd = potential[i][j+1][k] - potential[i][j][k];
+				else
+					yd = 0.5*(potential[i][j+1][k] - potential[i][j-1][k]);
 
-			field[i][j] = sqrt(xd*xd + yd*yd);
-			chargeIntegral[i][j] += field[i][j];
+				if(!inside[i][j][k+1])
+					zd = potential[i][j][k] - potential[i][j][k-1];
+				else if(!inside[i][j][k-1])
+					zd = potential[i][j][k+1] - potential[i][j][k];
+				else
+					zd = 0.5*(potential[i][j][k+1] - potential[i][j][k-1]);
+
+				field[i][j][k] = sqrt(xd*xd + yd*yd + zd*zd);
+				chargeIntegral[i][j][k] += field[i][j][k];
+			}
 		}
 	}
+}
+
+void PrintChargeRange()
+{
+	double low = chargeIntegral[xCentre][yCentre][nodes/2];
+	double high = low;
+	for(int i=1;i<nodes;i++)
+	{
+		for(int j=1;j<nodes;j++)
+		{
+			for(int k=1;k<nodes;k++)
+			{
+				if(inside[i][j][k])
+				{
+					if(chargeIntegral[i][j][k] < low)
+						low = chargeIntegral[i][j][k];
+					if(chargeIntegral[i][j][k] > high)
+						high = chargeIntegral[i][j][k];
+				}
+			}
+		}
+	}
+
+	cout << "Charge range: " << low << " to " << high << endl;
 }
 
 // The sigmoid function that decides if a given charge integral will be solid
@@ -217,34 +258,18 @@ double Sigmoid(double a, double sigmoidOffset, double sMultiplier)
 
 void SigmoidCharge(double sigmoidOffset, double sMultiplier)
 {
-	double low = chargeIntegral[xc][yc];
-	double high = low;
-	for(int i=1;i<n;i++)
+	for(int i=1;i<nodes;i++)
 	{
-		for(int j=1;j<m;j++)
+		for(int j=1;j<nodes;j++)
 		{
-			if(inside[i][j])
+			for(int k=1;k<nodes;k++)
 			{
-				if(chargeIntegral[i][j] < low)
-					low = chargeIntegral[i][j];
-				if(chargeIntegral[i][j] > high)
-					high = chargeIntegral[i][j];
+				if(inside[i][j][k])
+				{
+					thresholdedChargeIntegral[i][j][k] = Sigmoid(chargeIntegral[i][j][k], sigmoidOffset, sMultiplier);
+				} else
+					thresholdedChargeIntegral[i][j][k] = 0.0;
 			}
-		}
-	}
-
-	double scale = 1.0/(high - low);
-
-	for(int i=1;i<n;i++)
-	{
-		for(int j=1;j<m;j++)
-		{
-			if(inside[i][j])
-			{
-				thresholdedChargeIntegral[i][j] = Sigmoid(scale*(chargeIntegral[i][j] - low), sigmoidOffset, sMultiplier);
-			} else
-				thresholdedChargeIntegral[i][j] = 0.0;
-
 		}
 	}
 }
@@ -254,42 +279,48 @@ void SigmoidCharge(double sigmoidOffset, double sMultiplier)
 
 void ChargeSetUp()
 {
-	for(int i=1;i<n;i++)
+	for(int i=0;i<=nodes;i++)
 	{
-		for(int j=1;j<m;j++)
+		for(int j=0;j<=nodes;j++)
 		{
-			chargeIntegral[i][j] = 0.0;
+			for(int k=0;k<=nodes;k++)
+			{
+				chargeIntegral[i][j][k] = 0.0;
+			}
 		}
 	}
 }
 
-bool OnBoundary(int i, int j)
+bool OnBoundary(int i, int j, int k)
 {
-	if(!inside[i][j])
+	if(!inside[i][j][k])
 		return false;
 
 	for(int ii = -1; ii < 2; ii++)
 	{
 		for(int jj = -1; jj < 2; jj++)
 		{
-			if(!inside[i+ii][j+jj])
-				return true;
+			for(int kk = -1; kk < 2; kk++)
+			{
+				if(!inside[i+ii][j+jj][k+kk])
+					return true;
+			}
 		}
 	}
 
 	return false;
 }
 
-void FindBoundary()
+void FindBoundary(int k)
 {
 	// Find the first quadrant
 
 	boundaryCount = 0;
-	for(int i = 0; i <= xc; i++)
+	for(int i = 0; i <= xCentre; i++)
 	{
-		for(int j = yc; j >= 0; j--)
+		for(int j = yCentre; j >= 0; j--)
 		{
-			if(OnBoundary(i,j))
+			if(OnBoundary(i,j, k))
 			{
 				if(boundaryCount >= maxBoundary)
 				{
@@ -314,7 +345,7 @@ void FindBoundary()
 			cout << "Maximum boundary node count (Q1) exceeded!" << endl;
 			return;
 		}
-		boundaryNodes[boundaryCount][0] = 2*xc - boundaryNodes[i][0];
+		boundaryNodes[boundaryCount][0] = 2*xCentre - boundaryNodes[i][0];
 		boundaryNodes[boundaryCount][1] = boundaryNodes[i][1];
 		boundaryCount++;
 	}
@@ -328,7 +359,7 @@ void FindBoundary()
 			return;
 		}
 		boundaryNodes[boundaryCount][0] = boundaryNodes[i][0];
-		boundaryNodes[boundaryCount][1] = 2*yc - boundaryNodes[i][1];
+		boundaryNodes[boundaryCount][1] = 2*yCentre - boundaryNodes[i][1];
 		boundaryCount++;
 	}
 
@@ -339,34 +370,46 @@ void FindBoundary()
 
 // Set the boundary conditions and initialise one solution
 
-void BoundaryConditions(int b)
+void BoundaryConditions(int b, int k)
 {
 	// Set up the active area and initialise the solution to 0.
 
-	for(int i = 0; i <= n; i++)
+	for(int i = 0; i <= nodes; i++)
 	{
-		int xd = i - xc;
-		for(int j = 0; j <= m; j++)
+		int xd = i - xCentre;
+		for(int j = 0; j <= nodes; j++)
 		{
-			int yd = j - yc;
-			inside[i][j] = xd*xd + yd*yd < radius*radius;
-			potential[i][j] = 0.0;
-			lastPotential[i][j] = 0.0;
+			int yd = j - yCentre;
+			for(int kk = 1; kk < nodes; kk++)
+			{
+				inside[i][j][kk] = xd*xd + yd*yd < radius*radius;
+				potential[i][j][kk] = 0.0;
+				lastPotential[i][j][kk] = 0.0;
+			}
+
+			// Bottom and top
+
+			inside[i][j][0] = false;
+			potential[i][j][0] = 0.0;
+			lastPotential[i][j][0] = 0.0;
+			inside[i][j][nodes] = false;
+			potential[i][j][nodes] = 0.0;
+			lastPotential[i][j][nodes] = 0.0;
 		}
 	}
 
-	FindBoundary();
+	FindBoundary(nodes/2);
 
 	// Sources and sinks
 
 //	source[0][0] = xc + round((double)(radius - 1)*cos(angle));
 //	source[0][1] = yc + round((double)(radius - 1)*sin(angle));
 //	source[1][0] = xc + round((double)(radius - 1)*cos(angle + M_PI));
-//	source[1][1] = yc + round((double)(radius - 1)*sin(angle + M_PI));
+//	source[1][1] = yCentre + round((double)(radius - 1)*sin(angle + M_PI));
 
 	source[0][0] = boundaryNodes[b][0];
 	source[0][1] = boundaryNodes[b][1];
-	double angle = atan2(yc - source[0][1], xc - source[0][0]);
+	double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
 	int opposite = (b + boundaryCount/2)%boundaryCount;
 	source[1][0] = boundaryNodes[opposite][0];
 	source[1][1] = boundaryNodes[opposite][1];
@@ -374,35 +417,35 @@ void BoundaryConditions(int b)
 //	potential[source[0][0]][source[0][1]] = 2.0 + sin(4.0*angle);
 //	potential[source[1][0]][source[1][1]] = 2.0 + sin(4.0*angle + M_PI);
 
-	potential[source[0][0]][source[0][1]] = 1.0;
-	potential[source[1][0]][source[1][1]] = -1.0;
+	potential[source[0][0]][source[0][1]][k] = 1.0;
+	potential[source[1][0]][source[1][1]][k] = -1.0;
 }
 
 
-// Output for GNUplot.  If activeR is positive, just output that
+// Output one disc at z=k for GNUplot.  If activeR is positive, just output that
 // radius of the disc for close-ups of the middle.
 
-void Output(char* name, double a[n+2][m+2], int activeR)
+void Output(char* name, double a[nodes+2][nodes+2][nodes+2], int activeR, int k)
 {
 	// Find the most negative value in the mesh and use that
 	// as the values outside the disc.
 
-	double negValue = a[xc][yc];
-	for(int i = 0; i <= n; i++)
-		for(int j = 0; j <= m ; j++)
+	double negValue = a[xCentre][yCentre][k];
+	for(int i = 0; i <= nodes; i++)
+		for(int j = 0; j <= nodes ; j++)
 		{
 			if(activeR <= 0)
 			{
-				if(inside[i][j] && a[i][j] < negValue)
-					negValue = a[i][j];
+				if(inside[i][j][k] && a[i][j][k] < negValue)
+					negValue = a[i][j][k];
 			} else
 			{
-				int xd = i - xc;
-				int yd = j - yc;
+				int xd = i - xCentre;
+				int yd = j - yCentre;
 				if(xd*xd + yd*yd < activeR*activeR)
 				{
-					if(a[i][j] < negValue)
-						negValue = a[i][j];
+					if(a[i][j][k] < negValue)
+						negValue = a[i][j][k];
 				}
 			}
 		}
@@ -412,22 +455,22 @@ void Output(char* name, double a[n+2][m+2], int activeR)
 
 	ofstream outputFile;
 	outputFile.open(name);
-	for(int i = 0; i <= n; i++)
+	for(int i = 0; i <= nodes; i++)
 	{
-		for(int j = 0; j <= m ; j++)
+		for(int j = 0; j <= nodes ; j++)
 		{
 			double val = negValue;
 			if(activeR <= 0)
 			{
-				if(inside[i][j])
-					val = a[i][j];
+				if(inside[i][j][k])
+					val = a[i][j][k];
 			} else
 			{
-				int xd = i - xc;
-				int yd = j - yc;
+				int xd = i - xCentre;
+				int yd = j - yCentre;
 				if(xd*xd + yd*yd < activeR*activeR)
 				{
-					val = a[i][j];
+					val = a[i][j][k];
 				}
 			}
 			outputFile << val << '\n';
@@ -443,19 +486,20 @@ void Output(char* name, double a[n+2][m+2], int activeR)
 
 void TestBoundary()
 {
-	BoundaryConditions(0.0);
-	for(int i = 0; i <= n; i++)
+	int k = nodes/2;
+	BoundaryConditions(0.0, k);
+	for(int i = 0; i <= nodes; i++)
 	{
-		for(int j = 0; j <= m ; j++)
-			inside[i][j] = true;
+		for(int j = 0; j <= nodes ; j++)
+			inside[i][j][k] = true;
 	}
-	potential[1][1] = 0.5;
+	potential[1][1][k] = 0.5;
 	for(int i = 0; i < boundaryCount; i++)
 	{
-		potential[boundaryNodes[i][0]][boundaryNodes[i][1]] += 1;
+		potential[boundaryNodes[i][0]][boundaryNodes[i][1]][k] += 1;
 		cout << i << ": (" << boundaryNodes[i][0] << ", " << boundaryNodes[i][1] << ")" << endl;
 	}
-	Output("boundary.dat", potential, -1);
+	Output("boundary.dat", potential, -1, k);
 }
 
 
@@ -466,26 +510,40 @@ int main()
 //	TestBoundary();
 
 	ChargeSetUp();
-	BoundaryConditions(0);
+	int k = nodes/2;
+	BoundaryConditions(0, k);
 
-	for(int i = 0; i < boundaryCount/4; i++)
-	{
-		BoundaryConditions(i);
+//	for(int i = 0; i < boundaryCount/4; i++)
+//	{
+		BoundaryConditions(0, k);
 		GausSeidelIteration();
 		GradientMagnitudes();
-	}
-	for(int i = boundaryCount/2; i < (3*boundaryCount)/4; i++)
-	{
-		BoundaryConditions(i);
-		GausSeidelIteration();
-		GradientMagnitudes();
-	}
+//	}
+//	for(int i = boundaryCount/2; i < (3*boundaryCount)/4; i++)
+//	{
+//		BoundaryConditions(i, k);
+//		GausSeidelIteration();
+//		GradientMagnitudes();
+//	}
 
-	SigmoidCharge(0.1, 50);
-	Output("threshold.dat", thresholdedChargeIntegral, -1);
-	Output("potential.dat", potential, -1);
-	Output("field.dat", field, -1);
-	Output("charge.dat", chargeIntegral, -1);
+	Output("potential.dat", potential, -1, k);
+	Output("field.dat", field, -1, k);
+	Output("charge.dat", chargeIntegral, -1, k);
+
+	PrintChargeRange();
+
+	double s;
+	do
+	{
+		cout << "Sigmoid value for 0.5 point (-ve to exit): ";
+		cin >> s;
+		if(s > 0.0)
+		{
+			SigmoidCharge(s, 50);
+			Output("threshold.dat", thresholdedChargeIntegral, -1, k);
+		}
+	} while(s > 0.0);
+
 }
 
 

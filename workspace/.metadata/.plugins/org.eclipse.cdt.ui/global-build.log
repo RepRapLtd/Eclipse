@@ -4318,3 +4318,758 @@ Invoking: Cross G++ Linker
 g++  -o "Electric3DPrinter"  ./pde.o   
 Finished building target: Electric3DPrinter
  
+14:12:57 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yc - source[0][1], xc - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:17:03 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp:433:25: warning: character constant too long for its type
+    outputFile << val << '\nodes';
+                         ^
+../pde.cpp:435:17: warning: character constant too long for its type
+   outputFile << '\nodes';
+                 ^
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:17:18 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp:433:25: warning: character constant too long for its type
+    outputFile << val << '\nodes';
+                         ^
+../pde.cpp:435:17: warning: character constant too long for its type
+   outputFile << '\nodes';
+                 ^
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:17:43 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp:433:25: warning: character constant too long for its type
+    outputFile << val << '\nodes';
+                         ^
+../pde.cpp:435:17: warning: character constant too long for its type
+   outputFile << '\nodes';
+                 ^
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:20:29 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:21:31 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:22:20 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:23:02 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:23:50 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:24:11 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:24:31 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:24:49 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:25:13 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:25:54 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:26:16 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:485:55: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                       ^
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:29:44 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:369:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:458:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:484:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:485:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:486:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+../pde.cpp:495:57: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:34:37 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:371:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:460:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:486:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:487:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:488:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+../pde.cpp:498:57: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:37:16 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:373:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:462:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:488:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:489:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:490:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+../pde.cpp:502:57: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+14:38:43 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int)’:
+../pde.cpp:373:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:462:38: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1);
+                                      ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:488:39: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1);
+                                       ^
+../pde.cpp:489:31: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1);
+                               ^
+../pde.cpp:490:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1);
+                                         ^
+../pde.cpp:502:57: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    Output("threshold.dat", thresholdedChargeIntegral, -1);
+                                                         ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:44:09 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int, int)’:
+../pde.cpp:412:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void Output(char*, double (*)[52][52], int, int)’:
+../pde.cpp:433:38: error: cannot convert ‘double*’ to ‘double’ in initialization
+  double negValue = a[xCentre][yCentre];
+                                      ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:499:34: error: invalid types ‘int[int]’ for array subscript
+   potential[boundaryNodes[i][0][k]][boundaryNodes[i][1][k]] += 1;
+                                  ^
+../pde.cpp:499:58: error: invalid types ‘int[int]’ for array subscript
+   potential[boundaryNodes[i][0][k]][boundaryNodes[i][1][k]] += 1;
+                                                          ^
+../pde.cpp:500:46: error: invalid types ‘int[int]’ for array subscript
+   cout << i << ": (" << boundaryNodes[i][0][k] << ", " << boundaryNodes[i][1][k] << ")" << endl;
+                                              ^
+../pde.cpp:500:80: error: invalid types ‘int[int]’ for array subscript
+   cout << i << ": (" << boundaryNodes[i][0][k] << ", " << boundaryNodes[i][1][k] << ")" << endl;
+                                                                                ^
+../pde.cpp:502:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1, k);
+                                         ^
+../pde.cpp: In function ‘int main()’:
+subdir.mk:18: recipe for target 'pde.o' failed
+../pde.cpp:529:42: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1, k);
+                                          ^
+../pde.cpp:530:34: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1, k);
+                                  ^
+../pde.cpp:531:44: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1, k);
+                                            ^
+../pde.cpp:543:60: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    Output("threshold.dat", thresholdedChargeIntegral, -1, k);
+                                                            ^
+make: *** [pde.o] Error 1
+15:45:25 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int, int)’:
+../pde.cpp:412:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:502:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1, k);
+                                         ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:529:42: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1, k);
+                                          ^
+../pde.cpp:530:34: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1, k);
+                                  ^
+../pde.cpp:531:44: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1, k);
+                                            ^
+../pde.cpp:543:60: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    Output("threshold.dat", thresholdedChargeIntegral, -1, k);
+                                                            ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
+15:46:27 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../pde.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
+../pde.cpp: In function ‘void BoundaryConditions(int, int)’:
+../pde.cpp:412:9: warning: unused variable ‘angle’ [-Wunused-variable]
+  double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
+         ^
+../pde.cpp: In function ‘void TestBoundary()’:
+../pde.cpp:502:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("boundary.dat", potential, -1, k);
+                                         ^
+../pde.cpp: In function ‘int main()’:
+../pde.cpp:529:42: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("potential.dat", potential, -1, k);
+                                          ^
+../pde.cpp:530:34: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("field.dat", field, -1, k);
+                                  ^
+../pde.cpp:531:44: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+  Output("charge.dat", chargeIntegral, -1, k);
+                                            ^
+../pde.cpp:543:60: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+    Output("threshold.dat", thresholdedChargeIntegral, -1, k);
+                                                            ^
+Finished building: ../pde.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: Cross G++ Linker
+g++  -o "Electric3DPrinter"  ./pde.o   
+Finished building target: Electric3DPrinter
+ 
