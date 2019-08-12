@@ -480,6 +480,43 @@ void Output(char* name, double a[nodes+2][nodes+2][nodes+2], int activeR, int k)
 	outputFile.close();
 }
 
+void OutputTensor(char* name, double a[nodes+2][nodes+2][nodes+2])
+{
+	double minValue = a[0][0][0];
+	double maxValue = minValue;
+	for(int i = 0; i <= nodes; i++)
+	{
+		for(int j = 0; j <= nodes; j++)
+		{
+			for(int k = 1; k < nodes; k++)
+			{
+				if(a[i][j][k] < minValue)
+					minValue = a[i][j][k];
+				if(a[i][j][k] > maxValue)
+					maxValue = a[i][j][k];
+			}
+		}
+	}
+
+	cout << "Tensor minimum and maximum: " << minValue << ", " << maxValue << endl;
+
+	ofstream outputFile;
+	outputFile.open(name);
+	outputFile << nodes << ' ' << nodes << ' ' << nodes << ' ' << minValue << ' ' << maxValue;
+
+	for(int k = 0; k <= nodes; k++)
+	{
+		for(int j = 0; j <= nodes; j++)
+		{
+			for(int i = 1; i < nodes; i++)
+			{
+				outputFile << ' ' << a[i][j][k];
+			}
+		}
+	}
+	outputFile.close();
+}
+
 
 // Function to plot the boundary to test that it's properly set-up.
 // Not normally called.
@@ -513,18 +550,20 @@ int main()
 	int k = nodes/2;
 	BoundaryConditions(0, k);
 
-//	for(int i = 0; i < boundaryCount/4; i++)
-//	{
+	for(int i = 0; i < boundaryCount/4; i++)
+	{
 		BoundaryConditions(0, k);
 		GausSeidelIteration();
 		GradientMagnitudes();
-//	}
-//	for(int i = boundaryCount/2; i < (3*boundaryCount)/4; i++)
-//	{
-//		BoundaryConditions(i, k);
-//		GausSeidelIteration();
-//		GradientMagnitudes();
-//	}
+	}
+	for(int i = boundaryCount/2; i < (3*boundaryCount)/4; i++)
+	{
+		BoundaryConditions(i, k);
+		GausSeidelIteration();
+		GradientMagnitudes();
+	}
+
+    //OutputTensor("potentialTensor.dat", potential);
 
 	Output("potential.dat", potential, -1, k);
 	Output("field.dat", field, -1, k);
@@ -540,6 +579,7 @@ int main()
 		if(s > 0.0)
 		{
 			SigmoidCharge(s, 50);
+		    OutputTensor("thresholdTensor.dat", thresholdedChargeIntegral);
 			Output("threshold.dat", thresholdedChargeIntegral, -1, k);
 		}
 	} while(s > 0.0);

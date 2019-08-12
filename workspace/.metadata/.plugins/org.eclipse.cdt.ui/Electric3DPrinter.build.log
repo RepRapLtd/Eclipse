@@ -1,4 +1,4 @@
-15:46:27 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+22:04:09 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
 make all 
 Building file: ../pde.cpp
 Invoking: Cross G++ Compiler
@@ -8,20 +8,23 @@ g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o
   double angle = atan2(yCentre - source[0][1], xCentre - source[0][0]);
          ^
 ../pde.cpp: In function ‘void TestBoundary()’:
-../pde.cpp:502:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+../pde.cpp:539:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
   Output("boundary.dat", potential, -1, k);
                                          ^
 ../pde.cpp: In function ‘int main()’:
-../pde.cpp:529:42: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+../pde.cpp:568:42: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
   Output("potential.dat", potential, -1, k);
                                           ^
-../pde.cpp:530:34: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+../pde.cpp:569:34: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
   Output("field.dat", field, -1, k);
                                   ^
-../pde.cpp:531:44: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+../pde.cpp:570:44: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
   Output("charge.dat", chargeIntegral, -1, k);
                                             ^
-../pde.cpp:543:60: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+../pde.cpp:582:68: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+       OutputTensor("thresholdTensor.dat", thresholdedChargeIntegral);
+                                                                    ^
+../pde.cpp:583:60: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
     Output("threshold.dat", thresholdedChargeIntegral, -1, k);
                                                             ^
 Finished building: ../pde.cpp
@@ -32,5 +35,5 @@ g++  -o "Electric3DPrinter"  ./pde.o
 Finished building target: Electric3DPrinter
  
 
-15:46:27 Build Finished (took 629ms)
+22:04:10 Build Finished (took 667ms)
 
