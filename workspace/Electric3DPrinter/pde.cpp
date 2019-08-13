@@ -44,7 +44,7 @@ bool debug = false;
 
 // Gauss-Seidel convergence criterion
 
-const double convergence = 0.00001;
+const double convergence = 0.0001;
 
 // Size of the grid
 
@@ -367,10 +367,7 @@ void FindBoundary(int k)
 		cout << "Number of boundary nodes is not a multiple of 4! " << boundaryCount << endl;
 }
 
-
-// Set the boundary conditions and initialise one solution
-
-void BoundaryConditions(int b, int k)
+void Initialise()
 {
 	// Set up the active area and initialise the solution to 0.
 
@@ -380,11 +377,11 @@ void BoundaryConditions(int b, int k)
 		for(int j = 0; j <= nodes; j++)
 		{
 			int yd = j - yCentre;
-			for(int kk = 1; kk < nodes; kk++)
+			for(int k = 0; k <= nodes; k++)
 			{
-				inside[i][j][kk] = xd*xd + yd*yd < radius*radius;
-				potential[i][j][kk] = 0.0;
-				lastPotential[i][j][kk] = 0.0;
+				inside[i][j][k] = xd*xd + yd*yd < radius*radius;
+				potential[i][j][k] = 0.0;
+				lastPotential[i][j][k] = 0.0;
 			}
 
 			// Bottom and top
@@ -397,7 +394,15 @@ void BoundaryConditions(int b, int k)
 			lastPotential[i][j][nodes] = 0.0;
 		}
 	}
+}
 
+
+// Set the boundary conditions and initialise one solution
+
+void BoundaryConditions(int b, int k)
+{
+
+	Initialise();
 	FindBoundary(nodes/2);
 
 	// Sources and sinks
@@ -488,27 +493,61 @@ void OutputTensor(char* name, double a[nodes+2][nodes+2][nodes+2])
 	{
 		for(int j = 0; j <= nodes; j++)
 		{
-			for(int k = 1; k < nodes; k++)
+			for(int k = 0; k <= nodes; k++)
 			{
-				if(a[i][j][k] < minValue)
-					minValue = a[i][j][k];
-				if(a[i][j][k] > maxValue)
-					maxValue = a[i][j][k];
+				if(inside[i][j][k])
+				{
+					if(a[i][j][k] < minValue)
+						minValue = a[i][j][k];
+					if(a[i][j][k] > maxValue)
+						maxValue = a[i][j][k];
+				}
 			}
 		}
 	}
 
 	cout << "Tensor minimum and maximum: " << minValue << ", " << maxValue << endl;
 
+	// Shift the minimum down a bit for everything that's outside
+
+	minValue = minValue - 0.1*(maxValue - minValue);
+
+	cout << "New minimum: " << minValue << endl;
+
+	// Top and bottom
+
+	for(int i = 0; i <= nodes; i++)
+	{
+		for(int j = 0; j <= nodes; j++)
+		{
+			a[i][j][0] = minValue;
+			a[i][j][nodes - 1] = minValue;
+		}
+	}
+
+	// Sides
+
+	for(int i = 0; i <= nodes; i++)
+	{
+		for(int j = 0; j <= nodes; j++)
+		{
+			for(int k = 0; k <= nodes; k++)
+			{
+				if(!inside[i][j][k])
+					a[i][j][k] = minValue;
+			}
+		}
+	}
+
 	ofstream outputFile;
 	outputFile.open(name);
-	outputFile << nodes << ' ' << nodes << ' ' << nodes << ' ' << minValue << ' ' << maxValue;
+	outputFile << nodes+1 << ' ' << nodes+1 << ' ' << nodes+1 << ' ' << minValue << ' ' << maxValue;
 
 	for(int k = 0; k <= nodes; k++)
 	{
 		for(int j = 0; j <= nodes; j++)
 		{
-			for(int i = 1; i < nodes; i++)
+			for(int i = 0; i <= nodes; i++)
 			{
 				outputFile << ' ' << a[i][j][k];
 			}
@@ -539,35 +578,68 @@ void TestBoundary()
 	Output("boundary.dat", potential, -1, k);
 }
 
+void TestCylinder(int r, int k0, int k1)
+{
+	Initialise();
+	for(int i = 0; i <= nodes; i++)
+	{
+		int xd = i - xCentre;
+		for(int j = 0; j <= nodes; j++)
+		{
+			int yd = j - yCentre;
+			for(int k = 0; k <= nodes; k++)
+			{
+				if(k < k0 || k > k1 || (xd*xd + yd*yd) > r*r)
+				{
+					thresholdedChargeIntegral[i][j][k] = 0.0;
+				} else
+				{
+					thresholdedChargeIntegral[i][j][k] = 1.0;
+				}
+			}
+		}
+	}
+	OutputTensor("testCylinder.tns", thresholdedChargeIntegral);
+}
+
 
 // Self-explanatory, I hope.
 
 int main()
 {
-//	TestBoundary();
+	//	TestBoundary();
+	//  TestCylinder(15, 10, 40);
 
 	ChargeSetUp();
-	int k = nodes/2;
-	BoundaryConditions(0, k);
+	cout << "Z: ";
 
-	for(int i = 0; i < boundaryCount/4; i++)
+	for(int k = 1; k < nodes; k++)
 	{
+		cout << k << ' ';
+		cout.flush();
+
 		BoundaryConditions(0, k);
-		GausSeidelIteration();
-		GradientMagnitudes();
-	}
-	for(int i = boundaryCount/2; i < (3*boundaryCount)/4; i++)
-	{
-		BoundaryConditions(i, k);
-		GausSeidelIteration();
-		GradientMagnitudes();
-	}
 
-    //OutputTensor("potentialTensor.dat", potential);
+		for(int angle = 0; angle < boundaryCount/2; angle++)
+		{
+			BoundaryConditions(angle, k);
+			GausSeidelIteration();
+			GradientMagnitudes();
+		}
+		//	for(int i = boundaryCount/2; i < (3*boundaryCount)/4; i++)
+		//	{
+		//		BoundaryConditions(i, k);
+		//		GausSeidelIteration();
+		//		GradientMagnitudes();
+		//	}
 
-	Output("potential.dat", potential, -1, k);
-	Output("field.dat", field, -1, k);
-	Output("charge.dat", chargeIntegral, -1, k);
+		//OutputTensor("potentialTensor.dat", potential);
+	}
+	cout << endl;
+
+	Output("potential.dat", potential, -1, 20);
+	Output("field.dat", field, -1, 20);
+	Output("charge.dat", chargeIntegral, -1, 20);
 
 	PrintChargeRange();
 
@@ -579,11 +651,10 @@ int main()
 		if(s > 0.0)
 		{
 			SigmoidCharge(s, 50);
-		    OutputTensor("thresholdTensor.dat", thresholdedChargeIntegral);
-			Output("threshold.dat", thresholdedChargeIntegral, -1, k);
+			Output("threshold.dat", thresholdedChargeIntegral, -1, 20);
 		}
 	} while(s > 0.0);
-
+	OutputTensor("thresholdTensor.tns", thresholdedChargeIntegral);
 }
 
 

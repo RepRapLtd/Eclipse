@@ -40,7 +40,7 @@
 </editorArea>
 <editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="pde.cpp" partName="pde.cpp" path="/home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/Electric3DPrinter/pde.cpp" title="pde.cpp" tooltip="Electric3DPrinter/pde.cpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Electric3DPrinter/pde.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="12902" selectionTopPixel="8201"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="13843" selectionTopPixel="9311"/>
 </editor>
 </editors>
 <views>
@@ -77,8 +77,8 @@
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
 <category IMemento.internal.id="Errors"/>
+<category IMemento.internal.id="Warnings (3 items)"/>
 <category IMemento.internal.id="Warnings"/>
-<category IMemento.internal.id="Warnings (6 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="105" org.eclipse.ui.ide.markerType="897" org.eclipse.ui.ide.pathField="140" org.eclipse.ui.ide.resourceField="105" org.eclipse.ui.ide.severityAndDescriptionField="692"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -383,72 +383,6 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/Electric3DPrinter/pde.cpp"/>
 </editors>
 <item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="5540" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="5617" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="5715" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="5852" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="5891" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="5934" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="5967" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="6012" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="6610" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="6657" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="6691" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="6772" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="6980" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="7062" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="7224" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="8856" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="8913" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="8948" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="9970" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="10019" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="10505" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
-<position info="not_deleted" x="10519" y="0"/>
-</item>
-<item historyLabel="pde.cpp" index="0">
 <position info="not_deleted" x="10558" y="0"/>
 </item>
 <item historyLabel="pde.cpp" index="0">
@@ -529,8 +463,74 @@
 <item historyLabel="pde.cpp" index="0">
 <position info="not_deleted" x="11713" y="0"/>
 </item>
-<item active="true" historyLabel="pde.cpp" index="0">
+<item historyLabel="pde.cpp" index="0">
 <position info="not_deleted" x="11691" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="12104" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="12054" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="12104" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="12290" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="11567" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="11900" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="11949" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="12257" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="12260" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="11556" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="11559" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="13642" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="13482" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="13638" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="13640" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="14682" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="8525" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="9215" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="13228" y="0"/>
+</item>
+<item historyLabel="pde.cpp" index="0">
+<position info="not_deleted" x="13824" y="0"/>
+</item>
+<item active="true" historyLabel="pde.cpp" index="0">
+<position/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
