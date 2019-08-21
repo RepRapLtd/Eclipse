@@ -2,36 +2,36 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="FindBoundary" key="selection"/>
+		<item value="Tensor minimum and maximum" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="Tensor minimum and maximum"/>
+			<item value="for(z"/>
+			<item value="for(y"/>
+			<item value="for(x"/>
+			<item value="int k"/>
+			<item value="int j"/>
+			<item value="int i"/>
 			<item value="FindBoundary"/>
-			<item value="print"/>
-			<item value="float"/>
-			<item value="longTrack"/>
-			<item value="waitKey(1);"/>
-			<item value="waitKey"/>
-			<item value="//waitkey(10); //???"/>
-			<item value="//waitKey(10); //???"/>
 		</list>
 		<list key="replacehistory">
+			<item value="for(int z"/>
+			<item value="for(int y"/>
+			<item value="for(int x"/>
+			<item value="k"/>
+			<item value="j"/>
+			<item value="i"/>
 			<item value="double"/>
 			<item value="waitKey(10);"/>
-			<item value="waitKey(1);"/>
-			<item value="//waitkey"/>
-			<item value=""/>
-			<item value="Point3d"/>
-			<item value="Debug.Error("/>
-			<item value="CSG3D"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="320" key="DIALOG_WIDTH"/>
+		<item value="322" key="DIALOG_WIDTH"/>
 		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
-		<item value="440" key="DIALOG_HEIGHT"/>
+		<item value="441" key="DIALOG_HEIGHT"/>
 		<item value="1164" key="DIALOG_X_ORIGIN"/>
 		<item value="317" key="DIALOG_Y_ORIGIN"/>
 	</section>

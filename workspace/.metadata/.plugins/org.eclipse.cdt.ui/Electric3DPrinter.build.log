@@ -1,33 +1,8 @@
-14:37:04 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+17:18:37 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
 make all 
 Building file: ../pde.cpp
 Invoking: Cross G++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
-../pde.cpp: In function ‘void TestBoundary()’:
-../pde.cpp:595:41: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-  Output("boundary.dat", potential, -1, k);
-                                         ^
-../pde.cpp: In function ‘void TestCylinder(int, int, int)’:
-../pde.cpp:622:60: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-  OutputTensor("testCylinder.tns", thresholdedChargeIntegral);
-                                                            ^
-../pde.cpp: In function ‘void Control()’:
-../pde.cpp:647:65: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-    OutputTensor("thresholdTensor.tns", thresholdedChargeIntegral);
-                                                                 ^
-../pde.cpp:655:66: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-    Output("threshold.dat", thresholdedChargeIntegral, -1, nodes/2);
-                                                                  ^
-../pde.cpp: In function ‘int main()’:
-../pde.cpp:712:48: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-  Output("potential.dat", potential, -1, nodes/2);
-                                                ^
-../pde.cpp:713:40: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-  Output("field.dat", field, -1, nodes/2);
-                                        ^
-../pde.cpp:714:50: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
-  Output("charge.dat", chargeIntegral, -1, nodes/2);
-                                                  ^
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
 Finished building: ../pde.cpp
  
 Building target: Electric3DPrinter
@@ -36,5 +11,5 @@ g++  -o "Electric3DPrinter"  ./pde.o
 Finished building target: Electric3DPrinter
  
 
-14:37:04 Build Finished (took 676ms)
+17:18:38 Build Finished (took 772ms)
 
