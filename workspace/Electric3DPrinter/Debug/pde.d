@@ -1,1 +1,0 @@
-pde.d: ../pde.cpp

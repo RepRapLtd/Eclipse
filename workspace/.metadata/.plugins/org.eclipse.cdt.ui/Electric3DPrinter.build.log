@@ -1,15 +1,15 @@
-17:18:37 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+12:36:40 **** Build of configuration Debug for project Electric3DPrinter ****
 make all 
-Building file: ../pde.cpp
-Invoking: Cross G++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"pde.d" -MT"pde.d" -o "pde.o" "../pde.cpp"
-Finished building: ../pde.cpp
+Building file: ../src/electric3Dprinter.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/electric3Dprinter.d" -MT"src/electric3Dprinter.o" -o "src/electric3Dprinter.o" "../src/electric3Dprinter.cpp"
+Finished building: ../src/electric3Dprinter.cpp
  
 Building target: Electric3DPrinter
-Invoking: Cross G++ Linker
-g++  -o "Electric3DPrinter"  ./pde.o   
+Invoking: GCC C++ Linker
+g++  -o "Electric3DPrinter"  ./src/electric3Dprinter.o   
 Finished building target: Electric3DPrinter
  
 
-17:18:38 Build Finished (took 772ms)
+12:36:45 Build Finished. 0 errors, 0 warnings. (took 4s.616ms)
 

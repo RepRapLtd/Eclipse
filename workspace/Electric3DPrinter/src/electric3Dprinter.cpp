@@ -688,8 +688,9 @@ int main()
 	BoundaryConditions(0, nodes/2, 1.0);
 
 
-	for(int vv = 1; vv < 21; vv++)
-	{
+	//for(int vv = 1; vv < 21; vv++)
+	//{
+	int vv = 3;
 		ChargeSetUp();
 		cout << "Z for " << vv << " volts: ";
 		for(int z = 1; z < nodes; z++)
@@ -713,7 +714,7 @@ int main()
 		sprintf(str,"-%d.tns",vv);
 		fileName += str;
 		OutputTensor(fileName.c_str(), thresholdedChargeIntegral);
-	}
+	//}
 
 //	Output("potential.dat", potential, -1, nodes/2);
 //	Output("field.dat", field, -1, nodes/2);
@@ -723,6 +724,7 @@ int main()
 //
 //	Control();
 }
+
 
 
 

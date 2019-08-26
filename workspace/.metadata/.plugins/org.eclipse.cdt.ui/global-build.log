@@ -6386,3 +6386,46 @@ Invoking: Cross G++ Linker
 g++  -o "Electric3DPrinter"  ./pde.o   
 Finished building target: Electric3DPrinter
  
+12:16:09 **** Clean-only build of configuration Debug for project Electric3DPrinter ****
+make clean 
+rm -rf  ./pde.o  ./pde.d  Electric3DPrinter
+ 
+12:23:51 **** Build of configuration Debug for project hw ****
+make all 
+Building file: ../src/hw.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/hw.d" -MT"src/hw.o" -o "src/hw.o" "../src/hw.cpp"
+Finished building: ../src/hw.cpp
+ 
+Building target: hw
+Invoking: GCC C++ Linker
+g++  -o "hw"  ./src/hw.o   
+Finished building target: hw
+ 
+12:23:55 **** Incremental Build of configuration Debug for project hw ****
+make all 
+make: Nothing to be done for 'all'.
+12:24:40 **** Clean-only build of configuration Debug for project Electric3DPrinter ****
+make clean 
+rm -rf  ./pde.o  ./pde.d  Electric3DPrinter
+ 
+12:27:44 **** Clean-only build of configuration Debug for project hw ****
+make clean 
+rm -rf  ./src/hw.o  ./src/hw.d  hw
+ 
+12:36:40 **** Clean-only build of configuration Debug for project Electric3DPrinter ****
+make clean 
+rm -rf  ./src/hw.o  ./src/hw.d  hw
+ 
+12:36:40 **** Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../src/electric3Dprinter.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/electric3Dprinter.d" -MT"src/electric3Dprinter.o" -o "src/electric3Dprinter.o" "../src/electric3Dprinter.cpp"
+Finished building: ../src/electric3Dprinter.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: GCC C++ Linker
+g++  -o "Electric3DPrinter"  ./src/electric3Dprinter.o   
+Finished building target: Electric3DPrinter
+ 

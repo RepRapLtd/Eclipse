@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="CleanDialogSettings">
-		<item value="569" key="DIALOG_WIDTH"/>
-		<item value="true" key="TOGGLE_SELECTED"/>
-		<item value="376" key="DIALOG_HEIGHT"/>
-		<item value="2599" key="DIALOG_X_ORIGIN"/>
-		<item value="291" key="DIALOG_Y_ORIGIN"/>
+		<item key="DIALOG_WIDTH" value="569"/>
+		<item key="TOGGLE_SELECTED" value="true"/>
+		<item key="DIALOG_HEIGHT" value="415"/>
+		<item key="DIALOG_X_ORIGIN" value="2599"/>
+		<item key="DIALOG_Y_ORIGIN" value="291"/>
 	</section>
 	<section name="ExternalProjectImportWizard">
-		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
-		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
+		<item key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED" value="false"/>
 	</section>
 	<section name="org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea">
-		<item value="/home/ensab/rrl-cloud/RepRapLtd/Engineering/Internal-Projects/Robots/Painting Robot/Software" key="OUTSIDE_LOCATION"/>
+		<item key="OUTSIDE_LOCATION" value="/home/ensab/rrl-cloud/RepRapLtd/Engineering/Internal-Projects/Robots/Painting Robot/Software"/>
 	</section>
 	<section name="NewWizardAction">
-		<item value="org.eclipse.cdt.ui.wizards.NewCWizard1" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
+		<item key="NewWizardSelectionPage.STORE_SELECTED_ID" value="org.eclipse.cdt.ui.wizards.NewCWizard1"/>
 		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
 			<item value="org.eclipse.cdt.ui.newCWizards"/>
 		</list>
