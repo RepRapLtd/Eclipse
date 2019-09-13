@@ -3,7 +3,7 @@
  *
  * Solves Laplace's equation for a potential field given source and sink voltages at points on the periphery.
  *
- * The region of solution is a disk, and the sources and sinks are specified as a list of potentials.
+ * The region of solution is a cylinder, and the sources and sinks are specified as a list of potentials.
  *
  * The sources and sinks can be moved between several solutions and the cumulated charge moved through each pixel
  * calculated.
@@ -29,6 +29,11 @@
  *   field.dat - the magnitude of the electric field
  *   charge.dat - the cumulated charge at each node
  *
+ *
+ * To convert output to STL:
+ *
+ *  $ dmc -tensor myoutputdata.tns -iso 0.5 -out myobject.stl
+ *
  */
 
 #include <iostream>
@@ -50,7 +55,7 @@ const double convergence = 0.0001;
 
 const int nodes = 50;
 
-// The centre and radius of the disc
+// The centre and radius of the disc that is a cross section of the cylinder
 
 const int xCentre = 25;
 const int yCentre = 25;
@@ -90,9 +95,13 @@ bool inside[nodes+2][nodes+2][nodes+2];
 
 const double oneSixth = 1.0/6.0;
 
+// The bigger this is, the closer the sigmoid function is to a step function
+
+const double sigPower = 50.0;
+
 //**********************************************************************************************
 
-// Solve the PDE at a single node [i][j]
+// Solve the PDE at a single node [x][y][z]
 
 double PDE(const int x, const int y, const int z)
 {
@@ -135,12 +144,14 @@ double PDE(const int x, const int y, const int z)
 	if(!inside[x][y][z+1])
 		vzp = potential[x][y][z-1];
 
-	// The actual PDE
+	// The actual PDE solution
 
 	return (vxm + vxp + vym + vyp + vzm + vzp)*oneSixth;
 }
 
-// Do a single pass of the Gauss-Seidel iteration.
+// Do a single pass of the Gauss-Seidel iteration.  Returns the root-mean
+// square difference between this solution and the last, the size of which
+// is the test of convergence.
 
 double GaussSeidelOnePass()
 {
@@ -153,7 +164,7 @@ double GaussSeidelOnePass()
 			{
 				potential[x][y][z] = PDE(x, y, z);
 				double r = (potential[x][y][z] - lastPotential[x][y][z]);
-				rms = rms + r*r;
+				rms += r*r;
 				lastPotential[x][y][z] = potential[x][y][z];
 			}
 		}
@@ -184,7 +195,7 @@ void GausSeidelIteration()
 
 
 // Compute the magnitudes of the gradient vectors in field[][][].  This is
-// the electric field, E.
+// the electric field, E.  Also add the values to the accumulating charge integral.
 
 void GradientMagnitudes()
 {
@@ -264,7 +275,9 @@ inline double Sigmoid(const double a, const double sigmoidOffset, const double s
 }
 
 
-// Threshold the charges.  Note - this INVERTS the charges high gives 0; low gives 1.
+// Threshold the charges.  Note - this INVERTS the charges - high gives 0; low gives 1.
+// The assumption is that we have a solid material that is made more liquid the greater
+// the integral of the current flowing through it
 
 void SigmoidCharge(const double sigmoidOffset, const double sigmoidMultiplier)
 {
@@ -301,8 +314,8 @@ void ChargeSetUp()
 	}
 }
 
-// Is the node [xx][yy][zz] on the boundary of the active region?
-// Tiny inefficiency - it checks [xx][yy][zz] twice. 1/27th unnecessary...
+// Is the node [x][y][z] on the boundary of the active region? I.e. is it inside neighbouring some outside.
+// Tiny inefficiency - it checks [x][y][z] twice. 1/27th unnecessary...
 
 bool OnBoundary(const int x, const int y, const int z)
 {
@@ -326,13 +339,17 @@ bool OnBoundary(const int x, const int y, const int z)
 
 // Find the 2D boundary pattern.  This is a disc in the middle of the Z range,
 // and is the same for all Z values.  This uses the 3D OnBoundary() function above, rather
-// than bother with an extra 2D version.
+// than bother with an extra 2D version.  It relies on the order of scanning the nodes
+// to get the order round the boundary right.
 
 void FindBoundary()
 {
 	// Find the first quadrant
 
 	boundaryCount = 0;
+
+	// Assume that half way up is immune from top and bottom boundary interference
+
 	int z = nodes/2;
 
 	for(int x = 0; x <= xCentre; x++)
@@ -354,7 +371,7 @@ void FindBoundary()
 		}
 	}
 
-	// Copy that to the other three
+	// Copy that quadrant to the other three
 
 	int bc = boundaryCount;
 	for(int x = bc - 2; x >= 0; x--)
@@ -417,7 +434,7 @@ void Initialise()
 }
 
 
-// Set the boundary conditions and initialise one solution with potentials applied at at z=k.
+// Set the boundary conditions and initialise one solution with potentials applied at at z.
 // b is the index into the boundary array that decides how far round the circle voltages will
 // be applied.  v is the potential.
 
@@ -449,10 +466,10 @@ void BoundaryConditions(const int b, const int z, const double v)
 }
 
 
-// Output one disc at z=k for gnuplot.  If activeR is positive, just output that
+// Output one disc at z for gnuplot into file fileName.  If activeR is positive, just output that
 // radius of the disc for close-ups of the middle.
 
-void Output(const char* name, const double a[nodes+2][nodes+2][nodes+2], const int activeR, const int z)
+void Output(const char* fileName, const double a[nodes+2][nodes+2][nodes+2], const int activeR, const int z)
 {
 	// Find the most negative value in the mesh and use that
 	// as the values outside the disc.
@@ -480,10 +497,10 @@ void Output(const char* name, const double a[nodes+2][nodes+2][nodes+2], const i
 	}
 
 	// Stick the data in a file so that GNUPlot can
-	// plot it.
+	// plot it.  Note messing about with blank lines that gnuplot needs.
 
 	ofstream outputFile;
-	outputFile.open(name);
+	outputFile.open(fileName);
 	for(int x = 0; x <= nodes; x++)
 	{
 		for(int y = 0; y <= nodes ; y++)
@@ -510,12 +527,14 @@ void Output(const char* name, const double a[nodes+2][nodes+2][nodes+2], const i
 }
 
 
-// Output the tensor that is the entire mesh so that a 3D iso-surface STL file
+// Output the tensor to file fileName that is the entire mesh so that a 3D iso-surface STL file
 // can be generated from it.
 
-void OutputTensor(const char* name, const double a[nodes+2][nodes+2][nodes+2])
+void OutputTensor(const char* fileName, const double a[nodes+2][nodes+2][nodes+2])
 {
+	// Find the maximum and minimum values.
 	// Assume the central point is active...
+
 	double minValue = a[xCentre][yCentre][nodes/2];
 	double maxValue = minValue;
 
@@ -536,17 +555,10 @@ void OutputTensor(const char* name, const double a[nodes+2][nodes+2][nodes+2])
 		}
 	}
 
-	//if(debug)
-		cout << "Tensor minimum and maximum: " << minValue << ", " << maxValue << endl;
-
-	// Shift the minimum down a bit for everything that's outside
-
-	//minValue = minValue - 0.1*(maxValue - minValue);
-//	if(debug)
-//		cout << "New minimum: " << minValue << endl;
+	cout << "Tensor minimum and maximum: " << minValue << ", " << maxValue << endl;
 
 	ofstream outputFile;
-	outputFile.open(name);
+	outputFile.open(fileName);
 
 	// Need an extra blank layer so the marching cubes can see the top.
 
@@ -632,12 +644,15 @@ void TestCylinder(const int r, const int z0, const int z1)
 	OutputTensor("testCylinder.tns", thresholdedChargeIntegral);
 }
 
+// Remind the user what they can do.
+
 void Prompt()
 {
 	cout << endl << "Commands:" << endl;
 	cout << " s: - set sigmoid threshold and output a slice" << endl;
 	cout << " t: - create the tensor file" << endl;
-	cout << " q: quit" << endl<< endl;
+	cout << " h: - print this list" << endl;
+	cout << " q: - quit" << endl<< endl;
 }
 
 // Decide how to process the results.
@@ -661,7 +676,7 @@ void Control()
 			double s;
 			cout << "Sigmoid value for 0.5 point: ";
 			cin >> s;
-			SigmoidCharge(s, 50);
+			SigmoidCharge(s, sigPower);
 			Output("threshold.dat", thresholdedChargeIntegral, -1, nodes/2);
 			break;
 
