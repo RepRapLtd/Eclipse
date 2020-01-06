@@ -1,2 +1,0 @@
-set hidden3d
-splot 'potential.dat' with lines

@@ -65,7 +65,7 @@ public class Box
 	{
 		x = new Interval(Math.min(a.x(), b.x()), Math.max(a.x(), b.x()));
 		y = new Interval(Math.min(a.y(), b.y()), Math.max(a.y(), b.y()));
-		y = new Interval(Math.min(a.z(), b.z()), Math.max(a.z(), b.z()));
+		z = new Interval(Math.min(a.z(), b.z()), Math.max(a.z(), b.z()));
 		empty = x.empty() || y.empty() || z.empty();
 	}
 	

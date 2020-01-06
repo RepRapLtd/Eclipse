@@ -78,7 +78,7 @@ public class Interval
 	{
 		if(empty)
 			return "[empty]";
-		return "[l:" + Double.toString(low) + ", h:" + Double.toString(high) + "]";
+		return "[" + Double.toString(low) + ", " + Double.toString(high) + "]";
 	}
 	
 	/**
