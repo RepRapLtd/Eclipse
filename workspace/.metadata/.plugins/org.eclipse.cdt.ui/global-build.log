@@ -10235,3 +10235,541 @@ Invoking: GCC C++ Linker
 g++  -o "GCodeGenerator"  ./src/GCodeGenerator.o   
 Finished building target: GCodeGenerator
  
+15:31:41 **** Clean-only build of configuration Debug for project Electric3DPrinter ****
+make clean 
+rm -rf  ./src/electric3Dprinter.o ./src/electrodes.o ./src/finiteDifference.o  ./src/electric3Dprinter.d ./src/electrodes.d ./src/finiteDifference.d  Electric3DPrinter
+ 
+15:33:34 **** Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../src/electric3Dprinter.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -fopenmp -MMD -MP -MF"src/electric3Dprinter.d" -MT"src/electric3Dprinter.o" -o "src/electric3Dprinter.o" "../src/electric3Dprinter.cpp"
+In file included from ../src/electric3Dprinter.h:18:0,
+                 from ../src/electric3Dprinter.cpp:39:
+../src/electrodes.h:39:21: error: invalid use of non-static data member 'Electrodes::maxElectrodes'
+  int electrodeNodes[maxElectrodes][3];
+                     ^~~~~~~~~~~~~
+../src/electrodes.h:37:36: note: declared here
+  const int maxElectrodes = 4*nodes*nodes;
+                                    ^~~~~
+../src/electrodes.h:42:46: error: array bound is not an integer constant before ']' token
+  int QuarterCircleDDA(int r, int circle[nodes][2]);
+                                              ^
+../src/electric3Dprinter.cpp: In function 'int main()':
+../src/electric3Dprinter.cpp:127:19: error: no matching function for call to 'FiniteDifference::FiniteDifference()'
+  FiniteDifference tank;
+                   ^~~~
+In file included from ../src/electric3Dprinter.h:19:0,
+                 from ../src/electric3Dprinter.cpp:39:
+../src/finiteDifference.h:39:2: note: candidate: FiniteDifference::FiniteDifference(int)
+  FiniteDifference(int nodeNumbers);
+  ^~~~~~~~~~~~~~~~
+../src/finiteDifference.h:39:2: note:   candidate expects 1 argument, 0 provided
+../src/finiteDifference.h:33:7: note: candidate: constexpr FiniteDifference::FiniteDifference(const FiniteDifference&)
+ class FiniteDifference
+       ^~~~~~~~~~~~~~~~
+../src/finiteDifference.h:33:7: note:   candidate expects 1 argument, 0 provided
+../src/finiteDifference.h:33:7: note: candidate: constexpr FiniteDifference::FiniteDifference(FiniteDifference&&)
+../src/finiteDifference.h:33:7: note:   candidate expects 1 argument, 0 provided
+make: *** [src/electric3Dprinter.o] Error 1
+src/subdir.mk:24: recipe for target 'src/electric3Dprinter.o' failed
+"make all" terminated with exit code 2. Build might be incomplete.
+15:40:07 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../src/electric3Dprinter.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -fopenmp -MMD -MP -MF"src/electric3Dprinter.d" -MT"src/electric3Dprinter.o" -o "src/electric3Dprinter.o" "../src/electric3Dprinter.cpp"
+In file included from ../src/electric3Dprinter.h:18:0,
+                 from ../src/electric3Dprinter.cpp:39:
+../src/electrodes.h:39:21: error: invalid use of non-static data member 'Electrodes::maxElectrodes'
+  int electrodeNodes[maxElectrodes][3];
+                     ^~~~~~~~~~~~~
+../src/electrodes.h:37:36: note: declared here
+  const int maxElectrodes = 4*nodes*nodes;
+                                    ^~~~~
+../src/electrodes.h:42:46: error: array bound is not an integer constant before ']' token
+  int QuarterCircleDDA(int r, int circle[nodes][2]);
+                                              ^
+../src/electric3Dprinter.cpp: In function 'int main()':
+../src/electric3Dprinter.cpp:127:19: error: no matching function for call to 'FiniteDifference::FiniteDifference()'
+  FiniteDifference tank;
+                   ^~~~
+In file included from ../src/electric3Dprinter.h:19:0,
+                 from ../src/electric3Dprinter.cpp:39:
+../src/finiteDifference.h:39:2: note: candidate: FiniteDifference::FiniteDifference(int)
+  FiniteDifference(int nodeNumbers);
+  ^~~~~~~~~~~~~~~~
+../src/finiteDifference.h:39:2: note:   candidate expects 1 argument, 0 provided
+../src/finiteDifference.h:33:7: note: candidate: constexpr FiniteDifference::FiniteDifference(const FiniteDifference&)
+ class FiniteDifference
+       ^~~~~~~~~~~~~~~~
+../src/finiteDifference.h:33:7: note:   candidate expects 1 argument, 0 provided
+../src/finiteDifference.h:33:7: note: candidate: constexpr FiniteDifference::FiniteDifference(FiniteDifference&&)
+../src/finiteDifference.h:33:7: note:   candidate expects 1 argument, 0 provided
+make: *** [src/electric3Dprinter.o] Error 1
+src/subdir.mk:24: recipe for target 'src/electric3Dprinter.o' failed
+"make all" terminated with exit code 2. Build might be incomplete.
+15:48:45 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../src/electric3Dprinter.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -fopenmp -MMD -MP -MF"src/electric3Dprinter.d" -MT"src/electric3Dprinter.o" -o "src/electric3Dprinter.o" "../src/electric3Dprinter.cpp"
+In file included from ../src/electric3Dprinter.h:18:0,
+                 from ../src/electric3Dprinter.cpp:39:
+../src/electrodes.h:39:21: error: invalid use of non-static data member 'Electrodes::maxElectrodes'
+  int electrodeNodes[maxElectrodes][3];
+                     ^~~~~~~~~~~~~
+../src/electrodes.h:37:36: note: declared here
+  const int maxElectrodes = 4*nodes*nodes;
+                                    ^~~~~
+../src/electrodes.h:42:46: error: array bound is not an integer constant before ']' token
+  int QuarterCircleDDA(int r, int circle[nodes][2]);
+                                              ^
+../src/electric3Dprinter.cpp: In function 'int main()':
+../src/electric3Dprinter.cpp:127:19: error: no matching function for call to 'FiniteDifference::FiniteDifference()'
+  FiniteDifference tank;
+                   ^~~~
+In file included from ../src/electric3Dprinter.h:19:0,
+                 from ../src/electric3Dprinter.cpp:39:
+../src/finiteDifference.h:39:2: note: candidate: FiniteDifference::FiniteDifference(int)
+  FiniteDifference(int nodeNumbers);
+  ^~~~~~~~~~~~~~~~
+../src/finiteDifference.h:39:2: note:   candidate expects 1 argument, 0 provided
+../src/finiteDifference.h:33:7: note: candidate: constexpr FiniteDifference::FiniteDifference(const FiniteDifference&)
+ class FiniteDifference
+       ^~~~~~~~~~~~~~~~
+../src/finiteDifference.h:33:7: note:   candidate expects 1 argument, 0 provided
+../src/finiteDifference.h:33:7: note: candidate: constexpr FiniteDifference::FiniteDifference(FiniteDifference&&)
+../src/finiteDifference.h:33:7: note:   candidate expects 1 argument, 0 provided
+src/subdir.mk:24: recipe for target 'src/electric3Dprinter.o' failed
+make: *** [src/electric3Dprinter.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+15:53:08 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../src/electric3Dprinter.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -fopenmp -MMD -MP -MF"src/electric3Dprinter.d" -MT"src/electric3Dprinter.o" -o "src/electric3Dprinter.o" "../src/electric3Dprinter.cpp"
+In file included from ../src/electric3Dprinter.h:18:0,
+                 from ../src/electric3Dprinter.cpp:39:
+../src/electrodes.h:39:21: error: invalid use of non-static data member 'Electrodes::maxElectrodes'
+  int electrodeNodes[maxElectrodes][3];
+                     ^~~~~~~~~~~~~
+../src/electrodes.h:37:36: note: declared here
+  const int maxElectrodes = 4*nodes*nodes;
+                                    ^~~~~
+../src/electrodes.h:42:46: error: array bound is not an integer constant before ']' token
+  int QuarterCircleDDA(int r, int circle[nodes][2]);
+                                              ^
+../src/electric3Dprinter.cpp: In function 'int main()':
+../src/electric3Dprinter.cpp:127:19: error: no matching function for call to 'FiniteDifference::FiniteDifference()'
+  FiniteDifference tank;
+                   ^~~~
+In file included from ../src/electric3Dprinter.h:19:0,
+                 from ../src/electric3Dprinter.cpp:39:
+../src/finiteDifference.h:35:2: note: candidate: FiniteDifference::FiniteDifference(int)
+  FiniteDifference(int nodeNumbers);
+  ^~~~~~~~~~~~~~~~
+../src/finiteDifference.h:35:2: note:   candidate expects 1 argument, 0 provided
+../src/finiteDifference.h:29:7: note: candidate: constexpr FiniteDifference::FiniteDifference(const FiniteDifference&)
+ class FiniteDifference
+       ^~~~~~~~~~~~~~~~
+../src/finiteDifference.h:29:7: note:   candidate expects 1 argument, 0 provided
+../src/finiteDifference.h:29:7: note: candidate: constexpr FiniteDifference::FiniteDifference(FiniteDifference&&)
+../src/finiteDifference.h:29:7: note:   candidate expects 1 argument, 0 provided
+src/subdir.mk:24: recipe for target 'src/electric3Dprinter.o' failed
+make: *** [src/electric3Dprinter.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+16:45:54 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../src/electric3Dprinter.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -fopenmp -MMD -MP -MF"src/electric3Dprinter.d" -MT"src/electric3Dprinter.o" -o "src/electric3Dprinter.o" "../src/electric3Dprinter.cpp"
+In file included from ../src/electric3Dprinter.h:18:0,
+                 from ../src/electric3Dprinter.cpp:39:
+../src/electrodes.h:39:21: error: invalid use of non-static data member 'Electrodes::maxElectrodes'
+  int electrodeNodes[maxElectrodes][3];
+                     ^~~~~~~~~~~~~
+../src/electrodes.h:37:36: note: declared here
+  const int maxElectrodes = 4*nodes*nodes;
+                                    ^~~~~
+../src/electrodes.h:42:46: error: array bound is not an integer constant before ']' token
+  int QuarterCircleDDA(int r, int circle[nodes][2]);
+                                              ^
+../src/electric3Dprinter.cpp: In function 'int main()':
+../src/electric3Dprinter.cpp:127:19: error: no matching function for call to 'FiniteDifference::FiniteDifference()'
+  FiniteDifference tank;
+                   ^~~~
+In file included from ../src/electric3Dprinter.h:19:0,
+                 from ../src/electric3Dprinter.cpp:39:
+../src/finiteDifference.h:35:2: note: candidate: FiniteDifference::FiniteDifference(int)
+  FiniteDifference(int nodeNumbers);
+  ^~~~~~~~~~~~~~~~
+../src/finiteDifference.h:35:2: note:   candidate expects 1 argument, 0 provided
+../src/finiteDifference.h:29:7: note: candidate: constexpr FiniteDifference::FiniteDifference(const FiniteDifference&)
+ class FiniteDifference
+       ^~~~~~~~~~~~~~~~
+../src/finiteDifference.h:29:7: note:   candidate expects 1 argument, 0 provided
+../src/finiteDifference.h:29:7: note: candidate: constexpr FiniteDifference::FiniteDifference(FiniteDifference&&)
+../src/finiteDifference.h:29:7: note:   candidate expects 1 argument, 0 provided
+src/subdir.mk:24: recipe for target 'src/electric3Dprinter.o' failed
+make: *** [src/electric3Dprinter.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+11:04:13 **** Incremental Build of configuration Debug for project GCodeGenerator ****
+make all 
+Building file: ../src/GCodeGenerator.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/GCodeGenerator.d" -MT"src/GCodeGenerator.o" -o "src/GCodeGenerator.o" "../src/GCodeGenerator.cpp"
+Finished building: ../src/GCodeGenerator.cpp
+ 
+Building target: GCodeGenerator
+Invoking: GCC C++ Linker
+g++  -o "GCodeGenerator"  ./src/GCodeGenerator.o   
+Finished building target: GCodeGenerator
+ 
+15:12:42 **** Clean-only build of configuration Debug for project EvoSim ****
+make clean 
+rm -rf  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o  ./src/EvoSim.d ./src/genome.d ./src/population.d ./src/random.d  EvoSim
+ 
+15:12:47 **** Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/EvoSim.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/EvoSim.d" -MT"src/EvoSim.o" -o "src/EvoSim.o" "../src/EvoSim.cpp"
+Finished building: ../src/EvoSim.cpp
+ 
+Building file: ../src/genome.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/genome.d" -MT"src/genome.o" -o "src/genome.o" "../src/genome.cpp"
+../src/genome.cpp: In member function 'double Genome::Fitness()':
+../src/genome.cpp:36:31: error: 'genome' was not declared in this scope
+   match += fabs(genes[0][g] - genome->genes[0][g]) + fabs(genes[1][g] - genome->genes[1][g]);
+                               ^~~~~~
+../src/genome.cpp:36:31: note: suggested alternative: 'Genome'
+   match += fabs(genes[0][g] - genome->genes[0][g]) + fabs(genes[1][g] - genome->genes[1][g]);
+                               ^~~~~~
+                               Genome
+make: *** [src/genome.o] Error 1
+src/subdir.mk:27: recipe for target 'src/genome.o' failed
+"make all" terminated with exit code 2. Build might be incomplete.
+15:14:26 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/genome.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/genome.d" -MT"src/genome.o" -o "src/genome.o" "../src/genome.cpp"
+Finished building: ../src/genome.cpp
+ 
+Building file: ../src/population.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/population.d" -MT"src/population.o" -o "src/population.o" "../src/population.cpp"
+Finished building: ../src/population.cpp
+ 
+Building file: ../src/random.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/random.d" -MT"src/random.o" -o "src/random.o" "../src/random.cpp"
+Finished building: ../src/random.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+15:21:56 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/genome.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/genome.d" -MT"src/genome.o" -o "src/genome.o" "../src/genome.cpp"
+Finished building: ../src/genome.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+15:22:55 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+make: Nothing to be done for 'all'.
+15:43:57 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/EvoSim.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/EvoSim.d" -MT"src/EvoSim.o" -o "src/EvoSim.o" "../src/EvoSim.cpp"
+Finished building: ../src/EvoSim.cpp
+ 
+Building file: ../src/genome.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/genome.d" -MT"src/genome.o" -o "src/genome.o" "../src/genome.cpp"
+Finished building: ../src/genome.cpp
+ 
+Building file: ../src/population.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/population.d" -MT"src/population.o" -o "src/population.o" "../src/population.cpp"
+Finished building: ../src/population.cpp
+ 
+Building file: ../src/random.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/random.d" -MT"src/random.o" -o "src/random.o" "../src/random.cpp"
+Finished building: ../src/random.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+10:27:55 **** Clean-only build of configuration Debug for project EvoSim ****
+make clean 
+rm -rf  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o  ./src/EvoSim.d ./src/genome.d ./src/population.d ./src/random.d  EvoSim
+ 
+10:33:23 **** Clean-only build of configuration Debug for project EvoSim ****
+make clean 
+rm -rf  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o  ./src/EvoSim.d ./src/genome.d ./src/population.d ./src/random.d  EvoSim
+ 
+10:41:20 **** Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/EvoSim.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/EvoSim.d" -MT"src/EvoSim.o" -o "src/EvoSim.o" "../src/EvoSim.cpp"
+Finished building: ../src/EvoSim.cpp
+ 
+Building file: ../src/genome.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/genome.d" -MT"src/genome.o" -o "src/genome.o" "../src/genome.cpp"
+Finished building: ../src/genome.cpp
+ 
+Building file: ../src/population.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/population.d" -MT"src/population.o" -o "src/population.o" "../src/population.cpp"
+Finished building: ../src/population.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+10:42:13 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/genome.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/genome.d" -MT"src/genome.o" -o "src/genome.o" "../src/genome.cpp"
+Finished building: ../src/genome.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+10:43:53 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/genome.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/genome.d" -MT"src/genome.o" -o "src/genome.o" "../src/genome.cpp"
+Finished building: ../src/genome.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+10:44:15 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+make: Nothing to be done for 'all'.
+10:45:12 **** Clean-only build of configuration Debug for project EvoSim ****
+make clean 
+rm -rf  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o  ./src/EvoSim.d ./src/genome.d ./src/population.d ./src/random.d  EvoSim
+ 
+10:51:35 **** Clean-only build of configuration Debug for project EvoSim ****
+make clean 
+rm -rf  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o  ./src/EvoSim.d ./src/genome.d ./src/population.d ./src/random.d  EvoSim
+ 
+11:05:30 **** Clean-only build of configuration Debug for project EvoSim ****
+make clean 
+rm -rf  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o  ./src/EvoSim.d ./src/genome.d ./src/population.d ./src/random.d  EvoSim
+ 
+11:07:59 **** Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/EvoSim.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/EvoSim.d" -MT"src/EvoSim.o" -o "src/EvoSim.o" "../src/EvoSim.cpp"
+Finished building: ../src/EvoSim.cpp
+ 
+Building file: ../src/genome.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/genome.d" -MT"src/genome.o" -o "src/genome.o" "../src/genome.cpp"
+Finished building: ../src/genome.cpp
+ 
+Building file: ../src/population.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/population.d" -MT"src/population.o" -o "src/population.o" "../src/population.cpp"
+Finished building: ../src/population.cpp
+ 
+Building file: ../src/random.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/random.d" -MT"src/random.o" -o "src/random.o" "../src/random.cpp"
+Finished building: ../src/random.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+12:25:29 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/EvoSim.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/EvoSim.d" -MT"src/EvoSim.o" -o "src/EvoSim.o" "../src/EvoSim.cpp"
+Finished building: ../src/EvoSim.cpp
+ 
+Building file: ../src/population.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/population.d" -MT"src/population.o" -o "src/population.o" "../src/population.cpp"
+../src/population.cpp: In member function 'void Population::Cull()':
+../src/population.cpp:43:10: warning: variable 'weakest' set but not used [-Wunused-but-set-variable]
+  Genome* weakest = NULL;
+          ^~~~~~~
+Finished building: ../src/population.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+12:25:57 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/EvoSim.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/EvoSim.d" -MT"src/EvoSim.o" -o "src/EvoSim.o" "../src/EvoSim.cpp"
+Finished building: ../src/EvoSim.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+12:27:21 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/EvoSim.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/EvoSim.d" -MT"src/EvoSim.o" -o "src/EvoSim.o" "../src/EvoSim.cpp"
+Finished building: ../src/EvoSim.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+15:57:51 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/EvoSim.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/EvoSim.d" -MT"src/EvoSim.o" -o "src/EvoSim.o" "../src/EvoSim.cpp"
+Finished building: ../src/EvoSim.cpp
+ 
+Building file: ../src/genome.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/genome.d" -MT"src/genome.o" -o "src/genome.o" "../src/genome.cpp"
+Finished building: ../src/genome.cpp
+ 
+Building file: ../src/population.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/population.d" -MT"src/population.o" -o "src/population.o" "../src/population.cpp"
+Finished building: ../src/population.cpp
+ 
+Building file: ../src/random.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/random.d" -MT"src/random.o" -o "src/random.o" "../src/random.cpp"
+Finished building: ../src/random.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+15:59:30 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/EvoSim.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/EvoSim.d" -MT"src/EvoSim.o" -o "src/EvoSim.o" "../src/EvoSim.cpp"
+Finished building: ../src/EvoSim.cpp
+ 
+Building file: ../src/population.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/population.d" -MT"src/population.o" -o "src/population.o" "../src/population.cpp"
+Finished building: ../src/population.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+16:04:39 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/EvoSim.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/EvoSim.d" -MT"src/EvoSim.o" -o "src/EvoSim.o" "../src/EvoSim.cpp"
+Finished building: ../src/EvoSim.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+16:06:04 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+make: Nothing to be done for 'all'.
+16:09:20 **** Incremental Build of configuration Debug for project EvoSim ****
+make all 
+Building file: ../src/EvoSim.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/EvoSim.d" -MT"src/EvoSim.o" -o "src/EvoSim.o" "../src/EvoSim.cpp"
+Finished building: ../src/EvoSim.cpp
+ 
+Building target: EvoSim
+Invoking: GCC C++ Linker
+g++  -o "EvoSim"  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o   
+Finished building target: EvoSim
+ 
+16:19:17 **** Clean-only build of configuration Debug for project EvoSim ****
+make clean 
+rm -rf  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o  ./src/EvoSim.d ./src/genome.d ./src/population.d ./src/random.d  EvoSim
+ 
+12:31:10 **** Build of configuration Debug for project GCodeGenerator ****
+make all 
+make: Nothing to be done for 'all'.
+16:19:15 **** Build of configuration Debug for project GCodeGenerator ****
+make all 
+make: Nothing to be done for 'all'.
+16:24:39 **** Incremental Build of configuration Debug for project GCodeGenerator ****
+make all 
+Building file: ../src/GCodeGenerator.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/GCodeGenerator.d" -MT"src/GCodeGenerator.o" -o "src/GCodeGenerator.o" "../src/GCodeGenerator.cpp"
+Finished building: ../src/GCodeGenerator.cpp
+ 
+Building target: GCodeGenerator
+Invoking: GCC C++ Linker
+g++  -o "GCodeGenerator"  ./src/GCodeGenerator.o   
+Finished building target: GCodeGenerator
+ 
+16:41:08 **** Incremental Build of configuration Debug for project GCodeGenerator ****
+make all 
+Building file: ../src/GCodeGenerator.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/GCodeGenerator.d" -MT"src/GCodeGenerator.o" -o "src/GCodeGenerator.o" "../src/GCodeGenerator.cpp"
+Finished building: ../src/GCodeGenerator.cpp
+ 
+Building target: GCodeGenerator
+Invoking: GCC C++ Linker
+g++  -o "GCodeGenerator"  ./src/GCodeGenerator.o   
+Finished building target: GCodeGenerator
+ 
+16:58:00 **** Incremental Build of configuration Debug for project GCodeGenerator ****
+make all 
+Building file: ../src/GCodeGenerator.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/GCodeGenerator.d" -MT"src/GCodeGenerator.o" -o "src/GCodeGenerator.o" "../src/GCodeGenerator.cpp"
+Finished building: ../src/GCodeGenerator.cpp
+ 
+Building target: GCodeGenerator
+Invoking: GCC C++ Linker
+g++  -o "GCodeGenerator"  ./src/GCodeGenerator.o   
+Finished building target: GCodeGenerator
+ 
