@@ -78,5 +78,5 @@
             <entry path="/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/endorsed"/>
         </endorsedDirs>
     </libraryInfo>
-    <libraryInfo home="/usr/lib/jvm/java-11-openjdk-amd64" version="11.0.5"/>
+    <libraryInfo home="/usr/lib/jvm/java-11-openjdk-amd64" version="11.0.9.1"/>
 </libraryInfos>

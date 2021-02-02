@@ -10773,3 +10773,18 @@ Invoking: GCC C++ Linker
 g++  -o "GCodeGenerator"  ./src/GCodeGenerator.o   
 Finished building target: GCodeGenerator
  
+14:54:32 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+Building file: ../src/electric3Dprinter.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -fopenmp -MMD -MP -MF"src/electric3Dprinter.d" -MT"src/electric3Dprinter.o" -o "src/electric3Dprinter.o" "../src/electric3Dprinter.cpp"
+Finished building: ../src/electric3Dprinter.cpp
+ 
+Building target: Electric3DPrinter
+Invoking: GCC C++ Linker
+g++ -fopenmp -o "Electric3DPrinter"  ./src/electric3Dprinter.o   
+Finished building target: Electric3DPrinter
+ 
+15:07:05 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+make all 
+make: Nothing to be done for 'all'.

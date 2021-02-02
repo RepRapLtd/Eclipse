@@ -363,7 +363,7 @@ public final class Graphics extends JPanel
 	 * @param triangle
 	 * @param dihedralAngle
 	 */
-	void WalkEdges(Triangle triangle, double dA)
+	void WalkEdges(Triangle triangle, double edgePlotDihedralAngle)
 	{
 		triangle.SetVisited();
 		for(int i = 0; i < 3; i++)
@@ -377,7 +377,7 @@ public final class Graphics extends JPanel
 			
 			if(!triangle.EdgeVisited(i))
 			{
-				if(triangle.GetDihedralAngle(i) > dA)
+				if(triangle.GetDihedralAngle(i) > edgePlotDihedralAngle)
 				{
 					Point3d corner = corners.GetCorner(triangle.GetCorner((i+1)%3));
 					edgePoint.add(corner);
@@ -387,7 +387,7 @@ public final class Graphics extends JPanel
 				triangle.SetEdge(i);
 				if(!neighbour.Visited())
 				{
-					WalkEdges(neighbour, dA);
+					WalkEdges(neighbour, edgePlotDihedralAngle);
 				}
 			}
 		}
@@ -400,7 +400,7 @@ public final class Graphics extends JPanel
 	 * 
 	 * @param out
 	 */
-	private void VisitTriangles(double dA)
+	private void VisitTriangles(double edgePlotDihedralAngle)
 	{		
 		StripDefine strip;
 		
@@ -442,13 +442,13 @@ public final class Graphics extends JPanel
 		
 		// Now maybe add the triangle edges
 		
-		if(dA >= 0.0)
+		if(edgePlotDihedralAngle >= 0.0)
 		{
 			edgePoint = new ArrayList<Point3d>();
 			for(int shell = 0; shell < triangulation.Shells().size(); shell++)
 			{
 				Triangle triangle = triangulation.Shells().get(shell);
-				WalkEdges(triangle, dA);
+				WalkEdges(triangle, edgePlotDihedralAngle);
 				triangle.Reset();
 			}	
 
@@ -475,9 +475,9 @@ public final class Graphics extends JPanel
 	}
 
 	
-	public BranchGroup CreateSceneGraph() 
+	public BranchGroup CreateSceneGraph(double edgePlotDihedralAngle) 
 	{
-		VisitTriangles(0.5);
+		VisitTriangles(edgePlotDihedralAngle);
 		TriangleStripArray tStrip = new TriangleStripArray(totalPoints, GeometryArray.NORMALS|GeometryArray.COORDINATES, triangleCounts);
 		tStrip.setCoordinates(0, stripCorners);
 		tStrip.setNormals(0, stripNormals);
@@ -587,7 +587,7 @@ public final class Graphics extends JPanel
     }
 
 	
-	public Graphics(Triangulation t) 
+	public Graphics(Triangulation t, double edgePlotDihedralAngle) 
 	{
 		triangulation = t;
 		corners = triangulation.Corners();
@@ -600,7 +600,7 @@ public final class Graphics extends JPanel
 //		BoundingSphere sphere = new BoundingSphere(new Point3d(0,0,0), 100000);
 //		background.setApplicationBounds(sphere);
 
-		BranchGroup scene = CreateSceneGraph();
+		BranchGroup scene = CreateSceneGraph(edgePlotDihedralAngle);
 		scene.compile();
 
 		// SimpleUniverse is a Convenience Utility class
@@ -621,21 +621,21 @@ public final class Graphics extends JPanel
 		simpleU.addBranchGraph(scene);
 	}
 
-	public static void main(String[] args) 
+/*	public static void main(String[] args) 
 	{
 		JFrame frame = new JFrame();
-//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
+    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-disjoint-cubes.stl");
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-overlapping-cubes.stl");
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/hole-enclosed-in-cylinder.stl");
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nonmanifold-cubes.stl");
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nasty-nonmanifold-cubes.stl");
     	Triangulation t = new Triangulation("file:///home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/554.2-extruder-drive-pneumatic.stl");
-		frame.add(new JScrollPane(new Graphics(t)));
+		frame.add(new JScrollPane(new Graphics(t, -1)));
 		frame.setSize(800, 800);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
+	}*/
 
 }
     

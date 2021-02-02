@@ -1017,7 +1017,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUC_MINOR__" value="4">
+                    <entry kind="macro" name="__GNUC_MINOR__" value="5">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -1959,7 +1959,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__VERSION__" value="&quot;7.4.0&quot;">
+                    <entry kind="macro" name="__VERSION__" value="&quot;7.5.0&quot;">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -3181,7 +3181,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUC_MINOR__" value="4">
+                    <entry kind="macro" name="__GNUC_MINOR__" value="5">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -4141,7 +4141,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__VERSION__" value="&quot;7.4.0&quot;">
+                    <entry kind="macro" name="__VERSION__" value="&quot;7.5.0&quot;">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -5531,7 +5531,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUC_MINOR__" value="4">
+                    <entry kind="macro" name="__GNUC_MINOR__" value="5">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -6473,7 +6473,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__VERSION__" value="&quot;7.4.0&quot;">
+                    <entry kind="macro" name="__VERSION__" value="&quot;7.5.0&quot;">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -7695,7 +7695,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUC_MINOR__" value="4">
+                    <entry kind="macro" name="__GNUC_MINOR__" value="5">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -8655,7 +8655,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__VERSION__" value="&quot;7.4.0&quot;">
+                    <entry kind="macro" name="__VERSION__" value="&quot;7.5.0&quot;">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					

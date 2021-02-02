@@ -610,6 +610,138 @@ public class Triangulation
 		}
 		
 		/**
+		 * Recursively walk over all the triangles of the shell for which this triangle is one face and
+		 * compute the volume of the shell.
+		 * 
+		 * @return
+		 */
+		private double ShellVolumeR()
+		{
+			double volume = prismVolume(cornerList.GetCorner(corners[0]), cornerList.GetCorner(corners[1]), cornerList.GetCorner(corners[2]));
+			SetVisited();
+			for(int i = 0; i < 3; i++)
+			{
+				if(neighbours[i] != null)
+				{
+					if(!neighbours[i].Visited())
+						volume += neighbours[i].ShellVolumeR();
+				} else
+					Debug.Error("Triangulation.Triangle.ShellVolumeR(): triangle with null neighbour found.", true);
+			}		
+			
+			return volume;
+		}
+		
+		/**
+		 * Brief non-recursive function to find the volume of a shell by calling the recursive
+		 * function above.
+		 * 
+		 * @param out
+		 */
+		private double ShellVolume()
+		{
+			double volume = ShellVolumeR();
+			Reset();
+			return volume;
+		}
+		
+		/**
+		 * Recursively walk over all the triangles of the shell for which this triangle is one face and
+		 * compute the area of the shell.
+		 * 
+		 * @return
+		 */
+		private double ShellAreaR()
+		{
+			double area =  Area();
+			SetVisited();
+			for(int i = 0; i < 3; i++)
+			{
+				if(neighbours[i] != null)
+				{
+					if(!neighbours[i].Visited())
+						area += neighbours[i].ShellAreaR();
+				} else
+					Debug.Error("Triangulation.Triangle.ShellAreaR(): triangle with null neighbour found.", true);
+			}		
+			
+			return area;
+		}
+		
+		/**
+		 * Brief non-recursive function to find the volume of a shell by calling the recursive
+		 * function above.
+		 * 
+		 * @param out
+		 */
+		private double ShellArea()
+		{
+			double area = ShellAreaR();
+			Reset();
+			return area;
+		}
+		
+		/**
+		 * Recursively walk over all the triangles of the shell for which this triangle is one face and
+		 * add up all the normals of the triangles in each face.  The result is an array of normal vectors, one
+		 * per face, the length of which is proportional to the area of the face.
+		 * 
+		 * @return
+		 */
+		private void ShellHedgehogR(ArrayList<Vector3f> spines, double flatDihedralAngle)
+		{
+			Vector3f spine = NonUnitNormal();
+			spine.scale(0.5f);
+			spines.get(spines.size() - 1).add(spine);
+			SetVisited();
+			
+			// First visit the neighbours in this face
+			
+			for(int i = 0; i < 3; i++)
+			{
+				if(neighbours[i] != null)
+				{
+					if(!neighbours[i].Visited())
+					{
+						if(dihedralAngle[i] <= flatDihedralAngle)
+						{
+							neighbours[i].ShellHedgehogR(spines, flatDihedralAngle);
+						}
+					}
+				} else
+					Debug.Error("Triangulation.Triangle.ShellHedgehogR: triangle with null neighbour found.", true);
+			}
+			
+			// Now visit the neighbours not in this face
+			
+			for(int i = 0; i < 3; i++)
+			{
+				if(neighbours[i] != null)
+				{
+					if(!neighbours[i].Visited())
+					{
+						spines.add(new Vector3f());
+						neighbours[i].ShellHedgehogR(spines, flatDihedralAngle);
+					}
+				} else
+					Debug.Error("Triangulation.Triangle.ShellHedgehogR: triangle with null neighbour found.", true);
+			}
+		}
+		
+		/**
+		 * Brief non-recursive function to find the hedgehog of a shell by calling the recursive
+		 * function above.
+		 * 
+		 * @param out
+		 */
+		private ArrayList<Vector3f> ShellHedgehog(ArrayList<Vector3f> spines, double flatDihedralAngle)
+		{
+			ShellHedgehogR(spines, flatDihedralAngle);
+			Reset();
+			return spines;
+		}
+		
+		/**
 		 * Recursive function to walk over all the triangles in one shell and output
 		 * them to a .ply file.
 		 * 
@@ -760,12 +892,12 @@ public class Triangulation
 			}
 			return -1;
 		}
-		
+
 		/**
 		 * Return the triangle's normal.  This uses lazy evaluation.
 		 * @return
 		 */
-		public Vector3f Normal()
+		public Vector3f NonUnitNormal()
 		{
 			if(normal == null)
 			{
@@ -776,16 +908,36 @@ public class Triangulation
 				e2.sub(e0);
 				normal = new Vector3f();
 				normal.cross(e1,  e2);
-				normal.normalize();
 			}
-			
 			return normal;
 		}
-	
+		
+		/**
+		 * Return the triangle's unit-length normal.
+		 * @return
+		 */
+		public Vector3f Normal()
+		{
+			Vector3f n = NonUnitNormal();
+			Vector3f nNormal = new Vector3f(n.x, n.y, n.z);
+			nNormal.normalize();
+			return nNormal;
+		}
+
+		/**
+		 * Return the triangle's area.
+		 * @return
+		 */
+		public double Area()
+		{
+			return 0.5*NonUnitNormal().length();
+		}
 	}
 
 
 	/**
+	 * Build a triangulation from an STL file.
+	 * 
 	 * This is really a constructor, but it gets called from the actual constructor when that has
 	 * worked out what sort of file the triangulation is being read from.
 	 */
@@ -902,6 +1054,8 @@ public class Triangulation
 	}
 	
 	/**
+	 * Build a triangulation from a .ply file.
+	 * 
 	 * TODO: write some sort of computer program in here...
 	 */
 	private void BuildFromTRI()
@@ -931,13 +1085,13 @@ public class Triangulation
 			return;
 		}
 
-		if(extension.equals(".tri"))
+		if(extension.equals(".ply"))
 		{
 			BuildFromTRI();
 			return;
 		}
 		
-		Debug.Error("Triangulation.Triangulation(): file name does not end in .stl or .tri (not case sensitive) - " + fileLocation, true);
+		Debug.Error("Triangulation.Triangulation(): file name does not end in .stl or .ply (not case sensitive) - " + fileLocation, true);
 		System.exit(3);
 	}
 	
@@ -1101,6 +1255,17 @@ public class Triangulation
 		System.out.println(" Number of shells: " + String.valueOf(shells.size()) );
 		for(int i = 0; i < shells.size(); i++)
 			System.out.println("  Shell " + String.valueOf(i) + " has " + String.valueOf(shells.get(i).Count()) + " triangles.");
+		System.out.println(" Volume of object: " + String.valueOf(Volume()) );
+		System.out.println(" Surface Area of object: " + String.valueOf(Area()) );
+		ArrayList<Vector3f> hedgehog = Hedgehog(0.1);
+		double magnitudeSum = 0.0;
+		for(int i = 0; i < hedgehog.size(); i++)
+		{
+			Vector3f spine = hedgehog.get(i);
+			magnitudeSum += spine.length();
+			System.out.println(" Spine[" + String.valueOf(i) + "]: " + spine.toString() );
+		}
+		System.out.println(" Sum of spine magnitudes: " + String.valueOf(magnitudeSum) + " (should equal surface area)" );
 	}
 	
 	/**
@@ -1115,7 +1280,8 @@ public class Triangulation
     private double tetVolume(Point3d a, Point3d b, Point3d c, Point3d d)
     {
     	Matrix3d m = new Matrix3d(b.x - a.x, c.x - a.x, d.x - a.x, b.y - a.y, c.y - a.y, d.y - a.y, b.z - a.z, c.z - a.z, d.z - a.z);
-    	return m.determinant()/6.0;
+    	double volume = m.determinant()/6.0;
+    	return volume;
     }
 	
     /**
@@ -1128,31 +1294,83 @@ public class Triangulation
      */
     private double prismVolume(Point3d a, Point3d b, Point3d c)
     {
-    	Point3d d = new Point3d(a); 
-    	Point3d e = new Point3d(b);  
-    	Point3d f = new Point3d(c);
-    	return tetVolume(a, b, c, e) +
-    		tetVolume(a, e, c, d) +
-    		tetVolume(e, f, c, d);
+    	Point3d d = new Point3d(a.x, a.y, 0.0); 
+    	Point3d e = new Point3d(b.x, b.y, 0.0);  
+    	Point3d f = new Point3d(c.x, c.y, 0.0);
+    	return tetVolume(e, a, b, c) +
+    		tetVolume(d, a, e, c) +
+    		tetVolume(d, e, f, c);
     }
+    
+    
+    /**
+     * Compute the volume of the entire triangulation of many shells.  Note the volumes of shells contained wholly
+     * within other shells will be subtracted.  If two shells intersect the result (should be?) the volume of
+     * their symmetric difference.
+     * 
+     * @return
+     */
+    public double Volume()
+    {
+    	double volume = 0.0;
+		for(int shell = 0; shell < shells.size(); shell++)
+		{
+			volume += shells.get(shell).ShellVolume();
+		}
+    	return volume;
+    }
+    
+    /**
+     * Compute the surface area of the entire triangulation of many shells. 
+     * 
+     * @return
+     */
+    public double Area()
+    {
+    	double area = 0.0;
+		for(int shell = 0; shell < shells.size(); shell++)
+		{
+			area += shells.get(shell).ShellArea();
+		}
+    	return area;
+    }
+    
+    /**
+     * Compute the hedgehog of the entire triangulation of many shells. 
+     * 
+     * @return
+     */
+    public ArrayList<Vector3f> Hedgehog(double flatDihedralAngle)
+    {
+    	ArrayList<Vector3f> spines = new ArrayList<Vector3f>();
+		for(int shell = 0; shell < shells.size(); shell++)
+		{
+			spines.add(new Vector3f());
+			shells.get(shell).ShellHedgehog(spines, flatDihedralAngle);
+		}
+		
+    	return spines;
+    }
+    
 		
 	/**
 	 * Do a triangulation thing.
 	 * 
 	 * @param args
 	 */
-//    public static void main(String[] args) 
-//    {
-//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
-//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-disjoint-cubes.stl");
+    public static void main(String[] args) 
+    {
+    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
+//       Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-disjoint-cubes.stl");
 //    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-overlapping-cubes.stl");
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/hole-enclosed-in-cylinder.stl");
 //    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nonmanifold-cubes.stl");
 //    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nasty-nonmanifold-cubes.stl");
-//    	t.PrintStatistics();
-//    	
-//    	t.Save("triangulation.ply");
-//    }
+    	Triangulation t = new Triangulation("file:///home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/554.2-extruder-drive-pneumatic.stl");
+    	t.PrintStatistics();
+   	
+    	//t.Save("triangulation.ply");
+    }
 }
 
 

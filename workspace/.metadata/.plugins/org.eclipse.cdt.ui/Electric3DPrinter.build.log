@@ -1,38 +1,6 @@
-16:45:54 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+15:07:05 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
 make all 
-Building file: ../src/electric3Dprinter.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -fopenmp -MMD -MP -MF"src/electric3Dprinter.d" -MT"src/electric3Dprinter.o" -o "src/electric3Dprinter.o" "../src/electric3Dprinter.cpp"
-In file included from ../src/electric3Dprinter.h:18:0,
-                 from ../src/electric3Dprinter.cpp:39:
-../src/electrodes.h:39:21: error: invalid use of non-static data member 'Electrodes::maxElectrodes'
-  int electrodeNodes[maxElectrodes][3];
-                     ^~~~~~~~~~~~~
-../src/electrodes.h:37:36: note: declared here
-  const int maxElectrodes = 4*nodes*nodes;
-                                    ^~~~~
-../src/electrodes.h:42:46: error: array bound is not an integer constant before ']' token
-  int QuarterCircleDDA(int r, int circle[nodes][2]);
-                                              ^
-../src/electric3Dprinter.cpp: In function 'int main()':
-../src/electric3Dprinter.cpp:127:19: error: no matching function for call to 'FiniteDifference::FiniteDifference()'
-  FiniteDifference tank;
-                   ^~~~
-In file included from ../src/electric3Dprinter.h:19:0,
-                 from ../src/electric3Dprinter.cpp:39:
-../src/finiteDifference.h:35:2: note: candidate: FiniteDifference::FiniteDifference(int)
-  FiniteDifference(int nodeNumbers);
-  ^~~~~~~~~~~~~~~~
-../src/finiteDifference.h:35:2: note:   candidate expects 1 argument, 0 provided
-../src/finiteDifference.h:29:7: note: candidate: constexpr FiniteDifference::FiniteDifference(const FiniteDifference&)
- class FiniteDifference
-       ^~~~~~~~~~~~~~~~
-../src/finiteDifference.h:29:7: note:   candidate expects 1 argument, 0 provided
-../src/finiteDifference.h:29:7: note: candidate: constexpr FiniteDifference::FiniteDifference(FiniteDifference&&)
-../src/finiteDifference.h:29:7: note:   candidate expects 1 argument, 0 provided
-src/subdir.mk:24: recipe for target 'src/electric3Dprinter.o' failed
-make: *** [src/electric3Dprinter.o] Error 1
-"make all" terminated with exit code 2. Build might be incomplete.
+make: Nothing to be done for 'all'.
 
-16:45:54 Build Failed. 5 errors, 0 warnings. (took 434ms)
+15:07:05 Build Finished. 0 errors, 0 warnings. (took 111ms)
 

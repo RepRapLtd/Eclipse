@@ -162,6 +162,18 @@ public class Point3D
 		return a.x*b.x + a.y*b.y + a.z*b.z;
 	}
 	
+
+	/**
+	 * Outer product
+	 * @param a
+	 * @param b
+	 * @return oute product
+	 */
+	public static Point3D op(Point3D a, Point3D b)
+	{
+		return new Point3D(a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z,  a.x*b.y - a.y*b.x);
+	}
+	
 	
 	/**
 	 * Modulus
@@ -181,18 +193,7 @@ public class Point3D
 	{
 		return div(this, mod());
 	}
-	
-	
-	/**
-	 * Outer product
-	 * @param a
-	 * @param b
-	 * @return oute product
-	 */
-	public static Point3D op(Point3D a, Point3D b)
-	{
-		return new Point3D(a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z,  a.x*b.y - a.y*b.x);
-	}
+
 	
 	/**
 	 * Squared distance
