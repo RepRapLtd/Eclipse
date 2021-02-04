@@ -42,7 +42,8 @@ public final class Graphics extends JPanel
 	 * We need auto-extending arrays during construction, but...
 	 */
 	ArrayList<Point3d> stripCornersList;
-	ArrayList<Vector3f> stripNormalsList;	
+	ArrayList<Vector3f> stripNormalsList;
+	ArrayList<Color3f> stripColoursList;
 	ArrayList<Integer> triangleCountsList;
 	ArrayList<Point3d> edgePoint;
 	
@@ -51,6 +52,7 @@ public final class Graphics extends JPanel
 	 */
 	private Point3d[] stripCorners = null;
 	private Vector3f[] stripNormals = null;
+	private Color3f[] stripColours = null;
 	LineArray edges = null;
 	private int[] triangleCounts = null;
 	private int totalPoints;
@@ -175,11 +177,13 @@ public final class Graphics extends JPanel
 			corner = (strip.secondCorner + 1)%3;
 		
 		Vector3f norm = strip.start.Normal();
+		Color3f colour = strip.start.GetColour();
 		for(int count = 0; count < 3; count++)
 		{
 			Point3d newPoint = corners.GetCorner(strip.start.GetCorner(corner));
 			stripCornersList.add(newPoint);
 			stripNormalsList.add(norm);
+			stripColoursList.add(colour);
 			corner++;
 			if(corner >= 3)
 			{
@@ -228,7 +232,9 @@ public final class Graphics extends JPanel
 			Point3d newPoint = corners.GetCorner(next.GetCorner(nextPointIndex));
 			stripCornersList.add(newPoint);
 			norm = next.Normal();
+			colour = next.GetColour();
 			stripNormalsList.add(norm);
+			stripColoursList.add(colour);
 			
 			// Certain amount of faffing about needed just to increment an Integer...
 			
@@ -406,6 +412,7 @@ public final class Graphics extends JPanel
 		
 		stripCornersList = new ArrayList<Point3d>();
 		stripNormalsList = new ArrayList<Vector3f>();
+		stripColoursList = new ArrayList<Color3f>();
 		triangleCountsList = new ArrayList<Integer>();
 		
 		/*
@@ -428,10 +435,12 @@ public final class Graphics extends JPanel
 		totalPoints = stripCornersList.size();
 		stripCorners = new Point3d[totalPoints];
 		stripNormals = new Vector3f[totalPoints];
+		stripColours = new Color3f[totalPoints];
 		triangleCounts = new int[triangleCountsList.size()];		
 		for(int corner = 0; corner < totalPoints; corner++)
 		{
 			stripCorners[corner] = stripCornersList.get(corner);
+			stripColours[corner] = stripColoursList.get(corner);
 			stripNormals[corner] = stripNormalsList.get(corner);
 		}
 		
@@ -469,6 +478,7 @@ public final class Graphics extends JPanel
 		
 		stripCornersList = null;
 		stripNormalsList = null;
+		stripColoursList = null;
 		triangleCountsList = null;
 		edgePoint = null;
 
@@ -478,9 +488,10 @@ public final class Graphics extends JPanel
 	public BranchGroup CreateSceneGraph(double edgePlotDihedralAngle) 
 	{
 		VisitTriangles(edgePlotDihedralAngle);
-		TriangleStripArray tStrip = new TriangleStripArray(totalPoints, GeometryArray.NORMALS|GeometryArray.COORDINATES, triangleCounts);
+		TriangleStripArray tStrip = new TriangleStripArray(totalPoints, GeometryArray.NORMALS|GeometryArray.COORDINATES|GeometryArray.COLOR_3, triangleCounts);
 		tStrip.setCoordinates(0, stripCorners);
 		tStrip.setNormals(0, stripNormals);
+		tStrip.setColors(0, stripColours);
 		
 //		GeometryInfo geometryInfo = new GeometryInfo(GeometryInfo.TRIANGLE_STRIP_ARRAY);
 //		geometryInfo.setCoordinates(stripCorners);
@@ -621,21 +632,24 @@ public final class Graphics extends JPanel
 		simpleU.addBranchGraph(scene);
 	}
 
-/*	public static void main(String[] args) 
+	public static void main(String[] args) 
 	{
 		JFrame frame = new JFrame();
-    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
+//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-disjoint-cubes.stl");
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-overlapping-cubes.stl");
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/hole-enclosed-in-cylinder.stl");
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nonmanifold-cubes.stl");
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nasty-nonmanifold-cubes.stl");
-    	Triangulation t = new Triangulation("file:///home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/554.2-extruder-drive-pneumatic.stl");
-		frame.add(new JScrollPane(new Graphics(t, -1)));
+//    	Triangulation t = new Triangulation("file:///home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/554.2-extruder-drive-pneumatic.stl");
+    	Triangulation t0 = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/cube-1.stl", new Color3f(0.0f, 1.0f, 0.0f));
+    	Triangulation t1 = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/cylinder-1.stl", new Color3f(1.0f, 1.0f, 0.0f));
+		Triangulation t = Triangulation.CombineTwoTriangulations(t0, t1);
+		frame.add(new JScrollPane(new Graphics(t, 0.2)));
 		frame.setSize(800, 800);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}*/
+	}
 
 }
     

@@ -1,0 +1,7 @@
+12:27:44 **** Clean-only build of configuration Debug for project hw ****
+make clean 
+rm -rf  ./src/hw.o  ./src/hw.d  hw
+ 
+
+12:27:44 Build Finished. 0 errors, 0 warnings. (took 125ms)
+

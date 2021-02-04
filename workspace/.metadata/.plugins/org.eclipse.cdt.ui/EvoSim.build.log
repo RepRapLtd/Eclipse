@@ -1,0 +1,7 @@
+16:19:17 **** Clean-only build of configuration Debug for project EvoSim ****
+make clean 
+rm -rf  ./src/EvoSim.o ./src/genome.o ./src/population.o ./src/random.o  ./src/EvoSim.d ./src/genome.d ./src/population.d ./src/random.d  EvoSim
+ 
+
+16:19:17 Build Finished. 0 errors, 0 warnings. (took 119ms)
+

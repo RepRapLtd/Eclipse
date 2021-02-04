@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Electric3DPrinter/src/hw.cpp&apos; to &apos;electric3Dprinter.cpp&apos;" description="Rename resource &apos;hw.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/hw.cpp" name="electric3Dprinter.cpp" stamp="1566819229729" updateReferences="true"/>
+</session>

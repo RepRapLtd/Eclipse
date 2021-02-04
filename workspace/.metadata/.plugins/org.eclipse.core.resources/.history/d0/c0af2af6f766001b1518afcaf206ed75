@@ -1,0 +1,1527 @@
+/**
+ * This program reads a list of triangles from an STL file; STLs have no imposed structure (Boo!).
+ * 
+ * It attempts to stitch them together to form shells of triangles where each triangle has
+ * three corners in space and opposite them three sides.  Each side connects to another triangle 
+ * in the shell.
+ * 
+ * A certain amount of checking for integrity and solidity is done.
+ * 
+ * There are a number of TODOs.  These mainly relate to imposing a logarithmic spatial structure
+ * such as a BSP tree on the whole problem, which would obviously make spatial searching much more efficient.
+ * 
+ */
+
+/**
+ * @author Adrian Bowyer
+ * 
+ * RepRap Ltd
+ * https://reprapltd.com
+ * 
+ * Date: about 24 October 2018
+ * 
+ * Licence: GPL
+ *
+ */
+
+package com.reprapltd.polyhedra;
+
+//import java.awt.Color;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import org.j3d.renderer.java3d.loaders.STLLoader;
+import com.sun.j3d.loaders.Scene;
+import javax.vecmath.Point3d;
+import java.util.Hashtable;
+import javax.media.j3d.BoundingBox;
+import javax.media.j3d.GeometryArray;
+import javax.media.j3d.Shape3D;
+import javax.vecmath.Color3f;
+import javax.vecmath.Matrix3d;
+import javax.vecmath.Vector3d;
+import javax.vecmath.Vector3f;
+
+
+public class Triangulation 
+{
+	/**
+	 * This is the enclosing class that constructs and maintains the entire triangulation.
+	 * 
+	 * The triangulation consists of one or more shells.  These are accessed by a single triangle
+	 * that is a part of each shell stored in the list meshes.  Given one triangle, every triangle
+	 * in a shell can be visited by a recursive neighbour graph walk.
+	 */
+	
+	private CornerList cornerList = null;       // A list of points that forms the triangle corners, plus one such triangle each.
+	private double smallD2;                     // Points closer than this squared distance are considered coincident.
+	private ArrayList<Triangle> shells = null;  // The list of shells, each accessed by one of its triangles.
+	private int cornerCount;                    // Number of points read in >> cornerList.corners.size()
+	private int triangleCount;                  // The number of triangles read in.
+	private BoundingBox boundingBox = null;     // The tringulation is all inside this.
+	private Point3d cloudCentroid = null;       // The centroid of all the points READ IN (in general not the same as the centroid of cornerList).
+	private double shortestEdge2;               // The shortest of all the triangles' edges.
+	private double longestEdge2;                // The longest of all the triangles' edges.
+	private String fileLocation = null;         // Where the triangulation was read in from.
+	//private Vector3d principalComponents = new Vector3d(0, 0, 0);
+	
+	/**
+	 * How big is the object and where is it?
+	 * 
+	 * @return
+	 */
+	public BoundingBox GetBoundingBox()
+	{
+		return boundingBox;
+	}
+	
+	/**
+	 * Where's the middle?
+	 * @return
+	 */
+	public Point3d Centre()
+	{
+		Point3d result = new Point3d();
+		Point3d temp = new Point3d();
+		boundingBox.getLower(result);
+		boundingBox.getUpper(temp);
+		result.add(temp);
+		result.scale(0.5);
+		return result;
+	}
+	
+	/**
+	 * How big is it?
+	 * 
+	 * @return
+	 */
+	public double Diagonal()
+	{
+		Point3d p0 = new Point3d();
+		Point3d p1 = new Point3d();
+		boundingBox.getLower(p0);
+		boundingBox.getUpper(p1);
+		return p1.distance(p0);
+	}
+	
+	
+	
+	/**
+	 * Allow other classes to get at the triangles.
+	 * @return
+	 */
+	public ArrayList<Triangle> Shells()
+	{
+		return shells;
+	}
+	
+	/**
+	 * Allow other classes to get at the corners.
+	 * @return
+	 */
+	public CornerList Corners()
+	{
+		return cornerList;
+	}
+	
+	
+	public class CornerList
+	{
+		/**
+		 * This class stores the list of vertices/corners of all the triangles as points in space.  Each
+		 * point will have a ring of triangles around it.  The points all have one arbitrary triangle
+		 * stored alongside them (from which the ring can be derived by a local search).
+		 */
+		
+		private ArrayList<Point3d> corners = null;
+		private ArrayList<Triangle> triangles = null;
+		
+		private CornerList()
+		{
+			corners = new ArrayList<Point3d>();
+			triangles = new ArrayList<Triangle>();
+		}
+		
+		/**
+		 * Add a triangle corner to the list, together with any
+		 * triangle that has that corner.  It returns the index of
+		 * the corner.
+		 * 
+		 * @param corner
+		 * @param triangle
+		 * @return
+		 */
+		private int AddCorner(Point3d corner, Triangle triangle)
+		{
+			corners.add(corner);
+			triangles.add(triangle);
+			return corners.size() - 1;
+		}
+		
+		public Point3d GetCorner(int i)
+		{
+			return corners.get(i);
+		}
+		
+		private Triangle GetTriangle(int i)
+		{
+			return triangles.get(i);
+		}
+		
+		private int CornerCount()
+		{
+			return corners.size();
+		}
+		
+		/**
+		 * Sanity check.  The array lists should always be the same length.
+		 * 
+		 * @return
+		 */
+		private boolean Sane()
+		{
+			boolean result = (corners.size() == triangles.size());
+			if(!result)
+			{
+				Debug.Error("Triangulation.CornerList.Sane(): These should be equal - corners: " + String.valueOf(corners.size()) +
+						", triangles: " + String.valueOf(triangles.size()) , false);
+			}
+			return result;
+		}
+		
+		/**
+		 * Write all the points and each's triangle index to a .ply file.
+		 * @param out
+		 */
+		private void SavePoints(PrintStream out)
+		{
+			for(int i = 0; i < corners.size(); i++)
+			{
+				Point3d p = corners.get(i);
+				out.print(String.valueOf(p.x) + " ");
+				out.print(String.valueOf(p.y) + " ");
+				out.println(String.valueOf(p.z) + " ");
+			}
+		}
+		
+		/**
+		 * This finds the point in the list corresponding to target and
+		 * returns its index.  Any point with squared distance to target
+		 * less than or equal to smallD2 is considered a match.  If no such 
+		 * point is found -1 is returned.
+		 * 
+		 * TODO: Obviously this should not do an exhaustive search; it
+		 * should use a spatial structure (BSP tree?).
+		 * 
+		 * @param target
+		 * @return
+		 */
+		private int Find(Point3d target)
+		{
+			for(int i = 0; i < corners.size(); i++)
+			{
+				if(target.distanceSquared(corners.get(i)) <= smallD2)
+					return i;
+			}
+			return -1;
+		}
+		
+		/**
+		 * This finds the triangle in the lists that shares the edge corner1-corner2 with notThisOne.
+		 * extraTriangles are triangles in the triangulation that are not in the points' triangle list.
+		 * 
+		 * TODO: Again obviously this should not do an exhaustive search, but should use spatial structure.
+		 * 
+		 * @param corner0
+		 * @param corner1
+		 * @param extraTriangles
+		 * @param notThisOne
+		 * @return
+		 */
+		private Triangle FindTriangleWithEdge(int corner0, int corner1, ArrayList<Triangle> extraTriangles, Triangle notThisOne)
+		{	
+			for(int i = 0; i < triangles.size(); i++)
+			{
+				Triangle triangle = triangles.get(i);
+				if(triangle != notThisOne)
+					if(triangle.HasCorners(corner0, corner1) >= 0)
+						return triangle;
+			}
+			
+			for(int i = 0; i < extraTriangles.size(); i++)
+			{
+				Triangle triangle = extraTriangles.get(i);
+				if(triangle != notThisOne)
+					if(triangle.HasCorners(corner0, corner1) >= 0)
+						return triangle;
+			}
+			
+			return null;
+		}
+		
+		/**
+		 * Run round the three edges of a triangle finding its neighbours that share that edge
+		 * and record the neighbour relationship.
+		 * 
+		 * TODO: AGAIN obviously this should set the neighbour relationship for both triangles at once.
+		 * 
+		 * @param triangle
+		 * @param extraTriangles
+		 * @return
+		 */
+		
+		private boolean StitchUpThisTriangle(Triangle triangle, ArrayList<Triangle> extraTriangles)
+		{
+			boolean result = true;
+			
+			for(int j = 0; j < 3; j++)
+			{
+				int j1 = (j+1)%3;
+				int corner0 = triangle.GetCorner(j);
+				int corner1 = triangle.GetCorner(j1);
+				Triangle neighbour = FindTriangleWithEdge(corner0, corner1, extraTriangles, triangle);
+				if(neighbour == null)
+				{
+					Debug.Error("Triangulation.CornerList.StitchUpThisTriangle() - triangle with missing neighbour found.", true);
+					result = false;
+				}
+				triangle.SetEdge(neighbour, 3 - (j + j1));
+			}
+			
+			return result;
+		}
+		
+		/**
+		 * This sets all the neighbours of all the triangles in all the shells.
+		 * 
+		 * @param extraTriangles
+		 * @return
+		 */
+		private boolean StitchUp(ArrayList<Triangle> extraTriangles)
+		{
+			boolean result = true;
+			
+			for(int i = 0; i < triangles.size(); i++)
+			{
+				Triangle triangle = triangles.get(i);
+				if(!StitchUpThisTriangle(triangle, extraTriangles))
+					result = false;	
+			}
+			
+			for(int i = 0; i < extraTriangles.size(); i++)
+			{
+				Triangle triangle = extraTriangles.get(i);
+				if(!StitchUpThisTriangle(triangle, extraTriangles))
+					result = false;	
+			}
+			
+			return result;
+		}
+		
+		/**
+		 * Search the corners' triangles to find an unvisited triangle.
+		 * If none is found, return null.  Note not all triangles are
+		 * in the triangles array.  But this is only used to find the
+		 * shells, and each shell has at least one triangle in that array
+		 * (I conjecture...).
+		 * 
+		 * This cannot avoid a global search.  But at least it should be quick.
+		 * 
+		 * @return
+		 */
+		private Triangle FindAnUnvisitedTriangle()
+		{
+			for(int i = 0; i < triangles.size(); i++)
+				if(!triangles.get(i).Visited())
+					return triangles.get(i);
+			return null;
+		}
+	}
+	
+	public class Triangle 
+	{
+
+		/**
+		 * This holds the representation of a single triangle.  A triangle
+		 * has corners and, opposite them, neighbouring triangles.  Each neighbour is the adjacent triangle
+		 * in the mesh.  For a complete mesh no neighbours should be null.  The corners
+		 * are stored as indices into cornerList, where the actual point coordinates
+		 * in space are kept.  
+		 */
+		
+		private int corners[];
+		private Vector3f normal;
+		private Triangle neighbours[];
+		private double dihedralAngle[];
+		private boolean edgeVisited[];
+		
+		/**
+		 * The index is just used for input and output; every triangle's index
+		 * should be unique and non-negative.
+		 */
+		private int index;
+		
+		/**
+		 * visited is a flag to facilitate recursively walking over the mesh
+		 */
+		private boolean visited;
+		
+		/**
+		 * May want to display it.
+		 */
+		private Color3f colour;
+		
+		private Triangle()
+		{
+			visited = false;
+			index = -1;
+			corners = new int[3];
+			neighbours = new Triangle[3];
+			dihedralAngle = new double[3];
+			edgeVisited = new boolean[3];
+			normal = null;
+			for(int i = 0; i < 3; i++)
+			{
+				corners[i] = -1;
+				neighbours[i] = null;
+				edgeVisited[i] = false;
+			}
+			colour = new Color3f(0.5f, 0.5f, 0.5f);
+		}
+		
+		/**
+		 * Constructor to make a triangle from three points in space.
+		 * 
+		 * If visited is true on return, the new triangle is also in
+		 * the corner list and visited should be reset to false.  If it is false
+		 * it is not in the corner list (because all three of its corners
+		 * were put in the list by previous triangles) and it may need to
+		 * be recorded elsewhere.  The index is only used for input and
+		 * output.
+		 * 
+		 * @param aC
+		 * @param bC
+		 * @param cC
+		 * @param ix
+		 */
+		
+		private Triangle(Point3d aC, Point3d bC, Point3d cC, int ix) 
+		{
+			this();
+			
+			index = ix;
+			
+			int c = cornerList.Find(aC);
+			if(c < 0)
+			{
+				c = cornerList.AddCorner(aC,  this);
+				visited = true;
+			}
+			corners[0] = c;
+			
+			c = cornerList.Find(bC);
+			if(c < 0)
+			{
+				c = cornerList.AddCorner(bC,  this);
+				visited = true;
+			}
+			corners[1] = c;
+			
+			c = cornerList.Find(cC);
+			if(c < 0)
+			{
+				c = cornerList.AddCorner(cC,  this);
+				visited = true;
+			}
+			corners[2] = c;
+		}
+		
+		public void ResetVisited()
+		{
+			visited = false;
+		}
+		
+		public void SetVisited()
+		{
+			visited = true;
+		}
+		
+		public boolean Visited()
+		{
+			return visited;
+		}
+		
+		public int GetCorner(int i)
+		{
+			return corners[i];
+		}
+		
+		public Triangle GetNeighbour(int i)
+		{
+			return neighbours[i];
+		}
+		
+		public double GetDihedralAngle(int i)
+		{
+			return dihedralAngle[i];
+		}
+		
+		private int Index()
+		{
+			return index;
+		}
+		
+		public Color3f GetColour()
+		{
+			return colour;
+		}
+		
+		/*
+		 * Set and reset the edges.  This also (re)sets them in the neighbour with
+		 * which they share the edge.
+		 * 
+		 */
+		
+		public void SetEdge(int i)
+		{
+			edgeVisited[i] = true;
+			int cornerA = corners[(i+1)%3];
+			int cornerB = corners[(i+2)%3];
+			
+			int neighbourCornerA = -1;
+			int neighbourCornerB = -1;
+			Triangle neighbour = neighbours[i];
+			for(int corner = 0; corner < 3; corner++)
+			{
+				if(neighbour.corners[corner] == cornerA)
+					neighbourCornerA = corner;
+				if(neighbour.corners[corner] == cornerB)
+					neighbourCornerB = corner;				
+			}
+			
+			if(neighbourCornerA < 0 && neighbourCornerB < 0)
+			{
+				Debug.Error("Triangulation.SetEdge(): neighbour doesn't share theis edge with this triangle.", true);
+			}
+
+			neighbours[i].edgeVisited[Opposite(neighbourCornerA, neighbourCornerB)] = true;
+		}
+		
+		public void ResetEdge(int i)
+		{
+			edgeVisited[i] = false;
+			int cornerA = corners[(i+1)%3];
+			int cornerB = corners[(i+2)%3];
+			
+			int neighbourCornerA = -1;
+			int neighbourCornerB = -1;
+			Triangle neighbour = neighbours[i];
+			for(int corner = 0; corner < 3; corner++)
+			{
+				if(neighbour.corners[corner] == cornerA)
+					neighbourCornerA = corner;
+				if(neighbour.corners[corner] == cornerB)
+					neighbourCornerB = corner;				
+			}
+			
+			if(neighbourCornerA < 0 && neighbourCornerB < 0)
+			{
+				Debug.Error("Triangulation.ResetEdge(): neighbour doesn't share theis edge with this triangle.", true);
+			}
+
+			neighbours[i].edgeVisited[Opposite(neighbourCornerA, neighbourCornerB)] = false;
+		}
+		
+		public boolean EdgeVisited(int i)
+		{
+			return edgeVisited[i];
+		}
+	
+		/**
+		 * Set all the triangles in one shell to visited, starting with this one.
+		 * Note this works with partial triangulations with null edges as long as they
+		 * are not disjoint, though this will produce a debug warning.
+		 * It counts the triangles as a side-effect and returns the total. This is a 
+		 * negligible additional load.
+		 * 
+		 * This also sets all the edges visited.
+		 * 
+		 */
+		public int Set()
+		{
+			int count = 1;
+			SetVisited();
+			for(int i = 0; i < 3; i++)
+			{
+				edgeVisited[i] = true;
+				if(neighbours[i] != null)
+				{
+					if(!neighbours[i].Visited())
+						count += neighbours[i].Set();
+				} else
+					Debug.Error("Triangulation.Triangle.Set(): triangle with null neighbour found.", false);
+			}
+			return count;
+		}
+		
+		/**
+		 * Reset all the triangles in one shell to unvisited, starting with this one.
+		 * Note this works with partial triangulations with null edges as long as they
+		 * are not disjoint, though this will produce a debug warning..
+		 * It counts the triangles as a side-effect and returns the total.  This is a 
+		 * negligible additional load.
+		 * 
+		 * This also resets all the edges as unvisited.
+		 * 
+		 */
+		public int Reset()
+		{
+			int count = 1;
+			ResetVisited();
+			for(int i = 0; i < 3; i++)
+			{
+				edgeVisited[i] = false;
+				if(neighbours[i] != null)
+				{
+					if(neighbours[i].Visited())
+						count += neighbours[i].Reset();
+				} else
+					Debug.Error("Triangulation.Triangle.Reset(): triangle with null neighbour found.", false);
+			}
+			return count;
+		}
+		
+		/**
+		 * Do a set and reset to count the triangles (twice).
+		 * 
+		 * TODO: the reset could record the count in each triangle for
+		 * instant return in the future; lazy evaluation.
+		 * 
+		 * @return
+		 */
+		private int Count()
+		{
+			int count0 = Set();
+			int count1 = Reset();
+			
+			if(count1 != count0)
+				Debug.Error("Triangulation.Triangle.Count(): set count (" + String.valueOf(count0) + ") not equal to reset count (" + String.valueOf(count1) + ").", true);
+			
+			return count0;
+		}
+		
+		/**
+		 * Recursively walk over all the triangles of the shell for which this triangle is one face and
+		 * compute the volume of the shell.
+		 * 
+		 * @return
+		 */
+		private double ShellVolumeR()
+		{
+			double volume = prismVolume(cornerList.GetCorner(corners[0]), cornerList.GetCorner(corners[1]), cornerList.GetCorner(corners[2]));
+			SetVisited();
+			for(int i = 0; i < 3; i++)
+			{
+				if(neighbours[i] != null)
+				{
+					if(!neighbours[i].Visited())
+						volume += neighbours[i].ShellVolumeR();
+				} else
+					Debug.Error("Triangulation.Triangle.ShellVolumeR(): triangle with null neighbour found.", true);
+			}		
+			
+			return volume;
+		}
+		
+		/**
+		 * Brief non-recursive function to find the volume of a shell by calling the recursive
+		 * function above.
+		 * 
+		 * @param out
+		 */
+		private double ShellVolume()
+		{
+			double volume = ShellVolumeR();
+			Reset();
+			return volume;
+		}
+		
+		/**
+		 * Recursively walk over all the triangles of the shell for which this triangle is one face and
+		 * compute the area of the shell.
+		 * 
+		 * @return
+		 */
+		private double ShellAreaR()
+		{
+			double area =  Area();
+			SetVisited();
+			for(int i = 0; i < 3; i++)
+			{
+				if(neighbours[i] != null)
+				{
+					if(!neighbours[i].Visited())
+						area += neighbours[i].ShellAreaR();
+				} else
+					Debug.Error("Triangulation.Triangle.ShellAreaR(): triangle with null neighbour found.", true);
+			}		
+			
+			return area;
+		}
+		
+		/**
+		 * Brief non-recursive function to find the volume of a shell by calling the recursive
+		 * function above.
+		 * 
+		 * @param out
+		 */
+		private double ShellArea()
+		{
+			double area = ShellAreaR();
+			Reset();
+			return area;
+		}
+		
+		/**
+		 * Recursively walk over all the triangles of the shell for which this triangle is one face and
+		 * add up all the normals of the triangles in each face.  The result is an array of normal vectors, one
+		 * per face, the length of which is proportional to the area of the face.
+		 * 
+		 * @return
+		 */
+		private void ShellHedgehogR(ArrayList<Vector3f> spines, double flatDihedralAngle)
+		{
+			Vector3f spine = NonUnitNormal();
+			spine.scale(0.5f);
+			spines.get(spines.size() - 1).add(spine);
+			SetVisited();
+			
+			// First visit the neighbours in this face
+			
+			for(int i = 0; i < 3; i++)
+			{
+				if(neighbours[i] != null)
+				{
+					if(!neighbours[i].Visited())
+					{
+						if(dihedralAngle[i] <= flatDihedralAngle)
+						{
+							neighbours[i].ShellHedgehogR(spines, flatDihedralAngle);
+						}
+					}
+				} else
+					Debug.Error("Triangulation.Triangle.ShellHedgehogR: triangle with null neighbour found.", true);
+			}
+			
+			// Now visit the neighbours not in this face
+			
+			for(int i = 0; i < 3; i++)
+			{
+				if(neighbours[i] != null)
+				{
+					if(!neighbours[i].Visited())
+					{
+						spines.add(new Vector3f());
+						neighbours[i].ShellHedgehogR(spines, flatDihedralAngle);
+					}
+				} else
+					Debug.Error("Triangulation.Triangle.ShellHedgehogR: triangle with null neighbour found.", true);
+			}
+		}
+		
+		/**
+		 * Brief non-recursive function to find the hedgehog of a shell by calling the recursive
+		 * function above.
+		 * 
+		 * @param out
+		 */
+		private ArrayList<Vector3f> ShellHedgehog(ArrayList<Vector3f> spines, double flatDihedralAngle)
+		{
+			ShellHedgehogR(spines, flatDihedralAngle);
+			Reset();
+			return spines;
+		}
+		
+		/**
+		 * Recursive function to walk over all the triangles in one shell and output
+		 * them to a .ply file.
+		 * 
+		 * @param out
+		 */
+		private void SaveTrianglesR(PrintStream out)
+		{
+			// Write this out.
+			
+			out.print("3 ");
+			for(int i = 0; i < 2; i++)
+				out.print(String.valueOf(corners[i]) + " ");
+			out.println(String.valueOf(corners[2]));
+			
+			// Now recursively write my neighbours.
+			
+			SetVisited();
+			for(int i = 0; i < 3; i++)
+			{
+				if(neighbours[i] != null)
+				{
+					if(!neighbours[i].Visited())
+						neighbours[i].SaveTrianglesR(out);
+				} else
+					Debug.Error("Triangulation.Triangle.SaveTrianglesR(): triangle with null neighbour found.", true);
+			}			
+		}
+		
+		/**
+		 * Brief non-recursive function to write out a single shell by calling the recursive
+		 * function above.
+		 * 
+		 * @param out
+		 */
+		private void SaveTriangles(PrintStream out)
+		{
+			SaveTrianglesR(out);
+			Reset();
+		}
+		
+		/**
+		 * The vector product of corners ([1] - [0])x([2] - [0]) faces
+		 * outward from solid to air.  This inverts a triangle that has 
+		 * the wrong sense. 
+		 */
+		private void Invert()
+		{
+			int cTemp = corners[2];
+			corners[2] = corners[1];
+			corners[1] = cTemp;
+			Triangle nTemp = neighbours[2];
+			neighbours[2] = neighbours[1];
+			neighbours[1] = nTemp;
+		}
+		
+		/**
+		 * When the triangulation is being constructed the neighbours are not initially
+		 * set.  This allows them to be set subsequently.
+		 * 
+		 * @param neighbour
+		 * @param i
+		 */
+		private void SetEdge(Triangle neighbour, int i)
+		{
+			neighbours[i] = neighbour;
+			Vector3f myNormal = this.Normal();
+			Vector3f otherNormal = neighbour.Normal();
+			dihedralAngle[i] = Math.acos(myNormal.dot(otherNormal));
+		}
+		
+		/**
+		 * Does this triangle have corner?
+		 * 
+		 * @param corner
+		 * @return
+		 */
+		private boolean HasCorner(int corner)
+		{
+			for(int i = 0; i < 3; i++)
+			{
+				if(corners[i] == corner)
+					return true;
+			}		
+			return false;
+		}		
+		
+		/**
+		 * Does this triangle have edge corner0-corner1?
+		 * 
+		 * If so return the index of that edge (same as the index of the triangle that that edge leads to).
+		 * If not return -1.
+		 * 
+		 * @param corner1
+		 * @param corner2
+		 * @return
+		 */
+		public int HasCorners(int corner1, int corner2)
+		{
+			int cornerA = -1;
+			int cornerB = -1;
+			for(int corner = 0; corner < 3; corner++)
+			{
+				if(corners[corner] == corner1)
+					cornerA = corner;
+				if(corners[corner] == corner2)
+					cornerB = corner;				
+			}
+			if(cornerA >= 0 && cornerB >= 0)
+			{
+				return this.Opposite(cornerA, cornerB);
+			}
+			return -1;			
+		}
+		
+		/**
+		 * Find the index of the thing opposite index1 and index2.
+		 * 
+		 * If they are corners, this is the other corner.
+		 * If they are neighbouring triangles, this is the other triangle.
+		 * 
+		 * To get the actual corner point or triangle you need Triangulation.GetCorner(result)
+		 * or this.triangle(result).
+		 * 
+		 * @param corner1
+		 * @param corner2
+		 * @return
+		 */
+		public int Opposite(int index1, int index2)
+		{
+			return 3 - index1 - index2;
+		}
+		
+		/**
+		 * If we have a corner in the triangle list that we think is one of this triangle's corners,
+		 * return the index in this triangle's list of that corner.
+		 * 
+		 * If it isn't there, return -1;
+		 * 
+		 * @param corner
+		 * @return
+		 */
+		public int FindCorner(int corner)
+		{
+			for(int c = 0; c < 3; c++)
+			{
+				if(corners[c] == corner)
+					return c;
+			}
+			return -1;
+		}
+
+		/**
+		 * Return the triangle's normal.  This uses lazy evaluation.
+		 * @return
+		 */
+		public Vector3f NonUnitNormal()
+		{
+			if(normal == null)
+			{
+				Vector3f e0 = new Vector3f(cornerList.GetCorner(corners[0]));
+				Vector3f e1 = new Vector3f(cornerList.GetCorner(corners[1]));
+				e1.sub(e0);
+				Vector3f e2 = new Vector3f(cornerList.GetCorner(corners[2]));
+				e2.sub(e0);
+				normal = new Vector3f();
+				normal.cross(e1,  e2);
+			}
+			return normal;
+		}
+		
+		/**
+		 * Return the triangle's unit-length normal.
+		 * @return
+		 */
+		public Vector3f Normal()
+		{
+			Vector3f n = NonUnitNormal();
+			Vector3f nNormal = new Vector3f(n.x, n.y, n.z);
+			nNormal.normalize();
+			return nNormal;
+		}
+
+		/**
+		 * Return the triangle's area.
+		 * @return
+		 */
+		public double Area()
+		{
+			return 0.5*NonUnitNormal().length();
+		}
+	}
+
+
+	/**
+	 * Build a triangulation from an STL file.
+	 * 
+	 * This is really a constructor, but it gets called from the actual constructor when that has
+	 * worked out what sort of file the triangulation is being read from.
+	 */
+	private void BuildFromSTL()
+	{
+		// See the head of this class (Triangulaton) for what all this lot do.
+		
+		cornerList = new CornerList();
+		smallD2 = 0.001;
+		shells = new ArrayList<Triangle>();
+		cornerCount = 0;  // Number of points read in >> cornerList.corners.size()
+		triangleCount = 0;
+		boundingBox = new BoundingBox();
+		cloudCentroid = new Point3d(0, 0, 0);
+		shortestEdge2 = Double.MAX_VALUE;
+		longestEdge2 = 0;
+		//principalComponents = new Vector3d(0, 0, 0);
+		
+		// Not every triangle ends up as a companion to a point in the point list.
+		// During construction we have to record those unloved triangles here.  
+		// This list goes out of scope at the end of this function and so
+		// its space can be recovered.
+		
+		ArrayList<Triangle> extraTriangles = new ArrayList<Triangle>();
+		
+		// Open up a loader for STL files.
+		
+		STLLoader loader = new STLLoader();
+		Scene scene = null;
+		
+		try 
+        {
+			// Load it all up...
+			
+            scene = loader.load(fileLocation);
+        } catch (Exception e) 
+	    {
+	        Debug.Error("Triangulation.Triangulation(): Exception loading STL file from: " + fileLocation, false);
+	        e.printStackTrace();
+	        System.exit(1);
+	    }
+		
+		if(scene == null)
+		{
+			Debug.Error("Triangulation.Triangulation(): no triangulation to process", false);
+			System.exit(2);
+		}
+        
+        /*
+         * First go through all the triangles in the STL file gathering statistics.
+         */
+        
+        Hashtable<?,?> namedObjects = scene.getNamedObjects();
+        java.util.Enumeration<?> enumValues = namedObjects.elements();
+        
+        if(enumValues != null) 
+        {
+            while(enumValues.hasMoreElements()) 
+            {
+            	Shape3D stlTriangles = (Shape3D)enumValues.nextElement();
+                UpdateStatistics((GeometryArray)stlTriangles.getGeometry());
+            }
+        }
+        
+        // It seem(s)x -> ed reasonable to assume that any points closer together than a quarter of the
+        // length of the shortest edge are coincident. 16 is because we use squared distances throughout.
+        // TODO: No it ain't reasonable - what about close points that have no edge between?
+        
+        smallD2 = shortestEdge2/16;
+        
+        // After the stats are gathered the centroid is the sum of all the points read in.
+        // Divide it by a count of all of them to get the correct position.
+        
+        cloudCentroid.scale(1.0/(double)cornerCount);
+        
+        
+        // Now go through all the triangles again adding all the triangles to the structure.
+        
+        triangleCount = 0; // Defensive...
+        namedObjects = scene.getNamedObjects();
+        enumValues = namedObjects.elements();
+        
+        if(enumValues != null) 
+        {
+            while(enumValues.hasMoreElements()) 
+            {
+            	Shape3D stlTriangles = (Shape3D)enumValues.nextElement();
+                AddSomeTriangles((GeometryArray)stlTriangles.getGeometry(), extraTriangles);
+            }
+        }
+        
+        if(!cornerList.Sane())
+        {
+        	Debug.Error("Triangulation.Triangulation(): Sane() failed after adding all the triangles.", true);
+        	System.exit(3);
+        }
+        
+        // Stitch the triangulation together.
+        
+        cornerList.StitchUp(extraTriangles);
+        
+        // Discover and record the shells. 
+        
+        Triangle t = cornerList.FindAnUnvisitedTriangle();
+        while(t != null)
+        {
+            shells.add(t);
+            t.Set();
+        	t = cornerList.FindAnUnvisitedTriangle();
+        }
+        
+        for(int i = 0; i < shells.size(); i++)
+        	shells.get(i).Reset();		
+	}
+	
+	/**
+	 * Build a triangulation from a .ply file.
+	 * 
+	 * TODO: write some sort of computer program in here...
+	 */
+	private void BuildFromTRI()
+	{
+		
+	}
+	
+	
+	/**
+	 * Build a null triangulation
+	 * 
+	 */
+	private Triangulation()
+	{
+		// See the head of this class (Triangulaton) for what all this lot do.
+		
+		fileLocation = "";
+		cornerList = new CornerList();
+		smallD2 = 0.001;
+		shells = new ArrayList<Triangle>();
+		cornerCount = 0;  // Number of points read in >> cornerList.corners.size()
+		triangleCount = 0;
+		boundingBox = new BoundingBox();
+		cloudCentroid = new Point3d(0, 0, 0);
+		shortestEdge2 = Double.MAX_VALUE;
+		longestEdge2 = 0;
+		//principalComponents = new Vector3d(0, 0, 0);
+	}
+	
+
+	/**
+	 * The constructor decides which builder (which does the actual work) to
+	 * call from the file extension of file name location (it ignores case).
+	 * 
+	 * "file.stl" will build from an STL file.
+	 * "file.tri" will build from the output of a call to Triangulation.Save().
+	 * 
+	 * @param location
+	 */
+	public Triangulation(String location) 
+	{
+		fileLocation = location;
+		int length = fileLocation.length();
+		String extension = fileLocation.substring(length - 4, length).toLowerCase();
+ 
+		if(extension.equals(".stl"))
+		{
+			BuildFromSTL();
+			return;
+		}
+
+		if(extension.equals(".ply"))
+		{
+			BuildFromTRI();
+			return;
+		}
+		
+		Debug.Error("Triangulation.Triangulation(): file name does not end in .stl or .ply (not case sensitive) - " + fileLocation, true);
+		System.exit(3);
+	}
+	
+	/**
+	 * corner has just been read in
+	 * 
+	 * @param corner
+	 */
+	private void UpdatePointStatistics(Point3d corner)
+	{
+		boundingBox.combine(corner);
+		cloudCentroid.add(corner);
+	}
+	
+	/**
+	 * A triangle has been read in with edge corner0-corner1
+	 * 
+	 * @param corner0
+	 * @param corner1
+	 */
+	private void UpdateEdgeStatistics(Point3d corner0, Point3d corner1)
+	{
+		double d2 = corner0.distanceSquared(corner1);
+		if(d2 > longestEdge2)
+			longestEdge2 = d2;
+		if(d2 < shortestEdge2)
+			shortestEdge2 = d2;
+	}
+	
+	/**
+	 * Update this triangulation's statistics from those of triangulation t.
+	 * 
+	 * Note the centroid is scaled by the point count, so when it is divided by
+	 * the total point count when construction is finished it has the right
+	 * weighted value.
+	 * 
+	 * @param t
+	 */
+	private void UpdateStatistics(Triangulation t)
+	{
+		boundingBox.combine(t.boundingBox);
+		Point3d c = new Point3d(t.cloudCentroid);
+		c.scale(t.cornerCount);
+		cloudCentroid.add(c);
+		if(t.longestEdge2 > longestEdge2)
+			longestEdge2 = t.longestEdge2;
+		if(t.shortestEdge2 < shortestEdge2)
+			shortestEdge2 = t.shortestEdge2;
+	}
+	
+	/**
+	 * The STLLoader makes GeometryArray s.  They contain the triangles we want.
+	 * 
+	 * @param g
+	 */
+	private void UpdateStatistics(GeometryArray g)
+	{
+		if(g == null)
+			return;
+
+		Point3d corner0 = new Point3d();
+		Point3d corner1 = new Point3d();
+		Point3d corner2 = new Point3d();
+
+		for(int i = 0; i < g.getVertexCount(); i += 3) 
+		{
+			g.getCoordinate(i, corner0);
+			g.getCoordinate(i+1, corner1);
+			g.getCoordinate(i+2, corner2);
+			
+			UpdatePointStatistics(corner0);
+			UpdatePointStatistics(corner1);
+			UpdatePointStatistics(corner2);
+			
+			UpdateEdgeStatistics(corner0, corner1);
+			UpdateEdgeStatistics(corner1, corner2);
+			UpdateEdgeStatistics(corner2, corner0);
+			
+			cornerCount += 3;
+		}
+	}
+	
+	/**
+	 * Three corners have just been derived from a triangle that has just been read in.
+	 * 
+	 * @param corner0
+	 * @param corner1
+	 * @param corner2
+	 * @param extraTriangles
+	 */
+	private void AddATriangle(Point3d corner0, Point3d corner1, Point3d corner2, ArrayList<Triangle> extraTriangles)
+	{
+		Triangle triangle = new Triangle(corner0, corner1, corner2, triangleCount);
+		if(triangle.Visited())
+			triangle.ResetVisited();
+		else
+			extraTriangles.add(triangle);
+		triangleCount++;
+	}
+	
+	/**
+	 * The STLLoader makes GeometryArray s.  They contain the triangles we want.
+	 * 
+	 * @param g
+	 * @param extraTriangles
+	 */
+	private void AddSomeTriangles(GeometryArray g, ArrayList<Triangle> extraTriangles)
+	{
+		if(g == null)
+			return;
+
+		for(int i = 0; i < g.getVertexCount(); i += 3) 
+		{
+			Point3d corner0 = new Point3d();
+			Point3d corner1 = new Point3d();
+			Point3d corner2 = new Point3d();
+			
+			g.getCoordinate(i, corner0);
+			g.getCoordinate(i+1, corner1);
+			g.getCoordinate(i+2, corner2);
+			AddATriangle(corner0, corner1, corner2, extraTriangles);
+		}
+	}
+
+	/**
+	 * Recursively add the shell from triangulation starting at triangle to this one.
+	 * 
+	 * @param triangulation
+	 * @param triangle
+	 * @param extraTriangles
+	 */
+	private void AddTriangulationTrianglesR(Triangulation triangulation, Triangle triangle, ArrayList<Triangle> extraTriangles)
+	{
+			Point3d corner0 = triangulation.Corners().GetCorner(triangle.GetCorner(0));
+			Point3d corner1 = triangulation.Corners().GetCorner(triangle.GetCorner(1));
+			Point3d corner2 = triangulation.Corners().GetCorner(triangle.GetCorner(2));
+			AddATriangle(corner0, corner1, corner2, extraTriangles);
+			triangle.visited = true;
+			
+			for(int i = 0; i < 3; i++)
+			{
+				if(triangle.neighbours[i] != null)
+				{
+					Triangle neighbour = triangle.neighbours[i]; 
+					if(!neighbour.Visited())
+						AddTriangulationTrianglesR(triangulation, neighbour, extraTriangles);
+				} else
+					Debug.Error("Triangulation.AddTriangulationTrianglesR(): triangle with null neighbour found.", false);
+			}
+	}
+	
+
+	/**
+	 * Add another triangulation to this one.
+	 * @param t
+	 * @param extraTriangles
+	 */
+	private void AddTriangulationTriangles(Triangulation triangulation, ArrayList<Triangle> extraTriangles)
+	{
+		UpdateStatistics(triangulation);
+		for(int shell = 0; shell < triangulation.shells.size(); shell++)
+		{
+			Triangle triangle = triangulation.shells.get(shell);
+			AddTriangulationTrianglesR(triangulation, triangle, extraTriangles);
+			triangle.Reset();
+		}
+	}
+	
+	/**
+	 * Combine two triangulations. The file location is set to "".
+	 * 
+	 * @param t0
+	 * @param t1
+	 * @return
+	 */
+	public static Triangulation CombineTwoTriangulations(Triangulation t0, Triangulation t1)
+	{
+		Triangulation result = new Triangulation();
+		
+		// Not every triangle ends up as a companion to a point in the point list.
+		// During construction we have to record those unloved triangles here.  
+		// This list goes out of scope at the end of construction and so
+		// its space can be recovered.
+		
+		ArrayList<Triangle> extraTriangles = new ArrayList<Triangle>();
+		
+		result.AddTriangulationTriangles(t0, extraTriangles);
+		result.AddTriangulationTriangles(t1, extraTriangles);
+		
+        // It seem(s)x -> ed reasonable to assume that any points closer together than a quarter of the
+        // length of the shortest edge are coincident. 16 is because we use squared distances throughout.
+        // TODO: No it ain't reasonable - what about close points that have no edge between?
+        
+		result.smallD2 = result.shortestEdge2/16;
+        
+        // After the stats are gathered the centroid is the sum of all the points read in.
+        // Divide it by a count of all of them to get the correct position.
+        
+		result.cloudCentroid.scale(1.0/(double)result.cornerCount);
+        
+        if(!result.cornerList.Sane())
+        {
+        	Debug.Error("Triangulation.Triangulation(): Sane() failed after adding all the triangles.", true);
+        	System.exit(3);
+        }
+        
+        // Stitch the triangulation together.
+        
+        result.cornerList.StitchUp(extraTriangles);
+        
+        // Discover and record the shells. 
+        
+        Triangle t = result.cornerList.FindAnUnvisitedTriangle();
+        while(t != null)
+        {
+        	result.shells.add(t);
+            t.Set();
+        	t = result.cornerList.FindAnUnvisitedTriangle();
+        }
+        
+        for(int i = 0; i < result.shells.size(); i++)
+        	result.shells.get(i).Reset();		
+		
+		return result;
+	}
+	
+	/**
+	 * This writes out the entire triangulation in the Stanford .ply format.
+	 * 
+	 * See: https://en.wikipedia.org/wiki/PLY_(file_format)
+	 * 
+	 * TODO: Check for file exists and warn?  Warn for non .ply extension?
+	 * 
+	 * @param location
+	 */
+	private void Save(String location)
+	{
+		PrintStream out = null;
+		String pattern = "yyyy-MM-dd"; 
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern); 
+		String date = simpleDateFormat.format(new Date());
+		try 
+		{
+			out = new PrintStream(location);
+			out.println("ply");
+			out.println("format ascii 1.0");
+			out.println("comment Created by the Java program Triangulation on " + date);
+			out.println("comment by RepRap Ltd. https://reprapltd.com");
+			out.println("comment Software licence: GPL");
+			if(fileLocation != null)
+				out.println("comment Derived from file: " + fileLocation);
+			out.println("element vertex " + String.valueOf(cornerList.CornerCount()));
+			out.println("property float x");
+			out.println("property float y");
+			out.println("property float z");
+			out.println("element face " + String.valueOf(triangleCount));
+			out.println("property list uchar int vertex_index");
+			out.println("end_header");
+			cornerList.SavePoints(out);
+			for(int i = 0; i < shells.size(); i++)
+				shells.get(i).SaveTriangles(out);
+			out.close();
+		} catch (IOException e) 
+		{
+			Debug.Error("Triangulation.Save(): Error writing to " + location, true);
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * We've worked 'em out.  Might as well tell people.
+	 */
+	private void PrintStatistics()
+	{
+		System.out.println("Statistics for STL file " + fileLocation +":");
+		System.out.println(" Bounding box: " + boundingBox.toString());
+		System.out.println(" Point cloud Centroid: " + cloudCentroid.toString());
+		System.out.println(" Shortest edge: " + String.valueOf(Math.sqrt(shortestEdge2)) );
+		System.out.println(" Longest edge: " + String.valueOf(Math.sqrt(longestEdge2)) );
+		System.out.println(" Points coincide if closer than: " + String.valueOf(Math.sqrt(smallD2)) );
+		System.out.println(" Number of unique corner/vertex points: " + String.valueOf(cornerList.CornerCount()) );
+		System.out.println(" Number of corner points in the STL file (including duplicates): " + String.valueOf(cornerCount) );
+		System.out.println(" Number of triangles read: " + String.valueOf(triangleCount) );
+		System.out.println(" Number of shells: " + String.valueOf(shells.size()) );
+		for(int i = 0; i < shells.size(); i++)
+			System.out.println("  Shell " + String.valueOf(i) + " has " + String.valueOf(shells.get(i).Count()) + " triangles.");
+		System.out.println(" Volume of object: " + String.valueOf(Volume()) );
+		System.out.println(" Surface Area of object: " + String.valueOf(Area()) );
+		ArrayList<Vector3f> hedgehog = Hedgehog(0.1);
+		double magnitudeSum = 0.0;
+		for(int i = 0; i < hedgehog.size(); i++)
+		{
+			Vector3f spine = hedgehog.get(i);
+			magnitudeSum += spine.length();
+			System.out.println(" Spine[" + String.valueOf(i) + "]: " + spine.toString() );
+		}
+		System.out.println(" Sum of spine magnitudes: " + String.valueOf(magnitudeSum) + " (should equal surface area)" );
+	}
+	
+	/**
+	 * Calculate the volume of a tetrahedron.
+	 * 
+	 * @param a
+	 * @param b
+	 * @param c
+	 * @param d
+	 * @return
+	 */
+    private double tetVolume(Point3d a, Point3d b, Point3d c, Point3d d)
+    {
+    	Matrix3d m = new Matrix3d(b.x - a.x, c.x - a.x, d.x - a.x, b.y - a.y, c.y - a.y, d.y - a.y, b.z - a.z, c.z - a.z, d.z - a.z);
+    	double volume = m.determinant()/6.0;
+    	return volume;
+    }
+	
+    /**
+     * Calculate the volume of a prism under a triangle down to the XY plane.
+     * 
+     * @param a
+     * @param b
+     * @param c
+     * @return
+     */
+    private double prismVolume(Point3d a, Point3d b, Point3d c)
+    {
+    	Point3d d = new Point3d(a.x, a.y, 0.0); 
+    	Point3d e = new Point3d(b.x, b.y, 0.0);  
+    	Point3d f = new Point3d(c.x, c.y, 0.0);
+    	return tetVolume(e, a, b, c) +
+    		tetVolume(d, a, e, c) +
+    		tetVolume(d, e, f, c);
+    }
+    
+    
+    /**
+     * Compute the volume of the entire triangulation of many shells.  Note the volumes of shells contained wholly
+     * within other shells will be subtracted.  If two shells intersect the result (should be?) the volume of
+     * their symmetric difference.
+     * 
+     * @return
+     */
+    public double Volume()
+    {
+    	double volume = 0.0;
+		for(int shell = 0; shell < shells.size(); shell++)
+		{
+			volume += shells.get(shell).ShellVolume();
+		}
+    	return volume;
+    }
+    
+    /**
+     * Compute the surface area of the entire triangulation of many shells. 
+     * 
+     * @return
+     */
+    public double Area()
+    {
+    	double area = 0.0;
+		for(int shell = 0; shell < shells.size(); shell++)
+		{
+			area += shells.get(shell).ShellArea();
+		}
+    	return area;
+    }
+    
+    /**
+     * Compute the hedgehog of the entire triangulation of many shells. 
+     * 
+     * @return
+     */
+    public ArrayList<Vector3f> Hedgehog(double flatDihedralAngle)
+    {
+    	ArrayList<Vector3f> spines = new ArrayList<Vector3f>();
+		for(int shell = 0; shell < shells.size(); shell++)
+		{
+			spines.add(new Vector3f());
+			shells.get(shell).ShellHedgehog(spines, flatDihedralAngle);
+		}
+		
+    	return spines;
+    }
+    
+		
+	/**
+	 * Do a triangulation thing.
+	 * 
+	 * @param args
+	 */
+/*    public static void main(String[] args) 
+    {
+    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
+//       Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-disjoint-cubes.stl");
+//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-overlapping-cubes.stl");
+//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/hole-enclosed-in-cylinder.stl");
+//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nonmanifold-cubes.stl");
+//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nasty-nonmanifold-cubes.stl");
+    	Triangulation t = new Triangulation("file:///home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/554.2-extruder-drive-pneumatic.stl");
+    	t.PrintStatistics();
+   	
+    	//t.Save("triangulation.ply");
+    }*/
+}
+
+

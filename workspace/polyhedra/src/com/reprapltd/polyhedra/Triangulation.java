@@ -26,7 +26,7 @@
 
 package com.reprapltd.polyhedra;
 
-import java.awt.Color;
+//import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -42,6 +42,7 @@ import java.util.Hashtable;
 import javax.media.j3d.BoundingBox;
 import javax.media.j3d.GeometryArray;
 import javax.media.j3d.Shape3D;
+import javax.vecmath.Color3f;
 import javax.vecmath.Matrix3d;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
@@ -67,6 +68,7 @@ public class Triangulation
 	private double shortestEdge2;               // The shortest of all the triangles' edges.
 	private double longestEdge2;                // The longest of all the triangles' edges.
 	private String fileLocation = null;         // Where the triangulation was read in from.
+	private Color3f colour = null;				// The default colour of these objects
 	//private Vector3d principalComponents = new Vector3d(0, 0, 0);
 	
 	/**
@@ -126,6 +128,11 @@ public class Triangulation
 	public CornerList Corners()
 	{
 		return cornerList;
+	}
+	
+	public Color3f Colour()
+	{
+		return colour;
 	}
 	
 	
@@ -373,11 +380,12 @@ public class Triangulation
 		/**
 		 * May want to display it.
 		 */
-		private Color colour;
+		private Color3f colour;
 		
-		private Triangle()
+		private Triangle(Color3f c)
 		{
 			visited = false;
+			colour = c;
 			index = -1;
 			corners = new int[3];
 			neighbours = new Triangle[3];
@@ -390,7 +398,6 @@ public class Triangulation
 				neighbours[i] = null;
 				edgeVisited[i] = false;
 			}
-			colour = Color.gray;
 		}
 		
 		/**
@@ -407,11 +414,12 @@ public class Triangulation
 		 * @param bC
 		 * @param cC
 		 * @param ix
+		 * @oaram c
 		 */
 		
-		private Triangle(Point3d aC, Point3d bC, Point3d cC, int ix) 
+		private Triangle(Point3d aC, Point3d bC, Point3d cC, int ix, Color3f col) 
 		{
-			this();
+			this(col);
 			
 			index = ix;
 			
@@ -473,6 +481,11 @@ public class Triangulation
 		private int Index()
 		{
 			return index;
+		}
+		
+		public Color3f GetColour()
+		{
+			return colour;
 		}
 		
 		/*
@@ -1063,6 +1076,29 @@ public class Triangulation
 		
 	}
 	
+	
+	/**
+	 * Build a null triangulation
+	 * 
+	 */
+	private Triangulation()
+	{
+		// See the head of this class (Triangulaton) for what all this lot do.
+		
+		fileLocation = "";
+		cornerList = new CornerList();
+		smallD2 = 0.001;
+		shells = new ArrayList<Triangle>();
+		cornerCount = 0;  // Number of points read in >> cornerList.corners.size()
+		triangleCount = 0;
+		boundingBox = new BoundingBox();
+		cloudCentroid = new Point3d(0, 0, 0);
+		shortestEdge2 = Double.MAX_VALUE;
+		longestEdge2 = 0;
+		colour = null;
+		//principalComponents = new Vector3d(0, 0, 0);
+	}
+	
 
 	/**
 	 * The constructor decides which builder (which does the actual work) to
@@ -1073,9 +1109,10 @@ public class Triangulation
 	 * 
 	 * @param location
 	 */
-	public Triangulation(String location) 
+	public Triangulation(String location, Color3f col) 
 	{
 		fileLocation = location;
+		colour = col;
 		int length = fileLocation.length();
 		String extension = fileLocation.substring(length - 4, length).toLowerCase();
  
@@ -1122,6 +1159,27 @@ public class Triangulation
 	}
 	
 	/**
+	 * Update this triangulation's statistics from those of triangulation t.
+	 * 
+	 * Note the centroid is scaled by the point count, so when it is divided by
+	 * the total point count when construction is finished it has the right
+	 * weighted value.
+	 * 
+	 * @param t
+	 */
+	private void UpdateStatistics(Triangulation t)
+	{
+		boundingBox.combine(t.boundingBox);
+		Point3d c = new Point3d(t.cloudCentroid);
+		c.scale(t.cornerCount);
+		cloudCentroid.add(c);
+		if(t.longestEdge2 > longestEdge2)
+			longestEdge2 = t.longestEdge2;
+		if(t.shortestEdge2 < shortestEdge2)
+			shortestEdge2 = t.shortestEdge2;
+	}
+	
+	/**
 	 * The STLLoader makes GeometryArray s.  They contain the triangles we want.
 	 * 
 	 * @param g
@@ -1163,7 +1221,7 @@ public class Triangulation
 	 */
 	private void AddATriangle(Point3d corner0, Point3d corner1, Point3d corner2, ArrayList<Triangle> extraTriangles)
 	{
-		Triangle triangle = new Triangle(corner0, corner1, corner2, triangleCount);
+		Triangle triangle = new Triangle(corner0, corner1, corner2, triangleCount, Colour());
 		if(triangle.Visited())
 			triangle.ResetVisited();
 		else
@@ -1193,6 +1251,114 @@ public class Triangulation
 			g.getCoordinate(i+2, corner2);
 			AddATriangle(corner0, corner1, corner2, extraTriangles);
 		}
+	}
+
+	/**
+	 * Recursively add the shell from triangulation starting at triangle to this one.
+	 * 
+	 * @param triangulation
+	 * @param triangle
+	 * @param extraTriangles
+	 */
+	private void AddTriangulationTrianglesR(Triangulation triangulation, Triangle triangle, ArrayList<Triangle> extraTriangles)
+	{
+			Point3d corner0 = triangulation.Corners().GetCorner(triangle.GetCorner(0));
+			Point3d corner1 = triangulation.Corners().GetCorner(triangle.GetCorner(1));
+			Point3d corner2 = triangulation.Corners().GetCorner(triangle.GetCorner(2));
+			AddATriangle(corner0, corner1, corner2, extraTriangles);
+			triangle.visited = true;
+			
+			for(int i = 0; i < 3; i++)
+			{
+				if(triangle.neighbours[i] != null)
+				{
+					Triangle neighbour = triangle.neighbours[i]; 
+					if(!neighbour.Visited())
+						AddTriangulationTrianglesR(triangulation, neighbour, extraTriangles);
+				} else
+					Debug.Error("Triangulation.AddTriangulationTrianglesR(): triangle with null neighbour found.", false);
+			}
+	}
+	
+
+	/**
+	 * Add another triangulation to this one.
+	 * @param t
+	 * @param extraTriangles
+	 */
+	private void AddTriangulationTriangles(Triangulation triangulation, ArrayList<Triangle> extraTriangles)
+	{
+		UpdateStatistics(triangulation);
+		
+		// NB the colour will get overwritten when another triangulation is added.
+		// But by then the old colour will have been percolated down to the 
+		// triangles this call adds.
+		
+		colour = triangulation.Colour();
+		for(int shell = 0; shell < triangulation.shells.size(); shell++)
+		{
+			Triangle triangle = triangulation.shells.get(shell);
+			AddTriangulationTrianglesR(triangulation, triangle, extraTriangles);
+			triangle.Reset();
+		}
+	}
+	
+	/**
+	 * Combine two triangulations. The file location is set to "".
+	 * 
+	 * @param t0
+	 * @param t1
+	 * @return
+	 */
+	public static Triangulation CombineTwoTriangulations(Triangulation t0, Triangulation t1)
+	{
+		Triangulation result = new Triangulation();
+		
+		// Not every triangle ends up as a companion to a point in the point list.
+		// During construction we have to record those unloved triangles here.  
+		// This list goes out of scope at the end of construction and so
+		// its space can be recovered.
+		
+		ArrayList<Triangle> extraTriangles = new ArrayList<Triangle>();
+		
+		result.AddTriangulationTriangles(t0, extraTriangles);
+		result.AddTriangulationTriangles(t1, extraTriangles);
+		
+        // It seem(s)x -> ed reasonable to assume that any points closer together than a quarter of the
+        // length of the shortest edge are coincident. 16 is because we use squared distances throughout.
+        // TODO: No it ain't reasonable - what about close points that have no edge between?
+        
+		result.smallD2 = result.shortestEdge2/16;
+        
+        // After the stats are gathered the centroid is the sum of all the points read in.
+        // Divide it by a count of all of them to get the correct position.
+        
+		result.cloudCentroid.scale(1.0/(double)result.cornerCount);
+        
+        if(!result.cornerList.Sane())
+        {
+        	Debug.Error("Triangulation.Triangulation(): Sane() failed after adding all the triangles.", true);
+        	System.exit(3);
+        }
+        
+        // Stitch the triangulation together.
+        
+        result.cornerList.StitchUp(extraTriangles);
+        
+        // Discover and record the shells. 
+        
+        Triangle t = result.cornerList.FindAnUnvisitedTriangle();
+        while(t != null)
+        {
+        	result.shells.add(t);
+            t.Set();
+        	t = result.cornerList.FindAnUnvisitedTriangle();
+        }
+        
+        for(int i = 0; i < result.shells.size(); i++)
+        	result.shells.get(i).Reset();		
+		
+		return result;
 	}
 	
 	/**
@@ -1358,7 +1524,7 @@ public class Triangulation
 	 * 
 	 * @param args
 	 */
-    public static void main(String[] args) 
+/*    public static void main(String[] args) 
     {
     	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
 //       Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-disjoint-cubes.stl");
@@ -1370,7 +1536,7 @@ public class Triangulation
     	t.PrintStatistics();
    	
     	//t.Save("triangulation.ply");
-    }
+    }*/
 }
 
 

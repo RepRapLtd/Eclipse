@@ -25,7 +25,6 @@
     <fullyQualifiedTypeName name="javax.media.j3d.BranchGroup"/>
     <fullyQualifiedTypeName name="javax.media.j3d.Appearance"/>
     <fullyQualifiedTypeName name="javax.media.j3d.ColoringAttributes"/>
-    <fullyQualifiedTypeName name="javax.vecmath.Color3f"/>
     <fullyQualifiedTypeName name="javax.vecmath.Point3f"/>
     <fullyQualifiedTypeName name="javax.media.j3d.PointArray"/>
     <fullyQualifiedTypeName name="javax.media.j3d.GeometryArray"/>
@@ -45,4 +44,5 @@
     <fullyQualifiedTypeName name="javax.vecmath.Vector3d"/>
     <fullyQualifiedTypeName name="com.sun.j3d.utils.geometry.GeometryInfo"/>
     <fullyQualifiedTypeName name="javax.vecmath.Vector3f"/>
+    <fullyQualifiedTypeName name="javax.vecmath.Color3f"/>
 </qualifiedTypeNameHistroy>
