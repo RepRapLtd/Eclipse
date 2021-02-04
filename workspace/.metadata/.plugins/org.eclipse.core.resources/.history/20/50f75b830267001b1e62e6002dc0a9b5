@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 import org.j3d.renderer.java3d.loaders.STLLoader;
@@ -69,7 +68,7 @@ public class Triangulation
 	private double shortestEdge2;               // The shortest of all the triangles' edges.
 	private double longestEdge2;                // The longest of all the triangles' edges.
 	private String fileLocation = null;         // Where the triangulation was read in from.
-	private Color3f colour = null;				// The default colour of these objects; this is pushed down to the individual triangles
+	private Color3f colour = null;				// The default colour of these objects
 	//private Vector3d principalComponents = new Vector3d(0, 0, 0);
 	
 	/**
@@ -702,11 +701,11 @@ public class Triangulation
 		 * 
 		 * @return
 		 */
-		private void ShellHedgehogR(ArrayList<Point3D> spines, double flatDihedralAngle)
+		private void ShellHedgehogR(ArrayList<Vector3f> spines, double flatDihedralAngle)
 		{
 			Vector3f spine = NonUnitNormal();
 			spine.scale(0.5f);
-			spines.set(spines.size() - 1, Point3D.add(spines.get(spines.size() - 1), new Point3D(spine)));
+			spines.get(spines.size() - 1).add(spine);
 			SetVisited();
 			
 			// First visit the neighbours in this face
@@ -734,7 +733,7 @@ public class Triangulation
 				{
 					if(!neighbours[i].Visited())
 					{
-						spines.add(new Point3D());
+						spines.add(new Vector3f());
 						neighbours[i].ShellHedgehogR(spines, flatDihedralAngle);
 					}
 				} else
@@ -748,7 +747,7 @@ public class Triangulation
 		 * 
 		 * @param out
 		 */
-		private ArrayList<Point3D> ShellHedgehog(ArrayList<Point3D> spines, double flatDihedralAngle)
+		private ArrayList<Vector3f> ShellHedgehog(ArrayList<Vector3f> spines, double flatDihedralAngle)
 		{
 			ShellHedgehogR(spines, flatDihedralAngle);
 			Reset();
@@ -832,7 +831,7 @@ public class Triangulation
 		 * @param corner
 		 * @return
 		 */
-/*		private boolean HasCorner(int corner)
+		private boolean HasCorner(int corner)
 		{
 			for(int i = 0; i < 3; i++)
 			{
@@ -841,7 +840,6 @@ public class Triangulation
 			}		
 			return false;
 		}		
-*/
 		
 		/**
 		 * Does this triangle have edge corner0-corner1?
@@ -1425,12 +1423,12 @@ public class Triangulation
 			System.out.println("  Shell " + String.valueOf(i) + " has " + String.valueOf(shells.get(i).Count()) + " triangles.");
 		System.out.println(" Volume of object: " + String.valueOf(Volume()) );
 		System.out.println(" Surface Area of object: " + String.valueOf(Area()) );
-		ArrayList<Point3D> hedgehog = Hedgehog(0.1);
+		ArrayList<Vector3f> hedgehog = Hedgehog(0.1);
 		double magnitudeSum = 0.0;
 		for(int i = 0; i < hedgehog.size(); i++)
 		{
-			Point3D spine = hedgehog.get(i);
-			magnitudeSum += spine.mod();
+			Vector3f spine = hedgehog.get(i);
+			magnitudeSum += spine.length();
 			System.out.println(" Spine[" + String.valueOf(i) + "]: " + spine.toString() );
 		}
 		System.out.println(" Sum of spine magnitudes: " + String.valueOf(magnitudeSum) + " (should equal surface area)" );
@@ -1504,25 +1502,19 @@ public class Triangulation
     }
     
     /**
-     * Compute the hedgehog of the entire triangulation of many shells.
-     * The hedgehog is a list of normal vectors, one per face, the lengths of which
-     * are equal to the areas of the faces.  A face can be just one triangle, or any connected
-     * collection of triangles.  The edge of such a collection is decided by flatDihedralAngle:
-     * any edge with a bigger dihedral angle is considered to be a boundary of the face.
-     * 
-     * The normal vectors are sorted by face area, biggest first.
+     * Compute the hedgehog of the entire triangulation of many shells. 
      * 
      * @return
      */
-    public ArrayList<Point3D> Hedgehog(double flatDihedralAngle)
+    public ArrayList<Vector3f> Hedgehog(double flatDihedralAngle)
     {
-    	ArrayList<Point3D> spines = new ArrayList<Point3D>();
+    	ArrayList<Vector3f> spines = new ArrayList<Vector3f>();
 		for(int shell = 0; shell < shells.size(); shell++)
 		{
-			spines.add(new Point3D());
+			spines.add(new Vector3f());
 			shells.get(shell).ShellHedgehog(spines, flatDihedralAngle);
 		}
-		Collections.sort(spines);
+		
     	return spines;
     }
     
@@ -1532,19 +1524,19 @@ public class Triangulation
 	 * 
 	 * @param args
 	 */
-    public static void main(String[] args) 
+/*    public static void main(String[] args) 
     {
-//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl", new Color3f(1.0f, 1.0f, 0.0f));
-//       Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-disjoint-cubes.stl", new Color3f(1.0f, 1.0f, 0.0f));
-//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-overlapping-cubes.stl", new Color3f(1.0f, 1.0f, 0.0f));
-//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/hole-enclosed-in-cylinder.stl", new Color3f(1.0f, 1.0f, 0.0f));
-//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nonmanifold-cubes.stl", new Color3f(1.0f, 1.0f, 0.0f));
-//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nasty-nonmanifold-cubes.stl", new Color3f(1.0f, 1.0f, 0.0f));
-    	Triangulation t = new Triangulation("file:///home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/554.2-extruder-drive-pneumatic.stl", new Color3f(1.0f, 1.0f, 0.0f));
+    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl");
+//       Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-disjoint-cubes.stl");
+//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-overlapping-cubes.stl");
+//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/hole-enclosed-in-cylinder.stl");
+//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nonmanifold-cubes.stl");
+//    	//Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nasty-nonmanifold-cubes.stl");
+    	Triangulation t = new Triangulation("file:///home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/554.2-extruder-drive-pneumatic.stl");
     	t.PrintStatistics();
    	
     	//t.Save("triangulation.ply");
-    }
+    }*/
 }
 
 

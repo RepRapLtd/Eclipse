@@ -250,8 +250,9 @@ public class Point3D  implements Comparable
 	@Override
 	public int compareTo(Object comparepoint)
 	{
+	    double comparemod=((Point3D)comparepoint).mod();
 
-	    double diff = ((Point3D)comparepoint).mod() - this.mod();
+	    double diff = this.mod()-comparemod;
 	    
 	    if(diff > 0)
 	    	return 1;

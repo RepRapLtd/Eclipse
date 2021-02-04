@@ -243,15 +243,11 @@ public class Point3D  implements Comparable
 		return dSquared(a, b) < tol_2;
 	}
 	
-	/**
-	 * So we can sort lists of points by their magnitude
-	 * 
-	 */
-	@Override
-	public int compareTo(Object comparepoint)
+	public int compareTo(Point3D comparepoint)
 	{
+	    double comparemod=((Point3D)comparepoint).mod();
 
-	    double diff = ((Point3D)comparepoint).mod() - this.mod();
+	    double diff = this.mod()-comparemod;
 	    
 	    if(diff > 0)
 	    	return 1;
