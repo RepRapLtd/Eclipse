@@ -9,19 +9,13 @@
                 				
                 <language id="org.eclipse.cdt.core.gcc">
                     					
-                    <entry kind="includePath" name="/usr/lib/gcc/x86_64-linux-gnu/7/include">
+                    <entry kind="includePath" name="/usr/lib/gcc/x86_64-linux-gnu/9/include">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
                     <entry kind="includePath" name="/usr/local/include">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
-                    <entry kind="includePath" name="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -106,6 +100,12 @@
                     </entry>
                     					
                     <entry kind="macro" name="__BYTE_ORDER__" value="__ORDER_LITTLE_ENDIAN__">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
+                    <entry kind="macro" name="__CET__" value="3">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -1017,7 +1017,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUC_MINOR__" value="5">
+                    <entry kind="macro" name="__GNUC_MINOR__" value="3">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -1035,13 +1035,19 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUC__" value="7">
+                    <entry kind="macro" name="__GNUC__" value="9">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GXX_ABI_VERSION" value="1011">
+                    <entry kind="macro" name="__GXX_ABI_VERSION" value="1013">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
+                    <entry kind="macro" name="__HAVE_SPECULATION_SAFE_VALUE" value="1">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -1725,12 +1731,6 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__STDC_NO_THREADS__" value="1">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
                     <entry kind="macro" name="__STDC_UTF_16__" value="1">
                         						
                         <flag value="BUILTIN|READONLY"/>
@@ -1743,7 +1743,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__STDC_VERSION__" value="201112L">
+                    <entry kind="macro" name="__STDC_VERSION__" value="201710L">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -1959,7 +1959,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__VERSION__" value="&quot;7.5.0&quot;">
+                    <entry kind="macro" name="__VERSION__" value="&quot;9.3.0&quot;">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -2125,37 +2125,31 @@
                 				
                 <language id="org.eclipse.cdt.core.g++">
                     					
-                    <entry kind="includePath" name="/usr/include/c++/7">
+                    <entry kind="includePath" name="/usr/include/c++/9">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
-                    <entry kind="includePath" name="/usr/include/x86_64-linux-gnu/c++/7">
+                    <entry kind="includePath" name="/usr/include/x86_64-linux-gnu/c++/9">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
-                    <entry kind="includePath" name="/usr/include/c++/7/backward">
+                    <entry kind="includePath" name="/usr/include/c++/9/backward">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
-                    <entry kind="includePath" name="/usr/lib/gcc/x86_64-linux-gnu/7/include">
+                    <entry kind="includePath" name="/usr/lib/gcc/x86_64-linux-gnu/9/include">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
                     <entry kind="includePath" name="/usr/local/include">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
-                    <entry kind="includePath" name="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -2246,6 +2240,12 @@
                     </entry>
                     					
                     <entry kind="macro" name="__BYTE_ORDER__" value="__ORDER_LITTLE_ENDIAN__">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
+                    <entry kind="macro" name="__CET__" value="3">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -3181,7 +3181,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUC_MINOR__" value="5">
+                    <entry kind="macro" name="__GNUC_MINOR__" value="3">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -3199,19 +3199,19 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUC__" value="7">
+                    <entry kind="macro" name="__GNUC__" value="9">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUG__" value="7">
+                    <entry kind="macro" name="__GNUG__" value="9">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GXX_ABI_VERSION" value="1011">
+                    <entry kind="macro" name="__GXX_ABI_VERSION" value="1013">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -3230,6 +3230,12 @@
                     </entry>
                     					
                     <entry kind="macro" name="__GXX_WEAK__" value="1">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
+                    <entry kind="macro" name="__HAVE_SPECULATION_SAFE_VALUE" value="1">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -3913,12 +3919,6 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__STDC_NO_THREADS__" value="1">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
                     <entry kind="macro" name="__STDC_UTF_16__" value="1">
                         						
                         <flag value="BUILTIN|READONLY"/>
@@ -4141,7 +4141,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__VERSION__" value="&quot;7.5.0&quot;">
+                    <entry kind="macro" name="__VERSION__" value="&quot;9.3.0&quot;">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -4523,19 +4523,13 @@
                 				
                 <language id="org.eclipse.cdt.core.gcc">
                     					
-                    <entry kind="includePath" name="/usr/lib/gcc/x86_64-linux-gnu/7/include">
+                    <entry kind="includePath" name="/usr/lib/gcc/x86_64-linux-gnu/9/include">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
                     <entry kind="includePath" name="/usr/local/include">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
-                    <entry kind="includePath" name="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -4620,6 +4614,12 @@
                     </entry>
                     					
                     <entry kind="macro" name="__BYTE_ORDER__" value="__ORDER_LITTLE_ENDIAN__">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
+                    <entry kind="macro" name="__CET__" value="3">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -5531,7 +5531,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUC_MINOR__" value="5">
+                    <entry kind="macro" name="__GNUC_MINOR__" value="3">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -5549,13 +5549,19 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUC__" value="7">
+                    <entry kind="macro" name="__GNUC__" value="9">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GXX_ABI_VERSION" value="1011">
+                    <entry kind="macro" name="__GXX_ABI_VERSION" value="1013">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
+                    <entry kind="macro" name="__HAVE_SPECULATION_SAFE_VALUE" value="1">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -6239,12 +6245,6 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__STDC_NO_THREADS__" value="1">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
                     <entry kind="macro" name="__STDC_UTF_16__" value="1">
                         						
                         <flag value="BUILTIN|READONLY"/>
@@ -6257,7 +6257,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__STDC_VERSION__" value="201112L">
+                    <entry kind="macro" name="__STDC_VERSION__" value="201710L">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -6473,7 +6473,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__VERSION__" value="&quot;7.5.0&quot;">
+                    <entry kind="macro" name="__VERSION__" value="&quot;9.3.0&quot;">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -6639,37 +6639,31 @@
                 				
                 <language id="org.eclipse.cdt.core.g++">
                     					
-                    <entry kind="includePath" name="/usr/include/c++/7">
+                    <entry kind="includePath" name="/usr/include/c++/9">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
-                    <entry kind="includePath" name="/usr/include/x86_64-linux-gnu/c++/7">
+                    <entry kind="includePath" name="/usr/include/x86_64-linux-gnu/c++/9">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
-                    <entry kind="includePath" name="/usr/include/c++/7/backward">
+                    <entry kind="includePath" name="/usr/include/c++/9/backward">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
-                    <entry kind="includePath" name="/usr/lib/gcc/x86_64-linux-gnu/7/include">
+                    <entry kind="includePath" name="/usr/lib/gcc/x86_64-linux-gnu/9/include">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
                     <entry kind="includePath" name="/usr/local/include">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
-                    <entry kind="includePath" name="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -6760,6 +6754,12 @@
                     </entry>
                     					
                     <entry kind="macro" name="__BYTE_ORDER__" value="__ORDER_LITTLE_ENDIAN__">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
+                    <entry kind="macro" name="__CET__" value="3">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -7695,7 +7695,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUC_MINOR__" value="5">
+                    <entry kind="macro" name="__GNUC_MINOR__" value="3">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -7713,19 +7713,19 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUC__" value="7">
+                    <entry kind="macro" name="__GNUC__" value="9">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GNUG__" value="7">
+                    <entry kind="macro" name="__GNUG__" value="9">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__GXX_ABI_VERSION" value="1011">
+                    <entry kind="macro" name="__GXX_ABI_VERSION" value="1013">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -7744,6 +7744,12 @@
                     </entry>
                     					
                     <entry kind="macro" name="__GXX_WEAK__" value="1">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
+                    <entry kind="macro" name="__HAVE_SPECULATION_SAFE_VALUE" value="1">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -8427,12 +8433,6 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__STDC_NO_THREADS__" value="1">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
                     <entry kind="macro" name="__STDC_UTF_16__" value="1">
                         						
                         <flag value="BUILTIN|READONLY"/>
@@ -8655,7 +8655,7 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__VERSION__" value="&quot;7.5.0&quot;">
+                    <entry kind="macro" name="__VERSION__" value="&quot;9.3.0&quot;">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					

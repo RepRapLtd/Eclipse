@@ -1532,6 +1532,7 @@ public class Triangulation
 	 * 
 	 * @param args
 	 */
+    /*
     public static void main(String[] args) 
     {
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl", new Color3f(1.0f, 1.0f, 0.0f));
@@ -1545,6 +1546,7 @@ public class Triangulation
    	
     	//t.Save("triangulation.ply");
     }
+    */
 }
 
 

@@ -1,6 +1,6 @@
-15:07:05 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
+16:36:04 **** Incremental Build of configuration Debug for project Electric3DPrinter ****
 make all 
 make: Nothing to be done for 'all'.
 
-15:07:05 Build Finished. 0 errors, 0 warnings. (took 111ms)
+16:36:04 Build Finished. 0 errors, 0 warnings. (took 116ms)
 

@@ -2,12 +2,13 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="color"/>
+		<item key="selection" value="SigmoidCharge"/>
 		<item key="casesensitive" value="true"/>
 		<item key="incremental" value="false"/>
 		<item key="wrap" value="true"/>
 		<item key="wholeword" value="false"/>
 		<list key="findhistory">
+			<item value="SigmoidCharge"/>
 			<item value="color"/>
 			<item value="colour"/>
 			<item value="Tensor minimum and maximum"/>

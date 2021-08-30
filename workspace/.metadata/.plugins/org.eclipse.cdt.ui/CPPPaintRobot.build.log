@@ -1,6 +1,7 @@
-16:51:52 **** Incremental Build of configuration Debug for project CPPPaintRobot ****
-make all 
-make: Nothing to be done for 'all'.
+11:59:42 **** Clean-only build of configuration Debug for project CPPPaintRobot ****
+make clean 
+rm -rf  ./src/Painter.o ./src/SingleLinkage.o ./src/SingleLinkageOptimized.o ./src/Slink.o ./src/Utils.o  ./src/Painter.d ./src/SingleLinkage.d ./src/SingleLinkageOptimized.d ./src/Slink.d ./src/Utils.d  CPPPaintRobot
+ 
 
-16:51:52 Build Finished (took 271ms)
+11:59:43 Build Finished. 0 errors, 0 warnings. (took 278ms)
 
