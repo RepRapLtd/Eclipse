@@ -1,12 +1,20 @@
-
+import random
 
 import pyglet
 from pyglet.gl import *
 from pyglet import window
+import math as maths
 import numpy as np
 from plyfile import PlyData, PlyElement
 from scipy.spatial import ConvexHull
 
+class Triangle:
+ def __init__(self, points):
+  self.points = points
+  self.normal = np.cross( np.subtract(points[1], points[0]), np.subtract(points[2], points[0]) )
+  s2 = maths.sqrt(np.dot(self.normal, self.normal))
+  self.normal = np.multiply(self.normal, 1.0/s2)
+  self.colour = (random.random(), random.random(), random.random())
 
 
 
@@ -14,11 +22,8 @@ def vector(type, *args):
     return (type*len(args))(*args)
 
 class model:
-    def __init__(self, hull, points): #, colorMatrix, index):
-        self.hull = hull
-        self.points = points
-        #self.colourMatrix = colorMatrix
-        #self.index = index
+    def __init__(self, triangles):
+        self.triangles = triangles
         self.angle = 0
 
     def update(self):
@@ -28,26 +33,31 @@ class model:
 
     def draw(self):
         glMatrixMode(GL_MODELVIEW)
+
+        glEnable(GL_DEPTH_TEST)
+
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
+        glEnable(GL_COLOR_MATERIAL)
+        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE )
+
         glLoadIdentity()
-        glRotatef(self.angle, 1, 1, 0)
+        glRotatef(self.angle, 0.8, 0.6, 0)
 
-        glEnableClientState(GL_VERTEX_ARRAY)
-        #glEnableClientState(GL_COLOR_ARRAY)
 
-        for simplex in self.hull.simplices:
+        for triangle in self.triangles:
          glBegin(GL_POLYGON)
-         for s in range(3):
-          glVertex3f(self.points[simplex, s][0], self.points[simplex, s][1], self.points[simplex, s][2])
+         for point in triangle.points:
+          glColor3f(triangle.colour[0], triangle.colour[1], triangle.colour[2])
+          glNormal3f(triangle.normal[0],triangle.normal[1],triangle.normal[2])
+          glVertex3f(point[0], point[1], point[2])
          glEnd()
 
         glFlush()
 
-        #glVertexPointer(3, GL_FLOAT, 0, self.vertices)
-        #glColorPointer(3, GL_FLOAT, 0, self.colourMatrix)
-        #glDrawElements(GL_QUADS, len(self.index), GL_UNSIGNED_INT, self.index)
 
-        glDisableClientState(GL_COLOR_ARRAY)
-        glDisableClientState(GL_VERTEX_ARRAY)
 
 
 
@@ -74,14 +84,15 @@ def setup():
 
 
 
-def Run(win, mWorld):
+def Run(mWorld):
+ win = window.Window(fullscreen=False, vsync=True, resizable=True, height=600, width=600)
 
  @win.event
  def on_resize(width, height):
     glViewport(0, 0, width, height)
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    glOrtho(-2, 2, -2, 2, -2, 2)
+    glOrtho(-10, 20, -10, 20, -50, 50)
     glMatrixMode(GL_MODELVIEW)
     return pyglet.event.EVENT_HANDLED
 
@@ -95,34 +106,37 @@ def Run(win, mWorld):
  setup()
  pyglet.app.run()
 
+#*************************************************************************************************
 
 
-win = window.Window(fullscreen=False, vsync=True, resizable=True, height=600, width=600)
 mWorld = world()
 
 
-vertices = []
-rng = np.random.default_rng()
-points = rng.random((4, 3))
-hull = ConvexHull(points)
-m = model(hull, points)
-mWorld.addModel(m)
-Run(win, mWorld)
-
+triangles = []
 
 '''
-import matplotlib.pyplot as plt
 rng = np.random.default_rng()
-points = rng.random((5, 3))
-hull = ConvexHull(points)
+allPoints = rng.random((4, 3))
+hull = ConvexHull(allPoints)
 for simplex in hull.simplices:
- print(points[simplex, 0], points[simplex, 1], points[simplex, 2])
+ points = []
+ points.append(allPoints[simplex, 0])
+ points.append(allPoints[simplex, 1])
+ points.append(allPoints[simplex, 2])
+ triangles.append(Triangle(points))
+'''
 
+ply = PlyData.read('../../../cube.ply')
+for f in ply['face']:
+ points = []
+ for v in f[0]:
+  coords = []
+  for c in ply['vertex'][v]:
+   coords.append(c)
+  points.append(coords)
+ triangles.append(Triangle(points))
 
+m = model(triangles)
+mWorld.addModel(m)
+Run(mWorld)
 
-
-  self.ply = PlyData.read(fileName)
-  for f in self.ply['face']:
-   if len(f[0]) != 3:
-    print("Non-trangular face in " + fileName + "has " + str(len(f[0])) + " vertices.")
-    '''
