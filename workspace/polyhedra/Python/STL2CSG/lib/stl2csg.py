@@ -31,8 +31,9 @@ class Triangle:
   self.normal = np.multiply(self.normal, 1.0/s2)
   self.colour = RandomShade(colour)
   self.centroid = np.multiply(np.add(np.add(points[0],points[1]), points[2]), 1.0/3.0)
-  self.halfSpace = None
+  self.halfSpace = (-1, True)
 
+#*************************************************************************************************************
 
 class HalfSpace:
  def __init__(self, triangle):
@@ -41,29 +42,67 @@ class HalfSpace:
   self.normal = triangle.normal
   self.d = np.dot(self.normal, triangle.centroid)
 
-# Note: two coincident half spaces of opposite sense are considered equal.
-# To distinguish such call Opposite below.
+# Note: two coincident half spaces of opposite sense are not considered equal.
+# To find such call Opposite below.
 
  def __eq__(self, halfSpace):
-  dp = np.dot(halfSpace.normal, self.normal)
-  if 1.0 - abs(dp) > small:
+  if 1.0 - np.dot(halfSpace.normal, self.normal) > small:
    return False
-  if dp > 0:
-   if abs(self.d - halfSpace.d) > small:
-    return False
-  else:
-   if abs(self.d + halfSpace.d) > small:
-    return False
+  if abs(self.d - halfSpace.d) > small:
+   return False
   return True
+
+ def Opposite(self, halfSpace):
+  if 1.0 + np.dot(halfSpace.normal, self.normal) > small:
+   return False
+  if abs(self.d + halfSpace.d) > small:
+   return False
+  return True
+
+ def AddTriangle(self, triangle, same):
+  self.triangles.append((triangle, same))
+
+ def __str__(self):
+  return "{" + str(self.normal[0]) + "X + " + str(self.normal[1]) + "Y + " + \
+   str(self.normal[2]) + "Z + " + str(self.d) + " <= 0}"
+
+#********************************************************************************************************
 
 class HalfSpaceList:
  def __init__(self):
   self.halfSpaceList = []
 
- def add(self, halfSpace):
-  self.halfSpaceList.append(halfSpace)
+ def LookUp(self, halfSpace):
+  for hs in range(len(self.halfSpaceList)):
+   listHalfSpace = self.halfSpaceList[hs]
+   if halfSpace == listHalfSpace:
+    return (hs, True)
+   if halfSpace.Opposite(listHalfSpace):
+    return (hs, False)
+  return (-1, True)
 
- def search(self, halfSpace):
+ def add(self, triangle):
+  last = len(self.halfSpaceList)
+  halfSpace = HalfSpace(triangle)
+  inList = self.LookUp(halfSpace)
+  hs = inList[0]
+  if hs < 0:
+   self.halfSpaceList.append(halfSpace)
+   halfSpace.AddTriangle(triangle, True)
+   triangle.halfSpace = (last, True)
+   return (last, True)
+
+  listHalfSpace = self.halfSpaceList[hs]
+  if inList[1]:
+   listHalfSpace.AddTriangle(triangle, True)
+   triangle.halfSpace = (hs, True)
+  else:
+   listHalfSpace.AddTriangle(triangle, False)
+   triangle.halfSpace = (hs, False)
+  return inList
+
+
+
 
 #*******************************************************************************************************
 
@@ -122,15 +161,18 @@ class World:
  def Setup(self):
   glEnable(GL_DEPTH_TEST)
 
-def Run(world):
+def Run(world, negPoint, posPoint, centre):
  win = window.Window(fullscreen=False, vsync=True, resizable=True, height=600, width=600)
+ range = np.multiply(np.subtract(posPoint, negPoint), [2, 2, 5])
+ negP = np.subtract(centre, range)
+ posP = np.add(centre, range)
 
  @win.event
  def on_resize(width, height):
   glViewport(0, 0, width, height)
   glMatrixMode(GL_PROJECTION)
   glLoadIdentity()
-  glOrtho(-10, 20, -10, 20, -50, 50)
+  glOrtho(negP[0], posP[0], negP[1], posP[1], negP[2], posP[2])
   glMatrixMode(GL_MODELVIEW)
   return pyglet.event.EVENT_HANDLED
 
@@ -152,6 +194,7 @@ world = World()
 allPoints = []
 hullTriangles = []
 originalTriangles = []
+halfSpaces = HalfSpaceList()
 
 #plyFileData = PlyData.read('../../../cube.ply')
 #plyFileData = PlyData.read('../../../two-disjoint-cubes.ply')
@@ -164,16 +207,20 @@ plyFileData = PlyData.read('../../../two-overlapping-cubes.ply')
 
 positiveCorner = [-sys.float_info.max, -sys.float_info.max, -sys.float_info.max]
 negativeCorner = [sys.float_info.max, sys.float_info.max, sys.float_info.max]
+centroid = [0, 0, 0]
 
 for v in plyFileData['vertex']:
  coords = []
  for c in v:
   coords.append(c)
+ centroid = np.add(centroid, coords)
  positiveCorner = np.maximum(positiveCorner, coords)
  negativeCorner = np.minimum(negativeCorner, coords)
  allPoints.append(coords)
 
-print(positiveCorner, negativeCorner)
+centroid = np.multiply(centroid, 1.0/len(allPoints))
+
+print(negativeCorner, positiveCorner, centroid)
 
 for f in plyFileData['face']:
  points = []
@@ -182,8 +229,12 @@ for f in plyFileData['face']:
   for c in plyFileData['vertex'][v]:
    coords.append(c)
   points.append(coords)
- originalTriangles.append(Triangle(points, [0.5, 1.0, 0.5]))
+ triangle = Triangle(points, [0.5, 1.0, 0.5])
+ originalTriangles.append(triangle)
+ halfSpaces.add(triangle)
 
+for h in halfSpaces.halfSpaceList:
+ print(str(h))
 
 
 hull = ConvexHull(allPoints)
@@ -194,9 +245,13 @@ for simplex in hull.simplices:
  points.append(allPoints[simplex[2]])
  hullTriangles.append(Triangle(points, [1, 0.5, 0.5]))
 
+for triangle in hullTriangles:
+ hs = HalfSpace(triangle)
+ print(halfSpaces.LookUp(hs))
 
-m = Model(hullTriangles)
-#m = Model(originalTriangles)
+
+#m = Model(hullTriangles)
+m = Model(originalTriangles)
 world.AddModel(m)
-Run(world)
+Run(world, negativeCorner, positiveCorner, centroid)
 
