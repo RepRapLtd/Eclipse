@@ -8,6 +8,8 @@ import numpy as np
 from plyfile import PlyData, PlyElement
 from scipy.spatial import ConvexHull
 
+small = 0.000000001
+
 def RandomShade(baseColour):
  colour = [random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1)]
  for c in range(3):
@@ -24,8 +26,44 @@ class Triangle:
   self.points = points
   self.normal = np.cross( np.subtract(points[1], points[0]), np.subtract(points[2], points[0]) )
   s2 = maths.sqrt(np.dot(self.normal, self.normal))
+  if s2 < small:
+   print("Triangle: corners are collinear.")
   self.normal = np.multiply(self.normal, 1.0/s2)
   self.colour = RandomShade(colour)
+  self.centroid = np.multiply(np.add(np.add(points[0],points[1]), points[2]), 1.0/3.0)
+  self.halfSpace = None
+
+
+class HalfSpace:
+ def __init__(self, triangle):
+  self.triangles = []
+  self.triangles.append(triangle)
+  self.normal = triangle.normal
+  self.d = np.dot(self.normal, triangle.centroid)
+
+# Note: two coincident half spaces of opposite sense are considered equal.
+# To distinguish such call Opposite below.
+
+ def __eq__(self, halfSpace):
+  dp = np.dot(halfSpace.normal, self.normal)
+  if 1.0 - abs(dp) > small:
+   return False
+  if dp > 0:
+   if abs(self.d - halfSpace.d) > small:
+    return False
+  else:
+   if abs(self.d + halfSpace.d) > small:
+    return False
+  return True
+
+class HalfSpaceList:
+ def __init__(self):
+  self.halfSpaceList = []
+
+ def add(self, halfSpace):
+  self.halfSpaceList.append(halfSpace)
+
+ def search(self, halfSpace):
 
 #*******************************************************************************************************
 
@@ -115,7 +153,14 @@ allPoints = []
 hullTriangles = []
 originalTriangles = []
 
-plyFileData = PlyData.read('../../../cube.ply')
+#plyFileData = PlyData.read('../../../cube.ply')
+#plyFileData = PlyData.read('../../../two-disjoint-cubes.ply')
+plyFileData = PlyData.read('../../../two-overlapping-cubes.ply')
+#plyFileData = PlyData.read('../../../hole-enclosed-in-cylinder.ply')
+#plyFileData = PlyData.read('../../../two-nonmanifold-cubes.ply')
+#plyFileData = PlyData.read('../../../two-nasty-nonmanifold-cubes.ply')
+#plyFileData = PlyData.read('../../../554.2-extruder-drive-pneumatic.ply')
+#plyFileData = PlyData.read('../../../cube-1-cylinder-1.ply')
 
 positiveCorner = [-sys.float_info.max, -sys.float_info.max, -sys.float_info.max]
 negativeCorner = [sys.float_info.max, sys.float_info.max, sys.float_info.max]
@@ -150,8 +195,8 @@ for simplex in hull.simplices:
  hullTriangles.append(Triangle(points, [1, 0.5, 0.5]))
 
 
-#m = Model(hullTriangles)
-m = Model(originalTriangles)
+m = Model(hullTriangles)
+#m = Model(originalTriangles)
 world.AddModel(m)
 Run(world)
 

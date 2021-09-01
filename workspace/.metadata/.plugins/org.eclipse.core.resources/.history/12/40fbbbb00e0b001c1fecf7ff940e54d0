@@ -1535,19 +1535,19 @@ public class Triangulation
 
     public static void main(String[] args) 
     {
-//    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl", new Color3f(0.0f, 1.0f, 0.0f));
+    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl", new Color3f(0.0f, 1.0f, 0.0f));
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-disjoint-cubes.stl", new Color3f(0.0f, 1.0f, 0.0f));
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-overlapping-cubes.stl", new Color3f(0.0f, 1.0f, 0.0f));
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/hole-enclosed-in-cylinder.stl", new Color3f(0.0f, 1.0f, 0.0f));
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nonmanifold-cubes.stl", new Color3f(0.0f, 1.0f, 0.0f));
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/two-nasty-nonmanifold-cubes.stl", new Color3f(0.0f, 1.0f, 0.0f));
 //    	Triangulation t = new Triangulation("file:///home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/554.2-extruder-drive-pneumatic.stl", new Color3f(0.0f, 1.0f, 0.0f));
-    	Triangulation t0 = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/cube-1.stl", new Color3f(0.0f, 1.0f, 0.0f));
-    	Triangulation t1 = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/cylinder-1.stl", new Color3f(1.0f, 1.0f, 0.0f));
-		Triangulation t = Triangulation.CombineTwoTriangulations(t0, t1);
+//   	Triangulation t0 = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/cube-1.stl", new Color3f(0.0f, 1.0f, 0.0f));
+//   	Triangulation t1 = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/cylinder-1.stl", new Color3f(1.0f, 1.0f, 0.0f));
+//		Triangulation t = Triangulation.CombineTwoTriangulations(t0, t1);
     	t.PrintStatistics();
    	
-    	t.Save("cube-1-cylinder-1.ply");
+    	t.Save("cube.ply");
     }
 
 }
