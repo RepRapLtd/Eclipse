@@ -1536,7 +1536,7 @@ public class Triangulation
     public static void main(String[] args) 
     {
     	String root = "file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/";
-    	String name = "STL2CSG-test-objects-cubePlusCylinder";
+    	String name = "STL2CSG-test-objects-cube-cylinder";
     	String stl = ".stl";
     	String ply = ".ply";
 //    	Triangulation t = new Triangulation("file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/test-cube.stl", new Color3f(0.0f, 1.0f, 0.0f));

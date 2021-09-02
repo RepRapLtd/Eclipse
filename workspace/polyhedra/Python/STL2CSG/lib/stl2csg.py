@@ -8,7 +8,7 @@ import numpy as np
 from plyfile import PlyData, PlyElement
 from scipy.spatial import ConvexHull
 
-small = 0.000000001
+small = 0.000001
 
 def RandomShade(baseColour):
  colour = [random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1)]
@@ -32,6 +32,9 @@ class Triangle:
   self.colour = RandomShade(colour)
   self.centroid = np.multiply(np.add(np.add(points[0],points[1]), points[2]), 1.0/3.0)
   self.halfSpace = (-1, True)
+
+ def SetColour(self, colour):
+  self.colour = RandomShade(colour)
 
 #*************************************************************************************************************
 
@@ -101,7 +104,8 @@ class HalfSpaceList:
    triangle.halfSpace = (hs, False)
   return inList
 
-
+ def Get(self, index):
+  return self.halfSpaceList[index]
 
 
 #*******************************************************************************************************
@@ -194,16 +198,21 @@ world = World()
 allPoints = []
 hullTriangles = []
 originalTriangles = []
-halfSpaces = HalfSpaceList()
+originalHalfSpaces = HalfSpaceList()
+hullHalfSpaces = HalfSpaceList()
 
 #plyFileData = PlyData.read('../../../cube.ply')
 #plyFileData = PlyData.read('../../../two-disjoint-cubes.ply')
-plyFileData = PlyData.read('../../../two-overlapping-cubes.ply')
+#plyFileData = PlyData.read('../../../two-overlapping-cubes.ply')
 #plyFileData = PlyData.read('../../../hole-enclosed-in-cylinder.ply')
 #plyFileData = PlyData.read('../../../two-nonmanifold-cubes.ply')
 #plyFileData = PlyData.read('../../../two-nasty-nonmanifold-cubes.ply')
 #plyFileData = PlyData.read('../../../554.2-extruder-drive-pneumatic.ply')
 #plyFileData = PlyData.read('../../../cube-1-cylinder-1.ply')
+#plyFileData = PlyData.read('../../../STL2CSG-test-objects-woo-1.ply')
+#plyFileData = PlyData.read('../../../STL2CSG-test-objects-woo-2.ply')
+#plyFileData = PlyData.read('../../../STL2CSG-test-objects-cube-cylinder.ply')
+plyFileData = PlyData.read('../../../STL2CSG-test-objects-cubePlusCylinder.ply')
 
 positiveCorner = [-sys.float_info.max, -sys.float_info.max, -sys.float_info.max]
 negativeCorner = [sys.float_info.max, sys.float_info.max, sys.float_info.max]
@@ -231,10 +240,10 @@ for f in plyFileData['face']:
   points.append(coords)
  triangle = Triangle(points, [0.5, 1.0, 0.5])
  originalTriangles.append(triangle)
- halfSpaces.add(triangle)
+ originalHalfSpaces.add(triangle)
 
-for h in halfSpaces.halfSpaceList:
- print(str(h))
+#for h in originalHalfSpaces.halfSpaceList:
+# print(str(h))
 
 
 hull = ConvexHull(allPoints)
@@ -243,11 +252,27 @@ for simplex in hull.simplices:
  points.append(allPoints[simplex[0]])
  points.append(allPoints[simplex[1]])
  points.append(allPoints[simplex[2]])
- hullTriangles.append(Triangle(points, [1, 0.5, 0.5]))
+ triangle = Triangle(points, [0.5, 1.0, 0.5])
+ hullTriangles.append(triangle)
+ hullHalfSpaces.add(triangle)
 
+'''
 for triangle in hullTriangles:
  hs = HalfSpace(triangle)
- print(halfSpaces.LookUp(hs))
+ halfSpace = halfSpaces.LookUp(hs)
+ if halfSpace[0] < 0:
+  triangle.SetColour([1, 0.5, 0.5])
+ print(halfSpace)
+'''
+for triangle in originalTriangles:
+ hs = triangle.halfSpace[0]
+ if hs < 0:
+  print("Original triangle with no halfspace!")
+ else:
+  halfSpace = originalHalfSpaces.Get(hs)
+  hhs = hullHalfSpaces.LookUp(halfSpace)
+  if hhs[0] < 0:
+   triangle.SetColour([1, 0.5, 0.5])
 
 
 #m = Model(hullTriangles)
