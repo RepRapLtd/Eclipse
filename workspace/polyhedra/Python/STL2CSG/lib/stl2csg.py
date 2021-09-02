@@ -22,8 +22,10 @@ def RandomShade(baseColour):
 
 
 class Triangle:
- def __init__(self, points, colour):
-  self.points = points
+ def __init__(self, vertices, colour, ply):
+  self.vertices = vertices
+  self.ply = ply
+  points = self.Points()
   self.normal = np.cross( np.subtract(points[1], points[0]), np.subtract(points[2], points[0]) )
   s2 = maths.sqrt(np.dot(self.normal, self.normal))
   if s2 < small:
@@ -32,6 +34,12 @@ class Triangle:
   self.colour = RandomShade(colour)
   self.centroid = np.multiply(np.add(np.add(points[0],points[1]), points[2]), 1.0/3.0)
   self.halfSpace = (-1, True)
+
+ def Points(self):
+  return [self.ply.Vertex(self.vertices[0]), self.ply.Vertex(self.vertices[1]), self.ply.Vertex(self.vertices[2])]
+
+ def Vertices(self):
+  return self.vertices
 
  def SetColour(self, colour):
   self.colour = RandomShade(colour)
@@ -152,7 +160,7 @@ class Model:
 
   for triangle in self.triangles:
    glBegin(GL_POLYGON)
-   for point in triangle.points:
+   for point in triangle.Points():
     glColor3f(triangle.colour[0], triangle.colour[1], triangle.colour[2])
     glNormal3f(triangle.normal[0],triangle.normal[1],triangle.normal[2])
     glVertex3f(point[0], point[1], point[2])
@@ -209,27 +217,40 @@ def Run(world, negPoint, posPoint, centre):
 
 #*************************************************************************************************
 
-def WooStep(points, triangles, halfSpaces):
+def WooStep(pointsTrianglesAndPly):
+
+ pointIndices = pointsTrianglesAndPly[0]
+ triangles = pointsTrianglesAndPly[1]
+ ply = pointsTrianglesAndPly[2]
+
+ halfSpaces = HalfSpaceList()
+
+ for triangle in triangles:
+  halfSpaces.add(triangle)
+
+ points = []
+ for p in pointIndices:
+  points.append(ply.Vertex(p))
 
  hull = ConvexHull(points)
+
+
  hullTriangles = []
  hullHalfSpaces = HalfSpaceList()
 
  for face in hull.simplices:
-  vertices = []
-  vertices.append(points[face[0]])
-  vertices.append(points[face[1]])
-  vertices.append(points[face[2]])
-  triangle = Triangle(vertices, [0.5, 1.0, 0.5])
+  triangle = Triangle(face, [0.5, 1.0, 0.5], ply)
   hullTriangles.append(triangle)
   hullHalfSpaces.add(triangle)
 
  newTriangles = []
  newHalfSpaces = HalfSpaceList()
+
+ newPointIndices = []
  for triangle in triangles:
   hs = triangle.halfSpace[0]
   if hs < 0:
-   print("Original triangle with no halfspace!")
+   print("WooStep(): Original triangle with no halfspace!")
   else:
    halfSpace = halfSpaces.Get(hs)
    hhs = hullHalfSpaces.LookUp(halfSpace)
@@ -237,8 +258,15 @@ def WooStep(points, triangles, halfSpaces):
     triangle.SetColour([1, 0.5, 0.5])
     newTriangles.append(triangle)
     newHalfSpaces.add(triangle)
+    for v in triangle.Vertices():
+     newPointIndices.append(v)
 
-# newPoints are the vertices of newTriangles with duplicates removed
+ # remove duplicates
+ newPointIndices = list(dict.fromkeys(newPointIndices))
+
+ return (newPointIndices, newTriangles, ply)
+
+
 
 
 
@@ -246,9 +274,8 @@ def WooStep(points, triangles, halfSpaces):
 
 world = World()
 
-originalPoints = []
+originalPointIndices = []
 originalTriangles = []
-originalHalfSpaces = HalfSpaceList()
 
 #fileName = '../../../cube.ply'
 #fileName = '../../../two-disjoint-cubes.ply'
@@ -269,30 +296,27 @@ negativeCorner = [sys.float_info.max, sys.float_info.max, sys.float_info.max]
 centroid = [0, 0, 0]
 
 for v in range(triangleFileData.VertexCount()):
+ originalPointIndices.append(v)
  vertex = triangleFileData.Vertex(v)
  centroid = np.add(centroid, vertex)
  positiveCorner = np.maximum(positiveCorner, vertex)
  negativeCorner = np.minimum(negativeCorner, vertex)
- originalPoints.append(vertex)
 
-centroid = np.multiply(centroid, 1.0 / len(originalPoints))
+centroid = np.multiply(centroid, 1.0 / triangleFileData.VertexCount())
 
 print(negativeCorner, positiveCorner, centroid)
 
 for t in range(triangleFileData.TriangleCount()):
- fileTriangle = triangleFileData.Triangle(t)
- points = []
- for v in fileTriangle:
-  vertex = triangleFileData.Vertex(v)
-  points.append(vertex)
- triangle = Triangle(points, [0.5, 1.0, 0.5])
+ triangle = Triangle(triangleFileData.Triangle(t), [0.5, 1.0, 0.5], triangleFileData)
  originalTriangles.append(triangle)
- originalHalfSpaces.add(triangle)
 
-WooStep(originalPoints, originalTriangles, originalHalfSpaces)
+pointsTrianglesAndPly = (originalPointIndices, originalTriangles, triangleFileData)
+pointsTrianglesAndPly = WooStep(pointsTrianglesAndPly)
+#pointsTrianglesAndPly = WooStep(pointsTrianglesAndPly)
 
+triangles = pointsTrianglesAndPly[1]
 
-m = Model(originalTriangles)
+m = Model(triangles)
 world.AddModel(m)
 Run(world, negativeCorner, positiveCorner, centroid)
 
