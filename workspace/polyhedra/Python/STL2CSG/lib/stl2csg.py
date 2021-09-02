@@ -5,7 +5,7 @@ from pyglet.gl import *
 from pyglet import window
 import math as maths
 import numpy as np
-from plyfile import PlyData, PlyElement
+from plyfile import PlyData
 from scipy.spatial import ConvexHull
 
 small = 0.000001
@@ -107,6 +107,23 @@ class HalfSpaceList:
  def Get(self, index):
   return self.halfSpaceList[index]
 
+#*******************************************************************************************************
+
+class TriangleFileData:
+ def __init__(self, fileName):
+  self.plyFileData = PlyData.read(fileName)
+
+ def VertexCount(self):
+  return len(self.plyFileData['vertex'])
+
+ def Vertex(self, index):
+  return list(self.plyFileData['vertex'][index])
+
+ def TriangleCount(self):
+  return len(self.plyFileData['face'])
+
+ def Triangle(self, index):
+  return self.plyFileData['face'][index][0]
 
 #*******************************************************************************************************
 
@@ -192,90 +209,89 @@ def Run(world, negPoint, posPoint, centre):
 
 #*************************************************************************************************
 
+def WooStep(points, triangles, halfSpaces):
+
+ hull = ConvexHull(points)
+ hullTriangles = []
+ hullHalfSpaces = HalfSpaceList()
+
+ for face in hull.simplices:
+  vertices = []
+  vertices.append(points[face[0]])
+  vertices.append(points[face[1]])
+  vertices.append(points[face[2]])
+  triangle = Triangle(vertices, [0.5, 1.0, 0.5])
+  hullTriangles.append(triangle)
+  hullHalfSpaces.add(triangle)
+
+ newTriangles = []
+ newHalfSpaces = HalfSpaceList()
+ for triangle in triangles:
+  hs = triangle.halfSpace[0]
+  if hs < 0:
+   print("Original triangle with no halfspace!")
+  else:
+   halfSpace = halfSpaces.Get(hs)
+   hhs = hullHalfSpaces.LookUp(halfSpace)
+   if hhs[0] < 0:
+    triangle.SetColour([1, 0.5, 0.5])
+    newTriangles.append(triangle)
+    newHalfSpaces.add(triangle)
+
+# newPoints are the vertices of newTriangles with duplicates removed
+
+
+
+#**************************************************************************************************
 
 world = World()
 
-allPoints = []
-hullTriangles = []
+originalPoints = []
 originalTriangles = []
 originalHalfSpaces = HalfSpaceList()
-hullHalfSpaces = HalfSpaceList()
 
-#plyFileData = PlyData.read('../../../cube.ply')
-#plyFileData = PlyData.read('../../../two-disjoint-cubes.ply')
-#plyFileData = PlyData.read('../../../two-overlapping-cubes.ply')
-#plyFileData = PlyData.read('../../../hole-enclosed-in-cylinder.ply')
-#plyFileData = PlyData.read('../../../two-nonmanifold-cubes.ply')
-#plyFileData = PlyData.read('../../../two-nasty-nonmanifold-cubes.ply')
-#plyFileData = PlyData.read('../../../554.2-extruder-drive-pneumatic.ply')
-#plyFileData = PlyData.read('../../../cube-1-cylinder-1.ply')
-#plyFileData = PlyData.read('../../../STL2CSG-test-objects-woo-1.ply')
-#plyFileData = PlyData.read('../../../STL2CSG-test-objects-woo-2.ply')
-#plyFileData = PlyData.read('../../../STL2CSG-test-objects-cube-cylinder.ply')
-plyFileData = PlyData.read('../../../STL2CSG-test-objects-cubePlusCylinder.ply')
+#fileName = '../../../cube.ply'
+#fileName = '../../../two-disjoint-cubes.ply'
+#fileName = '../../../two-overlapping-cubes.ply'
+#fileName = '../../../hole-enclosed-in-cylinder.ply'
+#fileName = '../../../two-nonmanifold-cubes.ply'
+#fileName = '../../../two-nasty-nonmanifold-cubes.ply'
+#fileName = '../../../554.2-extruder-drive-pneumatic.ply'
+#fileName = '../../../cube-1-cylinder-1.ply'
+#fileName = '../../../STL2CSG-test-objects-woo-1.ply'
+#fileName = '../../../STL2CSG-test-objects-woo-2.ply'
+#fileName = '../../../STL2CSG-test-objects-cube-cylinder.ply'
+fileName = '../../../STL2CSG-test-objects-cubePlusCylinder.ply'
+triangleFileData = TriangleFileData(fileName)
 
 positiveCorner = [-sys.float_info.max, -sys.float_info.max, -sys.float_info.max]
 negativeCorner = [sys.float_info.max, sys.float_info.max, sys.float_info.max]
 centroid = [0, 0, 0]
 
-for v in plyFileData['vertex']:
- coords = []
- for c in v:
-  coords.append(c)
- centroid = np.add(centroid, coords)
- positiveCorner = np.maximum(positiveCorner, coords)
- negativeCorner = np.minimum(negativeCorner, coords)
- allPoints.append(coords)
+for v in range(triangleFileData.VertexCount()):
+ vertex = triangleFileData.Vertex(v)
+ centroid = np.add(centroid, vertex)
+ positiveCorner = np.maximum(positiveCorner, vertex)
+ negativeCorner = np.minimum(negativeCorner, vertex)
+ originalPoints.append(vertex)
 
-centroid = np.multiply(centroid, 1.0/len(allPoints))
+centroid = np.multiply(centroid, 1.0 / len(originalPoints))
 
 print(negativeCorner, positiveCorner, centroid)
 
-for f in plyFileData['face']:
+for t in range(triangleFileData.TriangleCount()):
+ fileTriangle = triangleFileData.Triangle(t)
  points = []
- for v in f[0]:
-  coords = []
-  for c in plyFileData['vertex'][v]:
-   coords.append(c)
-  points.append(coords)
+ for v in fileTriangle:
+  vertex = triangleFileData.Vertex(v)
+  points.append(vertex)
  triangle = Triangle(points, [0.5, 1.0, 0.5])
  originalTriangles.append(triangle)
  originalHalfSpaces.add(triangle)
 
-#for h in originalHalfSpaces.halfSpaceList:
-# print(str(h))
+WooStep(originalPoints, originalTriangles, originalHalfSpaces)
 
 
-hull = ConvexHull(allPoints)
-for simplex in hull.simplices:
- points = []
- points.append(allPoints[simplex[0]])
- points.append(allPoints[simplex[1]])
- points.append(allPoints[simplex[2]])
- triangle = Triangle(points, [0.5, 1.0, 0.5])
- hullTriangles.append(triangle)
- hullHalfSpaces.add(triangle)
-
-'''
-for triangle in hullTriangles:
- hs = HalfSpace(triangle)
- halfSpace = halfSpaces.LookUp(hs)
- if halfSpace[0] < 0:
-  triangle.SetColour([1, 0.5, 0.5])
- print(halfSpace)
-'''
-for triangle in originalTriangles:
- hs = triangle.halfSpace[0]
- if hs < 0:
-  print("Original triangle with no halfspace!")
- else:
-  halfSpace = originalHalfSpaces.Get(hs)
-  hhs = hullHalfSpaces.LookUp(halfSpace)
-  if hhs[0] < 0:
-   triangle.SetColour([1, 0.5, 0.5])
-
-
-#m = Model(hullTriangles)
 m = Model(originalTriangles)
 world.AddModel(m)
 Run(world, negativeCorner, positiveCorner, centroid)
