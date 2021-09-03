@@ -326,7 +326,10 @@ def WooStep(pointsTrianglesAndPly):
  hullHalfSpaces = HalfSpaceList()
 
  for face in hull.simplices:
-  triangle = Triangle(face, [0.5, 1.0, 0.5], ply)
+  corners = []
+  for f in face:
+   corners.append(pointIndices[f])
+  triangle = Triangle(corners, [0.5, 1.0, 0.5], ply)
   hullTriangles.append(triangle)
   hullHalfSpaces.Add(triangle)
 
@@ -354,6 +357,9 @@ def WooStep(pointsTrianglesAndPly):
  newPointIndices = list(dict.fromkeys(newPointIndices))
 
  MakeTriangleWindow(newTriangles, title + " Inside triangles")
+
+ if len(newTriangles) <= 0:
+  print("Nothing left at recursion level " + str(level))
 
  return (newPointIndices, newTriangles, ply, level + 1)
 
@@ -396,8 +402,7 @@ for t in range(triangleFileData.TriangleCount()):
 
 pointsTrianglesAndPly = (originalPointIndices, originalTriangles, triangleFileData, 0)
 
-pointsTrianglesAndPly = WooStep(pointsTrianglesAndPly)
-
-pointsTrianglesAndPly = WooStep(pointsTrianglesAndPly)
+while len(pointsTrianglesAndPly[1]) > 0:
+ pointsTrianglesAndPly = WooStep(pointsTrianglesAndPly)
 
 pyglet.app.run()
