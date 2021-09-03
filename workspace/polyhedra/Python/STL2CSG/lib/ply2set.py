@@ -32,7 +32,7 @@
 # STL to PLY conversion free online: https://products.aspose.app/3d/conversion/stl-to-ply
 #
 
-
+import copy
 import sys
 import random
 import pyglet
@@ -45,6 +45,11 @@ from scipy.spatial import ConvexHull
 
 # Fudge factor
 small = 0.000001
+
+# The bounding box and a point near the middle
+positiveCorner = [-sys.float_info.max, -sys.float_info.max, -sys.float_info.max]
+negativeCorner = [sys.float_info.max, sys.float_info.max, sys.float_info.max]
+centroid = [0, 0, 0]
 
 # Take a base RGB colour and perturb it a bit. Used to allow coplanar triangles
 # to be distinguished.
@@ -234,8 +239,6 @@ class Model:
 
   glFlush()
 
-
-
 #*************************************************************************************************************
 
 # The World is the container for models (see above) for display.
@@ -258,11 +261,11 @@ class World:
  def Setup(self):
   glEnable(GL_DEPTH_TEST)
 
-def Run(world, negPoint, posPoint, centre):
+def PutWorldInWindow(world):
  win = window.Window(fullscreen=False, vsync=True, resizable=True, height=600, width=600)
- range = np.multiply(np.subtract(posPoint, negPoint), [2, 2, 5])
- negP = np.subtract(centre, range)
- posP = np.add(centre, range)
+ range = np.multiply(np.subtract(positiveCorner, negativeCorner), [2, 2, 5])
+ negP = np.subtract(centroid, range)
+ posP = np.add(centroid, range)
 
  @win.event
  def on_resize(width, height):
@@ -281,7 +284,15 @@ def Run(world, negPoint, posPoint, centre):
 
  pyglet.clock.schedule(world.Update)
  world.Setup()
- pyglet.app.run()
+
+# Set up a window for a list of triangles
+def MakeTriangleWindow(triangles):
+ # They may be given a different colour after this function is called.
+ triangles = copy.deepcopy(triangles)
+ world = World()
+ m = Model(triangles)
+ world.AddModel(m)
+ PutWorldInWindow(world)
 
 #*************************************************************************************************
 
@@ -336,18 +347,9 @@ def WooStep(pointsTrianglesAndPly):
 
  return (newPointIndices, newTriangles, ply)
 
-
-
-
-
 #**************************************************************************************************
 
 # Run the conversion
-
-world = World()
-
-originalPointIndices = []
-originalTriangles = []
 
 #fileName = '../../../cube.ply'
 #fileName = '../../../two-disjoint-cubes.ply'
@@ -357,15 +359,14 @@ originalTriangles = []
 #fileName = '../../../two-nasty-nonmanifold-cubes.ply'
 #fileName = '../../../554.2-extruder-drive-pneumatic.ply'
 #fileName = '../../../cube-1-cylinder-1.ply'
-#fileName = '../../../STL2CSG-test-objects-woo-1.ply'
+fileName = '../../../STL2CSG-test-objects-woo-1.ply'
 #fileName = '../../../STL2CSG-test-objects-woo-2.ply'
 #fileName = '../../../STL2CSG-test-objects-cube-cylinder.ply'
-fileName = '../../../STL2CSG-test-objects-cubePlusCylinder.ply'
+#fileName = '../../../STL2CSG-test-objects-cubePlusCylinder.ply'
 triangleFileData = TriangleFileData(fileName)
 
-positiveCorner = [-sys.float_info.max, -sys.float_info.max, -sys.float_info.max]
-negativeCorner = [sys.float_info.max, sys.float_info.max, sys.float_info.max]
-centroid = [0, 0, 0]
+originalPointIndices = []
+originalTriangles = []
 
 for v in range(triangleFileData.VertexCount()):
  originalPointIndices.append(v)
@@ -382,13 +383,13 @@ for t in range(triangleFileData.TriangleCount()):
  triangle = Triangle(triangleFileData.Triangle(t), [0.5, 1.0, 0.5], triangleFileData)
  originalTriangles.append(triangle)
 
+MakeTriangleWindow(originalTriangles)
+
 pointsTrianglesAndPly = (originalPointIndices, originalTriangles, triangleFileData)
 pointsTrianglesAndPly = WooStep(pointsTrianglesAndPly)
-#pointsTrianglesAndPly = WooStep(pointsTrianglesAndPly)
+MakeTriangleWindow(pointsTrianglesAndPly[1])
 
-triangles = pointsTrianglesAndPly[1]
+pointsTrianglesAndPly = WooStep(pointsTrianglesAndPly)
+MakeTriangleWindow(pointsTrianglesAndPly[1])
 
-m = Model(triangles)
-world.AddModel(m)
-Run(world, negativeCorner, positiveCorner, centroid)
-
+pyglet.app.run()
