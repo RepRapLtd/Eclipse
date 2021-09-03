@@ -262,8 +262,8 @@ class World:
   glEnable(GL_DEPTH_TEST)
 
 
-def PutWorldInWindow(world):
- win = window.Window(fullscreen=False, vsync=True, resizable=True, height=600, width=600)
+def PutWorldInWindow(world, title):
+ win = window.Window(fullscreen=False, vsync=True, resizable=True, height=600, width=600, caption = title)
  range = np.multiply(np.subtract(positiveCorner, negativeCorner), [2, 2, 5])
  negP = np.subtract(centroid, range)
  posP = np.add(centroid, range)
@@ -288,13 +288,13 @@ def PutWorldInWindow(world):
 
 
 # Set up a window for a list of triangles
-def MakeTriangleWindow(triangles):
+def MakeTriangleWindow(triangles, title):
  # They may be given a different colour after this function is called.
  triangles = copy.deepcopy(triangles)
  world = World()
  m = Model(triangles)
  world.AddModel(m)
- PutWorldInWindow(world)
+ PutWorldInWindow(world, title)
 
 
 #*************************************************************************************************
@@ -306,6 +306,10 @@ def WooStep(pointsTrianglesAndPly):
  pointIndices = pointsTrianglesAndPly[0]
  triangles = pointsTrianglesAndPly[1]
  ply = pointsTrianglesAndPly[2]
+ level = pointsTrianglesAndPly[3]
+
+ title = "Level: " + str(level)
+ MakeTriangleWindow(triangles, title + " original triangles")
 
  halfSpaces = HalfSpaceList()
 
@@ -325,6 +329,8 @@ def WooStep(pointsTrianglesAndPly):
   triangle = Triangle(face, [0.5, 1.0, 0.5], ply)
   hullTriangles.append(triangle)
   hullHalfSpaces.Add(triangle)
+
+ MakeTriangleWindow(hullTriangles, title + " CH")
 
  newTriangles = []
  newHalfSpaces = HalfSpaceList()
@@ -347,7 +353,9 @@ def WooStep(pointsTrianglesAndPly):
  # remove duplicates
  newPointIndices = list(dict.fromkeys(newPointIndices))
 
- return (newPointIndices, newTriangles, ply)
+ MakeTriangleWindow(newTriangles, title + " Inside triangles")
+
+ return (newPointIndices, newTriangles, ply, level + 1)
 
 #**************************************************************************************************
 
@@ -386,14 +394,10 @@ for t in range(triangleFileData.TriangleCount()):
  originalTriangles.append(triangle)
 
 
-MakeTriangleWindow(originalTriangles)
-
-pointsTrianglesAndPly = (originalPointIndices, originalTriangles, triangleFileData)
-pointsTrianglesAndPly = WooStep(pointsTrianglesAndPly)
-MakeTriangleWindow(pointsTrianglesAndPly[1])
+pointsTrianglesAndPly = (originalPointIndices, originalTriangles, triangleFileData, 0)
 
 pointsTrianglesAndPly = WooStep(pointsTrianglesAndPly)
-MakeTriangleWindow(pointsTrianglesAndPly[1])
 
+pointsTrianglesAndPly = WooStep(pointsTrianglesAndPly)
 
 pyglet.app.run()
