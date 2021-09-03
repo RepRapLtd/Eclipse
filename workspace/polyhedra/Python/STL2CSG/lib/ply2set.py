@@ -1,3 +1,38 @@
+#
+# Reverse Engineering 3D Printer Files to CAD models.
+#
+# RepRap Ltd
+# https://reprapltd.com
+#
+# Written by: Adrian Bowyer
+#
+# 3 September 2021
+#
+# Licence: GPL
+#
+# ply2set.py is a program to convert PLY triangulation files to set-theoretic or CSG solid
+# models. There is a companion program - set2OpenSCAD.py that converts the results
+# to openSCAD models, which can be used in OpenSCAD (clearly) and also FreeCAD.
+#
+# PLY files are easily created from STL files, which are universally used as input
+# to 3D printers. For example the Java program Triangulation.java in this
+# repository will do that conversion. Thus this program allows the reverse engineering
+# of a 3D Printer file back to a CAD file.
+#
+# The program uses Tony Woo's alternating sum of volumes algorithm, which is described
+# in his two papers in the Documentation directory of this repository. At the moment it is
+# a partial implementation; there are some pathological cases with which it won't deal.
+#
+# Here are some useful and explanatory web pages:
+#
+# Ply files: https://en.wikipedia.org/wiki/PLY_(file_format)
+# Set-theoretic or CSG solid models: https://en.wikipedia.org/wiki/Constructive_solid_geometry
+# OpenSCAD: https://openscad.org/
+# FreeCAD: https://www.freecadweb.org/
+# STL to PLY conversion free online: https://products.aspose.app/3d/conversion/stl-to-ply
+#
+
+
 import sys
 import random
 import pyglet
@@ -8,8 +43,11 @@ import numpy as np
 from plyfile import PlyData
 from scipy.spatial import ConvexHull
 
+# Fudge factor
 small = 0.000001
 
+# Take a base RGB colour and perturb it a bit. Used to allow coplanar triangles
+# to be distinguished.
 def RandomShade(baseColour):
  colour = [random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1)]
  for c in range(3):
@@ -20,6 +58,10 @@ def RandomShade(baseColour):
    colour[c] = 1
  return colour
 
+#************************************************************************************************************
+
+# Class to hold a single triangle. The three vertices are indices into the list of vertices
+# that have been previously loaded from a PLY file into ply.
 
 class Triangle:
  def __init__(self, vertices, colour, ply):
@@ -35,9 +77,11 @@ class Triangle:
   self.centroid = np.multiply(np.add(np.add(points[0],points[1]), points[2]), 1.0/3.0)
   self.halfSpace = (-1, True)
 
+ # The three actual space (x, y, z) coordinates of the vertices
  def Points(self):
   return [self.ply.Vertex(self.vertices[0]), self.ply.Vertex(self.vertices[1]), self.ply.Vertex(self.vertices[2])]
 
+ # The list of vertex indices.
  def Vertices(self):
   return self.vertices
 
@@ -45,6 +89,13 @@ class Triangle:
   self.colour = RandomShade(colour)
 
 #*************************************************************************************************************
+
+# A planar half space of the form Ax + By + Cz + D <= 0, where (A, B, C) is the
+# plane's normal vector and D is the distance from it to the origin.
+#
+# It is the plane through a triangle, and it keeps a list of all the triangles
+# that (nearly - global variable small) lie in it. The list is tuples (triangle, same)
+# where same  is True means the normals coincide, False means they are exactly opposite.
 
 class HalfSpace:
  def __init__(self, triangle):
@@ -79,10 +130,14 @@ class HalfSpace:
 
 #********************************************************************************************************
 
+# A list of the half spaces above.
+
 class HalfSpaceList:
  def __init__(self):
   self.halfSpaceList = []
 
+ # Is halfSpace in the list? If so return an index to it, together with a logical flag
+ # indicating if it is the same sense or opposite. If not, return (-1, ...)
  def LookUp(self, halfSpace):
   for hs in range(len(self.halfSpaceList)):
    listHalfSpace = self.halfSpaceList[hs]
@@ -92,6 +147,10 @@ class HalfSpaceList:
     return (hs, False)
   return (-1, True)
 
+ # Add the halfspace corresponding to triangle to the list, unless that half space is
+ # already in the list. Return the index of the half space in the list and a same/opposite flag.
+ # Maintain the triangle's pointer to its corresponding half space, and the half space's list
+ # of triangles in it.
  def add(self, triangle):
   last = len(self.halfSpaceList)
   halfSpace = HalfSpace(triangle)
@@ -117,6 +176,8 @@ class HalfSpaceList:
 
 #*******************************************************************************************************
 
+# Small holding class to load the PLY file and provide simple access to its data.
+
 class TriangleFileData:
  def __init__(self, fileName):
   self.plyFileData = PlyData.read(fileName)
@@ -134,6 +195,11 @@ class TriangleFileData:
   return self.plyFileData['face'][index][0]
 
 #*******************************************************************************************************
+
+# A model consists of a list of triangles for display. The pattern is rotated slowly on the screen
+# so it can be easily seen.
+
+# TODO make the rotation driven by the mouse.
 
 class Model:
  def __init__(self, triangles):
@@ -171,6 +237,8 @@ class Model:
 
 
 #*************************************************************************************************************
+
+# The World is the container for models (see above) for display.
 
 class World:
  def __init__(self):
@@ -216,6 +284,8 @@ def Run(world, negPoint, posPoint, centre):
  pyglet.app.run()
 
 #*************************************************************************************************
+
+# Recursive procedure for Woo's alternating sum of volumes algorithm.
 
 def WooStep(pointsTrianglesAndPly):
 
@@ -271,6 +341,8 @@ def WooStep(pointsTrianglesAndPly):
 
 
 #**************************************************************************************************
+
+# Run the conversion
 
 world = World()
 
