@@ -301,7 +301,7 @@
                 <tags>categoryTag:General</tags>
               </children>
             </children>
-            <children xsi:type="basic:PartSashContainer" xmi:id="_H95UQUD5EeqJ3Zapu_lcjA" containerData="7665" selectedElement="_H95USUD5EeqJ3Zapu_lcjA">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_H95UQUD5EeqJ3Zapu_lcjA" containerData="7665" selectedElement="_H95UQkD5EeqJ3Zapu_lcjA">
               <children xsi:type="basic:PartSashContainer" xmi:id="_H95UQkD5EeqJ3Zapu_lcjA" containerData="6616" selectedElement="_H95UQ0D5EeqJ3Zapu_lcjA" horizontal="true">
                 <children xsi:type="advanced:Placeholder" xmi:id="_H95UQ0D5EeqJ3Zapu_lcjA" elementId="org.eclipse.ui.editorss" containerData="7500" ref="_H95VsED5EeqJ3Zapu_lcjA"/>
                 <children xsi:type="basic:PartStack" xmi:id="_H95URED5EeqJ3Zapu_lcjA" elementId="topRight" toBeRendered="false" containerData="2500">
@@ -349,7 +349,7 @@
       <children xsi:type="basic:PartStack" xmi:id="_H95VsUD5EeqJ3Zapu_lcjA" elementId="DefaultEditorWorkbook" selectedElement="_qfLjUAlvEeyWANW6k_U4Tg">
         <tags>active</tags>
         <children xsi:type="basic:Part" xmi:id="_qfLjUAlvEeyWANW6k_U4Tg" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Triangulation.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;Triangulation.java&quot; partName=&quot;Triangulation.java&quot; title=&quot;Triangulation.java&quot; tooltip=&quot;polyhedra/src/com/reprapltd/polyhedra/Triangulation.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/polyhedra/src/com/reprapltd/polyhedra/Triangulation.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;37&quot; selectionOffset=&quot;41860&quot; selectionTopPixel=&quot;24698&quot;/>&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;Triangulation.java&quot; partName=&quot;Triangulation.java&quot; title=&quot;Triangulation.java&quot; tooltip=&quot;polyhedra/src/com/reprapltd/polyhedra/Triangulation.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/polyhedra/src/com/reprapltd/polyhedra/Triangulation.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;37&quot; selectionOffset=&quot;41860&quot; selectionTopPixel=&quot;24690&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
@@ -552,7 +552,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_H957sED5EeqJ3Zapu_lcjA" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_nU9aIAvMEeyAPMlzj8EeKA" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_H98-YED5EeqJ3Zapu_lcjA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_Ab3EsAyfEeyE2ZAeTGXDzg" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_H98-YED5EeqJ3Zapu_lcjA"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_H957wED5EeqJ3Zapu_lcjA" elementId="group.edit" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -594,7 +594,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_H958GED5EeqJ3Zapu_lcjA" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_nU_2YAvMEeyAPMlzj8EeKA" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_H98YfUD5EeqJ3Zapu_lcjA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_Ab5g8AyfEeyE2ZAeTGXDzg" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_H98YfUD5EeqJ3Zapu_lcjA"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_H958IkD5EeqJ3Zapu_lcjA" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
