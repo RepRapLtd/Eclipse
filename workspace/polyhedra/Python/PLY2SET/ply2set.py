@@ -51,6 +51,7 @@ positiveCorner = [-sys.float_info.max, -sys.float_info.max, -sys.float_info.max]
 negativeCorner = [sys.float_info.max, sys.float_info.max, sys.float_info.max]
 centroid = [0, 0, 0]
 
+
 # Take a base RGB colour and perturb it a bit. Used to allow coplanar triangles
 # to be distinguished.
 def RandomShade(baseColour):
@@ -107,7 +108,7 @@ class HalfSpace:
   self.triangles = []
   self.triangles.append((triangle, True))
   self.normal = triangle.normal
-  self.d = np.dot(self.normal, triangle.centroid)
+  self.d = -np.dot(self.normal, triangle.centroid)
 
 # Note: two coincident half spaces of opposite sense are not considered equal.
 # To find such call Opposite below.
@@ -126,6 +127,7 @@ class HalfSpace:
    return False
   return True
 
+ # Keep a list of all triangles that lie in this halfspace
  def AddTriangle(self, triangle, same):
   self.triangles.append((triangle, same))
 
@@ -179,6 +181,10 @@ class HalfSpaceList:
 
  def Get(self, index):
   return self.halfSpaceList[index]
+
+# We want there to be just one global instance of this
+
+halfSpaces = HalfSpaceList()
 
 #*******************************************************************************************************
 
@@ -303,15 +309,17 @@ def MakeTriangleWindow(triangles, title):
 
 def WooStep(pointsTrianglesAndPly):
 
- pointIndices = pointsTrianglesAndPly[0]
+ # Anything to do?
  triangles = pointsTrianglesAndPly[1]
+ if len(triangles) <= 0:
+  return
+
+ pointIndices = pointsTrianglesAndPly[0]
  ply = pointsTrianglesAndPly[2]
  level = pointsTrianglesAndPly[3]
 
  title = "Level: " + str(level)
  MakeTriangleWindow(triangles, title + " original triangles")
-
- halfSpaces = HalfSpaceList()
 
  for triangle in triangles:
   halfSpaces.Add(triangle)
@@ -323,7 +331,7 @@ def WooStep(pointsTrianglesAndPly):
  hull = ConvexHull(points)
 
  hullTriangles = []
- hullHalfSpaces = HalfSpaceList()
+ hullHalfSpaces = []
 
  for face in hull.simplices:
   corners = []
@@ -331,12 +339,11 @@ def WooStep(pointsTrianglesAndPly):
    corners.append(pointIndices[f])
   triangle = Triangle(corners, [0.5, 1.0, 0.5], ply)
   hullTriangles.append(triangle)
-  hullHalfSpaces.Add(triangle)
+  hullHalfSpaces.append(halfSpaces.Add(triangle)[0])
 
  MakeTriangleWindow(hullTriangles, title + " CH")
 
  newTriangles = []
- newHalfSpaces = HalfSpaceList()
 
  newPointIndices = []
  for triangle in triangles:
@@ -344,12 +351,14 @@ def WooStep(pointsTrianglesAndPly):
   if hs < 0:
    print("WooStep(): Original triangle with no halfspace!")
   else:
-   halfSpace = halfSpaces.Get(hs)
-   hhs = hullHalfSpaces.LookUp(halfSpace)
-   if hhs[0] < 0:
+   alreadyThere = False
+   for hhs in hullHalfSpaces:
+    if hhs == hs:
+     alreadyThere = True
+   if not alreadyThere:
     triangle.SetColour([1, 0.5, 0.5])
     newTriangles.append(triangle)
-    newHalfSpaces.Add(triangle)
+    halfSpaces.Add(triangle)
     for v in triangle.Vertices():
      newPointIndices.append(v)
 
