@@ -233,11 +233,17 @@ class TriangleFileData:
 class Model:
  def __init__(self, triangles):
   self.triangles = triangles
-  self.angle = 0
+  self.xangle = 0
+  self.yangle = 0
 
  def Update(self):
-  self.angle += 1
-  self.angle %= 360
+  a = 1
+
+ def MouseDrag(self, x, y, dx, dy):
+  self.xangle += dx
+  self.xangle %= 360
+  self.yangle += dy
+  self.yangle %= 360
 
  def Draw(self):
   glMatrixMode(GL_MODELVIEW)
@@ -249,7 +255,8 @@ class Model:
   glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE )
 
   glLoadIdentity()
-  glRotatef(self.angle, 0.8, 0.6, 0)
+  glRotatef(self.xangle, 0, 1, 0)
+  glRotatef(self.yangle, -1, 0, 0)
 
 
   for triangle in self.triangles:
@@ -284,6 +291,9 @@ class World:
  def Setup(self):
   glEnable(GL_DEPTH_TEST)
 
+ def MouseDrag(self, x, y, dx, dy):
+  for obj in self.element:
+   obj.MouseDrag(x, y, dx, dy)
 
 def PutWorldInWindow(world, title):
  win = window.Window(fullscreen=False, vsync=True, resizable=False, height=600, width=600, caption = title)
@@ -302,7 +312,7 @@ def PutWorldInWindow(world, title):
 
  @win.event
  def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
-  print(dx)
+  world.MouseDrag(x, y, dx, dy)
 
  @win.event
  def on_draw():
