@@ -55,7 +55,13 @@ small = 0.000001
 # 1 - input triangles at each stage
 # 2 - input and output triangles at each stage
 # 3 - input and output triangles at each stage plus the convex hulls
-graphics = 1
+graphics = 0
+
+# Set operators
+leaf = 0
+union = 1
+intersection = 2
+complement = 3
 
 # The bounding box and a point near the middle
 positiveCorner = [-sys.float_info.max, -sys.float_info.max, -sys.float_info.max]
@@ -143,8 +149,61 @@ class HalfSpace:
   self.triangles.append((triangle, same))
 
  def __str__(self):
-  return "{" + str(self.normal[0]) + "X + " + str(self.normal[1]) + "Y + " + \
-   str(self.normal[2]) + "Z + " + str(self.d) + " <= 0}"
+  result = "{" + str(self.normal[0]) + "x + " + str(self.normal[1]) + "y + " +\
+   str(self.normal[2]) + "z + " + str(self.d) + " <= 0}"
+  result = result.replace("+ -", "- ") #Sigh!
+  return result
+
+#********************************************************************************************************
+
+# Unions and intersections of half-spaces.
+
+class Set:
+
+ def __init__(self, halfSpaceIndex = None):
+  if halfSpaceIndex is None:
+   return
+  self.o1 = halfSpaceIndex
+  self.op = leaf
+
+ def Union(self, set2):
+  result = Set()
+  result.o1 = self
+  result.o2 = set2
+  result.op = union
+  return result
+
+ def Intersection(self, set2):
+  result = Set()
+  result.o1 = self
+  result.o2 = set2
+  result.op = intersection
+  return result
+
+ def Complement(self):
+  result = Set()
+  result.o1 = self
+  result.op = complement
+  return result
+
+ def Sub(self, set2):
+  result = set2.Complement()
+  result = self.Intersection(result)
+  return result
+
+ # Convert a Set to a string, representing it in reverse polish
+ def __str__(self):
+  if self.op == leaf:
+   return str(self.o1)
+  elif self.op == union:
+   return str(self.o1) + " " + str(self.o2) + " u"
+  elif self.op == intersection:
+   return str(self.o1) + " " + str(self.o2) + " ^"
+  elif self.op == complement:
+   return str(self.o1) + " -"
+  sys.exit("Set(): operator not defined!")
+
+
 
 #********************************************************************************************************
 
@@ -225,28 +284,32 @@ class TriangleFileData:
 
 #*******************************************************************************************************
 
-# A model consists of a list of triangles for display. The pattern is rotated slowly on the screen
-# so it can be easily seen.
-
-# TODO make the rotation driven by the mouse.
+# A model consists of a list of triangles for display. The pattern can be rotated on the screen
+# and zoomed using the mouse so it can be easily seen.
 
 class Model:
  def __init__(self, triangles):
   self.triangles = triangles
   self.xangle = 0
   self.yangle = 0
+  self.distance = -3.0*(positiveCorner[0] - negativeCorner[0])
 
- def Update(self):
-  a = 1
-
- def MouseDrag(self, x, y, dx, dy):
+ def MouseDrag(self, dx, dy):
   self.xangle += dx
   self.xangle %= 360
   self.yangle += dy
   self.yangle %= 360
 
+ def MouseScroll(self, dy):
+  self.distance += dy
+
  def Draw(self):
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+  glMatrixMode(GL_PROJECTION)
+  glLoadIdentity()
+  gluPerspective(60, 1, 0.1, 1000)
   glMatrixMode(GL_MODELVIEW)
+
   glEnable(GL_DEPTH_TEST)
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
   glDisable(GL_LIGHTING)
@@ -255,8 +318,10 @@ class Model:
   glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE )
 
   glLoadIdentity()
+  glTranslatef(0, 0, self.distance)
   glRotatef(self.xangle, 0, 1, 0)
   glRotatef(self.yangle, -1, 0, 0)
+
 
 
   for triangle in self.triangles:
@@ -277,10 +342,6 @@ class World:
  def __init__(self):
   self.element = []
 
- def Update(self, dt):
-  for obj in self.element:
-   obj.Update()
-
  def AddModel(self, model):
   self.element.append(model)
 
@@ -291,9 +352,13 @@ class World:
  def Setup(self):
   glEnable(GL_DEPTH_TEST)
 
- def MouseDrag(self, x, y, dx, dy):
+ def MouseDrag(self, dx, dy):
   for obj in self.element:
-   obj.MouseDrag(x, y, dx, dy)
+   obj.MouseDrag(dx, dy)
+
+ def MouseScroll(self, scroll_y):
+  for obj in self.element:
+   obj.MouseScroll(scroll_y)
 
 def PutWorldInWindow(world, title):
  win = window.Window(fullscreen=False, vsync=True, resizable=False, height=600, width=600, caption = title)
@@ -312,7 +377,11 @@ def PutWorldInWindow(world, title):
 
  @win.event
  def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
-  world.MouseDrag(x, y, dx, dy)
+  world.MouseDrag(dx, dy)
+
+ @win.event
+ def on_mouse_scroll(x, y, scroll_x, scroll_y):
+  world.MouseScroll(scroll_y)
 
  @win.event
  def on_draw():
@@ -320,7 +389,6 @@ def PutWorldInWindow(world, title):
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
   world.Draw()
 
- pyglet.clock.schedule(world.Update)
  world.Setup()
 
 
@@ -465,3 +533,8 @@ WooStep(pointsTrianglesAndPly)
 
 if graphics > 0:
  pyglet.app.run()
+
+# Testing the Set class
+
+s = Set(5).Sub(Set(0).Union(Set(1)).Intersection(Set(2)))
+print(str(s))
