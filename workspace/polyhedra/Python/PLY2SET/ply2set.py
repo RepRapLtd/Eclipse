@@ -55,7 +55,7 @@ small = 0.000001
 # 1 - input triangles at each stage
 # 2 - input and output triangles at each stage
 # 3 - input and output triangles at each stage plus the convex hulls
-graphics = 0
+graphics = 1
 
 # Set operators
 leaf = 0
@@ -81,6 +81,33 @@ def RandomShade(baseColour):
    colour[c] = 1
  return colour
 
+#*******************************************************************************************************
+
+# Small holding class to load the PLY file and provide simple access to its data.
+
+class TriangleFileData:
+ def __init__(self, fileName):
+  self.plyFileData = PlyData.read(fileName)
+  # Ply files can hold polygons other than triangles. Check...
+  for face in self.plyFileData['face']:
+   if len(face[0]) != 3:
+    error = "\nA polygon in ply file " + fileName + " has " + str(len(face[0])) + " vertices (i.e. it's not a triangle).\n"
+    error += "ply2set.py can only work with triangles.\n"
+    sys.exit(error)
+
+ def VertexCount(self):
+  return len(self.plyFileData['vertex'])
+
+ def Vertex(self, index):
+  return list(self.plyFileData['vertex'][index])
+
+ def TriangleCount(self):
+  return len(self.plyFileData['face'])
+
+ def Triangle(self, index):
+  return self.plyFileData['face'][index][0]
+
+
 #************************************************************************************************************
 
 # Class to hold a single triangle. The three vertices are indices into the list of vertices
@@ -94,7 +121,7 @@ class Triangle:
   self.normal = np.cross( np.subtract(points[1], points[0]), np.subtract(points[2], points[0]) )
   s2 = maths.sqrt(np.dot(self.normal, self.normal))
   if s2 < small:
-   print("Triangle: corners are collinear.")
+   print("Triangle: vertices are collinear!")
   self.normal = np.multiply(self.normal, 1.0/s2)
   self.colour = RandomShade(colour)
   self.centroid = np.multiply(np.add(np.add(points[0],points[1]), points[2]), 1.0/3.0)
@@ -186,7 +213,7 @@ class Set:
   result.op = complement
   return result
 
- def Sub(self, set2):
+ def Subtract(self, set2):
   result = set2.Complement()
   result = self.Intersection(result)
   return result
@@ -207,7 +234,7 @@ class Set:
 
 #********************************************************************************************************
 
-# A list of the half spaces above.
+# A list of half spaces
 
 class HalfSpaceList:
  def __init__(self):
@@ -258,32 +285,6 @@ halfSpaces = HalfSpaceList()
 
 #*******************************************************************************************************
 
-# Small holding class to load the PLY file and provide simple access to its data.
-
-class TriangleFileData:
- def __init__(self, fileName):
-  self.plyFileData = PlyData.read(fileName)
-  # Ply files can hold polygons other than triangles. Check...
-  for face in self.plyFileData['face']:
-   if len(face[0]) != 3:
-    error = "\nA polygon in ply file " + fileName + " has " + str(len(face[0])) + " vertices (i.e. it's not a triangle).\n"
-    error += "ply2set.py can only work with triangles.\n"
-    sys.exit(error)
-
- def VertexCount(self):
-  return len(self.plyFileData['vertex'])
-
- def Vertex(self, index):
-  return list(self.plyFileData['vertex'][index])
-
- def TriangleCount(self):
-  return len(self.plyFileData['face'])
-
- def Triangle(self, index):
-  return self.plyFileData['face'][index][0]
-
-#*******************************************************************************************************
-
 # A model consists of a list of triangles for display. The pattern can be rotated on the screen
 # and zoomed using the mouse so it can be easily seen.
 
@@ -292,7 +293,8 @@ class Model:
   self.triangles = triangles
   self.xangle = 0
   self.yangle = 0
-  self.distance = -3.0*(positiveCorner[0] - negativeCorner[0])
+  diag = np.subtract(positiveCorner[0], negativeCorner[0])
+  self.distance = -3.0*(maths.sqrt(np.dot(diag, diag)))
 
  def MouseDrag(self, dx, dy):
   self.xangle += dx
@@ -448,10 +450,10 @@ def WooStep(pointsTrianglesAndPly):
  hullTriangles = []
  hullHalfSpaces = []
  for face in hull.simplices:
-  corners = []
+  vertices = []
   for f in face:
-   corners.append(pointIndices[f])
-  triangle = Triangle(corners, [0.5, 1.0, 0.5], ply)
+   vertices.append(pointIndices[f])
+  triangle = Triangle(vertices, [0.5, 1.0, 0.5], ply)
   hullTriangles.append(triangle)
   hullHalfSpaces.append(halfSpaces.Add(triangle)[0])
 
@@ -486,9 +488,9 @@ def WooStep(pointsTrianglesAndPly):
 
  if len(newTriangles) <= 0:
   print("Nothing left at recursion level " + str(level))
-
- # Carry on down...
- WooStep((newPointIndices, newTriangles, ply, level + 1))
+ else:
+  # Carry on down...
+  WooStep((newPointIndices, newTriangles, ply, level + 1))
 
 #**************************************************************************************************
 
@@ -526,6 +528,10 @@ for t in range(triangleFileData.TriangleCount()):
  triangle = Triangle(triangleFileData.Triangle(t), [0.5, 1.0, 0.5], triangleFileData)
  originalTriangles.append(triangle)
 
+# Testing the Set class
+
+s = Set(5).Subtract(Set(0).Union(Set(1)).Intersection(Set(2)))
+print(str(s))
 
 pointsTrianglesAndPly = (originalPointIndices, originalTriangles, triangleFileData, 0)
 
@@ -534,7 +540,3 @@ WooStep(pointsTrianglesAndPly)
 if graphics > 0:
  pyglet.app.run()
 
-# Testing the Set class
-
-s = Set(5).Sub(Set(0).Union(Set(1)).Intersection(Set(2)))
-print(str(s))
