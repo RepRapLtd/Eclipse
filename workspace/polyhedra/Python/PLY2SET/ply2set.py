@@ -19,13 +19,16 @@
 # repository will do that conversion. Thus this program allows the reverse engineering
 # of a 3D Printer file back to a CAD file.
 #
-# The program uses Tony Woo's alternating sum of volumes algorithm, which is described
+# The program uses a modification of Tony Woo's alternating sum of volumes algorithm, which is described
 # in his two papers in the Documentation directory of this repository. At the moment it is
 # a partial implementation; there are some pathological cases with which it won't deal.
 #
 # Here are some useful and explanatory web pages:
 #
 # Ply files: https://en.wikipedia.org/wiki/PLY_(file_format)
+# Ply files in Python: https://github.com/dranjan/python-plyfile
+# Convex hulls: https://en.wikipedia.org/wiki/Convex_hull
+# Convex hulls in Python: https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html
 # Set-theoretic or CSG solid models: https://en.wikipedia.org/wiki/Constructive_solid_geometry
 # OpenSCAD: https://openscad.org/
 # FreeCAD: https://www.freecadweb.org/
@@ -46,10 +49,18 @@ from scipy.spatial import ConvexHull
 # Fudge factor
 small = 0.000001
 
+# What (if anything) to plot
+#
+# 0 - no graphics
+# 1 - input triangles at each stage
+# 2 - input and output triangles at each stage
+# 3 - input and output triangles at each stage plus the convex hulls
+graphics = 1
+
 # The bounding box and a point near the middle
 positiveCorner = [-sys.float_info.max, -sys.float_info.max, -sys.float_info.max]
 negativeCorner = [sys.float_info.max, sys.float_info.max, sys.float_info.max]
-centroid = [0, 0, 0]
+middle = [0, 0, 0]
 
 
 # Take a base RGB colour and perturb it a bit. Used to allow coplanar triangles
@@ -193,6 +204,12 @@ halfSpaces = HalfSpaceList()
 class TriangleFileData:
  def __init__(self, fileName):
   self.plyFileData = PlyData.read(fileName)
+  # Ply files can hold polygons other than triangles. Check...
+  for face in self.plyFileData['face']:
+   if len(face[0]) != 3:
+    error = "\nA polygon in ply file " + fileName + " has " + str(len(face[0])) + " vertices (i.e. it's not a triangle).\n"
+    error += "ply2set.py can only work with triangles.\n"
+    sys.exit(error)
 
  def VertexCount(self):
   return len(self.plyFileData['vertex'])
@@ -269,10 +286,10 @@ class World:
 
 
 def PutWorldInWindow(world, title):
- win = window.Window(fullscreen=False, vsync=True, resizable=True, height=600, width=600, caption = title)
+ win = window.Window(fullscreen=False, vsync=True, resizable=False, height=600, width=600, caption = title)
  range = np.multiply(np.subtract(positiveCorner, negativeCorner), [2, 2, 5])
- negP = np.subtract(centroid, range)
- posP = np.add(centroid, range)
+ negP = np.subtract(middle, range)
+ posP = np.add(middle, range)
 
  @win.event
  def on_resize(width, height):
@@ -282,6 +299,10 @@ def PutWorldInWindow(world, title):
   glOrtho(negP[0], posP[0], negP[1], posP[1], negP[2], posP[2])
   glMatrixMode(GL_MODELVIEW)
   return pyglet.event.EVENT_HANDLED
+
+ @win.event
+ def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
+  print(dx)
 
  @win.event
  def on_draw():
@@ -295,6 +316,8 @@ def PutWorldInWindow(world, title):
 
 # Set up a window for a list of triangles
 def MakeTriangleWindow(triangles, title):
+ if graphics == 0:
+  return;
  # They may be given a different colour after this function is called.
  triangles = copy.deepcopy(triangles)
  world = World()
@@ -305,34 +328,47 @@ def MakeTriangleWindow(triangles, title):
 
 #*************************************************************************************************
 
-# Recursive procedure for Woo's alternating sum of volumes algorithm.
+# Recursive procedure for my variation on Woo's alternating sum of volumes algorithm.
 
 def WooStep(pointsTrianglesAndPly):
 
+ # The triangles for which we want the next convex hull
  # Anything to do?
  triangles = pointsTrianglesAndPly[1]
  if len(triangles) <= 0:
   return
 
+ # The vertices of those triangles with no duplicates. These are indices of the
+ # points in the original ply file.
  pointIndices = pointsTrianglesAndPly[0]
+
+ # The original data with coordinates in etc.
  ply = pointsTrianglesAndPly[2]
+
+ # The level of recursion
  level = pointsTrianglesAndPly[3]
 
- title = "Level: " + str(level)
- MakeTriangleWindow(triangles, title + " original triangles")
+ if graphics > 0:
+  title = "Level: " + str(level)
+  MakeTriangleWindow(triangles, title + " original triangles")
 
+ # Add a halfspace for each triangle as long as it is not already in the halfspace list
  for triangle in triangles:
   halfSpaces.Add(triangle)
 
+ # The actual (x, y, z) coordinates of the points to compute the convex hull of
  points = []
  for p in pointIndices:
   points.append(ply.Vertex(p))
 
+ # Find the convex hull
  hull = ConvexHull(points)
 
+ # Make a list of the hull triangles and their corresponding halfspaces
+ # Note that any halfspaces that are already in the main list will not be duplicated
+ # because of the way the halfSpaces.Add() function works.
  hullTriangles = []
  hullHalfSpaces = []
-
  for face in hull.simplices:
   corners = []
   for f in face:
@@ -341,53 +377,57 @@ def WooStep(pointsTrianglesAndPly):
   hullTriangles.append(triangle)
   hullHalfSpaces.append(halfSpaces.Add(triangle)[0])
 
- MakeTriangleWindow(hullTriangles, title + " CH")
+ if graphics > 2:
+  MakeTriangleWindow(hullTriangles, title + " CH")
 
+ # Classify each triangle we came in with as being on
+ # the hull or not. On means it coincides with a hull halfspace; not, not.
  newTriangles = []
-
  newPointIndices = []
  for triangle in triangles:
   hs = triangle.halfSpace[0]
   if hs < 0:
-   print("WooStep(): Original triangle with no halfspace!")
+   sys.exit("WooStep(): Original triangle with no halfspace! Error!")
   else:
    alreadyThere = False
    for hhs in hullHalfSpaces:
     if hhs == hs:
      alreadyThere = True
    if not alreadyThere:
+    # This triangle is not on the hull. So it needs to be considered at the next level of the recursion.
     triangle.SetColour([1, 0.5, 0.5])
     newTriangles.append(triangle)
-    halfSpaces.Add(triangle)
     for v in triangle.Vertices():
      newPointIndices.append(v)
 
- # remove duplicates
+ # remove duplicate vertices
  newPointIndices = list(dict.fromkeys(newPointIndices))
 
- MakeTriangleWindow(newTriangles, title + " Inside triangles")
+ if graphics > 1:
+  MakeTriangleWindow(newTriangles, title + " Inside triangles")
 
  if len(newTriangles) <= 0:
   print("Nothing left at recursion level " + str(level))
 
- return (newPointIndices, newTriangles, ply, level + 1)
+ # Carry on down...
+ WooStep((newPointIndices, newTriangles, ply, level + 1))
 
 #**************************************************************************************************
 
 # Run the conversion
 
-#fileName = '../../../cube.ply'
-#fileName = '../../../two-disjoint-cubes.ply'
-#fileName = '../../../two-overlapping-cubes.ply'
-#fileName = '../../../hole-enclosed-in-cylinder.ply'
-#fileName = '../../../two-nonmanifold-cubes.ply'
-#fileName = '../../../two-nasty-nonmanifold-cubes.ply'
-#fileName = '../../../554.2-extruder-drive-pneumatic.ply'
-#fileName = '../../../cube-1-cylinder-1.ply'
+#fileName = '../../cube.ply'
+#fileName = '../../two-disjoint-cubes.ply'
+#fileName = '../../two-overlapping-cubes.ply'
+#fileName = '../../hole-enclosed-in-cylinder.ply'
+#fileName = '../../two-nonmanifold-cubes.ply'
+#fileName = '../../two-nasty-nonmanifold-cubes.ply'
+#fileName = '../../554.2-extruder-drive-pneumatic.ply'
+#fileName = '../../cube-1-cylinder-1.ply'
 fileName = '../../STL2CSG-test-objects-woo-1.ply'
-#fileName = '../../../STL2CSG-test-objects-woo-2.ply'
-#fileName = '../../../STL2CSG-test-objects-cube-cylinder.ply'
-#fileName = '../../../STL2CSG-test-objects-cubePlusCylinder.ply'
+#fileName = '../../STL2CSG-test-objects-woo-2.ply'
+#fileName = '../../STL2CSG-test-objects-cube-cylinder.ply'
+#fileName = '../../STL2CSG-test-objects-cubePlusCylinder.ply'
 triangleFileData = TriangleFileData(fileName)
 
 originalPointIndices = []
@@ -396,13 +436,13 @@ originalTriangles = []
 for v in range(triangleFileData.VertexCount()):
  originalPointIndices.append(v)
  vertex = triangleFileData.Vertex(v)
- centroid = np.add(centroid, vertex)
+ middle = np.add(middle, vertex)
  positiveCorner = np.maximum(positiveCorner, vertex)
  negativeCorner = np.minimum(negativeCorner, vertex)
 
-centroid = np.multiply(centroid, 1.0 / triangleFileData.VertexCount())
+middle = np.multiply(middle, 1.0 / triangleFileData.VertexCount())
 
-print(negativeCorner, positiveCorner, centroid)
+print(negativeCorner, positiveCorner, middle)
 
 for t in range(triangleFileData.TriangleCount()):
  triangle = Triangle(triangleFileData.Triangle(t), [0.5, 1.0, 0.5], triangleFileData)
@@ -411,7 +451,7 @@ for t in range(triangleFileData.TriangleCount()):
 
 pointsTrianglesAndPly = (originalPointIndices, originalTriangles, triangleFileData, 0)
 
-while len(pointsTrianglesAndPly[1]) > 0:
- pointsTrianglesAndPly = WooStep(pointsTrianglesAndPly)
+WooStep(pointsTrianglesAndPly)
 
-pyglet.app.run()
+if graphics > 0:
+ pyglet.app.run()
