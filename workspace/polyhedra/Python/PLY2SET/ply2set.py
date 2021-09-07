@@ -57,11 +57,16 @@ small = 0.000001
 # 3 - input and output triangles at each stage plus the convex hulls
 graphics = 1
 
+# True to print debugging information
+debug = False
+
 # Set operators
 leaf = 0
 union = 1
 intersection = 2
-complement = 3
+subtraction = 3
+empty = 4
+universal = 5
 
 # The bounding box and a point near the middle
 positiveCorner = [-sys.float_info.max, -sys.float_info.max, -sys.float_info.max]
@@ -175,6 +180,9 @@ class HalfSpace:
  def AddTriangle(self, triangle, same):
   self.triangles.append((triangle, same))
 
+ def Coeficients(self):
+  return [self.normal[0], self.normal[1], self.normal[2], self.d]
+
  def __str__(self):
   result = "{" + str(self.normal[0]) + "x + " + str(self.normal[1]) + "y + " +\
    str(self.normal[2]) + "z + " + str(self.d) + " <= 0}"
@@ -184,38 +192,72 @@ class HalfSpace:
 #********************************************************************************************************
 
 # Unions and intersections of half-spaces.
+# Set() gives the empty set
+# Set(-n) gives the universal set
 
 class Set:
 
  def __init__(self, halfSpaceIndex = None):
   if halfSpaceIndex is None:
+   self.op = empty
+   return
+  if halfSpaceIndex < 0:
+   self.op = universal
    return
   self.o1 = halfSpaceIndex
   self.op = leaf
 
- def Union(self, set2):
+ def Unite(self, set2):
+  if self.op == empty:
+   return set2
+  if self.op == universal:
+   return self
+  if set2.op == empty:
+   return self
+  if set2.op == universal:
+   return set2
+  if self.op == leaf and set2.op == leaf:
+   if self.o1 == set2.o1:
+    return self
   result = Set()
   result.o1 = self
   result.o2 = set2
   result.op = union
   return result
 
- def Intersection(self, set2):
+ def Intersect(self, set2):
+  if self.op == empty:
+   return self
+  if self.op == universal:
+   return set2
+  if set2.op == empty:
+   return set2
+  if set2.op == universal:
+   return self
+  if self.op == leaf and set2.op == leaf:
+   if self.o1 == set2.o1:
+    return self
   result = Set()
   result.o1 = self
   result.o2 = set2
   result.op = intersection
   return result
 
- def Complement(self):
-  result = Set()
-  result.o1 = self
-  result.op = complement
-  return result
 
  def Subtract(self, set2):
-  result = set2.Complement()
-  result = self.Intersection(result)
+  if self.op == empty:
+   return self
+  if set2.op == empty:
+   return self
+  if set2.op == universal:
+   return Set()
+  if self.op == leaf and set2.op == leaf:
+   if self.o1 == set2.o1:
+    return Set()
+  result = Set()
+  result.o1 = self
+  result.o2 = set2
+  result.op = subtraction
   return result
 
  # Convert a Set to a string, representing it in reverse polish
@@ -226,11 +268,18 @@ class Set:
    return str(self.o1) + " " + str(self.o2) + " u"
   elif self.op == intersection:
    return str(self.o1) + " " + str(self.o2) + " ^"
-  elif self.op == complement:
-   return str(self.o1) + " -"
+  elif self.op == subtraction:
+   return str(self.o1) + " " + str(self.o2) + " -"
+  elif self.op == empty:
+   return "empty"
+  elif self.op == universal:
+   return "universal"
   sys.exit("Set(): operator not defined!")
 
+# The end result. Start with the universal set, as the first
+# operation that will be done on it is intersections.
 
+finalSet = Set(-1)
 
 #********************************************************************************************************
 
@@ -279,6 +328,8 @@ class HalfSpaceList:
  def Get(self, index):
   return self.halfSpaceList[index]
 
+ def __len__(self):
+  return len(self.halfSpaceList)
 # We want there to be just one global instance of this
 
 halfSpaces = HalfSpaceList()
@@ -411,7 +462,7 @@ def MakeTriangleWindow(triangles, title):
 # Recursive procedure for my variation on Woo's alternating sum of volumes algorithm.
 
 def WooStep(pointsTrianglesAndPly):
-
+ global finalSet
  # The triangles for which we want the next convex hull
  # Anything to do?
  triangles = pointsTrianglesAndPly[1]
@@ -423,7 +474,7 @@ def WooStep(pointsTrianglesAndPly):
  pointIndices = pointsTrianglesAndPly[0]
 
  # The original data with coordinates in etc.
- ply = pointsTrianglesAndPly[2]
+ triangleFileData = pointsTrianglesAndPly[2]
 
  # The level of recursion
  level = pointsTrianglesAndPly[3]
@@ -439,7 +490,7 @@ def WooStep(pointsTrianglesAndPly):
  # The actual (x, y, z) coordinates of the points to compute the convex hull of
  points = []
  for p in pointIndices:
-  points.append(ply.Vertex(p))
+  points.append(triangleFileData.Vertex(p))
 
  # Find the convex hull
  hull = ConvexHull(points)
@@ -453,9 +504,22 @@ def WooStep(pointsTrianglesAndPly):
   vertices = []
   for f in face:
    vertices.append(pointIndices[f])
-  triangle = Triangle(vertices, [0.5, 1.0, 0.5], ply)
+  triangle = Triangle(vertices, [0.5, 1.0, 0.5], triangleFileData)
   hullTriangles.append(triangle)
   hullHalfSpaces.append(halfSpaces.Add(triangle)[0])
+
+ # Remove duplicates
+ hullHalfSpaces = list(dict.fromkeys(hullHalfSpaces))
+
+ hullSet = Set(-1)
+ for h in hullHalfSpaces:
+  hullSet = hullSet.Intersect(Set(h))
+ if level == 0:
+  finalSet = hullSet
+ elif level%2 == 1:
+  finalSet = finalSet.Subtract(hullSet)
+ else:
+  finalSet = finalSet.Unite(hullSet)
 
  if graphics > 2:
   MakeTriangleWindow(hullTriangles, title + " CH")
@@ -473,7 +537,9 @@ def WooStep(pointsTrianglesAndPly):
    for hhs in hullHalfSpaces:
     if hhs == hs:
      alreadyThere = True
-   if not alreadyThere:
+   if alreadyThere:
+    a = 1
+   else:
     # This triangle is not on the hull. So it needs to be considered at the next level of the recursion.
     triangle.SetColour([1, 0.5, 0.5])
     newTriangles.append(triangle)
@@ -487,12 +553,25 @@ def WooStep(pointsTrianglesAndPly):
   MakeTriangleWindow(newTriangles, title + " Inside triangles")
 
  if len(newTriangles) <= 0:
-  print("Nothing left at recursion level " + str(level))
+  if debug:
+   print("Nothing left at recursion level " + str(level))
  else:
   # Carry on down...
-  WooStep((newPointIndices, newTriangles, ply, level + 1))
+  pointsTrianglesAndPly = (newPointIndices, newTriangles, triangleFileData, level + 1)
+  WooStep(pointsTrianglesAndPly)
 
 #**************************************************************************************************
+
+def ToFile(fileName, halfSpaces, set):
+ file = open(fileName, "w")
+ file.write(str(negativeCorner) + "\n")
+ file.write(str(positiveCorner) + "\n")
+ count = len(halfSpaces)
+ file.write(str(count) + "\n")
+ for c in range(count):
+  file.write(str(halfSpaces.Get(c).Coeficients()) + "\n")
+ file.write(str(set) + "\n")
+ file.close()
 
 # Run the conversion
 
@@ -504,8 +583,8 @@ def WooStep(pointsTrianglesAndPly):
 #fileName = '../../two-nasty-nonmanifold-cubes.ply'
 #fileName = '../../554.2-extruder-drive-pneumatic.ply'
 #fileName = '../../cube-1-cylinder-1.ply'
-fileName = '../../STL2CSG-test-objects-woo-1.ply'
-#fileName = '../../STL2CSG-test-objects-woo-2.ply'
+#fileName = '../../STL2CSG-test-objects-woo-1.ply'
+fileName = '../../STL2CSG-test-objects-woo-2.ply'
 #fileName = '../../STL2CSG-test-objects-cube-cylinder.ply'
 #fileName = '../../STL2CSG-test-objects-cubePlusCylinder.ply'
 triangleFileData = TriangleFileData(fileName)
@@ -522,20 +601,15 @@ for v in range(triangleFileData.VertexCount()):
 
 middle = np.multiply(middle, 1.0 / triangleFileData.VertexCount())
 
-print(negativeCorner, positiveCorner, middle)
-
 for t in range(triangleFileData.TriangleCount()):
  triangle = Triangle(triangleFileData.Triangle(t), [0.5, 1.0, 0.5], triangleFileData)
  originalTriangles.append(triangle)
 
-# Testing the Set class
-
-s = Set(5).Subtract(Set(0).Union(Set(1)).Intersection(Set(2)))
-print(str(s))
-
 pointsTrianglesAndPly = (originalPointIndices, originalTriangles, triangleFileData, 0)
 
 WooStep(pointsTrianglesAndPly)
+
+ToFile("woo2.set", halfSpaces, finalSet)
 
 if graphics > 0:
  pyglet.app.run()
