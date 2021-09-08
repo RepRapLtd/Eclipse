@@ -41,7 +41,6 @@ def OpenSCADHalfSpace(hsIndex, halfSpace):
 
  d = 10.0*diagonal
  hsString += rotateAndTranslate + " cube([" + str(d) + ", " + str(d) + ", " + str(d) +"]);\n}\n\n"
- #print(hsString)
  return hsString
 
 def GetListFromLine(file):
@@ -54,6 +53,35 @@ def GetListFromLine(file):
  for item in lst:
   result.append(float(item))
  return result
+
+def IsOperator(symbol):
+ if symbol == 'u':
+  return True
+ if symbol == '^':
+  return True
+ if symbol == '-':
+  return True
+ return False
+
+def ParseSet():
+ global negativeCorner, positiveCorner, diagonal, halfSpaceList, set
+ a=[]
+ b={'-': lambda x,y: "difference() {s" + str(x) + "(); s" + str(y)+ "();}",
+    'u': lambda x,y: "union() {s" + str(x) + "(); s" + str(y)+ "();}",
+    '^': lambda x,y: "intersection() {s" + str(x) + "(); s" + str(y)+ "();}"}
+ for c in set:
+  if c in b:
+   a.append(b[c](a.pop(),a.pop()))
+  else:
+   a.append(c)
+ s = a[0]
+ s = s.replace("sintersection", "intersection")
+ s = s.replace("sunion", "union")
+ s = s.replace("sdifference", "difference")
+ s = s.replace("}()", "}")
+ return s
+
+
 
 def ReadSetFile(fileName):
  global negativeCorner, positiveCorner, diagonal, halfSpaceList, set
@@ -73,14 +101,17 @@ def ReadSetFile(fileName):
  set = file.readline()
  set = set.replace("\n", "")
  set = set.split(" ")
- print(set)
  newList = []
  for hsIndex in range(len(halfSpaceList)):
   newList.append(OpenSCADHalfSpace(hsIndex, halfSpaceList[hsIndex]))
  halfSpaceList = newList
+ set = ParseSet()
 
 
 
-ReadSetFile("woo1.set")
+ReadSetFile("woo2.set")
+for hs in halfSpaceList:
+ print(hs)
+print(set)
 
 
