@@ -13,6 +13,7 @@
 
 import math as maths
 import numpy as np
+import numbers
 
 # Fudge factor
 small = 0.000001
@@ -54,32 +55,48 @@ def GetListFromLine(file):
   result.append(float(item))
  return result
 
-def IsOperator(symbol):
- if symbol == 'u':
+
+def SetExpression(op, a, b):
+ result = op + "{"
+ if isinstance(a, (int)):
+  result += "s" + str(a) + "();"
+ else:
+  result += a + ";"
+ if isinstance(b, (int)):
+  result += "s" + str(b) + "();"
+ else:
+  result += b + ";"
+ result += "}"
+ return result
+
+def IsOperator(o):
+ if o == '-':
   return True
- if symbol == '^':
+ if o == 'u':
   return True
- if symbol == '-':
+ if o == '^':
   return True
  return False
 
 def ParseSet():
  global negativeCorner, positiveCorner, diagonal, halfSpaceList, set
+ newSet = []
+ for s in set:
+  if IsOperator(s):
+   newSet.append(s)
+  else:
+   newSet.append(int(s))
+ set = newSet
  a=[]
- b={'-': lambda x,y: "difference() {s" + str(x) + "(); s" + str(y)+ "();}",
-    'u': lambda x,y: "union() {s" + str(x) + "(); s" + str(y)+ "();}",
-    '^': lambda x,y: "intersection() {s" + str(x) + "(); s" + str(y)+ "();}"}
+ b={'-': lambda x,y: SetExpression("difference()", x, y),
+    'u': lambda x,y: SetExpression("union()", x, y),
+    '^': lambda x,y: SetExpression("intersection()", x, y)}
  for c in set:
   if c in b:
    a.append(b[c](a.pop(),a.pop()))
   else:
    a.append(c)
- s = a[0]
- s = s.replace("sintersection", "intersection")
- s = s.replace("sunion", "union")
- s = s.replace("sdifference", "difference")
- s = s.replace("}()", "}")
- return s
+ set = a[0]
 
 
 
@@ -105,7 +122,7 @@ def ReadSetFile(fileName):
  for hsIndex in range(len(halfSpaceList)):
   newList.append(OpenSCADHalfSpace(hsIndex, halfSpaceList[hsIndex]))
  halfSpaceList = newList
- set = ParseSet()
+ ParseSet()
 
 
 
