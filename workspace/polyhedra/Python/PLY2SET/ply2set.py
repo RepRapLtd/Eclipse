@@ -583,8 +583,8 @@ def ToFile(fileName, halfSpaces, set):
 #fileName = '../../two-nasty-nonmanifold-cubes.ply'
 #fileName = '../../554.2-extruder-drive-pneumatic.ply'
 #fileName = '../../cube-1-cylinder-1.ply'
-#fileName = '../../STL2CSG-test-objects-woo-1.ply'
-fileName = '../../STL2CSG-test-objects-woo-2.ply'
+fileName = '../../STL2CSG-test-objects-woo-1.ply'
+#fileName = '../../STL2CSG-test-objects-woo-2.ply'
 #fileName = '../../STL2CSG-test-objects-cube-cylinder.ply'
 #fileName = '../../STL2CSG-test-objects-cubePlusCylinder.ply'
 triangleFileData = TriangleFileData(fileName)
@@ -609,7 +609,7 @@ pointsTrianglesAndPly = (originalPointIndices, originalTriangles, triangleFileDa
 
 WooStep(pointsTrianglesAndPly)
 
-ToFile("woo2.set", halfSpaces, finalSet)
+ToFile("woo1.set", halfSpaces, finalSet)
 
 if graphics > 0:
  pyglet.app.run()
