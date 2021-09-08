@@ -181,7 +181,7 @@ class HalfSpace:
   self.triangles.append((triangle, same))
 
  def Coeficients(self):
-  return [self.normal[0], self.normal[1], self.normal[2], self.d]
+  return np.array([self.normal[0], self.normal[1], self.normal[2], self.d])
 
  def __str__(self):
   result = "{" + str(self.normal[0]) + "x + " + str(self.normal[1]) + "y + " +\
