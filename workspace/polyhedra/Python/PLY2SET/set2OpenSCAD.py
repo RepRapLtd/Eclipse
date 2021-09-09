@@ -21,12 +21,16 @@ small = 0.000001
 def OpenSCADHalfSpace(hsIndex, halfSpace):
  hsString = "module s"+str(hsIndex) + "()\n{\n"
 
- translate = np.multiply(halfSpace[0], halfSpace[1])
+ translate = np.multiply(halfSpace[0], -halfSpace[1])
  translate = " translate([" + str(translate[0]) + ", " + str(translate[1]) + ", " + str(translate[2]) +"])\n"
  hsString += translate;
 
  cross = np.cross(halfSpace[0], [0, 0, 1])
  sine = maths.sqrt(np.dot(cross, cross))
+ if sine > 1:
+  sine = 1
+ if sine < -1:
+  sine = -1
 
  d = -5.0*diagonal
  if abs(sine) < small:
@@ -36,28 +40,24 @@ def OpenSCADHalfSpace(hsIndex, halfSpace):
   else:
    rotateAndTranslate = " translate([" + str(d) + ", " + str(d) + ", 0.0])\n"
  else:
-  sine = maths.sin(sine)
-  rotateAndTranslate = " rotate(a = " + str(180.0*sine/maths.pi) + ", v = [" + str(cross[0]) + ", " + str(cross[1]) + ", " + str(cross[2]) + "])\n"
+  sine = maths.asin(sine)
+  rotateAndTranslate = " rotate(a = " + str(-180.0*sine/maths.pi) + ", v = [" + str(cross[0]) + ", " + str(cross[1]) + ", " + str(cross[2]) + "])\n"
   rotateAndTranslate += " translate([" + str(d) + ", " + str(d) + ", " + str(2.0*d) +"])\n"
 
  d = 10.0*diagonal
  hsString += rotateAndTranslate + " cube([" + str(d) + ", " + str(d) + ", " + str(d) +"]);\n}\n\n"
  return hsString
 
-def GetListFromLine(file):
- lst = file.readline()
- lst = lst.replace("[", "")
- lst = lst.replace("]", "")
- lst = " ".join( lst.split() )
- lst = lst.split(" ")
- result = []
- for item in lst:
-  result.append(float(item))
- return result
 
 
-def SetExpression(op, a, b):
- result = op + "{"
+def SetExpression(o, a, b):
+ if o == 'u':
+  result = "union()"
+ elif o == '^':
+  result = "intersection()"
+ else:
+  result = "difference()"
+ result += "{"
  if isinstance(a, (int)):
   result += "s" + str(a) + "();"
  else:
@@ -88,16 +88,23 @@ def ParseSet():
    newSet.append(int(s))
  set = newSet
  a=[]
- b={'-': lambda x,y: SetExpression("difference()", x, y),
-    'u': lambda x,y: SetExpression("union()", x, y),
-    '^': lambda x,y: SetExpression("intersection()", x, y)}
- for c in set:
-  if c in b:
-   a.append(b[c](a.pop(),a.pop()))
+ for s in set:
+  if IsOperator(s):
+   a.append(SetExpression(s, a.pop(), a.pop()))
   else:
-   a.append(c)
+   a.append(s)
  set = a[0]
 
+def GetListFromLine(file):
+ lst = file.readline()
+ lst = lst.replace("[", "")
+ lst = lst.replace("]", "")
+ lst = " ".join( lst.split() )
+ lst = lst.split(" ")
+ result = []
+ for item in lst:
+  result.append(float(item))
+ return result
 
 
 def ReadSetFile(fileName):
