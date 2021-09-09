@@ -133,7 +133,7 @@ def ReadSetFile(fileName):
 
 
 
-ReadSetFile("woo2.set")
+ReadSetFile("cube.set")
 for hs in halfSpaceList:
  print(hs)
 print(set)

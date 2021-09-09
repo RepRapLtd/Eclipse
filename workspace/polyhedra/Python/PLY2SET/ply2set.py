@@ -130,7 +130,6 @@ class Triangle:
   self.normal = np.multiply(self.normal, 1.0/s2)
   self.colour = RandomShade(colour)
   self.centroid = np.multiply(np.add(np.add(points[0],points[1]), points[2]), 1.0/3.0)
-  self.halfSpace = (-1, True)
 
  # The three actual space (x, y, z) coordinates of the vertices
  def Points(self):
@@ -143,6 +142,14 @@ class Triangle:
  def SetColour(self, colour):
   self.colour = RandomShade(colour)
 
+ def __str__(self):
+  corners = self.Points()
+  result = "<\n"
+  for c in corners:
+   result += " " + str(c) + "\n"
+  result += ">\n"
+  return result
+
 #*************************************************************************************************************
 
 # A planar half space of the form Ax + By + Cz + D <= 0, where (A, B, C) is the
@@ -154,13 +161,10 @@ class Triangle:
 
 class HalfSpace:
  def __init__(self, triangle):
-  self.triangles = []
-  self.triangles.append((triangle, True))
   self.normal = triangle.normal
   self.d = -np.dot(self.normal, triangle.centroid)
 
 # Note: two coincident half spaces of opposite sense are not considered equal.
-# To find such call Opposite below.
 
  def __eq__(self, halfSpace):
   if 1.0 - np.dot(halfSpace.normal, self.normal) > small:
@@ -168,17 +172,6 @@ class HalfSpace:
   if abs(self.d - halfSpace.d) > small:
    return False
   return True
-
- def Opposite(self, halfSpace):
-  if 1.0 + np.dot(halfSpace.normal, self.normal) > small:
-   return False
-  if abs(self.d + halfSpace.d) > small:
-   return False
-  return True
-
- # Keep a list of all triangles that lie in this halfspace
- def AddTriangle(self, triangle, same):
-  self.triangles.append((triangle, same))
 
  def Coeficients(self):
   return np.array([self.normal[0], self.normal[1], self.normal[2], self.d])
@@ -281,58 +274,6 @@ class Set:
 
 finalSet = Set(-1)
 
-#********************************************************************************************************
-
-# A list of half spaces
-
-class HalfSpaceList:
- def __init__(self):
-  self.halfSpaceList = []
-
- # Is halfSpace in the list? If so return an index to it, together with a logical flag
- # indicating if it is the same sense or opposite. If not, return (-1, ...)
- def LookUp(self, halfSpace):
-  for hs in range(len(self.halfSpaceList)):
-   listHalfSpace = self.halfSpaceList[hs]
-   if halfSpace == listHalfSpace:
-    return (hs, True)
-   if halfSpace.Opposite(listHalfSpace):
-    return (hs, False)
-  return (-1, True)
-
- # Add the halfspace corresponding to triangle to the list, unless that half space is
- # already in the list. Return the index of the half space in the list and a same/opposite flag.
- # Maintain the triangle's pointer to its corresponding half space, and the half space's list
- # of triangles in it.
-
- def Add(self, triangle):
-  last = len(self.halfSpaceList)
-  halfSpace = HalfSpace(triangle)
-  inList = self.LookUp(halfSpace)
-  hs = inList[0]
-  if hs < 0:
-   self.halfSpaceList.append(halfSpace)
-   halfSpace.AddTriangle(triangle, True)
-   triangle.halfSpace = (last, True)
-   return (last, True)
-
-  listHalfSpace = self.halfSpaceList[hs]
-  if inList[1]:
-   listHalfSpace.AddTriangle(triangle, True)
-   triangle.halfSpace = (hs, True)
-  else:
-   listHalfSpace.AddTriangle(triangle, False)
-   triangle.halfSpace = (hs, False)
-  return inList
-
- def Get(self, index):
-  return self.halfSpaceList[index]
-
- def __len__(self):
-  return len(self.halfSpaceList)
-# We want there to be just one global instance of this
-
-halfSpaces = HalfSpaceList()
 
 #*******************************************************************************************************
 
@@ -457,35 +398,85 @@ def MakeTriangleWindow(triangles, title):
  PutWorldInWindow(world, title)
 
 
+#********************************************************************************************************
+
+# A list of half spaces
+
+class HalfSpaceList:
+ def __init__(self):
+  self.halfSpaceList = []
+
+ # Is halfSpace in the list? If so return an index to it, together with a logical flag
+ # indicating if it is the same sense or opposite. If not, return -1
+ def LookUp(self, halfSpace):
+  for hs in range(len(self.halfSpaceList)):
+   listHalfSpace = self.halfSpaceList[hs]
+   if halfSpace == listHalfSpace:
+    return hs
+  return -1
+
+ # Add the halfspace corresponding to triangle to the list, unless that half space is
+ # already in the list. Return the index of the half space in the list and a same/opposite flag.
+ # Maintain the triangle's pointer to its corresponding half space, and the half space's list
+ # of triangles in it.
+
+ def Add(self, triangle):
+  last = len(self.halfSpaceList)
+  halfSpace = HalfSpace(triangle)
+  inList = self.LookUp(halfSpace)
+  if inList < 0:
+   self.halfSpaceList.append(halfSpace)
+   return last
+
+  return inList
+
+ def Get(self, index):
+  return self.halfSpaceList[index]
+
+ def __len__(self):
+  return len(self.halfSpaceList)
+
+# We want there to be just one global instance of this
+
+halfSpaces = HalfSpaceList()
+
+
 #*************************************************************************************************
 
 # Recursive procedure for my variation on Woo's alternating sum of volumes algorithm.
 
-def WooStep(pointsTrianglesAndPly):
+def WooStep(trianglesAndPly):
  global finalSet
  # The triangles for which we want the next convex hull
  # Anything to do?
- triangles = pointsTrianglesAndPly[1]
+ triangles = trianglesAndPly[0]
  if len(triangles) <= 0:
   return
 
- # The vertices of those triangles with no duplicates. These are indices of the
- # points in the original ply file.
- pointIndices = pointsTrianglesAndPly[0]
-
  # The original data with coordinates in etc.
- triangleFileData = pointsTrianglesAndPly[2]
+ triangleFileData = trianglesAndPly[1]
 
  # The level of recursion
- level = pointsTrianglesAndPly[3]
+ level = trianglesAndPly[2]
+ title = "Level: " + str(level)
 
  if graphics > 0:
-  title = "Level: " + str(level)
   MakeTriangleWindow(triangles, title + " original triangles")
 
+ # The vertices of those triangles with no duplicates. These are indices of the
+ # points in the original ply file.
+ pointIndices = []
+
  # Add a halfspace for each triangle as long as it is not already in the halfspace list
+ # Also gather all the vertices
  for triangle in triangles:
   halfSpaces.Add(triangle)
+  for v in triangle.Vertices():
+   pointIndices.append(v)
+
+ # Remove duplicates
+ pointIndices = list(dict.fromkeys(pointIndices))
+ print(pointIndices)
 
  # The actual (x, y, z) coordinates of the points to compute the convex hull of
  points = []
@@ -506,14 +497,14 @@ def WooStep(pointsTrianglesAndPly):
    vertices.append(pointIndices[f])
   triangle = Triangle(vertices, [0.5, 1.0, 0.5], triangleFileData)
   hullTriangles.append(triangle)
-  hullHalfSpaces.append(halfSpaces.Add(triangle)[0])
+  hullHalfSpaces.append(halfSpaces.Add(triangle))
 
  # Remove duplicates
  hullHalfSpaces = list(dict.fromkeys(hullHalfSpaces))
 
  hullSet = Set(-1)
- for h in hullHalfSpaces:
-  hullSet = hullSet.Intersect(Set(h))
+ for hs in hullHalfSpaces:
+  hullSet = hullSet.Intersect(Set(hs))
  if level == 0:
   finalSet = hullSet
  elif level%2 == 1:
@@ -527,27 +518,17 @@ def WooStep(pointsTrianglesAndPly):
  # Classify each triangle we came in with as being on
  # the hull or not. On means it coincides with a hull halfspace; not, not.
  newTriangles = []
- newPointIndices = []
  for triangle in triangles:
-  hs = triangle.halfSpace[0]
-  if hs < 0:
-   sys.exit("WooStep(): Original triangle with no halfspace! Error!")
-  else:
-   alreadyThere = False
-   for hhs in hullHalfSpaces:
-    if hhs == hs:
-     alreadyThere = True
-   if alreadyThere:
-    a = 1
-   else:
-    # This triangle is not on the hull. So it needs to be considered at the next level of the recursion.
-    triangle.SetColour([1, 0.5, 0.5])
-    newTriangles.append(triangle)
-    for v in triangle.Vertices():
-     newPointIndices.append(v)
-
- # remove duplicate vertices
- newPointIndices = list(dict.fromkeys(newPointIndices))
+  hs = halfSpaces.Add(triangle)
+  alreadyThere = False
+  for hhs in hullHalfSpaces:
+   if hhs == hs:
+    alreadyThere = True
+    break
+  if not alreadyThere:
+   # This triangle is not on the hull. So it needs to be considered at the next level of the recursion.
+   triangle.SetColour([1, 0.5, 0.5])
+   newTriangles.append(triangle)
 
  if graphics > 2:
   MakeTriangleWindow(newTriangles, title + " Inside triangles")
@@ -557,8 +538,8 @@ def WooStep(pointsTrianglesAndPly):
    print("Nothing left at recursion level " + str(level))
  else:
   # Carry on down...
-  pointsTrianglesAndPly = (newPointIndices, newTriangles, triangleFileData, level + 1)
-  WooStep(pointsTrianglesAndPly)
+  trianglesAndPly = (newTriangles, triangleFileData, level + 1)
+  WooStep(trianglesAndPly)
 
 #**************************************************************************************************
 
@@ -591,11 +572,7 @@ place = "../../"
 #fileName = '../../STL2CSG-test-objects-cubePlusCylinder.ply'
 triangleFileData = TriangleFileData(place+model+".ply")
 
-originalPointIndices = []
-originalTriangles = []
-
 for v in range(triangleFileData.VertexCount()):
- originalPointIndices.append(v)
  vertex = triangleFileData.Vertex(v)
  middle = np.add(middle, vertex)
  positiveCorner = np.maximum(positiveCorner, vertex)
@@ -603,13 +580,15 @@ for v in range(triangleFileData.VertexCount()):
 
 middle = np.multiply(middle, 1.0 / triangleFileData.VertexCount())
 
+originalTriangles = []
+
 for t in range(triangleFileData.TriangleCount()):
  triangle = Triangle(triangleFileData.Triangle(t), [0.5, 1.0, 0.5], triangleFileData)
  originalTriangles.append(triangle)
 
-pointsTrianglesAndPly = (originalPointIndices, originalTriangles, triangleFileData, 0)
+trianglesAndPly = (originalTriangles, triangleFileData, 0)
 
-WooStep(pointsTrianglesAndPly)
+WooStep(trianglesAndPly)
 
 ToFile(model+".set", halfSpaces, finalSet)
 
