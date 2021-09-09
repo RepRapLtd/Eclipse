@@ -53,9 +53,9 @@ small = 0.000001
 #
 # 0 - no graphics
 # 1 - input triangles at each stage
-# 2 - input and output triangles at each stage
+# 2 - input triangles at each stage plus the CH
 # 3 - input and output triangles at each stage plus the convex hulls
-graphics = 1
+graphics = 2
 
 # True to print debugging information
 debug = False
@@ -365,7 +365,7 @@ class Model:
 
   glEnable(GL_DEPTH_TEST)
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-  glDisable(GL_LIGHTING)
+  glEnable(GL_LIGHTING)
   glEnable(GL_LIGHT0)
   glEnable(GL_COLOR_MATERIAL)
   glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE )
@@ -521,7 +521,7 @@ def WooStep(pointsTrianglesAndPly):
  else:
   finalSet = finalSet.Unite(hullSet)
 
- if graphics > 2:
+ if graphics > 1:
   MakeTriangleWindow(hullTriangles, title + " CH")
 
  # Classify each triangle we came in with as being on
@@ -549,7 +549,7 @@ def WooStep(pointsTrianglesAndPly):
  # remove duplicate vertices
  newPointIndices = list(dict.fromkeys(newPointIndices))
 
- if graphics > 1:
+ if graphics > 2:
   MakeTriangleWindow(newTriangles, title + " Inside triangles")
 
  if len(newTriangles) <= 0:
@@ -575,6 +575,8 @@ def ToFile(fileName, halfSpaces, set):
 
 # Run the conversion
 
+model = "STL2CSG-test-objects-woo-2"
+place = "../../"
 #fileName = '../../cube.ply'
 #fileName = '../../two-disjoint-cubes.ply'
 #fileName = '../../two-overlapping-cubes.ply'
@@ -583,11 +585,11 @@ def ToFile(fileName, halfSpaces, set):
 #fileName = '../../two-nasty-nonmanifold-cubes.ply'
 #fileName = '../../554.2-extruder-drive-pneumatic.ply'
 #fileName = '../../cube-1-cylinder-1.ply'
-fileName = '../../STL2CSG-test-objects-woo-1.ply'
+#fileName = '../../STL2CSG-test-objects-woo-1.ply'
 #fileName = '../../STL2CSG-test-objects-woo-2.ply'
 #fileName = '../../STL2CSG-test-objects-cube-cylinder.ply'
 #fileName = '../../STL2CSG-test-objects-cubePlusCylinder.ply'
-triangleFileData = TriangleFileData(fileName)
+triangleFileData = TriangleFileData(place+model+".ply")
 
 originalPointIndices = []
 originalTriangles = []
@@ -609,7 +611,7 @@ pointsTrianglesAndPly = (originalPointIndices, originalTriangles, triangleFileDa
 
 WooStep(pointsTrianglesAndPly)
 
-ToFile("woo1.set", halfSpaces, finalSet)
+ToFile(model+".set", halfSpaces, finalSet)
 
 if graphics > 0:
  pyglet.app.run()
