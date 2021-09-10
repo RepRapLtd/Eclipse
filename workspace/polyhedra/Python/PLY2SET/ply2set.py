@@ -427,15 +427,16 @@ class HalfSpaceList:
    listHalfSpace = self.halfSpaceList[hs]
    if halfSpace == listHalfSpace:
     return hs
-   if listHalfSpace.Opposite(halfSpace):
+   if halfSpace.Opposite(listHalfSpace):
     return hs
   return -1
 
  # Add the halfspace to the list, unless that half space is
  # already in the list. Return the index of the half space in the list.
+ # This ignores the sense of the halfspace
  def AddSpace(self, halfSpace):
   last = len(self.halfSpaceList)
-  inList = self.LookUp(halfSpace)
+  inList = self.LookUpIgnoringSense(halfSpace)
   if inList < 0:
    self.halfSpaceList.append(halfSpace)
    return last
@@ -462,6 +463,7 @@ halfSpaces = HalfSpaceList()
 
 def WooStep(trianglesAndPly):
  global finalSet
+
  # The triangles for which we want the next convex hull
  # Anything to do?
  triangles = trianglesAndPly[0]
@@ -489,7 +491,7 @@ def WooStep(trianglesAndPly):
   for v in triangle.Vertices():
    pointIndices.append(v)
 
- # Remove duplicates
+ # Remove duplicate point indices
  pointIndices = list(dict.fromkeys(pointIndices))
 
  # The actual (x, y, z) coordinates of the points to compute the convex hull of
@@ -507,6 +509,7 @@ def WooStep(trianglesAndPly):
  for face in hull.simplices:
   vertices = []
   for f in face:
+   # We need to record using the global indexing system
    vertices.append(pointIndices[f])
   triangle = Triangle(vertices, [0.5, 1.0, 0.5], triangleFileData)
   hullTriangles.append(triangle)
@@ -561,7 +564,7 @@ def ToFile(fileName, halfSpaces, set):
 
 # Run the conversion
 
-model = "STL2CSG-test-objects-woo-1"
+model = "STL2CSG-test-objects-woo-2"
 place = "../../"
 #fileName = '../../cube.ply'
 #fileName = '../../two-disjoint-cubes.ply'
