@@ -55,7 +55,7 @@ small = 0.000001
 # 1 - input triangles at each stage
 # 2 - input triangles at each stage plus the CH
 # 3 - input and output triangles at each stage plus the convex hulls
-graphics = 2
+graphics = 1
 
 # True to print debugging information
 debug = False
@@ -170,6 +170,13 @@ class HalfSpace:
   if 1.0 - np.dot(halfSpace.normal, self.normal) > small:
    return False
   if abs(self.d - halfSpace.d) > small:
+   return False
+  return True
+
+ def Opposite(self, halfSpace):
+  if 1.0 + np.dot(halfSpace.normal, self.normal) > small:
+   return False
+  if abs(self.d + halfSpace.d) > small:
    return False
   return True
 
@@ -415,20 +422,28 @@ class HalfSpaceList:
     return hs
   return -1
 
- # Add the halfspace corresponding to triangle to the list, unless that half space is
- # already in the list. Return the index of the half space in the list and a same/opposite flag.
- # Maintain the triangle's pointer to its corresponding half space, and the half space's list
- # of triangles in it.
+ def LookUpIgnoringSense(self, halfSpace):
+  for hs in range(len(self.halfSpaceList)):
+   listHalfSpace = self.halfSpaceList[hs]
+   if halfSpace == listHalfSpace:
+    return hs
+   if listHalfSpace.Opposite(halfSpace):
+    return hs
+  return -1
 
- def Add(self, triangle):
+ # Add the halfspace to the list, unless that half space is
+ # already in the list. Return the index of the half space in the list.
+ def AddSpace(self, halfSpace):
   last = len(self.halfSpaceList)
-  halfSpace = HalfSpace(triangle)
   inList = self.LookUp(halfSpace)
   if inList < 0:
    self.halfSpaceList.append(halfSpace)
    return last
-
   return inList
+
+ def AddTriangle(self, triangle):
+  halfSpace = HalfSpace(triangle)
+  return self.AddSpace(halfSpace)
 
  def Get(self, index):
   return self.halfSpaceList[index]
@@ -470,13 +485,12 @@ def WooStep(trianglesAndPly):
  # Add a halfspace for each triangle as long as it is not already in the halfspace list
  # Also gather all the vertices
  for triangle in triangles:
-  halfSpaces.Add(triangle)
+  halfSpaces.AddTriangle(triangle)
   for v in triangle.Vertices():
    pointIndices.append(v)
 
  # Remove duplicates
  pointIndices = list(dict.fromkeys(pointIndices))
- print(pointIndices)
 
  # The actual (x, y, z) coordinates of the points to compute the convex hull of
  points = []
@@ -486,31 +500,17 @@ def WooStep(trianglesAndPly):
  # Find the convex hull
  hull = ConvexHull(points)
 
- # Make a list of the hull triangles and their corresponding halfspaces
- # Note that any halfspaces that are already in the main list will not be duplicated
- # because of the way the halfSpaces.Add() function works.
+ # Make a list of the hull triangles and their corresponding half spaces
+
  hullTriangles = []
- hullHalfSpaces = []
+ hullHalfSpaces = HalfSpaceList()
  for face in hull.simplices:
   vertices = []
   for f in face:
    vertices.append(pointIndices[f])
   triangle = Triangle(vertices, [0.5, 1.0, 0.5], triangleFileData)
   hullTriangles.append(triangle)
-  hullHalfSpaces.append(halfSpaces.Add(triangle))
-
- # Remove duplicates
- hullHalfSpaces = list(dict.fromkeys(hullHalfSpaces))
-
- hullSet = Set(-1)
- for hs in hullHalfSpaces:
-  hullSet = hullSet.Intersect(Set(hs))
- if level == 0:
-  finalSet = hullSet
- elif level%2 == 1:
-  finalSet = finalSet.Subtract(hullSet)
- else:
-  finalSet = finalSet.Unite(hullSet)
+  hullHalfSpaces.AddTriangle(triangle)
 
  if graphics > 1:
   MakeTriangleWindow(hullTriangles, title + " CH")
@@ -519,24 +519,29 @@ def WooStep(trianglesAndPly):
  # the hull or not. On means it coincides with a hull halfspace; not, not.
  newTriangles = []
  for triangle in triangles:
-  hs = halfSpaces.Add(triangle)
-  alreadyThere = False
-  for hhs in hullHalfSpaces:
-   if hhs == hs:
-    alreadyThere = True
-    break
-  if not alreadyThere:
-   # This triangle is not on the hull. So it needs to be considered at the next level of the recursion.
+  halfSpace = HalfSpace(triangle)
+  hs = hullHalfSpaces.LookUpIgnoringSense(halfSpace)
+  if hs < 0:
    triangle.SetColour([1, 0.5, 0.5])
    newTriangles.append(triangle)
 
  if graphics > 2:
   MakeTriangleWindow(newTriangles, title + " Inside triangles")
 
- if len(newTriangles) <= 0:
-  if debug:
-   print("Nothing left at recursion level " + str(level))
+ #Add the hull to, or subtract it from, the model.
+ hullSet = Set(-1)
+ for h in range(len(hullHalfSpaces)):
+  hs = hullHalfSpaces.Get(h)
+  bigListIndex = halfSpaces.AddSpace(hs)
+  hullSet = hullSet.Intersect(Set(bigListIndex))
+ if level == 0:
+  finalSet = hullSet
+ elif level%2 == 1:
+  finalSet = finalSet.Subtract(hullSet)
  else:
+  finalSet = finalSet.Unite(hullSet)
+
+ if len(newTriangles) > 0:
   # Carry on down...
   trianglesAndPly = (newTriangles, triangleFileData, level + 1)
   WooStep(trianglesAndPly)
@@ -556,7 +561,7 @@ def ToFile(fileName, halfSpaces, set):
 
 # Run the conversion
 
-model = "STL2CSG-test-objects-woo-2"
+model = "STL2CSG-test-objects-woo-1"
 place = "../../"
 #fileName = '../../cube.ply'
 #fileName = '../../two-disjoint-cubes.ply'
