@@ -18,8 +18,10 @@ import numbers
 # Fudge factor
 small = 0.000001
 
-def OpenSCADHalfSpace(hsIndex, halfSpace):
- hsString = "module s"+str(hsIndex) + "()\n{\n"
+def OpenSCADHalfSpace(halfSpaceAndIndex):
+ hsIndex = halfSpaceAndIndex[0]
+ halfSpace = halfSpaceAndIndex[1]
+ hsString = "module s"+str(round(hsIndex)) + "()\n{\n"
 
  translate = np.multiply(halfSpace[0], -halfSpace[1])
  translate = " translate([" + str(translate[0]) + ", " + str(translate[1]) + ", " + str(translate[2]) +"])\n"
@@ -118,22 +120,22 @@ def ReadSetFile(fileName):
  halfSpaceList = []
  for hsIndex in range(halfSpaceCount):
   hs = GetListFromLine(file)
-  normal = [hs[0], hs[1], hs[2]]
-  d = hs[3]
-  hs = [normal, d]
+  normal = [hs[1], hs[2], hs[3]]
+  d = hs[4]
+  hs = (hs[0], [normal, d])
   halfSpaceList.append(hs)
  set = file.readline()
  set = set.replace("\n", "")
  set = set.split(" ")
  newList = []
  for hsIndex in range(len(halfSpaceList)):
-  newList.append(OpenSCADHalfSpace(hsIndex, halfSpaceList[hsIndex]))
+  newList.append(OpenSCADHalfSpace(halfSpaceList[hsIndex]))
  halfSpaceList = newList
  ParseSet()
 
 
 
-ReadSetFile("STL2CSG-test-objects-woo-2.set")
+ReadSetFile("cube.set")
 for hs in halfSpaceList:
  print(hs)
 print(set)

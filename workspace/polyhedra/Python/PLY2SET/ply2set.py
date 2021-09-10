@@ -55,7 +55,7 @@ small = 0.000001
 # 1 - input triangles at each stage
 # 2 - input triangles at each stage plus the CH
 # 3 - input and output triangles at each stage plus the convex hulls
-graphics = 1
+graphics = 3
 
 # True to print debugging information
 debug = False
@@ -73,6 +73,9 @@ positiveCorner = [-sys.float_info.max, -sys.float_info.max, -sys.float_info.max]
 negativeCorner = [sys.float_info.max, sys.float_info.max, sys.float_info.max]
 middle = [0, 0, 0]
 
+# We want there to be just one global instance of this
+
+halfSpaces = None
 
 # Take a base RGB colour and perturb it a bit. Used to allow coplanar triangles
 # to be distinguished.
@@ -122,14 +125,15 @@ class Triangle:
  def __init__(self, vertices, colour, ply):
   self.vertices = vertices
   self.ply = ply
-  points = self.Points()
-  self.normal = np.cross( np.subtract(points[1], points[0]), np.subtract(points[2], points[0]) )
+  self.points = self.Points()
+  self.normal = np.cross( np.subtract(self.points[1], self.points[0]), np.subtract(self.points[2], self.points[0]) )
   s2 = maths.sqrt(np.dot(self.normal, self.normal))
   if s2 < small:
    print("Triangle: vertices are collinear!")
   self.normal = np.multiply(self.normal, 1.0/s2)
   self.colour = RandomShade(colour)
-  self.centroid = np.multiply(np.add(np.add(points[0],points[1]), points[2]), 1.0/3.0)
+  self.centroid = np.multiply(np.add(np.add(self.points[0], self.points[1]), self.points[2]), 1.0/3.0)
+  self.halfSpace = -1
 
  # The three actual space (x, y, z) coordinates of the vertices
  def Points(self):
@@ -141,6 +145,28 @@ class Triangle:
 
  def SetColour(self, colour):
   self.colour = RandomShade(colour)
+
+ def Invert(self):
+  temp = self.vertices[0]
+  self.vertices[0] = self.vertices[1]
+  self.vertices[1] = temp
+  self.halfSpace = halfSpaces.Get(self.halfSpace).complement
+  self.normal = [-self.normal[0], -self.normal[1], -self.normal[2]]
+  self.points = self.Points()
+
+ def ContainsPoint(self, point):
+  for p0 in range(3):
+   p1 = (p0+1)%3
+   p2 = (p0+2)%3
+   p10 = np.subtract(self.points[p1], self.points[p0])
+   p20 = np.subtract(self.points[p2], self.points[p0])
+   d12 = np.cross(p10, p20)
+   pp0 = np.subtract(point, self.points[p0])
+   dp0 = np.cross(p10, pp0)
+   if np.dot(d12, dp0) < 0:
+    return False
+  return True
+
 
  def __str__(self):
   corners = self.Points()
@@ -160,7 +186,11 @@ class Triangle:
 # where same  is True means the normals coincide, False means they are exactly opposite.
 
 class HalfSpace:
- def __init__(self, triangle):
+ def __init__(self, triangle = None):
+  self.complement = -1
+  self.flag = False
+  if triangle is None:
+   return
   self.normal = triangle.normal
   self.d = -np.dot(self.normal, triangle.centroid)
 
@@ -180,6 +210,19 @@ class HalfSpace:
    return False
   return True
 
+ def Complement(self):
+  result = HalfSpace()
+  result.normal = [-self.normal[0], -self.normal[1], -self.normal[2]]
+  result.d = -self.d
+  result.complement = -1
+  return result
+
+ def SetFlag(self, f):
+  if self.flag:
+   return 0
+  self.flag = f
+  return 1
+
  def Coeficients(self):
   return np.array([self.normal[0], self.normal[1], self.normal[2], self.d])
 
@@ -188,6 +231,64 @@ class HalfSpace:
    str(self.normal[2]) + "z + " + str(self.d) + " <= 0}"
   result = result.replace("+ -", "- ") #Sigh!
   return result
+
+
+#********************************************************************************************************
+
+# A list of half spaces
+
+class HalfSpaceList:
+ def __init__(self):
+  self.halfSpaceList = []
+
+ # Is halfSpace in the list? If so return an index to it, together with a logical flag
+ # indicating if it is the same sense or opposite. If not, return -1
+ def LookUp(self, halfSpace):
+  for hs in range(len(self.halfSpaceList)):
+   listHalfSpace = self.halfSpaceList[hs]
+   if halfSpace == listHalfSpace:
+    return hs
+  return -1
+
+ def LookUpIgnoringSense(self, halfSpace):
+  for hs in range(len(self.halfSpaceList)):
+   listHalfSpace = self.halfSpaceList[hs]
+   if halfSpace == listHalfSpace:
+    return hs
+   if halfSpace.Opposite(listHalfSpace):
+    return hs
+  return -1
+
+ # Add the halfspace to the list, unless that half space is
+ # already in the list. Return the index of the half space in the list.
+ # This ignores the sense of the halfspace
+ def AddSpace(self, halfSpace):
+  last = len(self.halfSpaceList)
+  inList = self.LookUp(halfSpace)
+  if inList < 0:
+   self.halfSpaceList.append(halfSpace)
+   self.halfSpaceList.append(halfSpace.Complement())
+   halfSpace.complement = last + 1
+   self.halfSpaceList[last+1].complement = last
+   return last
+  else:
+   return inList
+
+ def AddTriangle(self, triangle):
+  halfSpace = HalfSpace(triangle)
+  index = self.AddSpace(halfSpace)
+  triangle.halfSpace = index
+  return index
+
+ def ResetFlags(self):
+  for hs in self.halfSpaceList:
+   hs.SetFlag(False)
+
+ def Get(self, index):
+  return self.halfSpaceList[index]
+
+ def __len__(self):
+  return len(self.halfSpaceList)
 
 #********************************************************************************************************
 
@@ -259,6 +360,13 @@ class Set:
   result.o2 = set2
   result.op = subtraction
   return result
+
+ def SetHalfSpaceFlags(self):
+  if self.op == leaf:
+   return halfSpaces.Get(self.o1).SetFlag(True)
+  elif self.op == union or self.op == intersection or self.op == subtraction:
+   return self.o1.SetHalfSpaceFlags() + self.o2.SetHalfSpaceFlags()
+  return 0
 
  # Convert a Set to a string, representing it in reverse polish
  def __str__(self):
@@ -404,57 +512,38 @@ def MakeTriangleWindow(triangles, title):
  world.AddModel(m)
  PutWorldInWindow(world, title)
 
+#*************************************************************************************************
 
-#********************************************************************************************************
+# Triangles is assumed to represent the complete surface of a polyhedron.
+# This uses the Jordan Curve Theorem to count intersections between the polyhedron
+# and a straight line to the centroid of each triangle to decide if the triangle's
+# normal is pointing from inside to outside. If it isn't the triangle is inverted.
+# The classification is done by counting the number of times the line crosses the polyhedron's
+# surface (not including each triangle of interest). If that's odd the line points
+# roughly from inside to outside at the triangle. If then the inner product of the line's
+# direction and the triangle's normal is negative, the triangle needs to be inverted.
+# Similarly, if the count is even and the inner product is positive, the triangle also needs
+# to be inverted. Otherwise it is left alone.
 
-# A list of half spaces
-
-class HalfSpaceList:
- def __init__(self):
-  self.halfSpaceList = []
-
- # Is halfSpace in the list? If so return an index to it, together with a logical flag
- # indicating if it is the same sense or opposite. If not, return -1
- def LookUp(self, halfSpace):
-  for hs in range(len(self.halfSpaceList)):
-   listHalfSpace = self.halfSpaceList[hs]
-   if halfSpace == listHalfSpace:
-    return hs
-  return -1
-
- def LookUpIgnoringSense(self, halfSpace):
-  for hs in range(len(self.halfSpaceList)):
-   listHalfSpace = self.halfSpaceList[hs]
-   if halfSpace == listHalfSpace:
-    return hs
-   if halfSpace.Opposite(listHalfSpace):
-    return hs
-  return -1
-
- # Add the halfspace to the list, unless that half space is
- # already in the list. Return the index of the half space in the list.
- # This ignores the sense of the halfspace
- def AddSpace(self, halfSpace):
-  last = len(self.halfSpaceList)
-  inList = self.LookUpIgnoringSense(halfSpace)
-  if inList < 0:
-   self.halfSpaceList.append(halfSpace)
-   return last
-  return inList
-
- def AddTriangle(self, triangle):
-  halfSpace = HalfSpace(triangle)
-  return self.AddSpace(halfSpace)
-
- def Get(self, index):
-  return self.halfSpaceList[index]
-
- def __len__(self):
-  return len(self.halfSpaceList)
-
-# We want there to be just one global instance of this
-
-halfSpaces = HalfSpaceList()
+def AdjustAttitudes(triangles):
+ farPoint = np.multiply(positiveCorner, [random.uniform(20, 30), random.uniform(20, 30), random.uniform(20, 30)])
+ for triangle in triangles:
+  gradient = np.subtract(triangle.centroid, farPoint)
+  crossCount = 0
+  for t in triangles:
+   if t is not triangle:
+    hs = halfSpaces.Get(t.halfSpace)
+    parameter = -(np.dot(farPoint, hs.normal) + hs.d)/np.dot(gradient, hs.normal)
+    if parameter > 0 and parameter < 1:
+     point = np.add(farPoint, np.multiply(gradient, parameter))
+     if t.ContainsPoint(point):
+      crossCount += 1
+  if crossCount%2 == 1:
+   if np.dot(triangle.normal, gradient) < 0:
+    triangle.Invert()
+  else:
+   if np.dot(triangle.normal, gradient) > 0:
+    triangle.Invert()
 
 
 #*************************************************************************************************
@@ -494,6 +583,10 @@ def WooStep(trianglesAndPly):
  # Remove duplicate point indices
  pointIndices = list(dict.fromkeys(pointIndices))
 
+ # Give the triangles an attitude adjustment
+
+ AdjustAttitudes(triangles)
+
  # The actual (x, y, z) coordinates of the points to compute the convex hull of
  points = []
  for p in pointIndices:
@@ -511,9 +604,11 @@ def WooStep(trianglesAndPly):
   for f in face:
    # We need to record using the global indexing system
    vertices.append(pointIndices[f])
-  triangle = Triangle(vertices, [0.5, 1.0, 0.5], triangleFileData)
+  triangle = Triangle(vertices, [0.5, 0.5, 1.0], triangleFileData)
   hullTriangles.append(triangle)
   hullHalfSpaces.AddTriangle(triangle)
+
+ AdjustAttitudes(hullTriangles)
 
  if graphics > 1:
   MakeTriangleWindow(hullTriangles, title + " CH")
@@ -523,7 +618,7 @@ def WooStep(trianglesAndPly):
  newTriangles = []
  for triangle in triangles:
   halfSpace = HalfSpace(triangle)
-  hs = hullHalfSpaces.LookUpIgnoringSense(halfSpace)
+  hs = hullHalfSpaces.LookUp(halfSpace)
   if hs < 0:
    triangle.SetColour([1, 0.5, 0.5])
    newTriangles.append(triangle)
@@ -555,16 +650,20 @@ def ToFile(fileName, halfSpaces, set):
  file = open(fileName, "w")
  file.write(str(negativeCorner) + "\n")
  file.write(str(positiveCorner) + "\n")
- count = len(halfSpaces)
+ count = set.SetHalfSpaceFlags()
  file.write(str(count) + "\n")
- for c in range(count):
-  file.write(str(halfSpaces.Get(c).Coeficients()) + "\n")
+ for c in range(len(halfSpaces)):
+  hs = halfSpaces.Get(c)
+  if hs.flag:
+   file.write(str(c) + " " + str(hs.Coeficients()) + "\n")
  file.write(str(set) + "\n")
  file.close()
+ halfSpaces.ResetFlags()
 
 # Run the conversion
+halfSpaces = HalfSpaceList()
 
-model = "STL2CSG-test-objects-woo-2"
+model = "cube"
 place = "../../"
 #fileName = '../../cube.ply'
 #fileName = '../../two-disjoint-cubes.ply'
