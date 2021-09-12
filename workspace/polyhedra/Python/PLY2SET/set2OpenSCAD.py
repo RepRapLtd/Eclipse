@@ -135,7 +135,7 @@ def ReadSetFile(fileName):
 
 
 
-ReadSetFile("cube.set")
+ReadSetFile("STL2CSG-test-objects-woo-2.set")
 for hs in halfSpaceList:
  print(hs)
 print(set)

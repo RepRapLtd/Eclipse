@@ -525,14 +525,14 @@ def MakeTriangleWindow(triangles, title):
 # Similarly, if the count is even and the inner product is positive, the triangle also needs
 # to be inverted. Otherwise it is left alone.
 
-def AdjustAttitudes(triangles):
+def AdjustAttitudes(triangles, hspaces):
  farPoint = np.multiply(positiveCorner, [random.uniform(20, 30), random.uniform(20, 30), random.uniform(20, 30)])
  for triangle in triangles:
   gradient = np.subtract(triangle.centroid, farPoint)
   crossCount = 0
   for t in triangles:
    if t is not triangle:
-    hs = halfSpaces.Get(t.halfSpace)
+    hs = hspaces.Get(t.halfSpace)
     parameter = -(np.dot(farPoint, hs.normal) + hs.d)/np.dot(gradient, hs.normal)
     if parameter > 0 and parameter < 1:
      point = np.add(farPoint, np.multiply(gradient, parameter))
@@ -544,7 +544,6 @@ def AdjustAttitudes(triangles):
   else:
    if np.dot(triangle.normal, gradient) > 0:
     triangle.Invert()
-
 
 #*************************************************************************************************
 
@@ -585,7 +584,7 @@ def WooStep(trianglesAndPly):
 
  # Give the triangles an attitude adjustment
 
- AdjustAttitudes(triangles)
+ AdjustAttitudes(triangles, halfSpaces)
 
  # The actual (x, y, z) coordinates of the points to compute the convex hull of
  points = []
@@ -608,7 +607,7 @@ def WooStep(trianglesAndPly):
   hullTriangles.append(triangle)
   hullHalfSpaces.AddTriangle(triangle)
 
- AdjustAttitudes(hullTriangles)
+ AdjustAttitudes(hullTriangles, hullHalfSpaces)
 
  if graphics > 1:
   MakeTriangleWindow(hullTriangles, title + " CH")
@@ -628,9 +627,16 @@ def WooStep(trianglesAndPly):
 
  #Add the hull to, or subtract it from, the model.
  hullSet = Set(-1)
- for h in range(len(hullHalfSpaces)):
-  hs = hullHalfSpaces.Get(h)
-  bigListIndex = halfSpaces.AddSpace(hs)
+ uniqueHullHalfSpaces = []
+ for t in hullTriangles:
+  uniqueHullHalfSpaces.append(t.halfSpace)
+
+ # Remove duplicates
+ uniqueHullHalfSpaces = list(dict.fromkeys(uniqueHullHalfSpaces))
+ print(len(uniqueHullHalfSpaces))
+
+ for h in uniqueHullHalfSpaces:
+  bigListIndex = halfSpaces.AddSpace(hullHalfSpaces.Get(h))
   hullSet = hullSet.Intersect(Set(bigListIndex))
  if level == 0:
   finalSet = hullSet
@@ -663,7 +669,7 @@ def ToFile(fileName, halfSpaces, set):
 # Run the conversion
 halfSpaces = HalfSpaceList()
 
-model = "cube"
+model = "STL2CSG-test-objects-woo-2"
 place = "../../"
 #fileName = '../../cube.ply'
 #fileName = '../../two-disjoint-cubes.ply'
