@@ -42,7 +42,7 @@ def OpenSCADHalfSpace(halfSpaceAndIndex):
   else:
    rotateAndTranslate = " translate([" + str(d) + ", " + str(d) + ", 0.0])\n"
  else:
-  sine = maths.asin(sine)
+  sine = maths.arcsin(sine)
   rotateAndTranslate = " rotate(a = " + str(-180.0*sine/maths.pi) + ", v = [" + str(cross[0]) + ", " + str(cross[1]) + ", " + str(cross[2]) + "])\n"
   rotateAndTranslate += " translate([" + str(d) + ", " + str(d) + ", " + str(2.0*d) +"])\n"
 

@@ -43,6 +43,7 @@ from pyglet.gl import *
 from pyglet import window
 import math as maths
 import numpy as np
+import boolean
 from plyfile import PlyData
 from scipy.spatial import ConvexHull
 
@@ -626,7 +627,7 @@ def WooStep(trianglesAndPly):
   MakeTriangleWindow(newTriangles, title + " Inside triangles")
 
  #Add the hull to, or subtract it from, the model.
- hullSet = Set(-1)
+
  uniqueHullHalfSpaces = []
  for t in hullTriangles:
   uniqueHullHalfSpaces.append(t.halfSpace)
@@ -635,6 +636,7 @@ def WooStep(trianglesAndPly):
  uniqueHullHalfSpaces = list(dict.fromkeys(uniqueHullHalfSpaces))
  print(len(uniqueHullHalfSpaces))
 
+ hullSet = Set(-1)
  for h in uniqueHullHalfSpaces:
   bigListIndex = halfSpaces.AddSpace(hullHalfSpaces.Get(h))
   hullSet = hullSet.Intersect(Set(bigListIndex))
@@ -669,7 +671,7 @@ def ToFile(fileName, halfSpaces, set):
 # Run the conversion
 halfSpaces = HalfSpaceList()
 
-model = "STL2CSG-test-objects-woo-2"
+model = "cube" #STL2CSG-test-objects-woo-2"
 place = "../../"
 #fileName = '../../cube.ply'
 #fileName = '../../two-disjoint-cubes.ply'
