@@ -11,9 +11,10 @@
 # Licence: GPL
 #
 
+import boolean
 import math as maths
 import numpy as np
-import numbers
+
 
 # Fudge factor
 small = 0.000001
@@ -42,7 +43,7 @@ def OpenSCADHalfSpace(halfSpaceAndIndex):
   else:
    rotateAndTranslate = " translate([" + str(d) + ", " + str(d) + ", 0.0])\n"
  else:
-  sine = maths.arcsin(sine)
+  sine = maths.asin(sine)
   rotateAndTranslate = " rotate(a = " + str(-180.0*sine/maths.pi) + ", v = [" + str(cross[0]) + ", " + str(cross[1]) + ", " + str(cross[2]) + "])\n"
   rotateAndTranslate += " translate([" + str(d) + ", " + str(d) + ", " + str(2.0*d) +"])\n"
 
@@ -60,11 +61,11 @@ def SetExpression(o, a, b):
  else:
   result = "difference()"
  result += "{"
- if isinstance(a, (int)):
+ if a[0].isdigit():
   result += "s" + str(a) + "();"
  else:
   result += a + ";"
- if isinstance(b, (int)):
+ if b[0].isdigit():
   result += "s" + str(b) + "();"
  else:
   result += b + ";"
@@ -82,20 +83,22 @@ def IsOperator(o):
 
 def ParseSet():
  global negativeCorner, positiveCorner, diagonal, halfSpaceList, set
- newSet = []
- for s in set:
-  if IsOperator(s):
-   newSet.append(s)
-  else:
-   newSet.append(int(s))
- set = newSet
+ algebra = boolean.BooleanAlgebra()
+ TRUE, FALSE, NOT, AND, OR, symbol = algebra.definition()
  a=[]
  for s in set:
   if IsOperator(s):
-   a.append(SetExpression(s, a.pop(), a.pop()))
+   if s == "^":
+    a.append(AND(a.pop(), a.pop()))
+   elif s == "u":
+    a.append(OR(a.pop(), a.pop()))
+   else:
+    a.append(AND(a.pop(), NOT(a.pop())))
   else:
-   a.append(s)
+   a.append(algebra.Symbol(s))
  set = a[0]
+ print(set)
+ print(set.simplify())
 
 def GetListFromLine(file):
  lst = file.readline()
