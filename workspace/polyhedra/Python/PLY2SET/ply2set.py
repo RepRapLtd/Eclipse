@@ -38,6 +38,7 @@
 import copy
 import sys
 import random
+import re
 import pyglet
 from pyglet.gl import *
 from pyglet import window
@@ -56,7 +57,7 @@ small = 0.000001
 # 1 - input triangles at each stage
 # 2 - input triangles at each stage plus the CH
 # 3 - input and output triangles at each stage plus the convex hulls
-graphics = 3
+graphics = 0
 
 # True to print debugging information
 debug = False
@@ -369,6 +370,34 @@ class Set:
    return self.o1.SetHalfSpaceFlags() + self.o2.SetHalfSpaceFlags()
   return 0
 
+ def SetToBoolean(self):
+  algebra = boolean.BooleanAlgebra()
+  return self.ToBooleanI(algebra).simplify()
+
+ def ToBooleanI(self, algebra):
+  TRUE, FALSE, NOT, AND, OR, symbol = algebra.definition()
+  if self.op == leaf:
+   complement = halfSpaces.Get(self.o1).complement
+   if complement < self.o1:
+    return NOT(algebra.Symbol(complement))
+   else:
+    return algebra.Symbol(self.o1)
+  elif self.op == union:
+   return OR(self.o1.ToBooleanI(algebra), self.o2.ToBooleanI(algebra))
+  elif self.op == intersection:
+   return AND(self.o1.ToBooleanI(algebra), self.o2.ToBooleanI(algebra))
+  elif self.op == subtraction:
+   return AND(self.o1.ToBooleanI(algebra), NOT(self.o2.ToBooleanI(algebra)))
+  elif self.op == empty:
+   return FALSE
+  elif self.op == universal:
+   return TRUE
+  sys.exit("Set() ToBooleanI(): operator not defined!")
+
+ def Simplify(self):
+  b = self.SetToBoolean()
+  return BooleanToSet(b)
+
  # Convert a Set to a string, representing it in reverse polish
  def __str__(self):
   if self.op == leaf:
@@ -383,7 +412,82 @@ class Set:
    return "empty"
   elif self.op == universal:
    return "universal"
-  sys.exit("Set(): operator not defined!")
+  sys.exit("Set() __str__(): operator not defined!")
+
+def BooleanToSet(bExpression):
+ s = str(bExpression)
+ #print(s)
+ s = re.split(r'(\d+)', s)
+ #print(s)
+
+ expression = []
+ for e in s:
+  if len(e) <= 0:
+   pass
+  elif len(e) == 1:
+   expression.append(e)
+  elif e[0].isdigit():
+   expression.append(e)
+  else:
+   for d in e:
+    expression.append(d)
+ #print(expression)
+
+ s = expression
+ expression = []
+ e = 0
+ while e < len(s):
+  tag = s[e]
+  if tag == '~':
+   e += 1
+   tag = s[e]
+   hs = halfSpaces.Get(int(tag)).complement
+   expression.append(str(hs))
+  else:
+   expression.append(tag)
+  e += 1
+ #print(expression)
+
+ rpExpression = []
+ stack = []
+ e = 0
+ while e < len(expression):
+  tag = expression[e]
+  if tag[0].isdigit():
+   rpExpression.append(tag)
+  else:
+   if len(stack) == 0 or stack[-1] == '(':
+    stack.append(tag)
+   elif tag == '(':
+    stack.append(tag)
+   elif tag == ')':
+    s = stack.pop()
+    while s != '(':
+     rpExpression.append(s)
+     s = stack.pop()
+   else:
+    stack.append(tag)
+  e += 1
+ while len(stack) > 0:
+  rpExpression.append(stack.pop())
+ #print(rpExpression)
+ a=[]
+ for s in rpExpression:
+  if s[0].isdigit():
+   a.append(Set(int(s)))
+  else:
+   if s == "&":
+    a.append(a.pop().Intersect(a.pop()))
+   elif s == "|":
+    a.append(a.pop().Unite(a.pop()))
+   else:
+    lf = a.pop()
+    if lf.op != leaf:
+     print(lf)
+    hs = halfSpaces.Get(lf.o1).complement
+    a.append(Set(hs))
+ return a[0]
+
 
 # The end result. Start with the universal set, as the first
 # operation that will be done on it is intersections.
@@ -634,7 +738,7 @@ def WooStep(trianglesAndPly):
 
  # Remove duplicates
  uniqueHullHalfSpaces = list(dict.fromkeys(uniqueHullHalfSpaces))
- print(len(uniqueHullHalfSpaces))
+ #print(len(uniqueHullHalfSpaces))
 
  hullSet = Set(-1)
  for h in uniqueHullHalfSpaces:
@@ -646,6 +750,8 @@ def WooStep(trianglesAndPly):
   finalSet = finalSet.Subtract(hullSet)
  else:
   finalSet = finalSet.Unite(hullSet)
+
+ finalSet = finalSet.Simplify()
 
  if len(newTriangles) > 0:
   # Carry on down...
@@ -671,7 +777,7 @@ def ToFile(fileName, halfSpaces, set):
 # Run the conversion
 halfSpaces = HalfSpaceList()
 
-model = "cube" #STL2CSG-test-objects-woo-2"
+model = "STL2CSG-test-objects-woo-1"
 place = "../../"
 #fileName = '../../cube.ply'
 #fileName = '../../two-disjoint-cubes.ply'
@@ -704,6 +810,8 @@ for t in range(triangleFileData.TriangleCount()):
 trianglesAndPly = (originalTriangles, triangleFileData, 0)
 
 WooStep(trianglesAndPly)
+
+finalSet = finalSet.Simplify()
 
 ToFile(model+".set", halfSpaces, finalSet)
 

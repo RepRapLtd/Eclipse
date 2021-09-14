@@ -83,22 +83,13 @@ def IsOperator(o):
 
 def ParseSet():
  global negativeCorner, positiveCorner, diagonal, halfSpaceList, set
- algebra = boolean.BooleanAlgebra()
- TRUE, FALSE, NOT, AND, OR, symbol = algebra.definition()
  a=[]
  for s in set:
   if IsOperator(s):
-   if s == "^":
-    a.append(AND(a.pop(), a.pop()))
-   elif s == "u":
-    a.append(OR(a.pop(), a.pop()))
-   else:
-    a.append(AND(a.pop(), NOT(a.pop())))
+   a.append(SetExpression(s, a.pop(), a.pop()))
   else:
-   a.append(algebra.Symbol(s))
+   a.append(s)
  set = a[0]
- print(set)
- print(set.simplify())
 
 def GetListFromLine(file):
  lst = file.readline()
@@ -138,7 +129,7 @@ def ReadSetFile(fileName):
 
 
 
-ReadSetFile("STL2CSG-test-objects-woo-2.set")
+ReadSetFile("STL2CSG-test-objects-woo-1.set")
 for hs in halfSpaceList:
  print(hs)
 print(set)
