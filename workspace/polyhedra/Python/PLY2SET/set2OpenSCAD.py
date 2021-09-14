@@ -54,9 +54,9 @@ def OpenSCADHalfSpace(halfSpaceAndIndex):
 
 
 def SetExpression(o, a, b):
- if o == 'u':
+ if o == '|':
   result = "union()"
- elif o == '^':
+ elif o == '&':
   result = "intersection()"
  else:
   result = "difference()"
@@ -73,11 +73,11 @@ def SetExpression(o, a, b):
  return result
 
 def IsOperator(o):
- if o == '-':
+ if o == '~':
   return True
- if o == 'u':
+ if o == '|':
   return True
- if o == '^':
+ if o == '&':
   return True
  return False
 
@@ -129,7 +129,7 @@ def ReadSetFile(fileName):
 
 
 
-ReadSetFile("STL2CSG-test-objects-woo-1.set")
+ReadSetFile("STL2CSG-test-objects-woo-2.set")
 for hs in halfSpaceList:
  print(hs)
 print(set)

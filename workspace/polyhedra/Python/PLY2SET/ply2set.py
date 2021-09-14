@@ -30,9 +30,11 @@
 # Convex hulls: https://en.wikipedia.org/wiki/Convex_hull
 # Convex hulls in Python: https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html
 # Set-theoretic or CSG solid models: https://en.wikipedia.org/wiki/Constructive_solid_geometry
+# Boolean logic in Python: https://booleanpy.readthedocs.io/en/latest/index.html
 # OpenSCAD: https://openscad.org/
 # FreeCAD: https://www.freecadweb.org/
 # STL to PLY conversion free online: https://products.aspose.app/3d/conversion/stl-to-ply
+# Infix to postfix/reverse polish conversion: http://csis.pace.edu/~wolf/CS122/infix-postfix.htm
 #
 
 import copy
@@ -76,8 +78,15 @@ negativeCorner = [sys.float_info.max, sys.float_info.max, sys.float_info.max]
 middle = [0, 0, 0]
 
 # We want there to be just one global instance of this
-
 halfSpaces = None
+
+# How deep to run the recursion before bailing out because
+# we may have a pathological infinite-recursion case
+maximumLevel = 10
+
+# The Set class uses this to represent the set theoretic expression
+booleanAlgebra = boolean.BooleanAlgebra()
+TRUE, FALSE, NOT, AND, OR, symbol = booleanAlgebra.definition()
 
 # Take a base RGB colour and perturb it a bit. Used to allow coplanar triangles
 # to be distinguished.
@@ -168,7 +177,6 @@ class Triangle:
    if np.dot(d12, dp0) < 0:
     return False
   return True
-
 
  def __str__(self):
   corners = self.Points()
@@ -263,7 +271,7 @@ class HalfSpaceList:
 
  # Add the halfspace to the list, unless that half space is
  # already in the list. Return the index of the half space in the list.
- # This ignores the sense of the halfspace
+ # Also add its complement, so we can flip between them
  def AddSpace(self, halfSpace):
   last = len(self.halfSpaceList)
   inList = self.LookUp(halfSpace)
@@ -302,191 +310,97 @@ class Set:
 
  def __init__(self, halfSpaceIndex = None):
   if halfSpaceIndex is None:
-   self.op = empty
+   self.expression = FALSE
    return
   if halfSpaceIndex < 0:
-   self.op = universal
+   self.expression = TRUE
    return
-  self.o1 = halfSpaceIndex
-  self.op = leaf
+  self.expression = booleanAlgebra.Symbol(halfSpaceIndex)
 
  def Unite(self, set2):
-  if self.op == empty:
-   return set2
-  if self.op == universal:
-   return self
-  if set2.op == empty:
-   return self
-  if set2.op == universal:
-   return set2
-  if self.op == leaf and set2.op == leaf:
-   if self.o1 == set2.o1:
-    return self
   result = Set()
-  result.o1 = self
-  result.o2 = set2
-  result.op = union
+  result.expression = OR(self.expression, set2.expression)
   return result
 
  def Intersect(self, set2):
-  if self.op == empty:
-   return self
-  if self.op == universal:
-   return set2
-  if set2.op == empty:
-   return set2
-  if set2.op == universal:
-   return self
-  if self.op == leaf and set2.op == leaf:
-   if self.o1 == set2.o1:
-    return self
   result = Set()
-  result.o1 = self
-  result.o2 = set2
-  result.op = intersection
+  result.expression = AND(self.expression, set2.expression)
   return result
-
 
  def Subtract(self, set2):
-  if self.op == empty:
-   return self
-  if set2.op == empty:
-   return self
-  if set2.op == universal:
-   return Set()
-  if self.op == leaf and set2.op == leaf:
-   if self.o1 == set2.o1:
-    return Set()
   result = Set()
-  result.o1 = self
-  result.o2 = set2
-  result.op = subtraction
+  result.expression = AND(self.expression, NOT(set2.expression))
   return result
 
- def SetHalfSpaceFlags(self):
-  if self.op == leaf:
-   return halfSpaces.Get(self.o1).SetFlag(True)
-  elif self.op == union or self.op == intersection or self.op == subtraction:
-   return self.o1.SetHalfSpaceFlags() + self.o2.SetHalfSpaceFlags()
-  return 0
-
- def SetToBoolean(self):
-  algebra = boolean.BooleanAlgebra()
-  return self.ToBooleanI(algebra).simplify()
-
- def ToBooleanI(self, algebra):
-  TRUE, FALSE, NOT, AND, OR, symbol = algebra.definition()
-  if self.op == leaf:
-   complement = halfSpaces.Get(self.o1).complement
-   if complement < self.o1:
-    return NOT(algebra.Symbol(complement))
-   else:
-    return algebra.Symbol(self.o1)
-  elif self.op == union:
-   return OR(self.o1.ToBooleanI(algebra), self.o2.ToBooleanI(algebra))
-  elif self.op == intersection:
-   return AND(self.o1.ToBooleanI(algebra), self.o2.ToBooleanI(algebra))
-  elif self.op == subtraction:
-   return AND(self.o1.ToBooleanI(algebra), NOT(self.o2.ToBooleanI(algebra)))
-  elif self.op == empty:
-   return FALSE
-  elif self.op == universal:
-   return TRUE
-  sys.exit("Set() ToBooleanI(): operator not defined!")
-
  def Simplify(self):
-  b = self.SetToBoolean()
-  return BooleanToSet(b)
+  result = Set()
+  result.expression = self.expression.simplify()
+  return result
 
- # Convert a Set to a string, representing it in reverse polish
+ # Convert a Set to a string
  def __str__(self):
-  if self.op == leaf:
-   return str(self.o1)
-  elif self.op == union:
-   return str(self.o1) + " " + str(self.o2) + " u"
-  elif self.op == intersection:
-   return str(self.o1) + " " + str(self.o2) + " ^"
-  elif self.op == subtraction:
-   return str(self.o1) + " " + str(self.o2) + " -"
-  elif self.op == empty:
-   return "empty"
-  elif self.op == universal:
-   return "universal"
-  sys.exit("Set() __str__(): operator not defined!")
+  return str(self.expression)
 
-def BooleanToSet(bExpression):
- s = str(bExpression)
- #print(s)
- s = re.split(r'(\d+)', s)
- #print(s)
+ #Convert the set's expression to reverse polish
+ def toRP(self):
+  # Start by splitting the expression into unique tags, which are either brackets, operators, or symbols.
+  # The symbols are the half-space indices.
+  s = str(self.expression)
+  s = re.split(r'(\d+)', s)
 
- expression = []
- for e in s:
-  if len(e) <= 0:
-   pass
-  elif len(e) == 1:
-   expression.append(e)
-  elif e[0].isdigit():
-   expression.append(e)
-  else:
-   for d in e:
-    expression.append(d)
- #print(expression)
+  # This splits chains like ')&~(' into their individual elements
+  expression = []
+  for e in s:
+   if len(e) <= 0:
+    pass
+   elif len(e) == 1:
+    expression.append(e)
+   elif e[0].isdigit():
+    expression.append(e)
+   else:
+    for d in e:
+     expression.append(d)
 
- s = expression
- expression = []
- e = 0
- while e < len(s):
-  tag = s[e]
-  if tag == '~':
-   e += 1
+  # Now remove complement operators and replace the halfspaces that they complement
+  # with the index of that halfspace's actual complement.
+  s = expression
+  expression = []
+  e = 0
+  while e < len(s):
    tag = s[e]
-   hs = halfSpaces.Get(int(tag)).complement
-   expression.append(str(hs))
-  else:
-   expression.append(tag)
-  e += 1
- #print(expression)
+   if tag == '~':
+    e += 1
+    tag = s[e]
+    hs = halfSpaces.Get(int(tag)).complement
+    expression.append(str(hs))
+   else:
+    expression.append(tag)
+   e += 1
 
- rpExpression = []
- stack = []
- e = 0
- while e < len(expression):
-  tag = expression[e]
-  if tag[0].isdigit():
-   rpExpression.append(tag)
-  else:
-   if len(stack) == 0 or stack[-1] == '(':
-    stack.append(tag)
-   elif tag == '(':
-    stack.append(tag)
-   elif tag == ')':
-    s = stack.pop()
-    while s != '(':
-     rpExpression.append(s)
+  # Now run through the expression converting it to RP
+  rpExpression = []
+  stack = []
+  e = 0
+  while e < len(expression):
+   tag = expression[e]
+   if tag[0].isdigit():
+    rpExpression.append(tag)
+   else:
+    if len(stack) == 0 or stack[-1] == '(':
+     stack.append(tag)
+    elif tag == '(':
+     stack.append(tag)
+    elif tag == ')':
      s = stack.pop()
-   else:
-    stack.append(tag)
-  e += 1
- while len(stack) > 0:
-  rpExpression.append(stack.pop())
- #print(rpExpression)
- a=[]
- for s in rpExpression:
-  if s[0].isdigit():
-   a.append(Set(int(s)))
-  else:
-   if s == "&":
-    a.append(a.pop().Intersect(a.pop()))
-   elif s == "|":
-    a.append(a.pop().Unite(a.pop()))
-   else:
-    lf = a.pop()
-    if lf.op != leaf:
-     print(lf)
-    hs = halfSpaces.Get(lf.o1).complement
-    a.append(Set(hs))
- return a[0]
+     while s != '(':
+      rpExpression.append(s)
+      s = stack.pop()
+    else:
+     stack.append(tag)
+   e += 1
+  while len(stack) > 0:
+   rpExpression.append(stack.pop())
+  return rpExpression
 
 
 # The end result. Start with the universal set, as the first
@@ -668,8 +582,10 @@ def WooStep(trianglesAndPly):
 
  # The level of recursion
  level = trianglesAndPly[2]
- title = "Level: " + str(level)
+ if level > maximumLevel:
+  exit("WooStep(): maximum recursion exceeded.")
 
+ title = "Level: " + str(level)
  if graphics > 0:
   MakeTriangleWindow(triangles, title + " original triangles")
 
@@ -688,10 +604,10 @@ def WooStep(trianglesAndPly):
  pointIndices = list(dict.fromkeys(pointIndices))
 
  # Give the triangles an attitude adjustment
-
+ # TODO Is this correct? triangles may not be a closed surface
  AdjustAttitudes(triangles, halfSpaces)
 
- # The actual (x, y, z) coordinates of the points to compute the convex hull of
+ # The actual (x, y, z) coordinates of the points of which to compute the convex hull
  points = []
  for p in pointIndices:
   points.append(triangleFileData.Vertex(p))
@@ -730,6 +646,9 @@ def WooStep(trianglesAndPly):
  if graphics > 2:
   MakeTriangleWindow(newTriangles, title + " Inside triangles")
 
+ #TODO
+ #Split newTriangles into collections of connected triangles and call WooStep for each of them below
+
  #Add the hull to, or subtract it from, the model.
 
  uniqueHullHalfSpaces = []
@@ -738,7 +657,6 @@ def WooStep(trianglesAndPly):
 
  # Remove duplicates
  uniqueHullHalfSpaces = list(dict.fromkeys(uniqueHullHalfSpaces))
- #print(len(uniqueHullHalfSpaces))
 
  hullSet = Set(-1)
  for h in uniqueHullHalfSpaces:
@@ -760,24 +678,48 @@ def WooStep(trianglesAndPly):
 
 #**************************************************************************************************
 
+# Create the .set file
+
 def ToFile(fileName, halfSpaces, set):
  file = open(fileName, "w")
+
+ # The first things in the file are the bounding box
  file.write(str(negativeCorner) + "\n")
  file.write(str(positiveCorner) + "\n")
- count = set.SetHalfSpaceFlags()
+
+ # Get the RP expression to write out at the end
+ rp = set.toRP()
+
+ # Count the number of unique halfSpaces in the RP expression and set their flags
+ count = 0
+ for item in rp:
+  if item[0].isdigit():
+   hs = int(item)
+   halfSpace = halfSpaces.Get(hs)
+   if not halfSpace.flag:
+    halfSpace.SetFlag(True)
+    count += 1
+
+ # Write out the count of the halfSpaces followed by the coefficients of each one
  file.write(str(count) + "\n")
  for c in range(len(halfSpaces)):
   hs = halfSpaces.Get(c)
   if hs.flag:
    file.write(str(c) + " " + str(hs.Coeficients()) + "\n")
- file.write(str(set) + "\n")
+
+ # Write out the reverse polish expression
+ for item in rp:
+  file.write(item + " ")
+ file.write("\n")
+
+ # Tidy up
  file.close()
  halfSpaces.ResetFlags()
 
 # Run the conversion
 halfSpaces = HalfSpaceList()
 
-model = "STL2CSG-test-objects-woo-1"
+model = "STL2CSG-test-objects-woo-2"
 place = "../../"
 #fileName = '../../cube.ply'
 #fileName = '../../two-disjoint-cubes.ply'
@@ -791,30 +733,36 @@ place = "../../"
 #fileName = '../../STL2CSG-test-objects-woo-2.ply'
 #fileName = '../../STL2CSG-test-objects-cube-cylinder.ply'
 #fileName = '../../STL2CSG-test-objects-cubePlusCylinder.ply'
+
+# Load up the .ply file of triangles
 triangleFileData = TriangleFileData(place+model+".ply")
 
+# Find the bounding box
 for v in range(triangleFileData.VertexCount()):
  vertex = triangleFileData.Vertex(v)
  middle = np.add(middle, vertex)
  positiveCorner = np.maximum(positiveCorner, vertex)
  negativeCorner = np.minimum(negativeCorner, vertex)
-
 middle = np.multiply(middle, 1.0 / triangleFileData.VertexCount())
 
+# Make a list of all the original triangles
 originalTriangles = []
-
 for t in range(triangleFileData.TriangleCount()):
  triangle = Triangle(triangleFileData.Triangle(t), [0.5, 1.0, 0.5], triangleFileData)
  originalTriangles.append(triangle)
 
+# The recursive alternating sum of volumes function needs
+# the list of triangles to work with, the .ply file data
+# to get vertex coordinates from, and the current level
+# or recursion (here 0).
 trianglesAndPly = (originalTriangles, triangleFileData, 0)
 
+# Run the algorithm
 WooStep(trianglesAndPly)
 
+# Save and plot the results
 finalSet = finalSet.Simplify()
-
 ToFile(model+".set", halfSpaces, finalSet)
-
 if graphics > 0:
  pyglet.app.run()
 
