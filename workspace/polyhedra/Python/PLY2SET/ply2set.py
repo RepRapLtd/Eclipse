@@ -240,6 +240,11 @@ class HalfSpace:
  def Coeficients(self):
   return np.array([self.normal[0], self.normal[1], self.normal[2], self.d])
 
+ # The potential value of a point [x, y, z]. -ve means in solid; +ve in air.
+ # Thus this is a membership test.
+ def Value(self, point):
+  return np.dot(self.normal, point) + self.d
+
  def __str__(self):
   result = "{" + str(self.normal[0]) + "x + " + str(self.normal[1]) + "y + " +\
    str(self.normal[2]) + "z + " + str(self.d) + " <= 0}"
@@ -306,7 +311,10 @@ class HalfSpaceList:
 class Set:
 
  # Create a set, optionally corresponding to a halfspace.
+ # If we convert to reverse polish (self.rpExpression) that
+ # will be remembered for future lazy evaluation.
  def __init__(self, halfSpaceIndex = None):
+  self.rpExpression = None
   if halfSpaceIndex is None:
    self.expression = FALSE
    return
@@ -333,16 +341,39 @@ class Set:
   return result
 
  def Simplify(self):
-  result = Set()
-  result.expression = self.expression.simplify()
-  return result
+  self.expression = self.expression.simplify()
+
+ # Membership test. If the value of the point is negative, it is in the solid
+ # region; if it is positive it is in air.
+ def Value(self, point):
+  self.ToRP()
+  stack=[]
+  for r in self.rpExpression:
+   if r[0].isdigit():
+    v = halfSpaces.Get(int(r)).Value(point)
+    stack.append(v)
+   else:
+    b = stack.pop()
+    a = stack.pop()
+    if r == '&':
+     stack.append(max(a, b))
+    elif r == '|':
+     stack.append(min(a, b))
+    else:
+     print("Set.Value(): illegal operator: " + r)
+  return stack[0]
 
  def __str__(self):
   return str(self.expression)
 
- # Convert the set's expression to reverse polish. It's best (except maybe for debugging)
- # To use the result of Simplify() on a set for this.
- def toRP(self):
+ # Convert the set's expression to reverse polish. It remembers the result for future
+ # Lazy evaluation.
+ def ToRP(self):
+  if self.rpExpression is not None:
+   return self.rpExpression
+
+  self.Simplify()
+
   # Start by splitting the expression into unique tags, which are either brackets, operators, or symbols.
   # The symbols are the half-space indices (i.e. positive integers).
   s = str(self.expression)
@@ -400,6 +431,7 @@ class Set:
    e += 1
   while len(stack) > 0:
    rpExpression.append(stack.pop())
+  self.rpExpression = rpExpression
   return rpExpression
 
 
@@ -671,7 +703,7 @@ def WooStep(trianglesAndPly):
 
  # Simplfying as we go along increases execution time. But it also allows the simplification to
  # achieve greater reduction.
- finalSet = finalSet.Simplify()
+ finalSet.Simplify()
 
  if len(newTriangles) > 0:
   # Carry on down...
@@ -690,7 +722,7 @@ def ToFile(fileName, halfSpaces, set):
  file.write(str(positiveCorner) + "\n")
 
  # Get the RP expression to write out at the end
- rp = set.toRP()
+ rp = set.ToRP()
 
  # Count the number of unique halfSpaces in the RP expression and set their flags
  count = 0
@@ -766,8 +798,20 @@ trianglesAndPly = (originalTriangles, triangleFileData, 0)
 # Run the algorithm
 WooStep(trianglesAndPly)
 
+points = [
+ [-1, -1, -1],
+ [5, 5, 5],
+ [5, 5, 12],
+ [5, 5, 16]
+]
+
 # Save and maybe plot the results
-finalSet = finalSet.Simplify()
+finalSet.Simplify()
+
+for point in points:
+ print(str(point) + " has value " + str(finalSet.Value(point)))
+
+
 ToFile(model+".set", halfSpaces, finalSet)
 if graphics > 0:
  pyglet.app.run()

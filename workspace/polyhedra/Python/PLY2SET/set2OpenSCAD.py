@@ -92,26 +92,18 @@ def SetExpression(o, a, b):
  result += "}"
  return result
 
-# Is o a set theory operator?
-def IsOperator(o):
- if o == '~':
-  return True
- if o == '|':
-  return True
- if o == '&':
-  return True
- return False
 
 # Parse the reverse polish set-theoretic expression creating its OpenSCAD equivalent.
 def ParseSet():
  global negativeCorner, positiveCorner, diagonal, halfSpaceList, set
- a=[]
+ stack=[]
  for s in set:
-  if IsOperator(s):
-   a.append(SetExpression(s, a.pop(), a.pop()))
-  else:
-   a.append(s)
- set = a[0]
+  if not s == '':
+   if s[0].isdigit():
+    stack.append(s)
+   else:
+    stack.append(SetExpression(s, stack.pop(), stack.pop()))
+ set = stack[0]
 
 # Small function to turn things like "[0.0, -0.28, 0.77, -15.9]" from a file
 # and turn them into a Python list. There's probably a library function to do this
