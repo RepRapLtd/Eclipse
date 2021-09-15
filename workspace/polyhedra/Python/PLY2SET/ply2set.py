@@ -88,18 +88,6 @@ maximumLevel = 10
 booleanAlgebra = boolean.BooleanAlgebra()
 TRUE, FALSE, NOT, AND, OR, symbol = booleanAlgebra.definition()
 
-# Take a base RGB colour and perturb it a bit. Used to allow coplanar triangles
-# to be distinguished.
-def RandomShade(baseColour):
- colour = [random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1)]
- for c in range(3):
-  colour[c] += baseColour[c]
-  if colour[c] < 0:
-   colour[c] = 0
-  if colour[c] > 1:
-   colour[c] = 1
- return colour
-
 #*******************************************************************************************************
 
 # Small holding class to load the PLY file and provide simple access to its data.
@@ -144,6 +132,7 @@ class Triangle:
   self.normal = np.multiply(self.normal, 1.0/s2)
   self.colour = RandomShade(colour)
   self.centroid = np.multiply(np.add(np.add(self.points[0], self.points[1]), self.points[2]), 1.0/3.0)
+  # This will be an index into halfSpaces, not the halfspace itself
   self.halfSpace = -1
 
  # The three actual space (x, y, z) coordinates of the vertices
@@ -157,6 +146,7 @@ class Triangle:
  def SetColour(self, colour):
   self.colour = RandomShade(colour)
 
+ # Change the sense of the triangle. The normal should point from solid to air.
  def Invert(self):
   temp = self.vertices[0]
   self.vertices[0] = self.vertices[1]
@@ -165,6 +155,9 @@ class Triangle:
   self.normal = [-self.normal[0], -self.normal[1], -self.normal[2]]
   self.points = self.Points()
 
+ # Is a point inside the triangle?
+ # Note - this is doing an essentially 2D calculation in 3D space.
+ # To see how this works write it out as vector algebra.
  def ContainsPoint(self, point):
   for p0 in range(3):
    p1 = (p0+1)%3
@@ -186,14 +179,24 @@ class Triangle:
   result += ">\n"
   return result
 
+# Take a base RGB colour and perturb it a bit. Used to allow coplanar triangles
+# to be distinguished.
+def RandomShade(baseColour):
+ colour = [random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1)]
+ for c in range(3):
+  colour[c] += baseColour[c]
+  if colour[c] < 0:
+   colour[c] = 0
+  if colour[c] > 1:
+   colour[c] = 1
+ return colour
+
 #*************************************************************************************************************
 
 # A planar half space of the form Ax + By + Cz + D <= 0, where (A, B, C) is the
-# plane's normal vector and D is the distance from it to the origin.
+# plane's normal vector and -D is the distance from it to the origin.
 #
-# It is the plane through a triangle, and it keeps a list of all the triangles
-# that (nearly - global variable small) lie in it. The list is tuples (triangle, same)
-# where same  is True means the normals coincide, False means they are exactly opposite.
+# It is the plane through a triangle.
 
 class HalfSpace:
  def __init__(self, triangle = None):
@@ -205,7 +208,6 @@ class HalfSpace:
   self.d = -np.dot(self.normal, triangle.centroid)
 
 # Note: two coincident half spaces of opposite sense are not considered equal.
-
  def __eq__(self, halfSpace):
   if 1.0 - np.dot(halfSpace.normal, self.normal) > small:
    return False
@@ -213,6 +215,7 @@ class HalfSpace:
    return False
   return True
 
+# Is a halfspace my complement?
  def Opposite(self, halfSpace):
   if 1.0 + np.dot(halfSpace.normal, self.normal) > small:
    return False
@@ -220,6 +223,7 @@ class HalfSpace:
    return False
   return True
 
+ # Work out the complement
  def Complement(self):
   result = HalfSpace()
   result.normal = [-self.normal[0], -self.normal[1], -self.normal[2]]
@@ -227,12 +231,12 @@ class HalfSpace:
   result.complement = -1
   return result
 
+ # Used for output so that only halfSpaces that are actually referred to
+ # in a set-theoretic expression are saved.
  def SetFlag(self, f):
-  if self.flag:
-   return 0
   self.flag = f
-  return 1
 
+ # Get the coeficients as an array.
  def Coeficients(self):
   return np.array([self.normal[0], self.normal[1], self.normal[2], self.d])
 
@@ -251,8 +255,7 @@ class HalfSpaceList:
  def __init__(self):
   self.halfSpaceList = []
 
- # Is halfSpace in the list? If so return an index to it, together with a logical flag
- # indicating if it is the same sense or opposite. If not, return -1
+ # Is halfSpace in the list? If so return an index to it. If not, return -1
  def LookUp(self, halfSpace):
   for hs in range(len(self.halfSpaceList)):
    listHalfSpace = self.halfSpaceList[hs]
@@ -260,18 +263,9 @@ class HalfSpaceList:
     return hs
   return -1
 
- def LookUpIgnoringSense(self, halfSpace):
-  for hs in range(len(self.halfSpaceList)):
-   listHalfSpace = self.halfSpaceList[hs]
-   if halfSpace == listHalfSpace:
-    return hs
-   if halfSpace.Opposite(listHalfSpace):
-    return hs
-  return -1
-
  # Add the halfspace to the list, unless that half space is
  # already in the list. Return the index of the half space in the list.
- # Also add its complement, so we can flip between them
+ # Also add its complement, so we can flip between them.
  def AddSpace(self, halfSpace):
   last = len(self.halfSpaceList)
   inList = self.LookUp(halfSpace)
@@ -284,16 +278,19 @@ class HalfSpaceList:
   else:
    return inList
 
+ # Add the halfspace corresponding to a triangle using the function above.
  def AddTriangle(self, triangle):
   halfSpace = HalfSpace(triangle)
   index = self.AddSpace(halfSpace)
   triangle.halfSpace = index
   return index
 
+ # Set all the flags false.
  def ResetFlags(self):
   for hs in self.halfSpaceList:
    hs.SetFlag(False)
 
+ # Get an actual half space from its index.
  def Get(self, index):
   return self.halfSpaceList[index]
 
@@ -308,6 +305,7 @@ class HalfSpaceList:
 
 class Set:
 
+ # Create a set, optionally corresponding to a halfspace.
  def __init__(self, halfSpaceIndex = None):
   if halfSpaceIndex is None:
    self.expression = FALSE
@@ -316,6 +314,8 @@ class Set:
    self.expression = TRUE
    return
   self.expression = booleanAlgebra.Symbol(halfSpaceIndex)
+
+ # I hope the following are self-explanatory.
 
  def Unite(self, set2):
   result = Set()
@@ -337,14 +337,14 @@ class Set:
   result.expression = self.expression.simplify()
   return result
 
- # Convert a Set to a string
  def __str__(self):
   return str(self.expression)
 
- #Convert the set's expression to reverse polish
+ # Convert the set's expression to reverse polish. It's best (except maybe for debugging)
+ # To use the result of Simplify() on a set for this.
  def toRP(self):
   # Start by splitting the expression into unique tags, which are either brackets, operators, or symbols.
-  # The symbols are the half-space indices.
+  # The symbols are the half-space indices (i.e. positive integers).
   s = str(self.expression)
   s = re.split(r'(\d+)', s)
 
@@ -411,6 +411,9 @@ finalSet = Set(-1)
 
 #*******************************************************************************************************
 
+# Graphics
+#----------
+
 # A model consists of a list of triangles for display. The pattern can be rotated on the screen
 # and zoomed using the mouse so it can be easily seen.
 
@@ -462,7 +465,6 @@ class Model:
 
   glFlush()
 
-#*************************************************************************************************************
 
 # The World is the container for models (see above) for display.
 
@@ -533,7 +535,7 @@ def MakeTriangleWindow(triangles, title):
 
 #*************************************************************************************************
 
-# Triangles is assumed to represent the complete surface of a polyhedron.
+# The array triangles is assumed to represent the complete surface of a polyhedron.
 # This uses the Jordan Curve Theorem to count intersections between the polyhedron
 # and a straight line to the centroid of each triangle to decide if the triangle's
 # normal is pointing from inside to outside. If it isn't the triangle is inverted.
@@ -566,7 +568,7 @@ def AdjustAttitudes(triangles, hspaces):
 
 #*************************************************************************************************
 
-# Recursive procedure for my variation on Woo's alternating sum of volumes algorithm.
+# Recursive procedure for Woo's alternating sum of volumes algorithm.
 
 def WooStep(trianglesAndPly):
  global finalSet
@@ -616,7 +618,6 @@ def WooStep(trianglesAndPly):
  hull = ConvexHull(points)
 
  # Make a list of the hull triangles and their corresponding half spaces
-
  hullTriangles = []
  hullHalfSpaces = HalfSpaceList()
  for face in hull.simplices:
@@ -628,6 +629,7 @@ def WooStep(trianglesAndPly):
   hullTriangles.append(triangle)
   hullHalfSpaces.AddTriangle(triangle)
 
+ # hullTriangles is a complete polygon.
  AdjustAttitudes(hullTriangles, hullHalfSpaces)
 
  if graphics > 1:
@@ -649,6 +651,8 @@ def WooStep(trianglesAndPly):
  #TODO
  #Split newTriangles into collections of connected triangles and call WooStep for each of them below
 
+ # In what follows, why isn't uniqueHullHalfSpaces just hullHalfSpaces??
+
  #Add the hull to, or subtract it from, the model.
 
  uniqueHullHalfSpaces = []
@@ -669,6 +673,8 @@ def WooStep(trianglesAndPly):
  else:
   finalSet = finalSet.Unite(hullSet)
 
+ # Simplfying as we go along increases execution time. But it also allows the simplification to
+ # achieve greater reduction.
  finalSet = finalSet.Simplify()
 
  if len(newTriangles) > 0:
@@ -716,7 +722,11 @@ def ToFile(fileName, halfSpaces, set):
  file.close()
  halfSpaces.ResetFlags()
 
+#***********************************************************************************************************
+
 # Run the conversion
+#-------------------
+
 halfSpaces = HalfSpaceList()
 
 model = "STL2CSG-test-objects-woo-2"
@@ -754,13 +764,13 @@ for t in range(triangleFileData.TriangleCount()):
 # The recursive alternating sum of volumes function needs
 # the list of triangles to work with, the .ply file data
 # to get vertex coordinates from, and the current level
-# or recursion (here 0).
+# or recursion (here at the start, 0).
 trianglesAndPly = (originalTriangles, triangleFileData, 0)
 
 # Run the algorithm
 WooStep(trianglesAndPly)
 
-# Save and plot the results
+# Save and maybe plot the results
 finalSet = finalSet.Simplify()
 ToFile(model+".set", halfSpaces, finalSet)
 if graphics > 0:
