@@ -605,10 +605,6 @@ def WooStep(trianglesAndPly):
  # Remove duplicate point indices
  pointIndices = list(dict.fromkeys(pointIndices))
 
- # Give the triangles an attitude adjustment
- # TODO Is this correct? triangles may not be a closed surface
- AdjustAttitudes(triangles, halfSpaces)
-
  # The actual (x, y, z) coordinates of the points of which to compute the convex hull
  points = []
  for p in pointIndices:
