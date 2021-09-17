@@ -64,21 +64,14 @@ graphics = 0
 # True to print debugging information
 debug = False
 
-# Set operators
-leaf = 0
-union = 1
-intersection = 2
-subtraction = 3
-empty = 4
-universal = 5
-
 # The bounding box and a point near the middle
 positiveCorner = [-sys.float_info.max, -sys.float_info.max, -sys.float_info.max]
 negativeCorner = [sys.float_info.max, sys.float_info.max, sys.float_info.max]
 middle = [0, 0, 0]
 
-# We want there to be just one global instance of this
+# We want there to be just one global instance of these
 halfSpaces = None
+finalSet = None
 
 # How deep to run the recursion before bailing out because
 # we may have a pathological infinite-recursion case
@@ -170,6 +163,17 @@ class Triangle:
    if np.dot(d12, dp0) < 0:
     return False
   return True
+
+ # Is this triangle contiguous with another?
+ def SharesEdgeWith(self, triangle):
+  count = 0
+  for myV in self.vertices:
+   for theirV in triangle.vertices:
+    if myV == theirV:
+     count += 1
+     if count >= 2:
+      return True
+  return False
 
  def __str__(self):
   corners = self.Points()
@@ -434,13 +438,6 @@ class Set:
   self.rpExpression = rpExpression
   return rpExpression
 
-
-# The end result. Start with the universal set, as the first
-# operation that will be done on it is intersections.
-
-finalSet = Set(-1)
-
-
 #*******************************************************************************************************
 
 # Graphics
@@ -603,7 +600,7 @@ def AdjustAttitudes(triangles, hspaces):
 # Recursive procedure for Woo's alternating sum of volumes algorithm.
 
 def WooStep(trianglesAndPly):
- global finalSet
+ global finalSet, halfSpaces
 
  # The triangles for which we want the next convex hull
  # Anything to do?
