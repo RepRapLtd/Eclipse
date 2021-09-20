@@ -116,6 +116,7 @@ class TriangleFileData:
 class Triangle:
  def __init__(self, vertices, colour, ply):
   self.vertices = vertices
+  self.neighbours = [-1, -1, -1]
   self.ply = ply
   self.points = self.Points()
   self.normal = np.cross( np.subtract(self.points[1], self.points[0]), np.subtract(self.points[2], self.points[0]) )
@@ -127,6 +128,7 @@ class Triangle:
   self.centroid = np.multiply(np.add(np.add(self.points[0], self.points[1]), self.points[2]), 1.0/3.0)
   # This will be an index into halfSpaces, not the halfspace itself
   self.halfSpace = -1
+  self.Reset()
 
  # The three actual space (x, y, z) coordinates of the vertices
  def Points(self):
@@ -139,11 +141,17 @@ class Triangle:
  def SetColour(self, colour):
   self.colour = RandomShade(colour)
 
+ def Reset(self):
+  self.flag = False
+
  # Change the sense of the triangle. The normal should point from solid to air.
  def Invert(self):
   temp = self.vertices[0]
   self.vertices[0] = self.vertices[1]
   self.vertices[1] = temp
+  temp = self.neighbours[0]
+  self.neighbours[0] = self.neighbours[1]
+  self.neighbours[1] = temp
   self.halfSpace = halfSpaces.Get(self.halfSpace).complement
   self.normal = [-self.normal[0], -self.normal[1], -self.normal[2]]
   self.points = self.Points()
@@ -164,16 +172,21 @@ class Triangle:
     return False
   return True
 
+
  # Is this triangle contiguous with another?
- def SharesEdgeWith(self, triangle):
+ def MakeNeighbourIfSharesEdge(self, triangle):
   count = 0
-  for myV in self.vertices:
-   for theirV in triangle.vertices:
-    if myV == theirV:
-     count += 1
-     if count >= 2:
-      return True
-  return False
+  for v in range(len(self.vertices)):
+   myV0 = self.vertices[v]
+   myV1 = self.vertices[(v + 1)%3]
+   for tv in range(len(triangle.vertices)):
+    tV0 = triangle.vertices[tv]
+    tV1 = triangle.vertices[(tv + 1)%3]
+    if ((myV0 == tV0) and (myV1 == tV1)) or ((myV1 == tV0) and (myV0 == tV1)):
+     self.neighbours[(v + 2)%3] = triangle
+     triangle.neighbours[(tv + 2)%3] = self
+     return
+
 
  def __str__(self):
   corners = self.Points()
@@ -182,6 +195,14 @@ class Triangle:
    result += " " + str(c) + "\n"
   result += ">\n"
   return result
+
+def ConstructNeighbourLists(triangles):
+ for tr0 in range(len(triangles)):
+  t0 = triangles[tr0]
+  for tr1 in range(tr0 + 1, len(triangles)):
+   t1 = triangles[tr1]
+   if t0 is not t1:
+    t0.MakeNeighbourIfSharesEdge(t1)
 
 # Take a base RGB colour and perturb it a bit. Used to allow coplanar triangles
 # to be distinguished.
@@ -785,6 +806,8 @@ originalTriangles = []
 for t in range(triangleFileData.TriangleCount()):
  triangle = Triangle(triangleFileData.Triangle(t), [0.5, 1.0, 0.5], triangleFileData)
  originalTriangles.append(triangle)
+
+ConstructNeighbourLists(originalTriangles)
 
 # The recursive alternating sum of volumes function needs
 # the list of triangles to work with, the .ply file data

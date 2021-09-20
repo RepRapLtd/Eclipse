@@ -1535,7 +1535,7 @@ public class Triangulation
 
     public static void main(String[] args) 
     {
-    	String root = "file://" + System.getProperty("user.dir") + "/";
+    	String root = System.getProperty("user.dir") + "/";
     	String stl = ".stl";
     	String ply = ".ply";
     	String name = args[0].replace(stl,"");
@@ -1554,7 +1554,7 @@ public class Triangulation
     	Triangulation t = new Triangulation(root + name + stl, new Color3f(0.0f, 1.0f, 0.0f));
     	t.PrintStatistics();
    	
-    	t.Save(name + ply);
+    	t.Save(root + name + ply);
     }
 
 }

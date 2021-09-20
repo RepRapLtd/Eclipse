@@ -1,9 +1,9 @@
 ply
 format ascii 1.0
-comment Created by the Java program Triangulation on 2021-09-02
+comment Created by the Java program Triangulation on 2021-09-20
 comment by RepRap Ltd. https://reprapltd.com
 comment Software licence: GPL
-comment Derived from file: file:///home/ensab/Desktop/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/STL2CSG-test-objects-woo-1.stl
+comment Derived from file: file:///home/ensab/rrlOwncloud/RepRapLtd/Engineering/Software/Eclipse/workspace/polyhedra/STL2CSG-test-objects-woo-1.stl
 element vertex 68
 property float x
 property float y

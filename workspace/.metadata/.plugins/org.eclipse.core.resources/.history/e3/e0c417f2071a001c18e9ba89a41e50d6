@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ANSI_X3.4-1968" standalone="no"?>
+<jardesc>
+    <jar path="polyhedra/Triangulation.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/polyhedra/stl2ply.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" mainClassHandleIdentifier="=polyhedra/src&lt;com.reprapltd.polyhedra{Triangulation.java[Triangulation" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <file path="/polyhedra/.classpath"/>
+        <file path="/polyhedra/.project"/>
+        <folder path="/polyhedra/Documents"/>
+        <folder path="/polyhedra/.settings"/>
+        <javaElement handleIdentifier="=polyhedra/src&lt;com.reprapltd.polyhedra"/>
+    </selectedElements>
+</jardesc>
