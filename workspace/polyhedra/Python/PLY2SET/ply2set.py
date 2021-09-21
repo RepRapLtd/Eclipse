@@ -322,7 +322,6 @@ class HalfSpaceList:
 
  # Get an actual half space from its index.
  def Get(self, index):
-  print(index, len(self.halfSpaceList))
   return self.halfSpaceList[index]
 
  def __len__(self):
@@ -619,6 +618,18 @@ def AdjustAttitudes(triangles, hspaces):
 
 #*************************************************************************************************
 
+# Walk the graph of triangles making a list of contiguous ones
+
+def GraphWalk(triangle, triangleList):
+ if not triangle.flag:
+  return
+ triangleList.append(triangle)
+ triangle.flag = False
+ for neighbour in triangle.neighbours:
+  GraphWalk(neighbour, triangleList)
+
+#*************************************************************************************************
+
 # Recursive procedure for Woo's alternating sum of volumes algorithm.
 
 def WooStep(trianglesAndPly):
@@ -725,9 +736,20 @@ def WooStep(trianglesAndPly):
  finalSet.Simplify()
 
  if len(newTriangles) > 0:
+  for triangle in newTriangles:
+   triangle.flag = True
+
+  contiguousTriangleLists = []
+  for triangle in newTriangles:
+   if triangle.flag:
+    contiguousTriangles = []
+    GraphWalk(triangle, contiguousTriangles)
+    contiguousTriangleLists.append(contiguousTriangles)
+
   # Carry on down...
-  trianglesAndPly = (newTriangles, triangleFileData, level + 1)
-  WooStep(trianglesAndPly)
+  for contiguousTriangles in contiguousTriangleLists:
+   trianglesAndPly = (contiguousTriangles, triangleFileData, level + 1)
+   WooStep(trianglesAndPly)
 
 #**************************************************************************************************
 
