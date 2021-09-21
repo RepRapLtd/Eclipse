@@ -59,7 +59,7 @@ small = 0.000001
 # 1 - input triangles at each stage
 # 2 - input triangles at each stage plus the CH
 # 3 - input and output triangles at each stage plus the convex hulls
-graphics = 0
+graphics = 2
 
 # True to print debugging information
 debug = False
@@ -145,14 +145,14 @@ class Triangle:
   self.flag = False
 
  # Change the sense of the triangle. The normal should point from solid to air.
- def Invert(self):
+ def Invert(self, hspaces):
   temp = self.vertices[0]
   self.vertices[0] = self.vertices[1]
   self.vertices[1] = temp
   temp = self.neighbours[0]
   self.neighbours[0] = self.neighbours[1]
   self.neighbours[1] = temp
-  self.halfSpace = halfSpaces.Get(self.halfSpace).complement
+  self.halfSpace = hspaces.Get(self.halfSpace).complement
   self.normal = [-self.normal[0], -self.normal[1], -self.normal[2]]
   self.points = self.Points()
 
@@ -322,6 +322,7 @@ class HalfSpaceList:
 
  # Get an actual half space from its index.
  def Get(self, index):
+  print(index, len(self.halfSpaceList))
   return self.halfSpaceList[index]
 
  def __len__(self):
@@ -611,10 +612,10 @@ def AdjustAttitudes(triangles, hspaces):
       crossCount += 1
   if crossCount%2 == 1:
    if np.dot(triangle.normal, gradient) < 0:
-    triangle.Invert()
+    triangle.Invert(hspaces)
   else:
    if np.dot(triangle.normal, gradient) > 0:
-    triangle.Invert()
+    triangle.Invert(hspaces)
 
 #*************************************************************************************************
 
@@ -775,7 +776,8 @@ def ToFile(fileName, halfSpaces, set):
 
 halfSpaces = HalfSpaceList()
 
-model = "STL2CSG-test-objects-woo-2"
+#model = "STL2CSG-test-objects-woo-2"
+model = "projections-both-ends"
 place = "../../"
 #fileName = '../../cube.ply'
 #fileName = '../../two-disjoint-cubes.ply'

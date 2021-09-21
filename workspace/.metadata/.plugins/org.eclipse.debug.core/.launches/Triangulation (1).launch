@@ -9,6 +9,6 @@
     <booleanAttribute key="org.eclipse.jdt.debug.ui.CONSIDER_INHERITED_MAIN" value="true"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.reprapltd.polyhedra.Triangulation"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="STL2CSG-test-objects-woo-1.stl"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="projections-both-ends.stl"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="polyhedra"/>
 </launchConfiguration>
