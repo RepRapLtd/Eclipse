@@ -81,142 +81,145 @@ maximumLevel = 10
 booleanAlgebra = boolean.BooleanAlgebra()
 TRUE, FALSE, NOT, AND, OR, symbol = booleanAlgebra.definition()
 
-#*******************************************************************************************************
+
+# *******************************************************************************************************
 
 # Small holding class to load the PLY file and provide simple access to its data.
 
 class TriangleFileData:
- def __init__(self, fileName):
-  self.plyFileData = PlyData.read(fileName)
-  # Ply files can hold polygons other than triangles. Check...
-  for face in self.plyFileData['face']:
-   if len(face[0]) != 3:
-    error = "\nA polygon in ply file " + fileName + " has " + str(len(face[0])) + " vertices (i.e. it's not a triangle).\n"
-    error += "ply2set.py can only work with triangles.\n"
-    sys.exit(error)
+    def __init__(self, fileName):
+        self.plyFileData = PlyData.read(fileName)
+        # Ply files can hold polygons other than triangles. Check...
+        for face in self.plyFileData['face']:
+            if len(face[0]) != 3:
+                error = "\nA polygon in ply file " + fileName + " has " + str(
+                    len(face[0])) + " vertices (i.e. it's not a triangle).\n"
+                error += "ply2set.py can only work with triangles.\n"
+                sys.exit(error)
 
- def VertexCount(self):
-  return len(self.plyFileData['vertex'])
+    def VertexCount(self):
+        return len(self.plyFileData['vertex'])
 
- def Vertex(self, index):
-  return list(self.plyFileData['vertex'][index])
+    def Vertex(self, index):
+        return list(self.plyFileData['vertex'][index])
 
- def TriangleCount(self):
-  return len(self.plyFileData['face'])
+    def TriangleCount(self):
+        return len(self.plyFileData['face'])
 
- def Triangle(self, index):
-  return self.plyFileData['face'][index][0]
+    def Triangle(self, index):
+        return self.plyFileData['face'][index][0]
 
 
-#************************************************************************************************************
+# ************************************************************************************************************
 
 # Class to hold a single triangle. The three vertices are indices into the list of vertices
 # that have been previously loaded from a PLY file into ply.
 
 class Triangle:
- def __init__(self, vertices, colour, ply):
-  self.vertices = vertices
-  self.neighbours = [-1, -1, -1]
-  self.ply = ply
-  self.points = self.Points()
-  self.normal = np.cross( np.subtract(self.points[1], self.points[0]), np.subtract(self.points[2], self.points[0]) )
-  s2 = maths.sqrt(np.dot(self.normal, self.normal))
-  if s2 < small:
-   print("Triangle: vertices are collinear!")
-  self.normal = np.multiply(self.normal, 1.0/s2)
-  self.colour = RandomShade(colour)
-  self.centroid = np.multiply(np.add(np.add(self.points[0], self.points[1]), self.points[2]), 1.0/3.0)
-  # This will be an index into halfSpaces, not the halfspace itself
-  self.halfSpace = -1
-  self.Reset()
+    def __init__(self, vertices, colour, ply):
+        self.vertices = vertices
+        self.neighbours = [-1, -1, -1]
+        self.ply = ply
+        self.points = self.Points()
+        self.normal = np.cross(np.subtract(self.points[1], self.points[0]), np.subtract(self.points[2], self.points[0]))
+        s2 = maths.sqrt(np.dot(self.normal, self.normal))
+        if s2 < small:
+            print("Triangle: vertices are collinear!")
+        self.normal = np.multiply(self.normal, 1.0 / s2)
+        self.colour = RandomShade(colour)
+        self.centroid = np.multiply(np.add(np.add(self.points[0], self.points[1]), self.points[2]), 1.0 / 3.0)
+        # This will be an index into halfSpaces, not the halfspace itself
+        self.halfSpace = -1
+        self.Reset()
 
- # The three actual space (x, y, z) coordinates of the vertices
- def Points(self):
-  return [self.ply.Vertex(self.vertices[0]), self.ply.Vertex(self.vertices[1]), self.ply.Vertex(self.vertices[2])]
+    # The three actual space (x, y, z) coordinates of the vertices
+    def Points(self):
+        return [self.ply.Vertex(self.vertices[0]), self.ply.Vertex(self.vertices[1]), self.ply.Vertex(self.vertices[2])]
 
- # The list of vertex indices.
- def Vertices(self):
-  return self.vertices
+    # The list of vertex indices.
+    def Vertices(self):
+        return self.vertices
 
- def SetColour(self, colour):
-  self.colour = RandomShade(colour)
+    def SetColour(self, colour):
+        self.colour = RandomShade(colour)
 
- def Reset(self):
-  self.flag = False
+    def Reset(self):
+        self.flag = False
 
- # Change the sense of the triangle. The normal should point from solid to air.
- def Invert(self, hspaces):
-  temp = self.vertices[0]
-  self.vertices[0] = self.vertices[1]
-  self.vertices[1] = temp
-  temp = self.neighbours[0]
-  self.neighbours[0] = self.neighbours[1]
-  self.neighbours[1] = temp
-  self.halfSpace = hspaces.Get(self.halfSpace).complement
-  self.normal = [-self.normal[0], -self.normal[1], -self.normal[2]]
-  self.points = self.Points()
+    # Change the sense of the triangle. The normal should point from solid to air.
+    def Invert(self, hspaces):
+        temp = self.vertices[0]
+        self.vertices[0] = self.vertices[1]
+        self.vertices[1] = temp
+        temp = self.neighbours[0]
+        self.neighbours[0] = self.neighbours[1]
+        self.neighbours[1] = temp
+        self.halfSpace = hspaces.Get(self.halfSpace).complement
+        self.normal = [-self.normal[0], -self.normal[1], -self.normal[2]]
+        self.points = self.Points()
 
- # Is a point inside the triangle?
- # Note - this is doing an essentially 2D calculation in 3D space.
- # To see how this works write it out as vector algebra.
- def ContainsPoint(self, point):
-  for p0 in range(3):
-   p1 = (p0+1)%3
-   p2 = (p0+2)%3
-   p10 = np.subtract(self.points[p1], self.points[p0])
-   p20 = np.subtract(self.points[p2], self.points[p0])
-   d12 = np.cross(p10, p20)
-   pp0 = np.subtract(point, self.points[p0])
-   dp0 = np.cross(p10, pp0)
-   if np.dot(d12, dp0) < 0:
-    return False
-  return True
+    # Is a point inside the triangle?
+    # Note - this is doing an essentially 2D calculation in 3D space.
+    # To see how this works write it out as vector algebra.
+    def ContainsPoint(self, point):
+        for p0 in range(3):
+            p1 = (p0 + 1) % 3
+            p2 = (p0 + 2) % 3
+            p10 = np.subtract(self.points[p1], self.points[p0])
+            p20 = np.subtract(self.points[p2], self.points[p0])
+            d12 = np.cross(p10, p20)
+            pp0 = np.subtract(point, self.points[p0])
+            dp0 = np.cross(p10, pp0)
+            if np.dot(d12, dp0) < 0:
+                return False
+        return True
 
+    # Is this triangle contiguous with another?
+    def MakeNeighbourIfSharesEdge(self, triangle):
+        count = 0
+        for v in range(len(self.vertices)):
+            myV0 = self.vertices[v]
+            myV1 = self.vertices[(v + 1) % 3]
+            for tv in range(len(triangle.vertices)):
+                tV0 = triangle.vertices[tv]
+                tV1 = triangle.vertices[(tv + 1) % 3]
+                if ((myV0 == tV0) and (myV1 == tV1)) or ((myV1 == tV0) and (myV0 == tV1)):
+                    self.neighbours[(v + 2) % 3] = triangle
+                    triangle.neighbours[(tv + 2) % 3] = self
+                    return
 
- # Is this triangle contiguous with another?
- def MakeNeighbourIfSharesEdge(self, triangle):
-  count = 0
-  for v in range(len(self.vertices)):
-   myV0 = self.vertices[v]
-   myV1 = self.vertices[(v + 1)%3]
-   for tv in range(len(triangle.vertices)):
-    tV0 = triangle.vertices[tv]
-    tV1 = triangle.vertices[(tv + 1)%3]
-    if ((myV0 == tV0) and (myV1 == tV1)) or ((myV1 == tV0) and (myV0 == tV1)):
-     self.neighbours[(v + 2)%3] = triangle
-     triangle.neighbours[(tv + 2)%3] = self
-     return
+    def __str__(self):
+        corners = self.Points()
+        result = "<\n"
+        for c in corners:
+            result += " " + str(c) + "\n"
+        result += ">\n"
+        return result
 
-
- def __str__(self):
-  corners = self.Points()
-  result = "<\n"
-  for c in corners:
-   result += " " + str(c) + "\n"
-  result += ">\n"
-  return result
 
 def ConstructNeighbourLists(triangles):
- for tr0 in range(len(triangles)):
-  t0 = triangles[tr0]
-  for tr1 in range(tr0 + 1, len(triangles)):
-   t1 = triangles[tr1]
-   if t0 is not t1:
-    t0.MakeNeighbourIfSharesEdge(t1)
+    for tr0 in range(len(triangles)):
+        t0 = triangles[tr0]
+        for tr1 in range(tr0 + 1, len(triangles)):
+            t1 = triangles[tr1]
+            if t0 is not t1:
+                t0.MakeNeighbourIfSharesEdge(t1)
+
 
 # Take a base RGB colour and perturb it a bit. Used to allow coplanar triangles
 # to be distinguished.
 def RandomShade(baseColour):
- colour = [random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1)]
- for c in range(3):
-  colour[c] += baseColour[c]
-  if colour[c] < 0:
-   colour[c] = 0
-  if colour[c] > 1:
-   colour[c] = 1
- return colour
+    colour = [random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1)]
+    for c in range(3):
+        colour[c] += baseColour[c]
+        if colour[c] < 0:
+            colour[c] = 0
+        if colour[c] > 1:
+            colour[c] = 1
+    return colour
 
-#*************************************************************************************************************
+
+# *************************************************************************************************************
 
 # A planar half space of the form Ax + By + Cz + D <= 0, where (A, B, C) is the
 # plane's normal vector and -D is the distance from it to the origin.
@@ -224,110 +227,111 @@ def RandomShade(baseColour):
 # It is the plane through a triangle.
 
 class HalfSpace:
- def __init__(self, triangle = None):
-  self.complement = -1
-  self.flag = False
-  if triangle is None:
-   return
-  self.normal = triangle.normal
-  self.d = -np.dot(self.normal, triangle.centroid)
+    def __init__(self, triangle=None):
+        self.complement = -1
+        self.flag = False
+        if triangle is None:
+            return
+        self.normal = triangle.normal
+        self.d = -np.dot(self.normal, triangle.centroid)
 
-# Note: two coincident half spaces of opposite sense are not considered equal.
- def __eq__(self, halfSpace):
-  if 1.0 - np.dot(halfSpace.normal, self.normal) > small:
-   return False
-  if abs(self.d - halfSpace.d) > small:
-   return False
-  return True
+    # Note: two coincident half spaces of opposite sense are not considered equal.
+    def __eq__(self, halfSpace):
+        if 1.0 - np.dot(halfSpace.normal, self.normal) > small:
+            return False
+        if abs(self.d - halfSpace.d) > small:
+            return False
+        return True
 
-# Is a halfspace my complement?
- def Opposite(self, halfSpace):
-  if 1.0 + np.dot(halfSpace.normal, self.normal) > small:
-   return False
-  if abs(self.d + halfSpace.d) > small:
-   return False
-  return True
+    # Is a halfspace my complement?
+    def Opposite(self, halfSpace):
+        if 1.0 + np.dot(halfSpace.normal, self.normal) > small:
+            return False
+        if abs(self.d + halfSpace.d) > small:
+            return False
+        return True
 
- # Work out the complement
- def Complement(self):
-  result = HalfSpace()
-  result.normal = [-self.normal[0], -self.normal[1], -self.normal[2]]
-  result.d = -self.d
-  result.complement = -1
-  return result
+    # Work out the complement
+    def Complement(self):
+        result = HalfSpace()
+        result.normal = [-self.normal[0], -self.normal[1], -self.normal[2]]
+        result.d = -self.d
+        result.complement = -1
+        return result
 
- # Used for output so that only halfSpaces that are actually referred to
- # in a set-theoretic expression are saved.
- def SetFlag(self, f):
-  self.flag = f
+    # Used for output so that only halfSpaces that are actually referred to
+    # in a set-theoretic expression are saved.
+    def SetFlag(self, f):
+        self.flag = f
 
- # Get the coeficients as an array.
- def Coeficients(self):
-  return np.array([self.normal[0], self.normal[1], self.normal[2], self.d])
+    # Get the coeficients as an array.
+    def Coeficients(self):
+        return np.array([self.normal[0], self.normal[1], self.normal[2], self.d])
 
- # The potential value of a point [x, y, z]. -ve means in solid; +ve in air.
- # Thus this is a membership test.
- def Value(self, point):
-  return np.dot(self.normal, point) + self.d
+    # The potential value of a point [x, y, z]. -ve means in solid; +ve in air.
+    # Thus this is a membership test.
+    def Value(self, point):
+        return np.dot(self.normal, point) + self.d
 
- def __str__(self):
-  result = "{" + str(self.normal[0]) + "x + " + str(self.normal[1]) + "y + " +\
-   str(self.normal[2]) + "z + " + str(self.d) + " <= 0}"
-  result = result.replace("+ -", "- ") #Sigh!
-  return result
+    def __str__(self):
+        result = "{" + str(self.normal[0]) + "x + " + str(self.normal[1]) + "y + " + \
+                 str(self.normal[2]) + "z + " + str(self.d) + " <= 0}"
+        result = result.replace("+ -", "- ")  # Sigh!
+        return result
 
 
-#********************************************************************************************************
+# ********************************************************************************************************
 
 # A list of half spaces
 
 class HalfSpaceList:
- def __init__(self):
-  self.halfSpaceList = []
+    def __init__(self):
+        self.halfSpaceList = []
 
- # Is halfSpace in the list? If so return an index to it. If not, return -1
- def LookUp(self, halfSpace):
-  for hs in range(len(self.halfSpaceList)):
-   listHalfSpace = self.halfSpaceList[hs]
-   if halfSpace == listHalfSpace:
-    return hs
-  return -1
+    # Is halfSpace in the list? If so return an index to it. If not, return -1
+    def LookUp(self, halfSpace):
+        for hs in range(len(self.halfSpaceList)):
+            listHalfSpace = self.halfSpaceList[hs]
+            if halfSpace == listHalfSpace:
+                return hs
+        return -1
 
- # Add the halfspace to the list, unless that half space is
- # already in the list. Return the index of the half space in the list.
- # Also add its complement, so we can flip between them.
- def AddSpace(self, halfSpace):
-  last = len(self.halfSpaceList)
-  inList = self.LookUp(halfSpace)
-  if inList < 0:
-   self.halfSpaceList.append(halfSpace)
-   self.halfSpaceList.append(halfSpace.Complement())
-   halfSpace.complement = last + 1
-   self.halfSpaceList[last+1].complement = last
-   return last
-  else:
-   return inList
+    # Add the halfspace to the list, unless that half space is
+    # already in the list. Return the index of the half space in the list.
+    # Also add its complement, so we can flip between them.
+    def AddSpace(self, halfSpace):
+        last = len(self.halfSpaceList)
+        inList = self.LookUp(halfSpace)
+        if inList < 0:
+            self.halfSpaceList.append(halfSpace)
+            self.halfSpaceList.append(halfSpace.Complement())
+            halfSpace.complement = last + 1
+            self.halfSpaceList[last + 1].complement = last
+            return last
+        else:
+            return inList
 
- # Add the halfspace corresponding to a triangle using the function above.
- def AddTriangle(self, triangle):
-  halfSpace = HalfSpace(triangle)
-  index = self.AddSpace(halfSpace)
-  triangle.halfSpace = index
-  return index
+    # Add the halfspace corresponding to a triangle using the function above.
+    def AddTriangle(self, triangle):
+        halfSpace = HalfSpace(triangle)
+        index = self.AddSpace(halfSpace)
+        triangle.halfSpace = index
+        return index
 
- # Set all the flags false.
- def ResetFlags(self):
-  for hs in self.halfSpaceList:
-   hs.SetFlag(False)
+    # Set all the flags false.
+    def ResetFlags(self):
+        for hs in self.halfSpaceList:
+            hs.SetFlag(False)
 
- # Get an actual half space from its index.
- def Get(self, index):
-  return self.halfSpaceList[index]
+    # Get an actual half space from its index.
+    def Get(self, index):
+        return self.halfSpaceList[index]
 
- def __len__(self):
-  return len(self.halfSpaceList)
+    def __len__(self):
+        return len(self.halfSpaceList)
 
-#********************************************************************************************************
+
+# ********************************************************************************************************
 
 # Unions and intersections of half-spaces.
 # Set() gives the empty set
@@ -335,255 +339,291 @@ class HalfSpaceList:
 
 class Set:
 
- # Create a set, optionally corresponding to a halfspace.
- # If we convert to reverse polish (self.rpExpression) that
- # will be remembered for future lazy evaluation.
- def __init__(self, halfSpaceIndex = None):
-  self.rpExpression = None
-  if halfSpaceIndex is None:
-   self.expression = FALSE
-   return
-  if halfSpaceIndex < 0:
-   self.expression = TRUE
-   return
-  self.expression = booleanAlgebra.Symbol(halfSpaceIndex)
+    # Create a set, optionally corresponding to a halfspace.
+    # If we convert to reverse polish (self.rpExpression) that
+    # will be remembered for future lazy evaluation.
+    def __init__(self, halfSpaceIndex=None):
+        self.rpExpression = None
+        if halfSpaceIndex is None:
+            self.expression = FALSE
+            return
+        if halfSpaceIndex < 0:
+            self.expression = TRUE
+            return
+        # We either use the halfspace or its complement, whichever is
+        # lexically earlier.
+        hsComplement = halfSpaces.Get(halfSpaceIndex).complement
+        if halfSpaceIndex < hsComplement:
+            self.expression = booleanAlgebra.Symbol(halfSpaceIndex)
+        else:
+            self.expression = NOT(booleanAlgebra.Symbol(hsComplement))
 
- # I hope the following are self-explanatory.
+    # I hope the following are self-explanatory.
 
- def Unite(self, set2):
-  result = Set()
-  result.expression = OR(self.expression, set2.expression)
-  return result
+    def Unite(self, set2):
+        result = Set()
+        result.expression = OR(self.expression, set2.expression)
+        return result
 
- def Intersect(self, set2):
-  result = Set()
-  result.expression = AND(self.expression, set2.expression)
-  return result
+    def Intersect(self, set2):
+        result = Set()
+        result.expression = AND(self.expression, set2.expression)
+        return result
 
- def Subtract(self, set2):
-  result = Set()
-  result.expression = AND(self.expression, NOT(set2.expression))
-  return result
+    def Subtract(self, set2):
+        result = self.Intersect(set2.Complement())
+        return result
 
- def Simplify(self):
-  self.expression = self.expression.simplify()
+    def Complement(self):
+        self.ToRP()
+        stack = []
+        for r in self.rpExpression:
+            if r[0].isdigit():
+                hsIndex = int(r)
+                c = halfSpaces.Get(hsIndex).complement
+                if c < hsIndex:
+                    stack.append(booleanAlgebra.Symbol(c))
+                else:
+                    stack.append(NOT(booleanAlgebra.Symbol(hsIndex)))
+            else:
+                b = stack.pop()
+                a = stack.pop()
+                if r == '&':
+                    stack.append(OR(a, b))
+                elif r == '|':
+                    stack.append(AND(a, b))
+                else:
+                    print("Set.Value(): illegal operator: " + r)
+        result = Set()
+        result.expression = stack[0]
+        return result
 
- # Membership test. If the value of the point is negative, it is in the solid
- # region; if it is positive it is in air.
- def Value(self, point):
-  self.ToRP()
-  stack=[]
-  for r in self.rpExpression:
-   if r[0].isdigit():
-    v = halfSpaces.Get(int(r)).Value(point)
-    stack.append(v)
-   else:
-    b = stack.pop()
-    a = stack.pop()
-    if r == '&':
-     stack.append(max(a, b))
-    elif r == '|':
-     stack.append(min(a, b))
-    else:
-     print("Set.Value(): illegal operator: " + r)
-  return stack[0]
+    def Simplify(self):
+        self.expression = self.expression.simplify()
 
- def __str__(self):
-  return str(self.expression)
+    # Membership test. If the value of the point is negative, it is in the solid
+    # region; if it is positive it is in air.
+    def Value(self, point):
+        self.ToRP()
+        stack = []
+        for r in self.rpExpression:
+            if r[0].isdigit():
+                v = halfSpaces.Get(int(r)).Value(point)
+                stack.append(v)
+            else:
+                b = stack.pop()
+                a = stack.pop()
+                if r == '&':
+                    stack.append(max(a, b))
+                elif r == '|':
+                    stack.append(min(a, b))
+                else:
+                    print("Set.Value(): illegal operator: " + r)
+        return stack[0]
 
- # Convert the set's expression to reverse polish. It remembers the result for future
- # Lazy evaluation.
- def ToRP(self):
-  if self.rpExpression is not None:
-   return self.rpExpression
+    def __str__(self):
+        return str(self.expression)
 
-  self.Simplify()
+    # Convert the set's expression to reverse polish. It remembers the result for future
+    # Lazy evaluation. Note this depends on the fact that boolean expressions are
+    # constructed in such a way that the NOT/~ operator only applies to single half spaces, not
+    # compound expressions.
+    def ToRP(self):
+        if self.rpExpression is not None:
+            return self.rpExpression
 
-  # Start by splitting the expression into unique tags, which are either brackets, operators, or symbols.
-  # The symbols are the half-space indices (i.e. positive integers).
-  s = str(self.expression)
-  s = re.split(r'(\d+)', s)
+        print(self.expression)
+        self.Simplify()
+        print(self.expression)
+        print()
+        # Start by splitting the expression into unique tags, which are either brackets, operators, or symbols.
+        # The symbols are the half-space indices (i.e. positive integers).
+        s = str(self.expression)
+        s = re.split(r'(\d+)', s)
 
-  # This splits chains like ')&~(' into their individual elements
-  expression = []
-  for e in s:
-   if len(e) <= 0:
-    pass
-   elif len(e) == 1:
-    expression.append(e)
-   elif e[0].isdigit():
-    expression.append(e)
-   else:
-    for d in e:
-     expression.append(d)
+        # This splits chains like ')&~' into their individual elements
+        expression = []
+        for e in s:
+            if len(e) <= 0:
+                pass
+            elif len(e) == 1:
+                expression.append(e)
+            elif e[0].isdigit():
+                expression.append(e)
+            else:
+                for d in e:
+                    expression.append(d)
 
-  # Now remove complement operators and replace the halfspaces that they complement
-  # with the index of that halfspace's actual complement.
-  s = expression
-  expression = []
-  e = 0
-  while e < len(s):
-   tag = s[e]
-   if tag == '~':
-    e += 1
-    tag = s[e]
-    hs = halfSpaces.Get(int(tag)).complement
-    expression.append(str(hs))
-   else:
-    expression.append(tag)
-   e += 1
+        # Now remove complement operators and replace the halfspaces that they complement
+        # with the index of that halfspace's actual complement. Note this is the bit that
+        # depends on the fact that boolean expressions are constructed in such a way that
+        # the NOT/~ operator only applies to single half spaces, not to compound expressions.
+        s = expression
+        expression = []
+        e = 0
+        while e < len(s):
+            tag = s[e]
+            if tag == '~':
+                e += 1
+                tag = s[e]
+                hs = halfSpaces.Get(int(tag)).complement
+                expression.append(str(hs))
+            else:
+                expression.append(tag)
+            e += 1
 
-  # Now run through the expression converting it to RP
-  rpExpression = []
-  stack = []
-  e = 0
-  while e < len(expression):
-   tag = expression[e]
-   if tag[0].isdigit():
-    rpExpression.append(tag)
-   else:
-    if len(stack) == 0 or stack[-1] == '(':
-     stack.append(tag)
-    elif tag == '(':
-     stack.append(tag)
-    elif tag == ')':
-     s = stack.pop()
-     while s != '(':
-      rpExpression.append(s)
-      s = stack.pop()
-    else:
-     stack.append(tag)
-   e += 1
-  while len(stack) > 0:
-   rpExpression.append(stack.pop())
-  self.rpExpression = rpExpression
-  return rpExpression
+        # Now run through the expression converting it to RP
+        rpExpression = []
+        stack = []
+        e = 0
+        while e < len(expression):
+            tag = expression[e]
+            if tag[0].isdigit():
+                rpExpression.append(tag)
+            else:
+                if len(stack) == 0 or stack[-1] == '(':
+                    stack.append(tag)
+                elif tag == '(':
+                    stack.append(tag)
+                elif tag == ')':
+                    s = stack.pop()
+                    while s != '(':
+                        rpExpression.append(s)
+                        s = stack.pop()
+                else:
+                    stack.append(tag)
+            e += 1
+        while len(stack) > 0:
+            rpExpression.append(stack.pop())
+        self.rpExpression = rpExpression
+        return rpExpression
 
-#*******************************************************************************************************
+
+# *******************************************************************************************************
 
 # Graphics
-#----------
+# ----------
 
 # A model consists of a list of triangles for display. The pattern can be rotated on the screen
 # and zoomed using the mouse so it can be easily seen.
 
 class Model:
- def __init__(self, triangles):
-  self.triangles = triangles
-  self.xangle = 0
-  self.yangle = 0
-  diag = np.subtract(positiveCorner[0], negativeCorner[0])
-  self.distance = -3.0*(maths.sqrt(np.dot(diag, diag)))
+    def __init__(self, triangles):
+        self.triangles = triangles
+        self.xangle = 0
+        self.yangle = 0
+        diag = np.subtract(positiveCorner[0], negativeCorner[0])
+        self.distance = -3.0 * (maths.sqrt(np.dot(diag, diag)))
 
- def MouseDrag(self, dx, dy):
-  self.xangle += dx
-  self.xangle %= 360
-  self.yangle += dy
-  self.yangle %= 360
+    def MouseDrag(self, dx, dy):
+        self.xangle += dx
+        self.xangle %= 360
+        self.yangle += dy
+        self.yangle %= 360
 
- def MouseScroll(self, dy):
-  self.distance += dy
+    def MouseScroll(self, dy):
+        self.distance += dy
 
- def Draw(self):
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-  glMatrixMode(GL_PROJECTION)
-  glLoadIdentity()
-  gluPerspective(60, 1, 0.1, 1000)
-  glMatrixMode(GL_MODELVIEW)
+    def Draw(self):
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        gluPerspective(60, 1, 0.1, 1000)
+        glMatrixMode(GL_MODELVIEW)
 
-  glEnable(GL_DEPTH_TEST)
-  glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-  glEnable(GL_LIGHTING)
-  glEnable(GL_LIGHT0)
-  glEnable(GL_COLOR_MATERIAL)
-  glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE )
+        glEnable(GL_DEPTH_TEST)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
+        glEnable(GL_COLOR_MATERIAL)
+        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
 
-  glLoadIdentity()
-  glTranslatef(0, 0, self.distance)
-  glRotatef(self.xangle, 0, 1, 0)
-  glRotatef(self.yangle, -1, 0, 0)
+        glLoadIdentity()
+        glTranslatef(0, 0, self.distance)
+        glRotatef(self.xangle, 0, 1, 0)
+        glRotatef(self.yangle, -1, 0, 0)
 
+        for triangle in self.triangles:
+            glBegin(GL_POLYGON)
+            for point in triangle.Points():
+                glColor3f(triangle.colour[0], triangle.colour[1], triangle.colour[2])
+                glNormal3f(triangle.normal[0], triangle.normal[1], triangle.normal[2])
+                glVertex3f(point[0], point[1], point[2])
+            glEnd()
 
-
-  for triangle in self.triangles:
-   glBegin(GL_POLYGON)
-   for point in triangle.Points():
-    glColor3f(triangle.colour[0], triangle.colour[1], triangle.colour[2])
-    glNormal3f(triangle.normal[0],triangle.normal[1],triangle.normal[2])
-    glVertex3f(point[0], point[1], point[2])
-   glEnd()
-
-  glFlush()
+        glFlush()
 
 
 # The World is the container for models (see above) for display.
 
 class World:
- def __init__(self):
-  self.element = []
+    def __init__(self):
+        self.element = []
 
- def AddModel(self, model):
-  self.element.append(model)
+    def AddModel(self, model):
+        self.element.append(model)
 
- def Draw(self):
-  for obj in self.element:
-   obj.Draw()
+    def Draw(self):
+        for obj in self.element:
+            obj.Draw()
 
- def Setup(self):
-  glEnable(GL_DEPTH_TEST)
+    def Setup(self):
+        glEnable(GL_DEPTH_TEST)
 
- def MouseDrag(self, dx, dy):
-  for obj in self.element:
-   obj.MouseDrag(dx, dy)
+    def MouseDrag(self, dx, dy):
+        for obj in self.element:
+            obj.MouseDrag(dx, dy)
 
- def MouseScroll(self, scroll_y):
-  for obj in self.element:
-   obj.MouseScroll(scroll_y)
+    def MouseScroll(self, scroll_y):
+        for obj in self.element:
+            obj.MouseScroll(scroll_y)
+
 
 def PutWorldInWindow(world, title):
- win = window.Window(fullscreen=False, vsync=True, resizable=False, height=600, width=600, caption = title)
- range = np.multiply(np.subtract(positiveCorner, negativeCorner), [2, 2, 5])
- negP = np.subtract(middle, range)
- posP = np.add(middle, range)
+    win = window.Window(fullscreen=False, vsync=True, resizable=False, height=600, width=600, caption=title)
+    range = np.multiply(np.subtract(positiveCorner, negativeCorner), [2, 2, 5])
+    negP = np.subtract(middle, range)
+    posP = np.add(middle, range)
 
- @win.event
- def on_resize(width, height):
-  glViewport(0, 0, width, height)
-  glMatrixMode(GL_PROJECTION)
-  glLoadIdentity()
-  glOrtho(negP[0], posP[0], negP[1], posP[1], negP[2], posP[2])
-  glMatrixMode(GL_MODELVIEW)
-  return pyglet.event.EVENT_HANDLED
+    @win.event
+    def on_resize(width, height):
+        glViewport(0, 0, width, height)
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        glOrtho(negP[0], posP[0], negP[1], posP[1], negP[2], posP[2])
+        glMatrixMode(GL_MODELVIEW)
+        return pyglet.event.EVENT_HANDLED
 
- @win.event
- def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
-  world.MouseDrag(dx, dy)
+    @win.event
+    def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
+        world.MouseDrag(dx, dy)
 
- @win.event
- def on_mouse_scroll(x, y, scroll_x, scroll_y):
-  world.MouseScroll(scroll_y)
+    @win.event
+    def on_mouse_scroll(x, y, scroll_x, scroll_y):
+        world.MouseScroll(scroll_y)
 
- @win.event
- def on_draw():
-  glClearColor(0.2, 0.2, 0.2, 0.8)
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-  world.Draw()
+    @win.event
+    def on_draw():
+        glClearColor(0.2, 0.2, 0.2, 0.8)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        world.Draw()
 
- world.Setup()
+    world.Setup()
 
 
 # Set up a window for a list of triangles
 def MakeTriangleWindow(triangles, title):
- if graphics == 0:
-  return;
- # They may be given a different colour after this function is called.
- triangles = copy.deepcopy(triangles)
- world = World()
- m = Model(triangles)
- world.AddModel(m)
- PutWorldInWindow(world, title)
+    if graphics == 0:
+        return;
+    # They may be given a different colour after this function is called.
+    triangles = copy.deepcopy(triangles)
+    world = World()
+    m = Model(triangles)
+    world.AddModel(m)
+    PutWorldInWindow(world, title)
 
-#*************************************************************************************************
+
+# *************************************************************************************************
 
 # The array triangles is assumed to represent the complete surface of a polyhedron.
 # This uses the Jordan Curve Theorem to count intersections between the polyhedron
@@ -597,239 +637,240 @@ def MakeTriangleWindow(triangles, title):
 # to be inverted. Otherwise it is left alone.
 
 def AdjustAttitudes(triangles, hspaces):
- farPoint = np.multiply(positiveCorner, [random.uniform(20, 30), random.uniform(20, 30), random.uniform(20, 30)])
- for triangle in triangles:
-  gradient = np.subtract(triangle.centroid, farPoint)
-  crossCount = 0
-  for t in triangles:
-   if t is not triangle:
-    hs = hspaces.Get(t.halfSpace)
-    parameter = -(np.dot(farPoint, hs.normal) + hs.d)/np.dot(gradient, hs.normal)
-    if parameter > 0 and parameter < 1:
-     point = np.add(farPoint, np.multiply(gradient, parameter))
-     if t.ContainsPoint(point):
-      crossCount += 1
-  if crossCount%2 == 1:
-   if np.dot(triangle.normal, gradient) < 0:
-    triangle.Invert(hspaces)
-  else:
-   if np.dot(triangle.normal, gradient) > 0:
-    triangle.Invert(hspaces)
+    farPoint = np.multiply(positiveCorner, [random.uniform(20, 30), random.uniform(20, 30), random.uniform(20, 30)])
+    for triangle in triangles:
+        gradient = np.subtract(triangle.centroid, farPoint)
+        crossCount = 0
+        for t in triangles:
+            if t is not triangle:
+                hs = hspaces.Get(t.halfSpace)
+                parameter = -(np.dot(farPoint, hs.normal) + hs.d) / np.dot(gradient, hs.normal)
+                if parameter > 0 and parameter < 1:
+                    point = np.add(farPoint, np.multiply(gradient, parameter))
+                    if t.ContainsPoint(point):
+                        crossCount += 1
+        if crossCount % 2 == 1:
+            if np.dot(triangle.normal, gradient) < 0:
+                triangle.Invert(hspaces)
+        else:
+            if np.dot(triangle.normal, gradient) > 0:
+                triangle.Invert(hspaces)
 
-#*************************************************************************************************
+
+# *************************************************************************************************
 
 # Walk the graph of triangles making a list of contiguous ones
 
 def GraphWalk(triangle, triangleList):
- if not triangle.flag:
-  return
- triangleList.append(triangle)
- triangle.flag = False
- for neighbour in triangle.neighbours:
-  GraphWalk(neighbour, triangleList)
+    if not triangle.flag:
+        return
+    triangleList.append(triangle)
+    triangle.flag = False
+    for neighbour in triangle.neighbours:
+        GraphWalk(neighbour, triangleList)
 
-#*************************************************************************************************
+
+# *************************************************************************************************
 
 # Recursive procedure for Woo's alternating sum of volumes algorithm.
 
 def WooStep(trianglesAndPly):
- global finalSet, halfSpaces
+    global finalSet, halfSpaces
 
- # The triangles for which we want the next convex hull
- # Anything to do?
- triangles = trianglesAndPly[0]
- if len(triangles) <= 0:
-  return
+    # The triangles for which we want the next convex hull
+    # Anything to do?
+    triangles = trianglesAndPly[0]
+    if len(triangles) <= 0:
+        return
 
- # The original data with coordinates in etc.
- triangleFileData = trianglesAndPly[1]
+    # The original data with coordinates in etc.
+    triangleFileData = trianglesAndPly[1]
 
- # The level of recursion
- level = trianglesAndPly[2]
- if level > maximumLevel:
-  exit("WooStep(): maximum recursion exceeded.")
+    # The level of recursion
+    level = trianglesAndPly[2]
+    if level > maximumLevel:
+        exit("WooStep(): maximum recursion exceeded.")
 
- title = "Level: " + str(level)
- if graphics > 0:
-  MakeTriangleWindow(triangles, title + " original triangles")
+    title = "Level: " + str(level)
+    if graphics > 0:
+        MakeTriangleWindow(triangles, title + " original triangles")
 
- # The vertices of those triangles with no duplicates. These are indices of the
- # points in the original ply file.
- pointIndices = []
+    # The vertices of those triangles with no duplicates. These are indices of the
+    # points in the original ply file.
+    pointIndices = []
 
- # Add a halfspace for each triangle as long as it is not already in the halfspace list
- # Also gather all the vertices
- for triangle in triangles:
-  halfSpaces.AddTriangle(triangle)
-  for v in triangle.Vertices():
-   pointIndices.append(v)
+    # Add a halfspace for each triangle as long as it is not already in the halfspace list
+    # Also gather all the vertices
+    for triangle in triangles:
+        halfSpaces.AddTriangle(triangle)
+        for v in triangle.Vertices():
+            pointIndices.append(v)
 
- # Remove duplicate point indices
- pointIndices = list(dict.fromkeys(pointIndices))
+    # Remove duplicate point indices
+    pointIndices = list(dict.fromkeys(pointIndices))
 
- # The actual (x, y, z) coordinates of the points of which to compute the convex hull
- points = []
- for p in pointIndices:
-  points.append(triangleFileData.Vertex(p))
+    # The actual (x, y, z) coordinates of the points of which to compute the convex hull
+    points = []
+    for p in pointIndices:
+        points.append(triangleFileData.Vertex(p))
 
- # Find the convex hull
- hull = ConvexHull(points)
+    # Find the convex hull
+    hull = ConvexHull(points)
 
- # Make a list of the hull triangles and their corresponding half spaces
- hullTriangles = []
- hullHalfSpaces = HalfSpaceList()
- for face in hull.simplices:
-  vertices = []
-  for f in face:
-   # We need to record using the global indexing system
-   vertices.append(pointIndices[f])
-  triangle = Triangle(vertices, [0.5, 0.5, 1.0], triangleFileData)
-  hullTriangles.append(triangle)
-  hullHalfSpaces.AddTriangle(triangle)
+    # Make a list of the hull triangles and their corresponding half spaces
+    hullTriangles = []
+    hullHalfSpaces = []
+    for face in hull.simplices:
+        vertices = []
+        for f in face:
+            # We need to record using the global indexing system
+            vertices.append(pointIndices[f])
+        triangle = Triangle(vertices, [0.5, 0.5, 1.0], triangleFileData)
+        hullTriangles.append(triangle)
+        hullHalfSpaces.append(halfSpaces.AddTriangle(triangle))
 
- # hullTriangles is a complete polygon.
- AdjustAttitudes(hullTriangles, hullHalfSpaces)
+    # Remove duplicates
+    hullHalfSpaces = list(dict.fromkeys(hullHalfSpaces))
 
- if graphics > 1:
-  MakeTriangleWindow(hullTriangles, title + " CH")
+    # hullTriangles is a complete polyhedron.
+    AdjustAttitudes(hullTriangles, halfSpaces)
 
- # Classify each triangle we came in with as being on
- # the hull or not. On means it coincides with a hull halfspace; not, not.
- newTriangles = []
- for triangle in triangles:
-  halfSpace = HalfSpace(triangle)
-  hs = hullHalfSpaces.LookUp(halfSpace)
-  if hs < 0:
-   triangle.SetColour([1, 0.5, 0.5])
-   newTriangles.append(triangle)
+    if graphics > 1:
+        MakeTriangleWindow(hullTriangles, title + " CH")
 
- if graphics > 2:
-  MakeTriangleWindow(newTriangles, title + " Inside triangles")
+    hullSet = Set(-1)
+    for h in hullHalfSpaces:
+        hullSet = hullSet.Intersect(Set(h))
+    print(hullSet.expression)
+    if level == 0:
+        finalSet = hullSet
+    elif level % 2 == 1:
+        finalSet = finalSet.Subtract(hullSet)
+    else:
+        finalSet = finalSet.Unite(hullSet)
 
- #TODO
- #Split newTriangles into collections of connected triangles and call WooStep for each of them below
+    # Simplfying as we go along increases execution time. But it also allows the simplification to
+    # achieve greater reduction.
+    finalSet.Simplify()
 
- # In what follows, why isn't uniqueHullHalfSpaces just hullHalfSpaces??
+    # Put all the complements in hullHalfspaces as for the next bit
+    # orientation doesn't matter.
+    newHullHalfSpaces = []
+    for h in hullHalfSpaces:
+        newHullHalfSpaces.append(h)
+        newHullHalfSpaces.append(halfSpaces.Get(h).complement)
 
- #Add the hull to, or subtract it from, the model.
+    # I don't THINK this is needed...
+    hullHalfSpaces = list(dict.fromkeys(newHullHalfSpaces))
 
- uniqueHullHalfSpaces = []
- for t in hullTriangles:
-  uniqueHullHalfSpaces.append(t.halfSpace)
+    # Classify each triangle we came in with as being on
+    # the hull or not. On means it coincides with a hull halfspace; not, not.
+    newTriangles = []
+    for triangle in triangles:
+        if triangle.halfSpace not in hullHalfSpaces:
+            triangle.SetColour([1, 0.5, 0.5])
+            newTriangles.append(triangle)
 
- # Remove duplicates
- uniqueHullHalfSpaces = list(dict.fromkeys(uniqueHullHalfSpaces))
+    if graphics > 2:
+        MakeTriangleWindow(newTriangles, title + " Inside triangles")
 
- hullSet = Set(-1)
- for h in uniqueHullHalfSpaces:
-  bigListIndex = halfSpaces.AddSpace(hullHalfSpaces.Get(h))
-  hullSet = hullSet.Intersect(Set(bigListIndex))
- if level == 0:
-  finalSet = hullSet
- elif level%2 == 1:
-  finalSet = finalSet.Subtract(hullSet)
- else:
-  finalSet = finalSet.Unite(hullSet)
+    if len(newTriangles) > 0:
+        for triangle in newTriangles:
+            triangle.flag = True
 
- # Simplfying as we go along increases execution time. But it also allows the simplification to
- # achieve greater reduction.
- finalSet.Simplify()
+        contiguousTriangleLists = []
+        for triangle in newTriangles:
+            if triangle.flag:
+                contiguousTriangles = []
+                GraphWalk(triangle, contiguousTriangles)
+                contiguousTriangleLists.append(contiguousTriangles)
 
- if len(newTriangles) > 0:
-  for triangle in newTriangles:
-   triangle.flag = True
+        # Carry on down...
+        for contiguousTriangles in contiguousTriangleLists:
+            trianglesAndPly = (contiguousTriangles, triangleFileData, level + 1)
+            WooStep(trianglesAndPly)
 
-  contiguousTriangleLists = []
-  for triangle in newTriangles:
-   if triangle.flag:
-    contiguousTriangles = []
-    GraphWalk(triangle, contiguousTriangles)
-    contiguousTriangleLists.append(contiguousTriangles)
 
-  # Carry on down...
-  for contiguousTriangles in contiguousTriangleLists:
-   trianglesAndPly = (contiguousTriangles, triangleFileData, level + 1)
-   WooStep(trianglesAndPly)
-
-#**************************************************************************************************
+# **************************************************************************************************
 
 # Create the .set file
 
 def ToFile(fileName, halfSpaces, set):
- file = open(fileName, "w")
+    file = open(fileName, "w")
 
- # The first things in the file are the bounding box
- file.write(str(negativeCorner) + "\n")
- file.write(str(positiveCorner) + "\n")
+    # The first things in the file are the bounding box
+    file.write(str(negativeCorner) + "\n")
+    file.write(str(positiveCorner) + "\n")
 
- # Get the RP expression to write out at the end
- rp = set.ToRP()
+    # Get the RP expression to write out at the end
+    rp = set.ToRP()
 
- # Count the number of unique halfSpaces in the RP expression and set their flags
- count = 0
- for item in rp:
-  if item[0].isdigit():
-   hs = int(item)
-   halfSpace = halfSpaces.Get(hs)
-   if not halfSpace.flag:
-    halfSpace.SetFlag(True)
-    count += 1
+    # Count the number of unique halfSpaces in the RP expression and set their flags
+    count = 0
+    for item in rp:
+        if item[0].isdigit():
+            hs = int(item)
+            halfSpace = halfSpaces.Get(hs)
+            if not halfSpace.flag:
+                halfSpace.SetFlag(True)
+                count += 1
 
- # Write out the count of the halfSpaces followed by the coefficients of each one
- file.write(str(count) + "\n")
- for c in range(len(halfSpaces)):
-  hs = halfSpaces.Get(c)
-  if hs.flag:
-   file.write(str(c) + " " + str(hs.Coeficients()) + "\n")
+    # Write out the count of the halfSpaces followed by the coefficients of each one
+    file.write(str(count) + "\n")
+    for c in range(len(halfSpaces)):
+        hs = halfSpaces.Get(c)
+        if hs.flag:
+            file.write(str(c) + " " + str(hs.Coeficients()) + "\n")
 
- # Write out the reverse polish expression
- for item in rp:
-  file.write(item + " ")
- file.write("\n")
+    # Write out the reverse polish expression
+    for item in rp:
+        file.write(item + " ")
+    file.write("\n")
 
- # Tidy up
- file.close()
- halfSpaces.ResetFlags()
+    # Tidy up
+    file.close()
+    halfSpaces.ResetFlags()
 
-#***********************************************************************************************************
+
+# ***********************************************************************************************************
 
 # Run the conversion
-#-------------------
+# -------------------
 
 halfSpaces = HalfSpaceList()
 
-#model = "STL2CSG-test-objects-woo-2"
-model = "projections-both-ends"
+model = "STL2CSG-test-objects-woo-2"
+# model = "projections-bottom-end"
 place = "../../"
-#fileName = '../../cube.ply'
-#fileName = '../../two-disjoint-cubes.ply'
-#fileName = '../../two-overlapping-cubes.ply'
-#fileName = '../../hole-enclosed-in-cylinder.ply'
-#fileName = '../../two-nonmanifold-cubes.ply'
-#fileName = '../../two-nasty-nonmanifold-cubes.ply'
-#fileName = '../../554.2-extruder-drive-pneumatic.ply'
-#fileName = '../../cube-1-cylinder-1.ply'
-#fileName = '../../STL2CSG-test-objects-woo-1.ply'
-#fileName = '../../STL2CSG-test-objects-woo-2.ply'
-#fileName = '../../STL2CSG-test-objects-cube-cylinder.ply'
-#fileName = '../../STL2CSG-test-objects-cubePlusCylinder.ply'
+# fileName = '../../cube.ply'
+# fileName = '../../two-disjoint-cubes.ply'
+# fileName = '../../two-overlapping-cubes.ply'
+# fileName = '../../hole-enclosed-in-cylinder.ply'
+# fileName = '../../two-nonmanifold-cubes.ply'
+# fileName = '../../two-nasty-nonmanifold-cubes.ply'
+# fileName = '../../554.2-extruder-drive-pneumatic.ply'
+# fileName = '../../cube-1-cylinder-1.ply'
+# fileName = '../../STL2CSG-test-objects-woo-1.ply'
+# fileName = '../../STL2CSG-test-objects-woo-2.ply'
+# fileName = '../../STL2CSG-test-objects-cube-cylinder.ply'
+# fileName = '../../STL2CSG-test-objects-cubePlusCylinder.ply'
 
 # Load up the .ply file of triangles
-triangleFileData = TriangleFileData(place+model+".ply")
+triangleFileData = TriangleFileData(place + model + ".ply")
 
 # Find the bounding box
 for v in range(triangleFileData.VertexCount()):
- vertex = triangleFileData.Vertex(v)
- middle = np.add(middle, vertex)
- positiveCorner = np.maximum(positiveCorner, vertex)
- negativeCorner = np.minimum(negativeCorner, vertex)
+    vertex = triangleFileData.Vertex(v)
+    middle = np.add(middle, vertex)
+    positiveCorner = np.maximum(positiveCorner, vertex)
+    negativeCorner = np.minimum(negativeCorner, vertex)
 middle = np.multiply(middle, 1.0 / triangleFileData.VertexCount())
 
 # Make a list of all the original triangles
 originalTriangles = []
 for t in range(triangleFileData.TriangleCount()):
- triangle = Triangle(triangleFileData.Triangle(t), [0.5, 1.0, 0.5], triangleFileData)
- originalTriangles.append(triangle)
+    triangle = Triangle(triangleFileData.Triangle(t), [0.5, 1.0, 0.5], triangleFileData)
+    originalTriangles.append(triangle)
 
 ConstructNeighbourLists(originalTriangles)
 
@@ -842,21 +883,18 @@ trianglesAndPly = (originalTriangles, triangleFileData, 0)
 # Run the algorithm
 WooStep(trianglesAndPly)
 
-points = [
- [-1, -1, -1],
- [5, 5, 5],
- [5, 5, 12],
- [5, 5, 16]
-]
-
 # Save and maybe plot the results
 finalSet.Simplify()
 
+points = [
+    [-1, -1, -1],
+    [5, 5, 5],
+    [5, 5, 11],
+    [5, 5, 16]
+]
 for point in points:
- print(str(point) + " has value " + str(finalSet.Value(point)))
+    print(str(point) + " has value " + str(finalSet.Value(point)))
 
-
-ToFile(model+".set", halfSpaces, finalSet)
+ToFile(model + ".set", halfSpaces, finalSet)
 if graphics > 0:
- pyglet.app.run()
-
+    pyglet.app.run()

@@ -148,7 +148,8 @@ def ReadSetFile(fileName):
 
 
 
-ReadSetFile("projections-both-ends.set")
+#ReadSetFile("projections-bottom-end.set")
+ReadSetFile("STL2CSG-test-objects-woo-2.set")
 for hs in halfSpaceList:
  print(hs)
 print(set)
