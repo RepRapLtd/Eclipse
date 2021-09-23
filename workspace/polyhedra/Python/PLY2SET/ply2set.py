@@ -393,7 +393,7 @@ class Set:
                 elif r == '|':
                     stack.append(AND(a, b))
                 else:
-                    print("Set.Value(): illegal operator: " + r)
+                    print("Set.Complement(): illegal operator: " + r)
         result = Set()
         result.expression = stack[0]
         return result
@@ -432,10 +432,8 @@ class Set:
         if self.rpExpression is not None:
             return self.rpExpression
 
-        print(self.expression)
         self.Simplify()
-        print(self.expression)
-        print()
+
         # Start by splitting the expression into unique tags, which are either brackets, operators, or symbols.
         # The symbols are the half-space indices (i.e. positive integers).
         s = str(self.expression)
@@ -717,9 +715,8 @@ def WooStep(trianglesAndPly):
     # Find the convex hull
     hull = ConvexHull(points)
 
-    # Make a list of the hull triangles and their corresponding half spaces
+    # Make a list of the hull triangles
     hullTriangles = []
-    hullHalfSpaces = []
     for face in hull.simplices:
         vertices = []
         for f in face:
@@ -727,13 +724,18 @@ def WooStep(trianglesAndPly):
             vertices.append(pointIndices[f])
         triangle = Triangle(vertices, [0.5, 0.5, 1.0], triangleFileData)
         hullTriangles.append(triangle)
-        hullHalfSpaces.append(halfSpaces.AddTriangle(triangle))
+        halfSpaces.AddTriangle(triangle)
 
+    # hullTriangles form a complete polyhedron.
+    AdjustAttitudes(hullTriangles, halfSpaces)
+
+    # Now make a list of the corresponding halfspaces
+    hullHalfSpaces = []
+    for triangle in hullTriangles:
+        hullHalfSpaces.append(triangle.halfSpace)
     # Remove duplicates
     hullHalfSpaces = list(dict.fromkeys(hullHalfSpaces))
 
-    # hullTriangles is a complete polyhedron.
-    AdjustAttitudes(hullTriangles, halfSpaces)
 
     if graphics > 1:
         MakeTriangleWindow(hullTriangles, title + " CH")
@@ -741,7 +743,7 @@ def WooStep(trianglesAndPly):
     hullSet = Set(-1)
     for h in hullHalfSpaces:
         hullSet = hullSet.Intersect(Set(h))
-    print(hullSet.expression)
+
     if level == 0:
         finalSet = hullSet
     elif level % 2 == 1:
@@ -839,8 +841,8 @@ def ToFile(fileName, halfSpaces, set):
 
 halfSpaces = HalfSpaceList()
 
-model = "STL2CSG-test-objects-woo-2"
-# model = "projections-bottom-end"
+#model = "STL2CSG-test-objects-woo-2"
+model = "projections-bottom-end"
 place = "../../"
 # fileName = '../../cube.ply'
 # fileName = '../../two-disjoint-cubes.ply'
@@ -885,7 +887,7 @@ WooStep(trianglesAndPly)
 
 # Save and maybe plot the results
 finalSet.Simplify()
-
+'''
 points = [
     [-1, -1, -1],
     [5, 5, 5],
@@ -894,7 +896,7 @@ points = [
 ]
 for point in points:
     print(str(point) + " has value " + str(finalSet.Value(point)))
-
+'''
 ToFile(model + ".set", halfSpaces, finalSet)
 if graphics > 0:
     pyglet.app.run()
