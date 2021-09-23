@@ -325,6 +325,12 @@ class HalfSpace:
         hsString += rotateAndTranslate + " cube([" + str(d) + ", " + str(d) + ", " + str(d) +"]);\n}\n\n"
         return hsString
 
+def MakeHalfSpaceFromCoefficients(coefficients):
+    result = HalfSpace()
+    result.normal = [coefficients[0], coefficients[1], coefficients[2]]
+    result.d = coefficients[3]
+    return result
+
 # ********************************************************************************************************
 
 # A list of half spaces
@@ -877,7 +883,7 @@ def WooStep(trianglesAndPly):
 
 # Create the .set file
 
-def ToFile(fileName, halfSpaces, set):
+def ToSetFile(fileName, halfSpaces, set):
     file = open(fileName, "w")
 
     # The first things in the file are the bounding box
@@ -927,34 +933,47 @@ def GetListFromLine(file):
  for item in lst:
   result.append(float(item))
  return result
-'''
-# Read the set file from the ply2set.py program and from it
-# create a list of OpenSCAD halfspace module()s and the OpenSCAD
-# set theory to tie them together.
+
+# Read the set file
 def ReadSetFile(fileName):
- global negativeCorner, positiveCorner, diagonal, halfSpaceList, set
- file = open(fileName, "r")
- negativeCorner = GetListFromLine(file)
- positiveCorner = GetListFromLine(file)
- diagonal = np.subtract(positiveCorner, negativeCorner)
- diagonal = maths.sqrt(np.dot(diagonal, diagonal))
- halfSpaceCount = round(GetListFromLine(file)[0])
- halfSpaceList = []
- for hsIndex in range(halfSpaceCount):
-  hs = GetListFromLine(file)
-  normal = [hs[1], hs[2], hs[3]]
-  d = hs[4]
-  hs = (hs[0], [normal, d])
-  halfSpaceList.append(hs)
- set = file.readline()
- set = set.replace("\n", "")
- set = set.split(" ")
- newList = []
- for hsIndex in range(len(halfSpaceList)):
-  newList.append(OpenSCADHalfSpace(halfSpaceList[hsIndex]))
- halfSpaceList = newList
- ParseSet()
-'''
+    global negativeCorner, positiveCorner, diagonal, middle, halfSpaces, finalSet
+    file = open(fileName, "r")
+    negativeCorner = GetListFromLine(file)
+    positiveCorner = GetListFromLine(file)
+    diagonal = np.subtract(positiveCorner, negativeCorner)
+    middle = np.add(negativeCorner, np.multiply(diagonal, 0.5))
+    diagonal = maths.sqrt(np.dot(diagonal, diagonal))
+    halfSpaceCount = round(GetListFromLine(file)[0])
+    hsIndices = []
+    hsList = []
+    halfSpaces = HalfSpaceList()
+    for hsIndex in range(halfSpaceCount):
+        hs = GetListFromLine(file)
+        hsIndices.append(hs[0])
+        del hs[0]
+        hs = MakeHalfSpaceFromCoefficients(hs)
+        hsList.append(hs)
+        halfSpaces.AddSpace(hs)
+    set = file.readline()
+    set = set.replace("\n", "")
+    set = set.split(" ")
+    stack = []
+    for s in set:
+        if not s == '':
+            if s[0].isdigit():
+                hs = hsList[hsIndices.index(int(s))]
+                stack.append(Set( halfSpaces.LookUp(hs) ))
+            else:
+                b = stack.pop()
+                a = stack.pop()
+                if s == '&':
+                    stack.append(a.Intersect(b))
+                elif s == '|':
+                    stack.append(a.Unite(b))
+                else:
+                    print("ReadSetFile(): illegal set operator: " + s)
+    finalSet = stack[0]
+
 
 # Create the .set file
 
@@ -993,6 +1012,8 @@ def ToOpenSCAD(fileName, halfSpaces, set):
 # Run the conversion
 # -------------------
 
+ReadSetFile("STL2CSG-test-objects-woo-2.set")
+exit(0)
 halfSpaces = HalfSpaceList()
 
 model = "STL2CSG-test-objects-woo-2"
