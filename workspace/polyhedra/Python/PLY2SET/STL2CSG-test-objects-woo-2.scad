@@ -122,4 +122,4 @@ module s28()
  cube([206.15528128088303, 206.15528128088303, 206.15528128088303]);
 }
 
-union(){intersection(){intersection(){intersection(){intersection(){intersection(){s20();s18();};s16();};s14();};s12();};s3();};intersection(){intersection(){intersection(){intersection(){intersection(){intersection(){intersection(){intersection(){intersection(){intersection(){s28();s26();};s24();};s23();};s16();};s10();};s8();};s6();};s4();};s2();};s0();};}
+union(){intersection(){s0();intersection(){s2();intersection(){s4();intersection(){s6();intersection(){s8();intersection(){s10();intersection(){s16();intersection(){s23();intersection(){s24();intersection(){s26();s28();};};};};};};};};};};intersection(){s3();intersection(){s12();intersection(){s14();intersection(){s16();intersection(){s18();s20();};};};};};}

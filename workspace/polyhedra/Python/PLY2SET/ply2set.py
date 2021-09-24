@@ -35,6 +35,7 @@
 # FreeCAD: https://www.freecadweb.org/
 # STL to PLY conversion free online: https://products.aspose.app/3d/conversion/stl-to-ply
 # Infix to postfix/reverse polish conversion: http://csis.pace.edu/~wolf/CS122/infix-postfix.htm
+# Planar half space geometric models: http://adrianbowyer.com/Publications/Better-faster-pictures-Bowyer-Woodwark.pdf
 #
 
 import copy
@@ -384,10 +385,10 @@ class HalfSpaceList:
 
 # ********************************************************************************************************
 
-# Take a set theoretic expression like 7 & 12 (where 7 and 12 are half-space
+# Take a set theoretic expression like 7 12 & (where 7 and 12 are half-space
 # indices) and create the OpenSCAD expression that does that with module s7()
 # and so on.
-def SetExpression(o, a, b):
+def OpenSCADSetExpression(a, b, o):
  if o == '|':
   result = "union()"
  elif o == '&':
@@ -419,9 +420,11 @@ class Set:
         self.rpExpression = None
         if halfSpaceIndex is None:
             self.expression = FALSE
+            self.complexity = 0
             return
         if halfSpaceIndex < 0:
             self.expression = TRUE
+            self.complexity = 0
             return
         # We either use the halfspace or its complement, whichever is
         # lexically earlier.
@@ -430,17 +433,20 @@ class Set:
             self.expression = booleanAlgebra.Symbol(halfSpaceIndex)
         else:
             self.expression = NOT(booleanAlgebra.Symbol(hsComplement))
+        self.complexity = 1
 
     # I hope the following are self-explanatory.
 
     def Unite(self, set2):
         result = Set()
         result.expression = OR(self.expression, set2.expression)
+        result.complexity = self.complexity + set2.complexity
         return result
 
     def Intersect(self, set2):
         result = Set()
         result.expression = AND(self.expression, set2.expression)
+        result.complexity = self.complexity + set2.complexity
         return result
 
     def Subtract(self, set2):
@@ -469,10 +475,16 @@ class Set:
                     print("Set.Complement(): illegal operator: " + r)
         result = Set()
         result.expression = stack[0]
+        result.complexity = self.complexity
         return result
 
     def Simplify(self):
         self.expression = self.expression.simplify()
+        '''self.ToRP()
+        self.complexity = 0
+        for r in self.rpExpression:
+            if r[0].isdigit():
+                self.complexity += 1'''
 
     # Membership test. If the value of the point is negative, it is in the solid
     # region; if it is positive it is in air.
@@ -573,15 +585,148 @@ class Set:
 
     # Parse the reverse polish set-theoretic expression creating its OpenSCAD equivalent.
     def ToOpenSCAD(self):
+        self.Simplify()
         rpExpression = self.ToRP()
         stack=[]
         for s in rpExpression:
-            if not s == '':
-                if s[0].isdigit():
-                    stack.append(s)
-                else:
-                    stack.append(SetExpression(s, stack.pop(), stack.pop()))
+            if s[0].isdigit():
+                stack.append(s)
+            else:
+                b = stack.pop()
+                a = stack.pop()
+                stack.append(OpenSCADSetExpression(a, b, s))
         return stack[0]
+#********************************************************************************************************
+
+# DORA style set-theoretic geometric model
+# See http://adrianbowyer.com/Publications/Better-faster-pictures-Bowyer-Woodwark.pdf
+
+class Box:
+    def __init__(self, corner0, corner1):
+        self.xs = [corner0[0], corner1[0]]
+        self.ys = [corner0[1], corner1[1]]
+        self.zs = [corner0[2], corner1[2]]
+
+    def Corner(self, index):
+        x = index & 1
+        y = (index >> 1) & 1
+        z = (index >> 2) & 1
+        return [self.xs[x], self.ys[y], self.zs[z]]
+
+    def XLength(self):
+        return self.xs[1] - self.xs[0]
+    def YLength(self):
+        return self.ys[1] - self.ys[0]
+    def ZLength(self):
+        return self.zs[1] - self.zs[0]
+
+    def Diagonal2(self):
+        return self.XLength()**2 + self.YLength()**2 + self.ZLength()**2
+
+    def Divide(self):
+        a0 = [self.xs[0], self.ys[0], self.zs[0]]
+        b1 = [self.xs[1], self.ys[1], self.zs[1]]
+        if self.XLength() > self.YLength():
+            if self.XLength() > self.ZLength():
+                xHalf = self.xs[0] + self.XLength() / 2.0
+                a1 = [xHalf, self.ys[1], self.zs[1]]
+                b0 = [xHalf, self.ys[0], self.zs[0]]
+            else:
+                zHalf = self.zs[0] + self.ZLength() / 2.0
+                a1 = [self.xs[1], self.ys[1], zHalf]
+                b0 = [self.xs[0], self.ys[0], zHalf]
+        else:
+            if self.YLength() > self.ZLength():
+                yHalf = self.ys[0] + self.YLength() / 2.0
+                a1 = [self.xs[1], yHalf, self.zs[1]]
+                b0 = [self.xs[0], yHalf, self.zs[0]]
+            else:
+                zHalf = self.zs[0] + self.ZLength() / 2.0
+                a1 = [self.xs[1], self.ys[1], zHalf]
+                b0 = [self.xs[0], self.ys[0], zHalf]
+        return (Box(a0, a1), Box(b0, b1))
+
+    def IsSolid(self, hsIndex):
+        halfSpace = halfSpaces.Get(hsIndex)
+        v0 = halfSpace.Value(self.Corner(7))
+        if abs(v0) < small:
+            return 0
+        for c in range(7):
+            v = halfSpace.Value(self.Corner(c))
+            if abs(v) < small:
+                return 0
+            if v*v0 < 0:
+                return 0
+        if v0 < 0:
+            return -1
+        return 1
+
+smallestDiagonal2Ratio = 0.001
+simplestSet = 3
+
+class Model:
+    def __init__(self, set, box, parent = None):
+        self.set = set
+        self.box = box
+        self.child0 = None
+        self.child1 = None
+        self.parent = parent
+
+    def SimplifySet(self):
+        rpExpression = self.set.ToRP()
+        stack = []
+        for r in rpExpression:
+            if r[0].isdigit():
+                ri = int(r)
+                stack.append((ri, self.box.IsSolid(ri)))
+            else:
+                b = stack.pop()
+                hsIndexB = b[0]
+                hsCategoryB = b[1]
+                if hsCategoryB == 0:
+                    setB = Set(hsIndexB)
+                elif hsCategoryB > 0:
+                    setB = Set()
+                else:
+                    setB = Set(-1)
+                a = stack.pop()
+                hsIndexA = a[0]
+                hsCategoryA = a[1]
+                if hsCategoryA == 0:
+                    setA = Set(hsIndexA)
+                elif hsCategoryA > 0:
+                    setA = Set()
+                else:
+                    setA = Set(-1)
+                if r == '|':
+                    stack.append(setA.Unite(setB))
+                elif r == '&':
+                    stack.append(setA.Intersect(setB))
+                else:
+                    print("Model.SimplifySet(): illegal RP operator: " + r)
+        self.set = stack[0].Simplify()
+
+    def Root(self):
+        if self.parent is None:
+            return self
+        return self.parent.Root()
+
+    def Divide(self):
+        if self.child0 is not None or self.child1 is not None:
+            print("Model.Divide(): dividing an already divided model.")
+        self.SimplifySet()
+        rootDiagonal2 = self.Root().box.Diagonal2()
+        if self.box.Diagonal2()/rootDiagonal2 < smallestDiagonal2Ratio:
+            return
+        if self.set.complexity <= simplestSet:
+            return
+        boxes = self.box.Divide()
+        self.child0 = Model(self.set, boxes[0], parent = self)
+        self.child1 = Model(self.set, boxes[1], parent = self)
+        self.child0.Divide()
+        self.child1.Divide()
+
+
 
 # *******************************************************************************************************
 
@@ -1012,8 +1157,9 @@ def ToOpenSCAD(fileName, halfSpaces, set):
 # Run the conversion
 # -------------------
 
-ReadSetFile("STL2CSG-test-objects-woo-2.set")
-exit(0)
+#ReadSetFile("STL2CSG-test-objects-woo-2.set")
+#exit(0)
+
 halfSpaces = HalfSpaceList()
 
 model = "STL2CSG-test-objects-woo-2"
