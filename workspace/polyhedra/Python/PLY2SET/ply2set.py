@@ -60,7 +60,7 @@ small = 0.000001
 # 1 - input triangles at each stage
 # 2 - input triangles at each stage plus the CH
 # 3 - input and output triangles at each stage plus the convex hulls
-graphics = 2
+graphics = 0
 
 # True to print debugging information
 debug = False
@@ -454,6 +454,7 @@ class Set:
         return result
 
     def Complement(self):
+        self.Simplify()
         self.ToRP()
         stack = []
         for r in self.rpExpression:
@@ -480,15 +481,16 @@ class Set:
 
     def Simplify(self):
         self.expression = self.expression.simplify()
-        '''self.ToRP()
+        self.ToRP()
         self.complexity = 0
         for r in self.rpExpression:
             if r[0].isdigit():
-                self.complexity += 1'''
+                self.complexity += 1
 
     # Membership test. If the value of the point is negative, it is in the solid
     # region; if it is positive it is in air.
     def Value(self, point):
+        self.Simplify()
         self.ToRP()
         stack = []
         for r in self.rpExpression:
@@ -516,8 +518,6 @@ class Set:
     def ToRP(self):
         if self.rpExpression is not None:
             return self.rpExpression
-
-        self.Simplify()
 
         # Start by splitting the expression into unique tags, which are either brackets, operators, or symbols.
         # The symbols are the half-space indices (i.e. positive integers).
@@ -586,9 +586,9 @@ class Set:
     # Parse the reverse polish set-theoretic expression creating its OpenSCAD equivalent.
     def ToOpenSCAD(self):
         self.Simplify()
-        rpExpression = self.ToRP()
+        self.ToRP()
         stack=[]
-        for s in rpExpression:
+        for s in self.rpExpression:
             if s[0].isdigit():
                 stack.append(s)
             else:
@@ -673,38 +673,30 @@ class Model:
         self.parent = parent
 
     def SimplifySet(self):
+        self.set.Simplify()
         rpExpression = self.set.ToRP()
         stack = []
         for r in rpExpression:
             if r[0].isdigit():
                 ri = int(r)
-                stack.append((ri, self.box.IsSolid(ri)))
+                s = self.box.IsSolid(ri)
+                if s == 0:
+                    stack.append(Set(ri))
+                elif s < 0:
+                    stack.append(Set(-1))
+                else:
+                    stack.append(Set())
             else:
                 b = stack.pop()
-                hsIndexB = b[0]
-                hsCategoryB = b[1]
-                if hsCategoryB == 0:
-                    setB = Set(hsIndexB)
-                elif hsCategoryB > 0:
-                    setB = Set()
-                else:
-                    setB = Set(-1)
                 a = stack.pop()
-                hsIndexA = a[0]
-                hsCategoryA = a[1]
-                if hsCategoryA == 0:
-                    setA = Set(hsIndexA)
-                elif hsCategoryA > 0:
-                    setA = Set()
-                else:
-                    setA = Set(-1)
                 if r == '|':
-                    stack.append(setA.Unite(setB))
+                    stack.append(a.Unite(b))
                 elif r == '&':
-                    stack.append(setA.Intersect(setB))
+                    stack.append(a.Intersect(b))
                 else:
                     print("Model.SimplifySet(): illegal RP operator: " + r)
-        self.set = stack[0].Simplify()
+        self.set = stack[0]
+        self.set.Simplify()
 
     def Root(self):
         if self.parent is None:
@@ -1036,6 +1028,7 @@ def ToSetFile(fileName, halfSpaces, set):
     file.write(str(positiveCorner) + "\n")
 
     # Get the RP expression to write out at the end
+    set.Simplify()
     rp = set.ToRP()
 
     # Count the number of unique halfSpaces in the RP expression and set their flags
@@ -1126,6 +1119,7 @@ def ToOpenSCAD(fileName, halfSpaces, set):
     file = open(fileName, "w")
 
     # Get the RP expression to write out at the end
+    set.Simplify()
     rp = set.ToRP()
 
     # Count the number of unique halfSpaces in the RP expression and set their flags
@@ -1162,8 +1156,8 @@ def ToOpenSCAD(fileName, halfSpaces, set):
 
 halfSpaces = HalfSpaceList()
 
-model = "STL2CSG-test-objects-woo-2"
-#model = "projections-bottom-end"
+name = "STL2CSG-test-objects-woo-2"
+#name = "projections-bottom-end"
 place = "../../"
 # fileName = '../../cube.ply'
 # fileName = '../../two-disjoint-cubes.ply'
@@ -1179,7 +1173,7 @@ place = "../../"
 # fileName = '../../STL2CSG-test-objects-cubePlusCylinder.ply'
 
 # Load up the .ply file of triangles
-triangleFileData = TriangleFileData(place + model + ".ply")
+triangleFileData = TriangleFileData(place + name + ".ply")
 
 # Find the bounding box
 for v in range(triangleFileData.VertexCount()):
@@ -1220,6 +1214,10 @@ points = [
 for point in points:
     print(str(point) + " has value " + str(finalSet.Value(point)))
 '''
-ToOpenSCAD(model + ".scad", halfSpaces, finalSet)
+
+model = Model(finalSet, Box(negativeCorner, positiveCorner))
+model.Divide()
+
+ToOpenSCAD(name + ".scad", halfSpaces, finalSet)
 if graphics > 0:
     pyglet.app.run()
