@@ -661,7 +661,7 @@ class Box:
             return -1
         return 1
 
-smallestDiagonal2Ratio = 0.001
+smallestDiagonal2Ratio = 0.0001
 simplestSet = 3
 
 class Model:
@@ -709,6 +709,7 @@ class Model:
         self.SimplifySet()
         rootDiagonal2 = self.Root().box.Diagonal2()
         if self.box.Diagonal2()/rootDiagonal2 < smallestDiagonal2Ratio:
+            print(self.set.ToRP())
             return
         if self.set.complexity <= simplestSet:
             return
@@ -717,8 +718,23 @@ class Model:
         self.child1 = Model(self.set, boxes[1], parent = self)
         self.child0.Divide()
         self.child1.Divide()
+    '''
+    def ToTriangles(self, triangleList):
+        if self.child0 is not None or self.child1 is not None:
+           self.child0.ToTriangles(triangleList)
+           self.child1.ToTriangles(triangleList)
+        else:
+            self.set.Simplify()
+            if self.set.complexity > 3:
+                # Do something here
+                return
+            rpExpression = self.set.ToRP()
+            hsList = []
+            for r in rpExpression:
+                if r[0].isdigit():
+                    hsList.append(int(r))
 
-
+    '''
 
 # *******************************************************************************************************
 
